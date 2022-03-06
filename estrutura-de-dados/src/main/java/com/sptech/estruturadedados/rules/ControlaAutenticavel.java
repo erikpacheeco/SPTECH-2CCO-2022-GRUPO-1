@@ -4,14 +4,36 @@ import java.util.List;
 
 public class ControlaAutenticavel {
 
-    List<Colaborador> colaboradores;
-    List<Usuario> usuarios;
+    private static List<Colaborador> colaboradores;
+    private static List<Usuario> usuarios;
 
-    public void autenticar(Autenticavel a){
-
+    public static boolean autenticar(Autenticavel a){
+        if (a instanceof Colaborador) {
+            for (Colaborador c : colaboradores) {
+                if(c.getEmail().equals(a.getEmail()) && c.getSenha().equals(a.getSenha())) {
+                    return true;
+                }
+            }
+            return false;
+        } else if (a instanceof Usuario) {
+            for(Usuario u : usuarios) {
+                if (u.getEmail().equals(a.getEmail()) && u.getSenha().equals(a.getSenha())) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        return false;
     }
 
-    public boolean addAutenticavel(Autenticavel a){
+    public static boolean addAutenticavel(Autenticavel a){
+        if (a instanceof Colaborador) {
+            Colaborador colaborador = (Colaborador) a;
+            colaboradores.add(colaborador);
+        } else if (a instanceof Usuario) {
+            Usuario user = (Usuario) a;
+            usuarios.add(user);
+        }
         return false;
     }
 

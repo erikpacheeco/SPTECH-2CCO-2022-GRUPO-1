@@ -11,19 +11,19 @@ public class Colaborador extends Autenticavel{
 
     @Override
     public boolean autenticar(Autenticavel a) {
-        return false;
+      return ControlaAutenticavel.autenticar(a);
     }
 
-    public void cadastrarPet(Pet pet){
-
+    public static void cadastrarPet(Pet pet){
+        ControlaPet.addPet(pet);
     }
 
-    public boolean finalizarAdocao(int index){
-        return false;
+    public static boolean finalizarAdocao(int index){
+       return ControlaPet.removerPet(index);
     }
 
     public void editarPet(int i, Pet pet){
-
+        ControlaPet.editarPet(i, pet);
     }
 
     public String getCargo() {

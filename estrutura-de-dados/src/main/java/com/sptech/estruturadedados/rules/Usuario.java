@@ -15,7 +15,7 @@ public class Usuario extends Autenticavel {
 
     @Override
     public boolean autenticar(Autenticavel a) {
-        return false;
+            return ControlaAutenticavel.autenticar(a);
     }
 
     public Endereco getEndereco() {

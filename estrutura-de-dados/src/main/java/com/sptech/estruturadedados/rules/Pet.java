@@ -6,7 +6,6 @@ public class Pet {
     private String especie;
     private String raca;
     private String porte;
-    private boolean adotado;
 
     public String getNome() {
         return nome;
@@ -40,14 +39,6 @@ public class Pet {
         this.porte = porte;
     }
 
-    public boolean isAdotado() {
-        return adotado;
-    }
-
-    public void setAdotado(boolean adotado) {
-        this.adotado = adotado;
-    }
-
     @Override
     public String toString() {
         return "Pet{" +
@@ -55,7 +46,6 @@ public class Pet {
                 ", especie='" + especie + '\'' +
                 ", raca='" + raca + '\'' +
                 ", porte='" + porte + '\'' +
-                ", adotado=" + adotado +
                 '}';
     }
 
