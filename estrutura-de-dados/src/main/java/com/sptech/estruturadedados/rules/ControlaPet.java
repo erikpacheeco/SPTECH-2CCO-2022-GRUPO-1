@@ -6,11 +6,7 @@ import java.util.Objects;
 
 public class ControlaPet {
 
-   private static List<Pet> listaDePet;
-
-    public ControlaPet() {
-        this.listaDePet = new ArrayList<>();
-    }
+   private static final List<Pet> listaDePet = new ArrayList<Pet>();
 
     public static boolean addPet(Pet pet){
         if(Objects.isNull(pet)) {

@@ -7,6 +7,13 @@ public class Pet {
     private String raca;
     private String porte;
 
+    public Pet(String nome, String especie, String raca, String porte) {
+        this.nome = nome;
+        this.especie = especie;
+        this.raca = raca;
+        this.porte = porte;
+    }
+
     public String getNome() {
         return nome;
     }

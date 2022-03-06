@@ -1,11 +1,13 @@
 package com.sptech.estruturadedados.rules;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ControlaAutenticavel {
 
-    private static List<Colaborador> colaboradores;
-    private static List<Usuario> usuarios;
+    private static final List<Colaborador> colaboradores = new ArrayList<Colaborador>();
+    private static final List<Usuario> usuarios = new ArrayList<Usuario>();
+
 
     public static boolean autenticar(Autenticavel a){
         if (a instanceof Colaborador) {
