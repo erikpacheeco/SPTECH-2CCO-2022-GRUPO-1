@@ -9,7 +9,7 @@ public class ControlaPet {
    private static final List<Pet> listaDePet = new ArrayList<Pet>();
 
     public static boolean addPet(Pet pet){
-        if(Objects.isNull(pet)) {
+        if(Objects.nonNull(pet)) {
             listaDePet.add(pet);
             return true;
         }

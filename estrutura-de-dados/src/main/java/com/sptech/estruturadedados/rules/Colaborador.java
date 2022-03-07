@@ -14,11 +14,11 @@ public class Colaborador extends Autenticavel{
       return ControlaAutenticavel.autenticar(a);
     }
 
-    public static void cadastrarPet(Pet pet){
+    public void cadastrarPet(Pet pet){
         ControlaPet.addPet(pet);
     }
 
-    public static boolean finalizarAdocao(int index){
+    public boolean finalizarAdocao(int index){
        return ControlaPet.removerPet(index);
     }
 
