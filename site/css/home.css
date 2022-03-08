@@ -1,0 +1,35 @@
+/* background */
+.circle {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    /* left: 1127px; */
+    /* top: 110px; */
+    border-radius: 100%;
+    z-index: -100;
+
+    
+
+    background: linear-gradient(172.07deg, #D1F77C 45.79%, rgba(209, 247, 124, 0) 84.49%);
+}
+
+.st {
+    left: 25px;
+    top: 50px;
+}
+
+.nd {
+    right: 30px;
+    top: 300px;
+}
+
+.rd {
+    left: 30px;
+    top: 550px;
+}
+
+.th {
+    right: 25px;
+    top: 800px;
+}
+/* fim background */
