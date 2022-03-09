@@ -15,12 +15,12 @@ p {
 }
 
 .text {
-    background-color:rgb(185, 185, 185);
+    background-color:rgba(236, 236, 236, 0.6);
     padding: 16px;
     border-radius: 3px;
     margin-left: auto;
     margin-right: auto;
-
+    font-size: 1.2em;
 }
 /* fim geral */
 
