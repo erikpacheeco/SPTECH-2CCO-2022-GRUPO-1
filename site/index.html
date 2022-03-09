@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PetFinder - Home</title>
+    <title>Home | PetFinder</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="./css/home.css">
 </head>
@@ -19,11 +19,11 @@
             </div>
     
             <div class="navbar-container-itens">
-                <div class="nav-item text-green">Home</div>
-                <div class="nav-item">Contato</div>
-                <div class="nav-item">Feedback</div>
-                <div class="nav-item">Login</div>
-                <div class="nav-item bg-yellow text-purple">Cadastro</div>
+                <div class="nav-item text-green" onclick="moveTo('./index.html')">Home</div>
+                <div class="nav-item" onclick="moveTo('./contato.html')">Contato</div>
+                <div class="nav-item" onclick="moveTo('./feedback.html')">Feedback</div>
+                <div class="nav-item" onclick="moveTo('./login.html')">Login</div>
+                <div class="nav-item bg-yellow text-purple" onclick="moveTo('./cadastro.html')">Cadastro</div>
             </div>
         </div>
     </div>
@@ -64,4 +64,5 @@
 </body>
 </html>
 
+<script src="./js/script.js"></script>
 <script src="./js/build-green-circles.js"></script>
