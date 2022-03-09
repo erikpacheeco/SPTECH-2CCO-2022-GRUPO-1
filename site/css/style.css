@@ -1,6 +1,11 @@
 /* geral */
 @import url('https://fonts.googleapis.com/css2?family=Hind+Madurai:wght@300&display=swap');
 
+* {
+    margin: 0;
+    padding: 0;
+  }
+
 body {
     padding-top: 120px;
     font-family: 'Hind Madurai', sans-serif;
@@ -12,6 +17,8 @@ p {
 
 .container {
     width: 80%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .text {
@@ -39,15 +46,13 @@ p {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    justify-content: space-between;
+    justify-content: center;
 }
 
 .navbar-container {
     background-color: red;
     height: 100%;
-    margin-right: 40px;
-    margin-left: 40px;
-    width: calc(100% - 80px);
+    margin: 0px 40px 0px 40px;
     width: 100%;
     
     display: flex;
@@ -110,3 +115,19 @@ p {
     background-color: #B4F12C;
 }
 /* fim navbar */
+
+/* inicio footer */
+
+.session-footer {
+    background-color: #7F2AB5;
+    width: 100%;
+    display: flex;
+}
+
+.container-session-footer {
+    background-color: red;
+    margin: 0px 40px 0px 40px;
+    width: 100%;
+}
+
+/* fim footer */
