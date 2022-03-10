@@ -1,5 +1,5 @@
 /* geral */
-@import url('https://fonts.googleapis.com/css2?family=Hind+Madurai:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hind+Madurai:wght@300;400;500;600;700&display=swap');
 
 * {
     margin: 0;
@@ -7,7 +7,7 @@
   }
 
 body {
-    padding-top: 120px;
+    padding-top: 100px;
     font-family: 'Hind Madurai', sans-serif;
 }
 
@@ -39,8 +39,8 @@ p {
     position: fixed;
     width: 100%;
     height: 100px;
-    left: 0px;
     top: 0px;
+    z-index: 2;
 
     /* comportamento do conteúdo */
     display: flex;
@@ -50,7 +50,7 @@ p {
 }
 
 .navbar-container {
-    background-color: red;
+    /* background-color: red; */
     height: 100%;
     margin: 0px 40px 0px 40px;
     width: 100%;
@@ -76,29 +76,25 @@ p {
 
 }
 
-.logo-container .logo-texto {
-    width: 60%;
-}
-
-.buttons-container {
-    width: 700px;
-    /* background-color:blue */
-}
-
 .nav-item {
-    /* background-color: red; */
-    height: 56px;
-    display: inline-block;
-    margin-left: 10px;
-    margin-right: 10px;
-    padding: 10px 3%;
+    /* background-color: gray; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 30px;    
     color: white;
-    border-radius: 3%;
     cursor: pointer;
+   
+    font-family: Hind Madurai;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 33px;
+    
 }
 
 .nav-item:hover {
-    background-color: #AF71D6;
+    /* background-color: #AF71D6; */
 }
 
 /* variantes de navitem */
@@ -110,16 +106,35 @@ p {
 }
 .bg-yellow {
     background-color: #FFD92E;
+    /* margin-left: 30px; */
+    margin-right: 0px;
+    padding: 12px 21px 12px 21px;
+    border-radius: 50px;
 }
 .bg-yellow:hover {
     background-color: #B4F12C;
 }
+
+.navbar-logo-nome {
+    font-family: Hind Madurai;
+    font-size: 35px;
+    font-weight: 700;
+    font-style: normal;
+    line-height: 49px;
+    margin-left: 15px;
+    color: #ffffff;
+}
+
+.navbar-logo-nome span{
+    color: #B4F12C;
+}
+
 /* fim navbar */
 
 /* inicio footer */
 
 .session-footer {
-    background-color: #7F2AB5;
+    background-image: linear-gradient(270deg, #50077E 0%, #7F2AB5 48.44%, #50077E 100%);
     width: 100%;
     display: flex;
 }
@@ -128,6 +143,16 @@ p {
     background-color: red;
     margin: 0px 40px 0px 40px;
     width: 100%;
+}
+
+.footer-item, .footer-social, .footer-logo{
+    display: flex;
+    justify-content: center;
+    margin: 20px 0px 20px 0px;
+}
+
+.footer-icon {
+    margin: 0px 12px 0px 12px;
 }
 
 /* fim footer */
