@@ -1,7 +1,7 @@
 .content-container {
     /* background-color: blue; */
     width: 100%;
-    height: 700px;
+    height: 702px;
     margin-left: auto;
     margin-right: auto;
     margin-top: 80px;
@@ -9,45 +9,39 @@
     /* flexbox settings */
     display: flex;
     flex-direction: row;
-    /* flex-wrap: nowrap;
+    flex-wrap: nowrap;
     justify-content: center;
-    align-items: center; */
+    align-items: center;
+    /* background-color:yellow; */
 }
 
 .form-container {
     /* background-color: yellow; */
-    width: 49%;
+    width: 45%;
     /* width: 55%; */
-    height: 400px;
+    height: 100%;
     /* height: 100%; */
     /* display: inline-block; */
-    /* padding: 32px; */
-}
-
-.img-container {
-    width: 49%;
-    /* background-color:green; */
-}
-
-.img-container img {
-    width: 100%;
-    /* margin-top: 250px; */
+    padding: 10px;
+    /* background-color:blue; */
 }
 
 .form-container form {
     background-color: rgb(230, 230, 230);
-    width: 90%;
+    width: 100%;
+    height: 532px;
     margin-left: auto;
     margin-right: auto;
     border-radius: 10px;
     padding: 32px;
+    z-index: 1;
     box-shadow: -1px 1px 1px 1px rgba(65, 65, 65, 0.555);
 }
 
 .input-container {
     /* border: 1px solid black; */
     padding: 10px;
-    margin: 5px;
+    margin: 10px 5px;
     
     display: flex;
     flex-direction: column;
@@ -62,6 +56,7 @@
 
 .input-container label {
     color: #7F2AB5;
+    font-size: 16px;
 }
 
 .input-container input:focus-visible {
@@ -103,4 +98,15 @@
 
 .form-container button:hover {
     background-color: rgb(206, 206, 206);
+}
+
+.img-container {
+    width: 45%;
+    z-index: -1;
+    /* background-color:green; */
+}
+
+.img-container img {
+    width: 100%;
+    margin-left:1px;
 }
