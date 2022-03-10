@@ -125,7 +125,7 @@ p {
     color: #ffffff;
 }
 
-.navbar-logo-nome span{
+.logo-nome-verde {
     color: #B4F12C;
 }
 
@@ -140,7 +140,7 @@ p {
 }
 
 .container-session-footer {
-    background-color: red;
+    /* background-color: red; */
     margin: 0px 40px 0px 40px;
     width: 100%;
 }
@@ -151,8 +151,40 @@ p {
     margin: 20px 0px 20px 0px;
 }
 
+.footer-item div {
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 22px;
+    color: #ffffff;
+    margin-left: 11.5px;
+    margin-right: 11.5px;
+}
+
 .footer-icon {
     margin: 0px 12px 0px 12px;
+}
+
+.footer-logo-nome {
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 22px;
+    color: #ffffff;
+}
+
+.fa-twitter {
+    font-size: 20px;
+}
+
+.fa-facebook-f {
+   font-size: 20px;
+}
+
+.fa-instagram {
+    font-size: 16.56px;
 }
 
 /* fim footer */

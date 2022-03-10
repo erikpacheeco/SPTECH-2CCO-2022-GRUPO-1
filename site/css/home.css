@@ -47,10 +47,10 @@
     margin-top: 40px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
 }
 
 .second-img img{
-    height: 0%;
     width: 62%;
 }
 
