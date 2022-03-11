@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home | PetFinder</title>
-    <script src="https://kit.fontawesome.com/78a753ef37.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="./css/home.css">
+    <title>Login | PetFinder</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/form.css">
+    <link rel="stylesheet" href="./css/login.css">
 </head>
 <body>
 
@@ -22,40 +22,44 @@
             </div>
     
             <div class="navbar-container-itens">
-                <div class="nav-item text-green" onclick="moveTo('./index.html')">Home</div>
+                <div class="nav-item" onclick="moveTo('./index.html')">Home</div>
                 <div class="nav-item" onclick="moveTo('./contato.html')">Contato</div>
                 <div class="nav-item" onclick="moveTo('./feedback.html')">Feedback</div>
-                <div class="nav-item" onclick="moveTo('./login.html')">Login</div>
+                <div class="nav-item text-green" onclick="moveTo('./login.html')">Login</div>
                 <div class="nav-item bg-yellow text-purple" onclick="moveTo('./cadastro.html')">Cadastro</div>
             </div>
         </div>
     </div>
     <!-- fim navbar -->
 
-    <!-- inicio conteudo -->
-    <div class="session-content">
-        <div class="container-session-content">
-            <div class="first-img">
-                <img src="./img/dog2.png" alt="">
-                <h2 class="h2-ajude-ongs">
-                    Ajude as instituições mais <br> próximas
-                </h2>
-            </div>
-            <div class="second-img">
-                <div class="paragraph-sobre-nos">
-                    <h2 class="h2-sobre-nos">
-                        Sobre nós
-                    </h2>
-                    <p>
-                        Somos uma empresa focada em ajudar animais da melhor maneira
-                    </p>
+    <!-- conteúdo -->
+    <div class="container">
+
+
+
+        <div class="form-container">
+
+            <h1>Login</h1>
+
+            <form action="">
+                <div class="input-container">
+                    <label for="">Nome: </label>
+                    <input type="text">
                 </div>
-                <img src="./img/dog1.png" alt="">
-            </div>
-            <div></div>
+
+                <div class="input-container">
+                    <label for="">E-mail: </label>
+                    <input type="text">
+                </div>
+
+                <div class="button-container">
+                    <button class="btn-form">Enviar</button>
+                </div>
+
+            </form>
         </div>
     </div>
-    <!-- fim conteudo -->
+    <!-- fim conteúdo -->
 
     <!-- footer -->
     <div class="session-footer">
@@ -67,7 +71,7 @@
             </div>
             <div class="footer-item">
                 <div>Home</div>
-                <div>Contato</div>
+                <div class="text-green">Contato</div>
                 <div>Feedback</div>
                 <div>Cadastro</div>
             </div>
@@ -79,9 +83,8 @@
         </div>
     </div>
     <!-- footer -->
-
+    
 </body>
 </html>
 
 <script src="./js/script.js"></script>
-<script src="./js/build-green-circles.js"></script>

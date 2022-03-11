@@ -1,0 +1,49 @@
+.form-container form {
+    background-color: rgb(230, 230, 230);
+    width: 100%;
+    /* height: 532px; */
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+    padding: 32px;
+    margin-bottom: 10px;
+    box-shadow: -1px 1px 1px 1px rgba(65, 65, 65, 0.555);
+}
+
+.input-container {
+    
+    padding: 10px;
+    margin: 10px 5px;
+    
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+
+.input-container input, .long-text textarea {
+    padding: 10px;
+    font-size: 16px;
+}
+
+.input-container label {
+    color: #7F2AB5;
+    font-size: 16px;
+}
+
+.input-container input:focus-visible, .long-text textarea:focus-visible {
+    outline-offset: none;
+    outline: none;
+}
+
+
+.btn-form {
+    /* width: 100px; */
+    padding: 10px 50px;
+    font-size: 16px;
+    margin-left: auto;
+    margin-right: auto;
+    cursor: pointer;
+    border: none;
+    font-weight: bold;
+    text-align: center;
+}
