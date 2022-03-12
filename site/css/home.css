@@ -8,9 +8,13 @@
 
     background: linear-gradient(172.07deg, #D1F77C 45.79%, rgba(209, 247, 124, 0) 84.49%);
 }
+@import url('https://fonts.googleapis.com/css2?family=Hind+Madurai:wght@300;400;500;600;700&display=swap');
 
 /* fim background */
 
+* {
+    font-family: 'Hind Madurai', sans-serif;
+}
 /* inicio conteudo */
 .session-content {
     width: 100%;
@@ -50,25 +54,65 @@
     
 }
 
+.h2-sobre-nos{
+    font-size: 36px;
+    color: #50077E;
+    border-bottom: 1px solid #B4F12C;
+    width: 366px;
+}
+
 .second-img{
-    background-color: grey;
-    display: flex;
-    align-items: center;
+    display: flex;   
     justify-content: space-between;
+    margin-bottom: 74px;
 }
 
 .second-img img{
     max-width: 578px;
+	box-shadow: 3px 3px 3px rgba(50, 50, 50, 0.50);
 }
 
-.h2-sobre-nos{
-    display: flex;
-}
-
-
-
-.paragraph-sobre-nos{
+.content-sobre-nos{
     display: block;
     margin-left: 40px;
 }
+
+.paragraph-sobre-nos{
+    margin-top: 18px;
+    font: 16px;
+    max-width: 655px;
+}
+
+.third-img{
+    display: flex;
+    margin-bottom: 74px;
+    justify-content: space-between;
+}
+
+.third-img img{
+    max-width: 578px;
+	box-shadow: -3px 3px 3px rgba(50, 50, 50, 0.50);
+}
+
+.content-fazemos{
+    display: block;
+}
+
+.h2-fazemos{
+    font-size: 36px;
+    color: #50077E;
+    border-bottom: 1px solid #B4F12C;
+    width: 366px;
+    text-align: right;
+    float: right;
+}
+
+.paragraph-fazemos{
+    margin-top: 18px;
+    font: 16px;
+    max-width: 600px;
+    float: right;
+}
+
+
 /* fim conteudo */
