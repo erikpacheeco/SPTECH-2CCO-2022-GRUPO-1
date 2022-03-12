@@ -4,6 +4,7 @@
 * {
     margin: 0;
     padding: 0;
+    scroll-behavior: smooth;
   }
 
 body {
@@ -95,6 +96,10 @@ p {
     font-weight: 600;
     font-size: 24px;
     line-height: 33px;
+}
+
+.navbar-container-itens a {
+    text-decoration: none;
 }
 
 /* variantes de navitem */

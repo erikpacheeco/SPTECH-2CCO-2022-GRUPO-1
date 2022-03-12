@@ -1,7 +1,7 @@
 .content-container {
     width: 1358px;
     height: 708px;
-    margin: 80px auto;
+    margin: 50px auto;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -12,6 +12,7 @@
     width: 641px;
     height: 100%;
     padding: 10px;
+    /* margin-top: 50px; */
 }
 
 .form-container h1, .form-container p {
@@ -53,4 +54,9 @@
 
 .btn-form {
     width: 242px;
+    margin: 15px auto;
+}
+
+.input-container {
+    margin-top: 10px;
 }
