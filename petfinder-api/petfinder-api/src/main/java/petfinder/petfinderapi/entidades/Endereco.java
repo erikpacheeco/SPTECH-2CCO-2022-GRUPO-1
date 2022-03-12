@@ -7,6 +7,7 @@ public class Endereco implements Validavel{
     private String bairro;
     private String cidade;
     private String estado;
+    private Instituicao instituicao;
 
     public Endereco(String rua,
                     String numero,

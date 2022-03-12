@@ -11,6 +11,14 @@ public class Colaborador extends Pessoa {
         this.instituicao = instituicao;
     }
 
+    public Instituicao getInstituicao() {
+        return instituicao;
+    }
+
+    public void setInstituicao(Instituicao instituicao) {
+        this.instituicao = instituicao;
+    }
+
     @Override
     public Boolean validar(){
         return null;
