@@ -52,16 +52,17 @@
 }
 
 .btn-form {
-    font-size: 16px;
     margin-left: auto;
     margin-right: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 16px;
     cursor: pointer;
     font-weight: bold;
     text-align: center;
     font-family: 'Hind Madurai';
     border: 1px #7F2AB5 solid;
     color: #7F2AB5 ;
-    width: 262px;
     height: 40px;
 }
 
