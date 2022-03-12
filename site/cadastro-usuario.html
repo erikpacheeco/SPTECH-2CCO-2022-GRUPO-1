@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/form.css" />
+    <link rel="stylesheet" href="./css/cadastro-usuario.css" />
+</head>
+
+<body>
+    <!-- navbar -->
+    <div class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-container-logo" onclick="moveTo('./index.html')">
+                <img class="logo" src="./svg/Img_Logo.svg" alt="" />
+                <span class="navbar-logo-nome">
+                    <span class="logo-nome-verde">Pet</span>Finder
+                </span>
+            </div>
+
+            <div class="navbar-container-itens">
+                <div class="nav-item text-green" onclick="moveTo('./index.html')">
+                    Home
+                </div>
+                <div class="nav-item" onclick="moveTo('./contato.html')">Contato</div>
+                <div class="nav-item" onclick="moveTo('./feedback.html')">
+                    Feedback
+                </div>
+                <div class="nav-item" onclick="moveTo('./login.html')">Login</div>
+                <div class="nav-item">
+                    <div class="bg-yellow" onclick="moveTo('./cadastro.html')">
+                        Cadastro
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- fim navbar -->
+
+    <!-- conteúdo -->
+    <div class="container">
+        <div class="form-container">
+            <form action="">
+                <h1>Cadastro do Usuário</h1>
+                <div class="dados-pessoais">
+                    <div class="input-container">
+                        <label for="">Nome completo: </label>
+                        <input type="email" required />
+                    </div>
+
+                    <div class="input-container">
+                        <label for="">Telefone para contato: </label>
+                        <input type="text" required />
+                    </div>
+
+                    <div class="input-container">
+                        <label for="">E-mail: </label>
+                        <input type="text" required />
+                    </div>
+
+                    <div class="input-container">
+                        <label for="">Senha: </label>
+                        <input type="text" required />
+                    </div>
+                </div>
+
+                <h2>Endereço</h2>
+
+                <div class="endereco">
+
+                    <div class="input-container">
+                        <label for="">CEP: </label>
+                        <input type="text" required />
+                    </div>
+
+                    <div class="input-container">
+                        <label for="">Endereço: </label>
+                        <input type="text" required />
+                    </div>
+
+                    <div class="container-input-duplo">
+                        
+                        <div class="input-container-menor">
+                            <label for="">Número: </label>
+                            <input type="text" required />
+                        </div>
+    
+                        <div class="input-container-maior">
+                            <label for="">Complemento: </label>
+                            <input type="text" required />
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="button-container">
+                    <input type="submit" class="btn-form" name="Enviar" />
+                    <button class="btn-form" onclick="moveTo('./login.html')">
+                        Login
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- fim conteúdo -->
+
+    <!-- footer -->
+    <div class="session-footer">
+        <div class="container-session-footer">
+            <div class="footer-social">
+                <img class="footer-instagram" src="./svg/instagram.svg" alt="" />
+                <img class="footer-facebook" src="./svg/facebook.svg" alt="" />
+                <img class="footer-twitter" src="./svg/twitter.svg" alt="" />
+            </div>
+            <div class="footer-item">
+                <div>Home</div>
+                <div>Contato</div>
+                <div>Feedback</div>
+                <div>Cadastro</div>
+            </div>
+            <div class="footer-logo">
+                <span class="footer-logo-nome">
+                    <span class="logo-nome-verde">Pet</span>Finder &copy;2022
+                </span>
+            </div>
+        </div>
+    </div>
+    <!-- fim footer -->
+</body>
+
+</html>
