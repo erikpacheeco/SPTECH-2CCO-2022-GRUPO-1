@@ -16,9 +16,13 @@ p {
 }
 
 .container {
-    width: 80%;
+    width: 90%;
     margin-left: auto;
     margin-right: auto;
+}
+
+.link, .link:visited {
+    color: #7F2AB5;
 }
 
 .text {
@@ -63,25 +67,26 @@ p {
 .navbar-container-logo {
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 
 .navbar-container-logo .logo{
-    width: 85px;
-    height: 80px;
+    width: 74px;
 }
 
 .navbar-container-itens {
     display: flex;
     font-size: 24px;
-
+    height: 100%;
 }
 
 .nav-item {
     /* background-color: gray; */
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-right: 30px;    
+    margin-left: 30px;    
     color: white;
     cursor: pointer;
    
@@ -90,29 +95,33 @@ p {
     font-weight: 600;
     font-size: 24px;
     line-height: 33px;
-    
-}
-
-.nav-item:hover {
-    /* background-color: #AF71D6; */
 }
 
 /* variantes de navitem */
 .text-green {
+    height: calc(100% - 3px);
     color: #B4F12C;
+    border-bottom: 3px solid #B4F12C;
+  
 }
 .text-purple {
     color: #7F2AB5;
 }
 .bg-yellow {
-    background-color: #FFD92E;
-    /* margin-left: 30px; */
+    /* background-color: red; */
     margin-right: 0px;
-    padding: 12px 21px 12px 21px;
+    padding: 12px 21px 12px 21px; 
+    border: 2px solid #FFD92E;
     border-radius: 50px;
+    height: auto;
+    color: #FFD92E;
 }
+
 .bg-yellow:hover {
-    background-color: #B4F12C;
+    background-color: #FFD92E;
+    border: 2px solid #FFD92E;
+    color: #7F2AB5;
+    height: auto;
 }
 
 .navbar-logo-nome {
@@ -162,7 +171,7 @@ p {
     margin-right: 11.5px;
 }
 
-.footer-icon {
+.footer-instagram , .footer-facebook, .footer-twitter{
     margin: 0px 12px 0px 12px;
 }
 
@@ -175,16 +184,5 @@ p {
     color: #ffffff;
 }
 
-.fa-twitter {
-    font-size: 20px;
-}
-
-.fa-facebook-f {
-   font-size: 20px;
-}
-
-.fa-instagram {
-    font-size: 16.56px;
-}
 
 /* fim footer */

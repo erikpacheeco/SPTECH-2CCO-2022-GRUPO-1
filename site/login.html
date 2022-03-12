@@ -14,8 +14,8 @@
     <!-- navbar -->
     <div class="navbar">
         <div class="navbar-container">
-            <div class="navbar-container-logo">
-                <img src="./img/logo.png" alt="logo petfinder" class="logo">
+            <div class="navbar-container-logo" onclick="moveTo('./index.html')" >
+                <img class="logo" src="./svg/Img_Logo.svg" alt="">
                 <span class="navbar-logo-nome"> 
                     <span class="logo-nome-verde" >Pet</span>Finder
                 </span>
@@ -26,7 +26,11 @@
                 <div class="nav-item" onclick="moveTo('./contato.html')">Contato</div>
                 <div class="nav-item" onclick="moveTo('./feedback.html')">Feedback</div>
                 <div class="nav-item text-green" onclick="moveTo('./login.html')">Login</div>
-                <div class="nav-item bg-yellow text-purple" onclick="moveTo('./cadastro.html')">Cadastro</div>
+                <div class="nav-item" >
+                    <div class="bg-yellow" onclick="moveTo('./cadastro.html')">
+                        Cadastro
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -43,46 +47,29 @@
 
             <form action="">
                 <div class="input-container">
-                    <label for="">Nome: </label>
-                    <input type="text">
+                    <label for="">E-mail: </label>
+                    <input type="email" required>
                 </div>
 
                 <div class="input-container">
-                    <label for="">E-mail: </label>
-                    <input type="text">
+                    <label for="">Senha: </label>
+                    <input type="password" required>
+                </div>
+
+                <div class="label-container">
+                    <a href="#" class="link-senha link">Esqueci a senha</a>
                 </div>
 
                 <div class="button-container">
-                    <button class="btn-form">Enviar</button>
+                    <input type="submit" class="btn-form" name="Enviar">
+                    <button class="btn-form" onclick="moveTo('./cadastrar.html')">Cadastrar</button>
+                    <button class="btn-form">Solicitar Resgate</button>
                 </div>
 
             </form>
         </div>
     </div>
     <!-- fim conteúdo -->
-
-    <!-- footer -->
-    <div class="session-footer">
-        <div class="container-session-footer">
-            <div class="footer-social">
-                <i class="fa-brands fa-instagram footer-icon"></i>
-                <i class="fa-brands fa-facebook-f footer-icon"></i>
-                <i class="fa-brands fa-twitter footer-icon"></i>
-            </div>
-            <div class="footer-item">
-                <div>Home</div>
-                <div class="text-green">Contato</div>
-                <div>Feedback</div>
-                <div>Cadastro</div>
-            </div>
-            <div class="footer-logo">
-                <span class="footer-logo-nome">
-                    <span class="logo-nome-verde">Pet</span>Finder &copy;2022
-                </span>
-            </div>
-        </div>
-    </div>
-    <!-- footer -->
     
 </body>
 </html>

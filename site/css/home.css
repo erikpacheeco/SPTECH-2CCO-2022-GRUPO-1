@@ -14,16 +14,26 @@
 /* inicio conteudo */
 .session-content {
     width: 100%;
-    margin-top: 80px;
-    display: flex;
-    justify-content: center;
 }
 
 .container-session-content {
-    margin: 0px 40px 0px 40px;
-    width: 100%;
+    margin: 80px 40px 80px 40px;
+    width: auto;
 }
 
+.first-img {
+    width: 100%;
+    margin-bottom: 74px;
+}
+
+.container-first-img {
+    display: flex;
+    align-items: center;
+}
+
+.container-first-img img{
+    width: 100%;
+}
 
 .h2-ajude-ongs {
     color: #6909A6;
@@ -33,30 +43,30 @@
     font-weight: bold;
 }
 
-.first-img {
+.content_call_to_action {
     display: flex;
-    align-items: center;
-}
-
-.first-img img{
-    width: 100%;
+    justify-content: center;
+    margin-top: 20px;
+    
 }
 
 .second-img{
     background-color: grey;
-    margin-top: 40px;
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
 .second-img img{
-    width: 62%;
+    max-width: 578px;
 }
 
 .h2-sobre-nos{
     display: flex;
 }
+
+
+
 .paragraph-sobre-nos{
     display: block;
     margin-left: 40px;

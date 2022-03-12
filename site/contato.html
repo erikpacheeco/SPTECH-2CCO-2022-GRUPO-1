@@ -14,8 +14,8 @@
     <!-- navbar -->
     <div class="navbar">
         <div class="navbar-container">
-            <div class="navbar-container-logo">
-                <img src="./img/logo.png" alt="logo petfinder" class="logo">
+            <div class="navbar-container-logo" onclick="moveTo('./index.html')" >
+                <img class="logo" src="./svg/Img_Logo.svg" alt="">
                 <span class="navbar-logo-nome"> 
                     <span class="logo-nome-verde" >Pet</span>Finder
                 </span>
@@ -26,7 +26,11 @@
                 <div class="nav-item text-green" onclick="moveTo('./contato.html')">Contato</div>
                 <div class="nav-item" onclick="moveTo('./feedback.html')">Feedback</div>
                 <div class="nav-item" onclick="moveTo('./login.html')">Login</div>
-                <div class="nav-item bg-yellow text-purple" onclick="moveTo('./cadastro.html')">Cadastro</div>
+                <div class="nav-item" >
+                    <div class="bg-yellow" onclick="moveTo('./cadastro.html')">
+                        Cadastro
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -81,9 +85,9 @@
     <div class="session-footer">
         <div class="container-session-footer">
             <div class="footer-social">
-                <i class="fa-brands fa-instagram footer-icon"></i>
-                <i class="fa-brands fa-facebook-f footer-icon"></i>
-                <i class="fa-brands fa-twitter footer-icon"></i>
+                <img class="footer-instagram" src="./svg/instagram.svg" alt="">
+                <img class="footer-facebook" src="./svg/facebook.svg" alt="">
+                <img class="footer-twitter" src="./svg/twitter.svg" alt="">
             </div>
             <div class="footer-item">
                 <div>Home</div>
@@ -92,11 +96,13 @@
                 <div>Cadastro</div>
             </div>
             <div class="footer-logo">
-                <span>PetFinder &copy;2022</span>
+                <span class="footer-logo-nome">
+                    <span class="logo-nome-verde">Pet</span>Finder &copy;2022
+                </span>
             </div>
         </div>
     </div>
-    <!-- fim footer -->
+    <!-- footer -->
 
 </body>
 </html>
