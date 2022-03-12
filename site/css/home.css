@@ -79,7 +79,7 @@
 
 .paragraph-sobre-nos{
     margin-top: 18px;
-    font: 16px;
+    font-size: 16px;
     max-width: 655px;
 }
 
@@ -109,10 +109,14 @@
 
 .paragraph-fazemos{
     margin-top: 18px;
-    font: 16px;
+    font-size: 16px;
     max-width: 600px;
     float: right;
 }
 
 
 /* fim conteudo */
+
+.purple-word {
+    color: #6909A6;
+}
