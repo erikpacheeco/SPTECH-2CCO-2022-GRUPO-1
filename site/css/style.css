@@ -196,5 +196,34 @@ p {
     color: #ffffff;
 }
 
-
 /* fim footer */
+
+.container-resgate {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    width: 278px;
+    text-align: right;
+}
+  
+.img-resgate {
+    height: 56px;
+    width: 56px;
+    cursor: pointer;
+}
+
+.container-resgate:hover .text-resgate{
+    display: block;
+}
+
+.text-resgate{
+    color: #50077E;
+    background-color: #FFD92E;
+    font-weight: bold;
+    border-radius: 50px;
+    padding: 16px;
+    display: none;
+    text-align: center;
+    cursor: pointer;
+}
+
