@@ -6,6 +6,7 @@ public abstract class Pessoa implements Validavel{
     private String senha;
     private TodosCargo cargo;
     private Endereco endereco;
+    private Boolean logado = false;
 
     public Pessoa(String nome, String email, String senha) {
         this.nome = nome;
@@ -30,7 +31,10 @@ public abstract class Pessoa implements Validavel{
 //    MÉTODOS
 
     public Boolean autenticarLogin(String email, String senha){
-        return null;
+        if(this.email.equals(email) && this.senha.equals(senha)){
+            return true;
+        }
+        return false;
     }
 
     public abstract Boolean validar();
@@ -70,5 +74,24 @@ public abstract class Pessoa implements Validavel{
     }
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
+    }
+
+    public Boolean isLogado() {
+        return logado;
+    }
+    public void setLogado(Boolean logado) {
+        this.logado = logado;
+    }
+
+    @Override
+    public String toString() {
+        return "Pessoa{" +
+                "nome='" + nome + '\'' +
+                ", email='" + email + '\'' +
+                ", senha='" + senha + '\'' +
+                ", cargo=" + cargo +
+                ", endereco=" + endereco +
+                ", logado=" + logado +
+                '}';
     }
 }

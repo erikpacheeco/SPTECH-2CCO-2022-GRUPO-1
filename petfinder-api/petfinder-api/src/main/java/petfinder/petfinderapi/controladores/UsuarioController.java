@@ -1,6 +1,7 @@
 package petfinder.petfinderapi.controladores;
 
 import org.springframework.web.bind.annotation.*;
+import petfinder.petfinderapi.entidades.Colaborador;
 import petfinder.petfinderapi.entidades.Pet;
 import petfinder.petfinderapi.entidades.Usuario;
 
@@ -71,6 +72,32 @@ public class UsuarioController {
             return "O Pet agora está em processo de adoção, aguarde o retorno da instituição";
         }
         return "Pet não encontrado";
+    }
+
+    @PostMapping("/in")
+    public String login(@RequestBody Usuario usuarioCheck){
+        for(Usuario user : usuarios){
+            if(user.autenticarLogin(usuarioCheck.getEmail(),usuarioCheck.getSenha())){
+                if(user.isLogado()){
+                    return "Usuario já está logado";
+                }else{
+                    user.setLogado(true);
+                    return "Usuario logado com sucesso";
+                }
+            }
+        }
+        return "Email e/ou senha incorretos, por favor verifique e tente novamente";
+    }
+
+    @PostMapping("/off/{indice}")
+    public String logoff(@PathVariable int indice){
+        if(!(usuarios.size() <= indice)){
+            if(usuarios.get(indice).isLogado()){
+                return "Usuario deslogado com sucesso";
+            }
+            return "Usuario não está logado";
+        }
+        return "Codigo do Usuário não encontrado";
     }
 
     @GetMapping

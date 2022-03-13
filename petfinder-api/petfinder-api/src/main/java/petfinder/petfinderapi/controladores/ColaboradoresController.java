@@ -34,7 +34,7 @@ public class ColaboradoresController {
     @DeleteMapping("/{indicePet}/{indiceColab}")
     public String validarAdocao(@PathVariable int indicePet,@PathVariable int indiceColab){
         if(!(PetsController.pets.size() <= indicePet)){
-            if(!(colaboradores.size() <= indicePet)){
+            if(!(colaboradores.size() <= indiceColab)){
                 if(PetsController.pets.get(indicePet).getInstituicao().equals(colaboradores.get(indiceColab).getInstituicao())){
                     if (PetsController.pets.get(indicePet).isEmAdocao().equals(true)) {
                         PetsController.pets.remove(indicePet);
@@ -68,5 +68,29 @@ public class ColaboradoresController {
         return "Código do Pet não encontrado!";
     }
 
+    @PostMapping("/in")
+    public String login(@RequestBody Colaborador colaboradorCheck){
+        for(Colaborador colab : colaboradores){
+            if(colab.autenticarLogin(colaboradorCheck.getEmail(),colaboradorCheck.getSenha())){
+                if(!colab.isLogado()){
+                    colab.setLogado(true);
+                    return "Colaborador logado com sucesso";
+                }
+                return "Colaborador já está logado";
+            }
+        }
+        return "Email e/ou senha incorretos, por favor verifique e tente novamente";
+    }
+
+    @PostMapping("/off/{indice}")
+    public String logoff(@PathVariable int indice){
+        if(!(colaboradores.size() <= indice)){
+            if(colaboradores.get(indice).isLogado()){
+                return "Colaborador deslogado com sucesso";
+            }
+            return "Colaborador não está logado";
+        }
+        return "Codigo do Colaborador não encontrado";
+    }
 
 }
