@@ -5,14 +5,16 @@ public class Pet implements Validavel{
     private String tipo;
     private String raca;
     private String porte;
+    private String sexo;
     private Boolean emAdocao = false;
     private Instituicao instituicao;
 
-    public Pet(String nome, String tipo, String raca, String porte) {
+    public Pet(String nome, String tipo, String raca, String porte, String sexo) {
         this.nome = nome;
         this.tipo = tipo;
         this.raca = raca;
         this.porte = porte;
+        this.sexo = sexo;
     }
 
     //    GETTERS E SETTERS
@@ -43,6 +45,13 @@ public class Pet implements Validavel{
     }
     public void setPorte(String porte) {
         this.porte = porte;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
     }
 
     public Boolean isEmAdocao() {

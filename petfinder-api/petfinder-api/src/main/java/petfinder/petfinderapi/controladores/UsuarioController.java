@@ -52,6 +52,17 @@ public class UsuarioController {
         return petsTipo;
     }
 
+    @GetMapping("/s/{sexo}")
+    public List<Pet> procurarPorSexo(@PathVariable String sexo){
+        List<Pet> petsSexo = new ArrayList<>();
+        for(Pet pet : PetsController.pets){
+            if(pet.getSexo().equalsIgnoreCase(sexo)){
+                petsSexo.add(pet);
+            }
+        }
+        return petsSexo;
+    }
+
     @PutMapping("/{indice}")
     public String solicitarAdocao(@PathVariable int indice){
         if(!(PetsController.pets.size() <= indice)){
