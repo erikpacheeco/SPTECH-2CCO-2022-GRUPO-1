@@ -1,5 +1,7 @@
 package petfinder.petfinderapi.entidades;
 
+import java.util.Objects;
+
 public class Pet implements Validavel{
     private String nome;
     private String tipo;
@@ -15,6 +17,21 @@ public class Pet implements Validavel{
         this.raca = raca;
         this.porte = porte;
         this.sexo = sexo;
+    }
+    //    MÉTODOS
+
+    @Override
+    public Boolean validar() {
+        Boolean boolNome = Objects.isNull(this.nome) || this.nome.isEmpty() || this.nome.isBlank();
+        Boolean boolTipo = Objects.isNull(this.tipo) || this.tipo.isEmpty() || this.tipo.isBlank();
+        Boolean boolRaca = Objects.isNull(this.raca) || this.raca.isEmpty() || this.raca.isBlank();
+        Boolean boolPorte = Objects.isNull(this.porte) || this.porte.isEmpty() || this.porte.isBlank();
+        Boolean boolSexo = Objects.isNull(this.sexo) || this.sexo.isEmpty() || this.sexo.isBlank();
+
+        if(!(boolNome || boolTipo || boolRaca || boolPorte || boolSexo)){
+            return true;
+        }
+        return false;
     }
 
     //    GETTERS E SETTERS
@@ -68,8 +85,4 @@ public class Pet implements Validavel{
         this.instituicao = instituicao;
     }
 
-    @Override
-    public Boolean validar() {
-        return null;
-    }
 }

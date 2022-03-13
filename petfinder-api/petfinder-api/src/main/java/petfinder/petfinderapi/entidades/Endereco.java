@@ -1,5 +1,7 @@
 package petfinder.petfinderapi.entidades;
 
+import java.util.Objects;
+
 public class Endereco implements Validavel{
     private String rua;
     private String numero;
@@ -27,7 +29,18 @@ public class Endereco implements Validavel{
 //    METODOS
 
     public Boolean validar(){
-        return null;
+
+        Boolean boolRua = Objects.isNull(this.rua) || this.rua.isEmpty() || this.rua.isBlank();
+        Boolean boolNum = Objects.isNull(this.numero) || this.numero.isEmpty() || this.numero.isBlank();
+        Boolean boolBairro = Objects.isNull(this.bairro) || this.bairro.isEmpty() || this.bairro.isBlank();
+        Boolean boolCidade = Objects.isNull(this.cidade) || this.cidade.isEmpty() || this.cidade.isBlank();
+        Boolean boolEstado = Objects.isNull(this.estado) || this.estado.isEmpty() || this.estado.isBlank();
+        Boolean boolCep = Objects.isNull(this.cep) || this.cep.isEmpty() || this.cep.isBlank();
+
+        if(!(boolRua || boolNum || boolBairro || boolCidade || boolEstado || boolCep)){
+            return true;
+        }
+        return false;
     }
 
 

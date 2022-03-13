@@ -19,8 +19,11 @@ public class InsitituicoesController {
 
     @PostMapping
     public String addInstituicao(@RequestBody Instituicao instituicao){
-        instituicoes.add(instituicao);
-        return "Nova Instituição cadastrada com sucesso!";
+        if(instituicao.validar()){
+            instituicoes.add(instituicao);
+            return "Nova Instituição cadastrada com sucesso!";
+        }
+        return "Dados Incorretos, por favor verifique e tente novamente";
     }
 
     @PostMapping("/colab/{indiceInst}/{indiceColab}")
