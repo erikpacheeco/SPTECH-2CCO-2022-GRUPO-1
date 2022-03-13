@@ -1,0 +1,77 @@
+* {
+    font-family: 'Hind Madurai', sans-serif;
+}
+
+/* .session-content {
+    width: 100%;
+} */
+
+.container-session-content {
+    margin: 80px 40px 80px 40px;
+    width: auto;
+    /* background-color: pink; */
+    display: flex;
+    justify-content: space-around;
+}
+
+.box-img {
+    
+}
+
+.box-img img{
+    width: 520px;
+}
+
+.box-cadastro {
+    display: flex;
+    flex-direction: column;
+}
+
+.box-cadastro-texto {
+    display: flex;
+    flex-direction: column;
+}
+
+.box-cadastro-texto h1 {
+    color: #7F2AB5;
+
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 50px;
+}
+
+.box-cadastro-texto span {
+    margin-top: 25px;
+
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 33px;
+}
+
+.btn-cadastrar {
+    border: 2px solid #7F2AB5;
+    color: #7F2AB5;
+    height: 110px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    margin-top: 70px;
+    text-decoration: none;
+    
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 50px;
+}
+
+.btn-cadastrar:hover {
+    cursor: pointer;
+    color: #ffe56f;
+    background-color: #7F2AB5;
+}

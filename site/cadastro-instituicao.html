@@ -11,8 +11,8 @@
 </head>
 <body>
 
-    <!-- navbar -->
-    <div class="navbar">
+     <!-- navbar -->
+     <div class="navbar">
         <div class="navbar-container">
             <a class="navbar-container-logo" href="./index.html" class="link">
                 <img class="logo" src="./svg/Img_Logo.svg" alt="" />
@@ -34,14 +34,141 @@
     </div>
     <!-- fim navbar -->
     
+    <!-- conteudo -->
     <div class="container">
         <div class="form-container">
 
             <form action="">
 
+                <div class="session-instituicao">
+                
+                    <h1>Cadastro da Instituição</h1>
+
+                    <div class="inst-dados">
+                        <div class="input-container">
+                            <label for="">Nome da Instituição: </label>
+                            <input type="text" required>
+                        </div>
+                        
+                        <div class="input-container">
+                            <label for="">telefone para contato: </label>
+                            <input type="text" required>
+                        </div>
+                    </div>
+
+                    <h2>Endereço</h2>
+
+                    <div class="endereco-dados">
+                        <div class="input-container">
+                            <label for="">CEP: </label>
+                            <input type="text" required>
+                        </div>
+
+                        <div class="input-container">
+                            <label for="">Rua: </label>
+                            <input type="text" required>
+                        </div>
+
+                        <div class="num-compl-container">
+                            <div class="input-container num">
+                                <label for="">Número: </label>
+                                <input name="numero" type="text" required>
+                            </div>
+
+                            <div class="input-container compl">
+                                <label for="">Complemento: </label>
+                                <input type="text">
+                            </div>
+                        </div>
+
+                        <div class="input-container">
+                            <label for="">Bairro: </label>
+                            <input type="text" name="bairro" required>
+                        </div>
+
+                        <div class="cidade-estado-container">
+                            <div class="input-container cid">
+                                <label for="">cidade: </label>
+                                <input type="text" required>
+                            </div>
+
+                            <div class="input-container estado">
+                                <label for="">Estado: </label>
+                                <input type="text" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="session-user">
+
+                    <h2>Usuario administrador da Instituição</h2>
+                    <div class="input-container estado">
+                        <label for="">Nome: </label>
+                        <input type="text" required>
+                    </div>
+
+                    <div class="input-container estado">
+                        <label for="">E-mail: </label>
+                        <input type="text" required>
+                    </div>
+
+                    <div class="input-container estado">
+                        <label for="">Senha: </label>
+                        <input type="password" required>
+                    </div>
+
+                    <div class="termos-uso">
+                        <input type="checkbox" name="termos-uso" id="">
+                        <label for="termos-uso">Li e aceito os <a href="#">Termos de uso</a></label>
+                    </div>
+                </div>
+
+                <div class="btn-container">
+                    <button class="btn-form" id="btnProximo" type="button">Próximo</button>
+
+                    <button class="btn-form hidden" type="button" id="btnVoltar">Voltar</button>
+
+                    <button class="btn-form hidden" id="btnCadastrar">Cadastrar</button>
+                    <div class="progress-form"><span id="idActualForm">1</span>/2</div>
+                </div>
 
             </form>
         </div>
     </div>
+
+    <!-- fim conteudo -->
+
+    <!-- footer -->
+    <div class="session-footer">
+        <div class="container-session-footer">
+            <div class="footer-social">
+                <a href="#">
+                    <img class="footer-instagram" src="./svg/instagram.svg" alt="" />
+                </a>
+                <a href="#">
+                    <img class="footer-facebook" src="./svg/facebook.svg" alt="" />
+                </a>
+                <a href="#">
+                    <img class="footer-twitter" src="./svg/twitter.svg" alt="" />
+                </a>
+            </div>
+            <div class="footer-item">
+                <a href="./index.html">Home</a>
+                <a href="./contato.html">Contato</a>
+                <a href="./feedback.html">Feedback</a>
+                <a href="./cadastro.html">Cadastro</a>
+            </div>
+            <div class="footer-logo">
+                <span class="footer-logo-nome">
+                    <span class="logo-nome-verde">Pet</span>Finder &copy;2022
+                </span>
+            </div>
+        </div>
+    </div>
+    <!-- footer -->
+
 </body>
 </html>
+
+<script src="./js/cadastro-instituicao.js"></script>

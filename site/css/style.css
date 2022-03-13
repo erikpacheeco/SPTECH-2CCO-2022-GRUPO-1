@@ -91,7 +91,7 @@ p {
     color: white;
     cursor: pointer;
    
-    font-family: Hind Madurai;
+    font-family: 'Hind Madurai';
     font-style: normal;
     font-weight: 600;
     font-size: 24px;
@@ -165,15 +165,22 @@ p {
     margin: 20px 0px 20px 0px;
 }
 
-.footer-item div {
+.footer-item a {
+    color: #ffffff;
+    margin-left: 11.5px;
+    margin-right: 11.5px;
+    text-decoration: none;
+    cursor: pointer;
+
     font-family: 'Hind Madurai';
     font-style: normal;
     font-weight: 500;
     font-size: 16px;
     line-height: 22px;
-    color: #ffffff;
-    margin-left: 11.5px;
-    margin-right: 11.5px;
+}
+
+.footer-item a:hover{
+    color: #B4F12C;
 }
 
 .footer-instagram , .footer-facebook, .footer-twitter{

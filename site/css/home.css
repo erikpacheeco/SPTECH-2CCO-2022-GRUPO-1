@@ -43,8 +43,14 @@
     color: #6909A6;
     position: absolute;
     margin-left: 87px;
+    margin-right: 87px;
+    max-width: 562px;
+
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 700;
     font-size: 48px;
-    font-weight: bold;
+    line-height: 66px;
 }
 
 .content_call_to_action {
@@ -55,10 +61,16 @@
 }
 
 .h2-sobre-nos{
-    font-size: 36px;
     color: #50077E;
     border-bottom: 1px solid #B4F12C;
     width: 366px;
+
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 50px;
+
 }
 
 .second-img{
@@ -73,14 +85,21 @@
 }
 
 .content-sobre-nos{
-    display: block;
-    margin-left: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .paragraph-sobre-nos{
     margin-top: 18px;
-    font-size: 16px;
+    margin-right: 18px;
     max-width: 655px;
+
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 25px;
 }
 
 .third-img{
@@ -95,7 +114,9 @@
 }
 
 .content-fazemos{
-    display: block;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
 }
 
 .h2-fazemos{
@@ -104,14 +125,18 @@
     border-bottom: 1px solid #B4F12C;
     width: 366px;
     text-align: right;
-    float: right;
 }
 
 .paragraph-fazemos{
     margin-top: 18px;
-    font-size: 16px;
+    margin-left: 18px;
     max-width: 600px;
-    float: right;
+
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 25px;
 }
 
 

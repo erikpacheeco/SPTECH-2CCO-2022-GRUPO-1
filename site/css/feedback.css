@@ -1,0 +1,54 @@
+h1, h2 {
+    color: #7F2AB5;
+}
+
+.content-container {
+    width: 75%;
+    margin-top: 24px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    /* background-color:red; */
+    display: flex;
+    flex-direction:column;
+    row-gap: 24px;
+}
+
+.content-container img {
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: 1px solid #7F2AB5;
+    /* background-color:red; */
+    /* width: 150px; */
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 24px;
+}
+
+.btn:hover {
+    background-color: #7F2AB5;
+    color: #ffe56f;
+}
+
+.btn-container {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 100px;
+    display: flex;
+    justify-content:space-evenly;
+    /* background-color:red; */
+}
+
+.easter-egg {
+    position: absolute;
+    width: 50px;
+    /* height: 50px; */
+    left: 24px;
+    bottom: 32px;
+}
