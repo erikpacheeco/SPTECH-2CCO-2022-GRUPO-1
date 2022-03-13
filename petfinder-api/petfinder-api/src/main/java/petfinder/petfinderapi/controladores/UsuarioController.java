@@ -19,7 +19,7 @@ public class UsuarioController {
         return "Novo Usuario cadastrado(a) com sucesso!";
     }
 
-    @GetMapping("/{porte}")
+    @GetMapping("/p/{porte}")
     public List<Pet> procurarPorPorte(@PathVariable String porte){
         List<Pet> petsPorte = new ArrayList<>();
         for(Pet pet : PetsController.pets){
@@ -30,7 +30,7 @@ public class UsuarioController {
         return petsPorte;
     }
 
-    @GetMapping("/{raca}")
+    @GetMapping("/r/{raca}")
     public List<Pet> procurarPorRaca(@PathVariable String raca){
         List<Pet> petsRaca = new ArrayList<>();
         for(Pet pet : PetsController.pets){
@@ -41,7 +41,7 @@ public class UsuarioController {
         return petsRaca;
     }
 
-    @GetMapping("/{tipo}")
+    @GetMapping("/t/{tipo}")
     public List<Pet> procurarPorTipo(@PathVariable String tipo){
         List<Pet> petsTipo = new ArrayList<>();
         for(Pet pet : PetsController.pets){
@@ -60,5 +60,10 @@ public class UsuarioController {
             return "O Pet agora está em processo de adoção, aguarde o retorno da instituição";
         }
         return "Pet não encontrado";
+    }
+
+    @GetMapping
+    public List<Usuario> listarUsuarios(){
+        return usuarios;
     }
 }

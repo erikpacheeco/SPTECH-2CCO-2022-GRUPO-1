@@ -13,6 +13,12 @@ public class ColaboradoresController {
 
     public static List<Colaborador> colaboradores = new ArrayList<>();
 
+    @PostMapping
+    public String addColaborador(@RequestBody Colaborador novoColaborador){
+        colaboradores.add(novoColaborador);
+        return "Novo Colaborador cadastrado com sucesso";
+    }
+
     @PostMapping("/{indiceColab}")
     public String addPet(@RequestBody Pet novoPet, @PathVariable int indiceColab){
         novoPet.setInstituicao(colaboradores.get(indiceColab).getInstituicao());
@@ -21,13 +27,13 @@ public class ColaboradoresController {
     }
 
     @DeleteMapping("/{indicePet}/{indiceColab}")
-    public String finalizarAdocao(@PathVariable int indicePet,@PathVariable int indiceColab){
+    public String validarAdocao(@PathVariable int indicePet,@PathVariable int indiceColab){
         if(!(PetsController.pets.size() <= indicePet)){
             if(!(colaboradores.size() <= indicePet)){
                 if(PetsController.pets.get(indicePet).getInstituicao().equals(colaboradores.get(indiceColab).getInstituicao())){
                     if (PetsController.pets.get(indicePet).isEmAdocao().equals(true)) {
                         PetsController.pets.remove(indicePet);
-                        return "O status do pet foi atualizado e removido da lista de adoção!";
+                        return "Pet adotado com sucesso, suas informações foram alteradas e tirados da lista";
                     } else {
                         return "O pet ainda está disponível para adoção";
                     }
@@ -39,14 +45,18 @@ public class ColaboradoresController {
         return "Código do Pet não encontrado!";
     }
 
-    @PutMapping("/{indice}")
-    public String editarPet(
-            @PathVariable int indice,
-            @RequestBody Pet petAtualizado)
+    @PutMapping("/{indicePet}/{indiceColab}")
+    public String editarPet(@PathVariable int indicePet,@PathVariable int indiceColab,@RequestBody Pet petAtualizado)
     {
-        if(!(PetsController.pets.size() <= indice)){
-            PetsController.pets.set(indice, petAtualizado);
-            return "O pet foi atualizado com sucesso!";
+        if(!(PetsController.pets.size() <= indicePet)){
+            if(!(colaboradores.size() <= indiceColab)){
+                if(colaboradores.get(indiceColab).getInstituicao().equals(PetsController.pets.get(indiceColab).getInstituicao())){
+                    PetsController.pets.set(indicePet, petAtualizado);
+                    return "O pet foi atualizado com sucesso!";
+                }
+                return "Colaborador não tem acesso a edição desse pet";
+            }
+            return "Código do Colaborador não encontrado";
         }
         return "Código do Pet não encontrado!";
     }

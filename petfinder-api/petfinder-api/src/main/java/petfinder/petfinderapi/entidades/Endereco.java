@@ -7,20 +7,22 @@ public class Endereco implements Validavel{
     private String bairro;
     private String cidade;
     private String estado;
-    private Instituicao instituicao;
+    private String cep;
 
     public Endereco(String rua,
                     String numero,
                     String complemento,
                     String bairro,
                     String cidade,
-                    String estado) {
+                    String estado,
+                    String cep) {
         this.rua = rua;
         this.numero = numero;
         this.complemento = complemento;
         this.bairro = bairro;
         this.cidade = cidade;
         this.estado = estado;
+        this.cep = cep;
     }
 //    METODOS
 
@@ -71,5 +73,25 @@ public class Endereco implements Validavel{
     }
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
+    @Override
+    public String toString() {
+        return "Endereco{" +
+                "rua='" + rua + '\'' +
+                ", numero='" + numero + '\'' +
+                ", complemento='" + complemento + '\'' +
+                ", bairro='" + bairro + '\'' +
+                ", cidade='" + cidade + '\'' +
+                ", estado='" + estado + '\'' +
+                ", cep='" + cep + '\'' +
+                '}';
     }
 }
