@@ -13,6 +13,11 @@ public class ColaboradoresController {
 
     public static List<Colaborador> colaboradores = new ArrayList<>();
 
+    @GetMapping
+    public List<Colaborador> listarColaboradores(){
+        return colaboradores;
+    }
+
     @PostMapping
     public String addColaborador(@RequestBody Colaborador novoColaborador){
         colaboradores.add(novoColaborador);
@@ -50,7 +55,9 @@ public class ColaboradoresController {
     {
         if(!(PetsController.pets.size() <= indicePet)){
             if(!(colaboradores.size() <= indiceColab)){
-                if(colaboradores.get(indiceColab).getInstituicao().equals(PetsController.pets.get(indiceColab).getInstituicao())){
+                if(colaboradores.get(indiceColab).getInstituicao().equals(PetsController.pets.get(indicePet).getInstituicao())){
+                    petAtualizado.setInstituicao(PetsController.pets.get(indicePet).getInstituicao());
+                    petAtualizado.setEstadoAdocao(PetsController.pets.get(indicePet).isEmAdocao());
                     PetsController.pets.set(indicePet, petAtualizado);
                     return "O pet foi atualizado com sucesso!";
                 }

@@ -12,28 +12,39 @@ public class InsitituicoesController {
 
     List<Instituicao> instituicoes = new ArrayList<>();
 
+    @GetMapping
+    public List<Instituicao> listarInstituicoes(){
+        return instituicoes;
+    }
+
     @PostMapping
     public String addInstituicao(@RequestBody Instituicao instituicao){
         instituicoes.add(instituicao);
         return "Nova Instituição cadastrada com sucesso!";
     }
 
-    @PostMapping("/{indiceInst}/{indiceColab}")
+    @PostMapping("/colab/{indiceInst}/{indiceColab}")
     public String assocColaborador(@PathVariable int indiceInst,@PathVariable int indiceColab){
-        if(!(ColaboradoresController.colaboradores.size() <= indiceColab)){
-            ColaboradoresController.colaboradores.get(indiceColab).setInstituicao(instituicoes.get(indiceInst));
-            return "Colaborador associado com sucesso";
+        if(!(instituicoes.size() <= indiceInst)){
+            if(!(ColaboradoresController.colaboradores.size() <= indiceColab)){
+                ColaboradoresController.colaboradores.get(indiceColab).setInstituicao(instituicoes.get(indiceInst));
+                return "Colaborador associado com sucesso";
+            }
+            return "Código de colaborador não existente";
         }
-        return "Código de colaborador não existente";
+        return "Código de instituição não existente";
     }
 
-    @PostMapping("/{indiceInst}/{indicePet}")
+    @PostMapping("/pet/{indiceInst}/{indicePet}")
     public String assocPet(@PathVariable int indiceInst,@PathVariable int indicePet){
-        if(!(PetsController.pets.size() <= indicePet)){
-            PetsController.pets.get(indicePet).setInstituicao(instituicoes.get(indiceInst));
-            return "Pet associado com sucesso";
+        if(!(instituicoes.size() <= indiceInst)) {
+            if (!(PetsController.pets.size() <= indicePet)) {
+                PetsController.pets.get(indicePet).setInstituicao(instituicoes.get(indiceInst));
+                return "Pet associado com sucesso";
+            }
+            return "Código de Pet não existente";
         }
-        return "Código de Pet não existente";
+        return "Código de instituição não existente";
     }
 
     @PutMapping("/{indice}")
