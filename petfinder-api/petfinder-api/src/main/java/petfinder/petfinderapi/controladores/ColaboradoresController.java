@@ -20,15 +20,21 @@ public class ColaboradoresController {
 
     @PostMapping
     public String addColaborador(@RequestBody Colaborador novoColaborador){
-        colaboradores.add(novoColaborador);
-        return "Novo Colaborador cadastrado com sucesso";
+        if(novoColaborador.validar()){
+            colaboradores.add(novoColaborador);
+            return "Novo Colaborador cadastrado com sucesso";
+        }
+        return "Dados Incorretos, por favor verifique e tente novamente";
     }
 
     @PostMapping("/{indiceColab}")
     public String addPet(@RequestBody Pet novoPet, @PathVariable int indiceColab){
-        novoPet.setInstituicao(colaboradores.get(indiceColab).getInstituicao());
-        PetsController.pets.add(novoPet);
-        return "Pet cadastrado com sucesso!";
+        if(novoPet.validar()){
+            novoPet.setInstituicao(colaboradores.get(indiceColab).getInstituicao());
+            PetsController.pets.add(novoPet);
+            return "Pet cadastrado com sucesso!";
+        }
+        return "Dados Incorretos, por favor verifique e tente novamente";
     }
 
     @DeleteMapping("/{indicePet}/{indiceColab}")
