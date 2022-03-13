@@ -12,8 +12,8 @@
 </head>
 
 <body>
-     <!-- navbar -->
-     <div class="navbar">
+    <!-- navbar -->
+    <div class="navbar">
         <div class="navbar-container">
             <a class="navbar-container-logo" href="./index.html" class="link">
                 <img class="logo" src="./svg/Img_Logo.svg" alt="" />
@@ -65,7 +65,6 @@
                 <h2>Endereço</h2>
 
                 <div class="endereco">
-
                     <div class="input-container">
                         <label for="">CEP: </label>
                         <input type="text" required />
@@ -76,27 +75,101 @@
                         <input type="text" required />
                     </div>
 
-                    <div class="container-input-duplo">
-                        
-                        <div class="input-container-menor">
+                    <div class="num-compl-container">
+                        <div class="input-container num">
                             <label for="">Número: </label>
                             <input type="text" required />
                         </div>
-    
-                        <div class="input-container-maior">
+
+                        <div class="input-container compl">
                             <label for="">Complemento: </label>
+                            <input type="text" />
+                        </div>
+                    </div>
+
+                    <div class="input-container">
+                        <label for="">Bairro: </label>
+                        <input type="text" required />
+                    </div>
+
+                    <div class="cidade-estado-container">
+                        <div class="input-container cidade">
+                            <label for="">Cidade: </label>
+                            <input type="text" required />
+                        </div>
+
+                        <div class="input-container estado">
+                            <label for="">Estado: </label>
                             <input type="text" required />
                         </div>
                     </div>
 
+                    <div class="preferencias-container">
 
+                        <p class="preferencias">Tipo de animal que procura:</p>
+
+                        <div class="check-box">
+                            <div class="check-box-padrao">
+                                <input type="checkbox" id="cachorro" name="cachorro" checked />
+                                <label for="cachorro">Cachorro</label>
+                            </div>
+
+                            <div class="check-box-padrao">
+                                <input type="checkbox" id="gato" name="gato" />
+                                <label for="gato">Gato</label>
+                            </div>
+
+                            <div class="check-box-padrao">
+                                <input type="checkbox" id="outros" name="outros" />
+                                <label for="outros">Outros</label>
+
+                                <input type="text" />
+                            </div>
+
+                        </div>
+
+                        <p class="porte-animal">Porte do animal:</p>
+
+                        <div class="check-box">
+                            <div class="check-box-padrao">
+                                <input type="checkbox" id="pequeno" name="pequeno" checked />
+                                <label for="pequeno">Pequeno</label>
+                            </div>
+
+                            <div class="check-box-padrao">
+                                <input type="checkbox" id="medio" name="medio" />
+                                <label for="medio">Médio</label>
+                            </div>
+
+                            <div class="check-box-padrao">
+                                <input type="checkbox" id="grande" name="grande" />
+                                <label for="grande">Grande</label>
+                            </div>
+                        </div>
+
+                        <p class="preferencias">Preferência de sexo do animal:</p>
+
+                        <div class="check-box">
+                            <div class="check-box-padrao">
+                                <input type="radio" id="macho" name="sexo" value="macho" />
+                                <label for="macho">Macho</label><br />
+                            </div>
+
+                            <div class="check-box-padrao">
+                                <input type="radio" id="femea" name="sexo" value="femea" />
+                                <label for="femea">Fêmea</label><br />
+                            </div>
+
+                            <div class="check-box-padrao">
+                                <input type="radio" id="semPrefencia" name="sexo" value="semPreferencia" />
+                                <label for="semPrefencia">Sem preferência</label><br />
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="button-container">
-                    <input type="submit" class="btn-form" name="Enviar" />
-                    <button class="btn-form" onclick="moveTo('./login.html')">
-                        Login
-                    </button>
+                    <input type="submit" class="btn-form" name="btnCadastrar" value="Cadastrar" onclick="moveTo('./login.html')"/>
                 </div>
             </form>
         </div>

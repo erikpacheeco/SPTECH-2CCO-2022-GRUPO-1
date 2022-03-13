@@ -1,51 +1,88 @@
-*{
-    color: #7F2AB5;
-}
 .container{
     display: flex;
     justify-content: center;
-    margin-top: 33px;
 }
 
-h1{
-    padding: 53px;
+h1, h2{
+    color: #7F2AB5;
     text-align: center;
+    margin-top: 16px;
 }
 .form-container{
-    width: 45%;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 32px;
+}
+
+.form-container form {
+    position: relative;
 }
 
 .input-container{
-    margin-bottom: 25px;
+    margin-top: 16px;
 }
 
-h2{
-    text-align: center;
-    padding: 30px;
-}
-
-.container-input-duplo{
+.num-compl-container {
     display: flex;
-    background-color: aqua;
+    justify-content: space-between;
 }
 
-.container-input-duplo input{
+.num-compl-container .num {
+    width: 20%;
+}
+
+.num-compl-container .compl {
+    width: 70%;
+}
+
+.cidade-estado-container{
     display: flex;
-    height: 37px;
-    border: 1px solid #7F2AB5;
+    justify-content: space-between;
+}
+
+.cidade-estado-container .cidade{
+    width: 70%;
+}
+
+.cidade-estado-container .estado{
+    width: 20%;
+}
+
+p{
+    color: #7F2AB5;
+    margin-top: 24px;
+}
+
+.check-box{
+    margin-left: 8px;
+}
+
+.check-box-padrao {
+    color: #7F2AB5;
+    padding: 8px;
+}
+
+.check-box-padrao label{
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+.check-box-padrao input{
+    height: 20px;
     border-radius: 5px;
+    border: 1px solid #7F2AB5;
 }
 
-.container-input-duplo label{
-    display: block;
+.button-container{
+    margin-top: 16px;
+    margin-bottom: 16px;
+    display: flex;
 }
 
-.input-container-maior input{
-    width: 200%;
+.button-container input{
+    width: 200px;
 }
 
-.input-container-menor{
-}
-.input-container-menor input{
 
-}
+
