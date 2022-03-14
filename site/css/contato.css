@@ -19,13 +19,23 @@
     margin-bottom: 24px;
 }
 .form-container h1 {
-    font-size: 32px;
-    font-weight: bold;
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 55px;
+
     color: #7F2AB5;
 }
  
 .form-container p {
-    font-size: 16px;
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 33px;
+
+    color: #000000;
 }
 
 .button-container {

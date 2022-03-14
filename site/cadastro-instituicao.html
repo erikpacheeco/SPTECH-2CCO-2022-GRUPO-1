@@ -71,12 +71,12 @@
                     <div class="endereco-dados">
                         <div class="input-container">
                             <label for="">CEP: </label>
-                            <input type="text" required>
+                            <input type="text" id="inCEP" maxlength="8" pattern="[0-9]+" required>
                         </div>
 
                         <div class="input-container">
                             <label for="">Rua: </label>
-                            <input type="text" required>
+                            <input type="text" id="inRua" required>
                         </div>
 
                         <div class="num-compl-container">
@@ -87,24 +87,24 @@
 
                             <div class="input-container compl">
                                 <label for="">Complemento: </label>
-                                <input type="text">
+                                <input type="text" id="inComplemento">
                             </div>
                         </div>
 
                         <div class="input-container">
                             <label for="">Bairro: </label>
-                            <input type="text" name="bairro" required>
+                            <input type="text" id="inBairro" name="bairro" required>
                         </div>
 
                         <div class="cidade-estado-container">
                             <div class="input-container cid">
                                 <label for="">cidade: </label>
-                                <input type="text" required>
+                                <input type="text" id="inCidade" required>
                             </div>
 
                             <div class="input-container estado">
                                 <label for="">Estado: </label>
-                                <input type="text" required>
+                                <input type="text" id="inEstado" required>
                             </div>
                         </div>
                     </div>

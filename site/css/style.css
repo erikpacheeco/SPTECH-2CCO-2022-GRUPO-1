@@ -130,13 +130,16 @@ p {
 }
 
 .navbar-logo-nome {
-    font-family: Hind Madurai;
-    font-size: 35px;
-    font-weight: 700;
-    font-style: normal;
-    line-height: 49px;
     margin-left: 15px;
     color: #ffffff;
+
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 35.2476px;
+    line-height: 49px;
+
+    
 }
 
 .logo-nome-verde {
@@ -193,6 +196,7 @@ p {
     font-weight: 700;
     font-size: 16px;
     line-height: 22px;
+    
     color: #ffffff;
 }
 

@@ -38,8 +38,8 @@
     font-family: 'Hind Madurai';
     font-style: normal;
     font-weight: 700;
-    font-size: 36px;
-    line-height: 50px;
+    font-size: 40px;
+    line-height: 55px;
 }
 
 .box-cadastro-texto span {
@@ -47,7 +47,7 @@
 
     font-family: 'Hind Madurai';
     font-style: normal;
-    font-weight: 400;
+    font-weight: 500;
     font-size: 24px;
     line-height: 33px;
 }
@@ -66,8 +66,8 @@
     font-family: 'Hind Madurai';
     font-style: normal;
     font-weight: 700;
-    font-size: 36px;
-    line-height: 50px;
+    font-size: 32px;
+    line-height: 44px;
 }
 
 .btn-cadastrar:hover {

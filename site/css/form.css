@@ -5,7 +5,6 @@
     margin-right: auto;
     border-radius: 10px;
     padding: 5px 25px;
-    margin-bottom: 10px;
     border: 1px rgba(0, 0, 0, 0.11) solid;
     box-shadow: -1px 1px 10px 0px black;
 }
@@ -30,9 +29,13 @@
 }
 
 .input-container label {
-    color: #7F2AB5;
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 600;
     font-size: 16px;
-    margin-bottom: 10px;
+    line-height: 22px;
+
+    color: #7F2AB5;
 }
 
 .input-container input:focus-visible, .long-text textarea {
@@ -51,14 +54,17 @@
     margin-right: auto;
     padding-left: 20px;
     padding-right: 20px;
-    font-size: 16px;
     cursor: pointer;
-    font-weight: bold;
     text-align: center;
-    font-family: 'Hind Madurai';
     border: 1px #7F2AB5 solid;
-    color: #7F2AB5 ;
     height: 40px;
+    font-family: 'Hind Madurai';
+
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 22px;
+    color: #7F2AB5;
 }
 
 .btn-form:hover {

@@ -61,15 +61,15 @@
 }
 
 .h2-sobre-nos{
-    color: #50077E;
+    color: #7F2AB5;
     border-bottom: 1px solid #B4F12C;
     width: 366px;
 
     font-family: 'Hind Madurai';
     font-style: normal;
     font-weight: 700;
-    font-size: 36px;
-    line-height: 50px;
+    font-size: 40px;
+    line-height: 55px;
 
 }
 
@@ -97,14 +97,14 @@
 
     font-family: 'Hind Madurai';
     font-style: normal;
-    font-weight: 400;
+    font-weight: 500;
     font-size: 18px;
     line-height: 25px;
 }
 
 .third-img{
     display: flex;
-    margin-bottom: 74px;
+    margin-bottom: 80px;
     justify-content: space-between;
 }
 
@@ -120,8 +120,13 @@
 }
 
 .h2-fazemos{
-    font-size: 36px;
-    color: #50077E;
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 55px;
+
+    color: #7F2AB5;
     border-bottom: 1px solid #B4F12C;
     width: 366px;
     text-align: right;

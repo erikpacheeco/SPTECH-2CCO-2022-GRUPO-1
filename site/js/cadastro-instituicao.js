@@ -1,11 +1,44 @@
 let btnProximo = document.querySelector("#btnProximo");
 let btnCadastrar = document.querySelector("#btnCadastrar");
 let sessionInstituicao = document.querySelector(".session-instituicao");
+let inCEP = document.querySelector("#inCEP");
 let sessionUser = document.querySelector(".session-user");
 let btnVoltar = document.querySelector("#btnVoltar");
 
 let prCircle1 = document.querySelector("#prCircle1");
 let prCircle2 = document.querySelector("#prCircle2");
+
+let inRua = document.querySelector('#inRua');
+let inBairro = document.querySelector('#inBairro');
+let inCidade = document.querySelector('#inCidade');
+let inEstado = document.querySelector('#inEstado');
+let inComplemento = document.querySelector('#inComplemento');
+
+
+
+inCEP.addEventListener("keyup", (evt) => {
+    let ultimoChar = inCEP.value[inCEP.value.length - 1];
+
+    if (isNaN(ultimoChar)) {
+        inCEP.value = inCEP.value.replace(ultimoChar, "");
+    }
+
+    if (inCEP.value.length === 8) {
+        preencherEndereco()
+    }
+})
+
+function preencherEndereco() {
+    fetch(`https://viacep.com.br/ws/${inCEP.value}/json/`)
+    .then((response) => response.json())
+    .then((data) => {
+        inRua.value = data.logradouro;
+        inBairro.value = data.bairro;
+        inCidade.value = data.localidade;
+        inEstado.value = data.uf;
+        inComplemento.value = data.complemento;
+    })
+}
 
 btnVoltar.addEventListener("click", (evt) => {
     prCircle2.classList.remove("pr-filled");
