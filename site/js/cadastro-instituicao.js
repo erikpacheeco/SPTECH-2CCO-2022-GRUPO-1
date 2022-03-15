@@ -14,6 +14,17 @@ let inCidade = document.querySelector('#inCidade');
 let inEstado = document.querySelector('#inEstado');
 let inComplemento = document.querySelector('#inComplemento');
 
+prCircle2.addEventListener("click", (evt) => {
+    prCircle1.classList.remove("pr-filled");
+    prCircle2.classList.add("pr-filled");
+    hideForm1();
+})
+
+prCircle1.addEventListener("click", (evt) => {
+    prCircle2.classList.remove("pr-filled");
+    prCircle1.classList.add("pr-filled");
+    hideForm2();
+})
 
 
 inCEP.addEventListener("keyup", (evt) => {

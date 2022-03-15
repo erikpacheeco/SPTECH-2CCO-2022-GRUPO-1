@@ -204,16 +204,18 @@ p {
 
 .container-resgate {
     position: fixed;
-    bottom: 32px;
-    right: 32px;
+    bottom: 40px;
+    right: 40px;
     width: 278px;
     text-align: right;
 }
+
   
 .img-resgate {
-    height: 56px;
-    width: 56px;
-    cursor: pointer;
+    position: fixed;
+   cursor: pointer;
+   bottom: 40px;
+    right: 40px;
 }
 
 .container-resgate:hover .text-resgate{
@@ -226,8 +228,11 @@ p {
     font-weight: bold;
     border-radius: 50px;
     padding: 16px;
-    display: none;
     text-align: center;
+    /* width: 278px; */
+    display: none;
     cursor: pointer;
+    bottom: 40px;
+    right: 40px;
 }
 
