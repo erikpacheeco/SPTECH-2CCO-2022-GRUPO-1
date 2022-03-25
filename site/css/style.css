@@ -206,37 +206,35 @@ p {
 
 /* fim footer */
 
+/* Início Resgate */
 .container-resgate {
-    position: fixed;
-    bottom: 40px;
-    right: 40px;
-    width: 278px;
-    text-align: right;
-}
-
-  
-.img-resgate {
-    position: fixed;
-   cursor: pointer;
-   bottom: 40px;
-    right: 40px;
-}
-
-.container-resgate:hover .text-resgate{
-    display: block;
-}
-
-.text-resgate{
-    color: #50077E;
     background-color: #FFD92E;
-    font-weight: bold;
-    border-radius: 50px;
-    padding: 16px;
-    text-align: center;
-    /* width: 278px; */
-    display: none;
     cursor: pointer;
+    position: fixed;
     bottom: 40px;
     right: 40px;
+    height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px;
 }
+
+.icon-resgate {
+    margin: 0px 16px 0px 16px;
+}
+
+.text-resgate {
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 33px;
+    margin-left: 16px;
+
+    display: none;
+    color: #7F2AB5;
+}
+
+/* Fim Resgate */
 
