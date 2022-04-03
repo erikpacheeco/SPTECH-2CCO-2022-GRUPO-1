@@ -1,6 +1,6 @@
 .content-container {
     width: 1358px;
-    height: 708px;
+    height: 630px;
     margin: 50px auto;
     display: flex;
     flex-direction: row;
@@ -45,10 +45,9 @@
 }
 
 .img-container {
-    /* width: 618px; */
-    height: 553px;
+    height: 630px;
     z-index: -1;
-    /* background-color:green; */
+    padding: 1px;
 }
 
 .img-container img {
