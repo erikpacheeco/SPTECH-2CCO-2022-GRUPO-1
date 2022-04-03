@@ -14,12 +14,9 @@
     justify-content: space-around;
 }
 
-.box-img {
-    
-}
-
 .box-img img{
     width: 520px;
+    border-radius: 5px;
 }
 
 .box-cadastro {
@@ -62,6 +59,7 @@
     border-radius: 10px;
     margin-top: 70px;
     text-decoration: none;
+    flex-direction: column;
     
     font-family: 'Hind Madurai';
     font-style: normal;

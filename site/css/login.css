@@ -39,6 +39,15 @@
 
 .button-container {
     width: 60%;
+    align-content: space-between;
+    /* background-color: #7F2AB5; */
+}
+
+#idLinkButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 .label-container {
