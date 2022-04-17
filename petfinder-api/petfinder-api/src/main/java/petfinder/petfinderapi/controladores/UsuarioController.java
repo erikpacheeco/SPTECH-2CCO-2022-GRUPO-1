@@ -16,10 +16,10 @@ public class UsuarioController {
 
     @PostMapping
     public String addUsuario(@RequestBody Usuario novoUsuario){
-        if(novoUsuario.validar()){
-            usuarios.add(novoUsuario);
-            return "Novo Usuario cadastrado(a) com sucesso!";
-        }
+        // if(novoUsuario.validar()){
+        //     usuarios.add(novoUsuario);
+        //     return "Novo Usuario cadastrado(a) com sucesso!";
+        // }
         return "Dados Incorretos, por favor verifique e tente novamente";
     }
 

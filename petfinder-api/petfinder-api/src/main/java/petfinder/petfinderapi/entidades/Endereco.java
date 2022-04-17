@@ -1,50 +1,78 @@
 package petfinder.petfinderapi.entidades;
 
-import java.util.Objects;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-public class Endereco implements Validavel{
+@Entity
+public class Endereco {
+
+    // atributos
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @NotNull
+    @NotEmpty
     private String rua;
-    private String numero;
+
+    @NotNull
+    @NotEmpty
+    private String num;
+
     private String complemento;
+
+    @NotNull
+    @NotEmpty
     private String bairro;
+
+    @NotNull
+    @NotEmpty
     private String cidade;
-    private String estado;
+
+    @NotNull
+    @NotEmpty
+    private String uf;
+
+    @NotNull
+    @NotEmpty
+    @Size(max = 8, min = 8, message = "Informe somente os números")
     private String cep;
 
-    public Endereco(String rua,
-                    String numero,
-                    String complemento,
-                    String bairro,
-                    String cidade,
-                    String estado,
-                    String cep) {
-        this.rua = rua;
-        this.numero = numero;
-        this.complemento = complemento;
-        this.bairro = bairro;
-        this.cidade = cidade;
-        this.estado = estado;
-        this.cep = cep;
-    }
+    private String latitude;
+    private String longitude;
+
 //    METODOS
 
-    public Boolean validar(){
+    // @Deprecated
+    // public Boolean validar(){
 
-        Boolean boolRua = Objects.isNull(this.rua) || this.rua.isEmpty() || this.rua.isBlank();
-        Boolean boolNum = Objects.isNull(this.numero) || this.numero.isEmpty() || this.numero.isBlank();
-        Boolean boolBairro = Objects.isNull(this.bairro) || this.bairro.isEmpty() || this.bairro.isBlank();
-        Boolean boolCidade = Objects.isNull(this.cidade) || this.cidade.isEmpty() || this.cidade.isBlank();
-        Boolean boolEstado = Objects.isNull(this.estado) || this.estado.isEmpty() || this.estado.isBlank();
-        Boolean boolCep = Objects.isNull(this.cep) || this.cep.isEmpty() || this.cep.isBlank();
+    //     Boolean boolRua = Objects.isNull(this.rua) || this.rua.isEmpty() || this.rua.isBlank();
+    //     Boolean boolNum = Objects.isNull(this.num) || this.num.isEmpty() || this.num.isBlank();
+    //     Boolean boolBairro = Objects.isNull(this.bairro) || this.bairro.isEmpty() || this.bairro.isBlank();
+    //     Boolean boolCidade = Objects.isNull(this.cidade) || this.cidade.isEmpty() || this.cidade.isBlank();
+    //     Boolean boolUf = Objects.isNull(this.uf) || this.uf.isEmpty() || this.uf.isBlank();
+    //     Boolean boolCep = Objects.isNull(this.cep) || this.cep.isEmpty() || this.cep.isBlank();
 
-        if(!(boolRua || boolNum || boolBairro || boolCidade || boolEstado || boolCep)){
-            return true;
-        }
-        return false;
-    }
+    //     if(!(boolRua || boolNum || boolBairro || boolCidade || boolUf || boolCep)){
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
 
 //    GETTERS E SETTERS
+
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getRua() {
         return rua;
@@ -53,11 +81,11 @@ public class Endereco implements Validavel{
         this.rua = rua;
     }
 
-    public String getNumero() {
-        return numero;
+    public String getNum() {
+        return num;
     }
-    public void setNumero(String numero) {
-        this.numero = numero;
+    public void setNum(String num) {
+        this.num = num;
     }
 
     public String getComplemento() {
@@ -81,11 +109,11 @@ public class Endereco implements Validavel{
         this.cidade = cidade;
     }
 
-    public String getEstado() {
-        return estado;
+    public String getUf() {
+        return uf;
     }
-    public void setEstado(String estado) {
-        this.estado = estado;
+    public void setUf(String uf) {
+        this.uf = uf;
     }
 
     public String getCep() {
@@ -95,15 +123,29 @@ public class Endereco implements Validavel{
         this.cep = cep;
     }
 
+    public String getLatitude() {
+        return latitude;
+    }
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
     @Override
     public String toString() {
         return "Endereco{" +
                 "rua='" + rua + '\'' +
-                ", numero='" + numero + '\'' +
+                ", num='" + num + '\'' +
                 ", complemento='" + complemento + '\'' +
                 ", bairro='" + bairro + '\'' +
                 ", cidade='" + cidade + '\'' +
-                ", estado='" + estado + '\'' +
+                ", uf='" + uf + '\'' +
                 ", cep='" + cep + '\'' +
                 '}';
     }
