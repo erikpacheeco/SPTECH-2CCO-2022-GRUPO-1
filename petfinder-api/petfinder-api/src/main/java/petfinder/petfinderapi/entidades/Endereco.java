@@ -46,23 +46,21 @@ public class Endereco {
     private String latitude;
     private String longitude;
 
+
 //    METODOS
 
-    // @Deprecated
-    // public Boolean validar(){
-
-    //     Boolean boolRua = Objects.isNull(this.rua) || this.rua.isEmpty() || this.rua.isBlank();
-    //     Boolean boolNum = Objects.isNull(this.num) || this.num.isEmpty() || this.num.isBlank();
-    //     Boolean boolBairro = Objects.isNull(this.bairro) || this.bairro.isEmpty() || this.bairro.isBlank();
-    //     Boolean boolCidade = Objects.isNull(this.cidade) || this.cidade.isEmpty() || this.cidade.isBlank();
-    //     Boolean boolUf = Objects.isNull(this.uf) || this.uf.isEmpty() || this.uf.isBlank();
-    //     Boolean boolCep = Objects.isNull(this.cep) || this.cep.isEmpty() || this.cep.isBlank();
-
-    //     if(!(boolRua || boolNum || boolBairro || boolCidade || boolUf || boolCep)){
-    //         return true;
-    //     }
-    //     return false;
-    // }
+    @Override
+    public String toString() {
+        return "Endereco{" +
+                "rua='" + rua + '\'' +
+                ", num='" + num + '\'' +
+                ", complemento='" + complemento + '\'' +
+                ", bairro='" + bairro + '\'' +
+                ", cidade='" + cidade + '\'' +
+                ", uf='" + uf + '\'' +
+                ", cep='" + cep + '\'' +
+                '}';
+    }
 
 
 //    GETTERS E SETTERS
@@ -135,18 +133,5 @@ public class Endereco {
     }
     public void setLongitude(String longitude) {
         this.longitude = longitude;
-    }
-
-    @Override
-    public String toString() {
-        return "Endereco{" +
-                "rua='" + rua + '\'' +
-                ", num='" + num + '\'' +
-                ", complemento='" + complemento + '\'' +
-                ", bairro='" + bairro + '\'' +
-                ", cidade='" + cidade + '\'' +
-                ", uf='" + uf + '\'' +
-                ", cep='" + cep + '\'' +
-                '}';
     }
 }

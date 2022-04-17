@@ -1,7 +1,4 @@
 package petfinder.petfinderapi.entidades;
-
-import java.util.Objects;
-
 public class Usuario extends Pessoa {
 
     public Usuario(String nome, String email, String senha, Endereco endereco) {

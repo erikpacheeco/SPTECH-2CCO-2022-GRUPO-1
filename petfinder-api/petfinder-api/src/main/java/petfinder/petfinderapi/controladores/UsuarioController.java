@@ -1,7 +1,6 @@
 package petfinder.petfinderapi.controladores;
 
 import org.springframework.web.bind.annotation.*;
-import petfinder.petfinderapi.entidades.Colaborador;
 import petfinder.petfinderapi.entidades.Pet;
 import petfinder.petfinderapi.entidades.Usuario;
 
