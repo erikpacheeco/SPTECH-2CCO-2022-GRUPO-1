@@ -14,4 +14,4 @@ VALUES
 INSERT INTO
 usuario(nome, email, senha, nivel_acesso, fk_endereco, fk_instituicao)
 VALUES
-('Rafaela', 'rafaamanciosoares@gmail.com', 'rafa123', null, 1, 1);
+('Rafaela', 'rafaamanciosoares@gmail.com', 'rafa123', 'ADMIN', 1, 1);

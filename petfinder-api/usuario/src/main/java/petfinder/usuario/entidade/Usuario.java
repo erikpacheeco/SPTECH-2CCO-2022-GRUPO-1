@@ -25,7 +25,7 @@ public class Usuario {
     @NotBlank
     private String senha;
 
-    private EnumUsuarioNivelAcesso nivelAcesso;
+    private String nivelAcesso;
 
     @NotNull
     @NotBlank
@@ -63,10 +63,10 @@ public class Usuario {
         this.senha = senha;
     }
 
-    public EnumUsuarioNivelAcesso getNivelAcesso() {
+    public String getNivelAcesso() {
         return nivelAcesso;
     }
-    public void setNivelAcesso(EnumUsuarioNivelAcesso nivelAcesso) {
+    public void setNivelAcesso(String nivelAcesso) {
         this.nivelAcesso = nivelAcesso;
     }
 

@@ -10,7 +10,6 @@ import petfinder.usuario.repositorio.EnderecoRepository;
 import petfinder.usuario.repositorio.UsuarioHasInteresseRepository;
 import petfinder.usuario.repositorio.UsuarioRepository;
 
-import javax.persistence.Id;
 import java.util.Collections;
 import java.util.List;
 
@@ -30,17 +29,21 @@ public class UsuarioController {
     @Autowired
     private UsuarioHasInteresseRepository usuarioHasInteresseRepository;
 
-    // falta caso não haja usuario cadastrado
     @GetMapping
     public ResponseEntity getUsuario() {
         List<Usuario> listaUsuario = usuarioRepository.findAll();
+        if (listaUsuario.isEmpty()) {
+            return ResponseEntity.status(204).build();
+        }
         return ResponseEntity.status(200).body(listaUsuario);
     }
 
-    // falta caso não ache o usuario
     @GetMapping("/{id}")
     public ResponseEntity getUsuarioById(@PathVariable int id) {
         List<Usuario> listaUsuario = usuarioRepository.findAllById(Collections.singleton(id));
+        if (!usuarioRepository.existsById(id)) {
+            return ResponseEntity.status(400).build();
+        }
         return ResponseEntity.status(200).body(listaUsuario);
     }
 
@@ -52,26 +55,40 @@ public class UsuarioController {
 
     @PutMapping("/{id}")
     public ResponseEntity updateUsuario(@PathVariable int id, @RequestBody Usuario novoUsuario) {
-        return null;
+        if (usuarioRepository.existsById(id)) {
+            usuarioRepository.save(novoUsuario);
+            return ResponseEntity.status(200).build();
+        }
+        return ResponseEntity.status(404).build();
     }
 
-    // falta caso não ache o id
     @DeleteMapping("/{id}")
     public ResponseEntity deleteUsuario(@PathVariable int id) {
-        usuarioRepository.deleteById(id);
-        return ResponseEntity.status(200).build();
+        if (usuarioRepository.existsById(id)) {
+            usuarioRepository.deleteById(id);
+            return ResponseEntity.status(200).build();
+        } else {
+            return ResponseEntity.status(404).build();
+        }
     }
 
-    @PostMapping("/autenticar")
+    // não estava sinalizado o tipo de metodo na arquitetura, deve ter um atributo autenticado??
+    @GetMapping("/autenticar")
     public ResponseEntity autenticar(@PathVariable String email, @PathVariable String senha) {
-        //List<Usuario> listaUsuario = usuarioRepository.findByEmailAndSenha(email, senha);
-        //return ResponseEntity.status(200).body(listaUsuario);
-        return null;
+        List<Usuario> listaUsuario = usuarioRepository.findByEmailESenha(email, senha);
+        if (listaUsuario.isEmpty()) {
+            return ResponseEntity.status(404).build();
+        }
+        return ResponseEntity.status(200).body(listaUsuario);
     }
 
-    @GetMapping("/acesso")
-    public ResponseEntity getUsuarioByNivelAcesso(@PathVariable int Instituicao, @PathVariable EnumUsuarioNivelAcesso enumNivelAcesso) {
-        return null;
+    @GetMapping("/acesso/{fkInstituicao}/{enumNivelAcesso}")
+    public ResponseEntity getUsuarioByNivelAcesso(@PathVariable int fkInstituicao, @PathVariable EnumUsuarioNivelAcesso enumNivelAcesso) {
+        List<Usuario> listaUsuario = usuarioRepository.findByNivelAcesso(fkInstituicao, enumNivelAcesso.name());
+        if (listaUsuario.isEmpty()) {
+            return ResponseEntity.status(404).build();
+        }
+        return ResponseEntity.status(200).body(listaUsuario);
     }
 
 }
