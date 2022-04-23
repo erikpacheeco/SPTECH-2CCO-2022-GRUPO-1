@@ -1,6 +1,5 @@
 package petfinder.petfinderapi.controladores;
 
-import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,12 +8,10 @@ import petfinder.petfinderapi.entidades.Instituicao;
 import petfinder.petfinderapi.repositorios.EnderecoRepositorio;
 import petfinder.petfinderapi.repositorios.InstituicaoRepositorio;
 import petfinder.petfinderapi.resposta.InstituicaoEndereco;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-
 import javax.validation.Valid;
 
 @RestController
@@ -51,19 +48,28 @@ public class InsitituicoesController {
     @GetMapping("/completa")
     public ResponseEntity<List<InstituicaoEndereco>> getInstituicaoEndereco() {
 
+        // entidades
         List<Instituicao> instituicoes = instituicaoRepositorio.findAll();
         List<InstituicaoEndereco> instituicaoEnderecos = new ArrayList<InstituicaoEndereco>();
 
+        // atribuindo endereco de cada instituicao
         instituicoes.stream().forEach(instituicao -> {
-            Endereco endereco = enderecoRepositorio.findById(instituicao.getFkEndereco()).get();
+            Endereco endereco = null;
+
+            if (Objects.nonNull(instituicao.getFkEndereco())) {
+                endereco = enderecoRepositorio.findById(instituicao.getFkEndereco()).get();
+            } 
+
             InstituicaoEndereco instituicaoEndereco = new InstituicaoEndereco(instituicao, endereco);
             instituicaoEnderecos.add(instituicaoEndereco);
         });
 
+        // bad request
         if (instituicaoEnderecos.isEmpty()) {
             return ResponseEntity.status(200).body(instituicaoEnderecos);
         }
         
+        // status ok
         return ResponseEntity.status(200).body(instituicaoEnderecos);
     }
 
@@ -190,32 +196,4 @@ public class InsitituicoesController {
 
         return ResponseEntity.status(400).build();
     }
-
-    // ======================================================================
-    // OLD CODE
-    // ======================================================================
-
-    // @PostMapping("/colab/{indiceInst}/{indiceColab}")
-    // public String assocColaborador(@PathVariable int indiceInst,@PathVariable int indiceColab){
-    //     if(!(instituicoes.size() <= indiceInst)){
-    //         if(!(ColaboradoresController.colaboradores.size() <= indiceColab)){
-    //             ColaboradoresController.colaboradores.get(indiceColab).setInstituicao(instituicoes.get(indiceInst));
-    //             return "Colaborador associado com sucesso";
-    //         }
-    //         return "Código de colaborador não existente";
-    //     }
-    //     return "Código de instituição não existente";
-    // }
-
-    // @PostMapping("/pet/{indiceInst}/{indicePet}")
-    // public String assocPet(@PathVariable int indiceInst,@PathVariable int indicePet){
-    //     if(!(instituicoes.size() <= indiceInst)) {
-    //         if (!(PetsController.pets.size() <= indicePet)) {
-    //             PetsController.pets.get(indicePet).setInstituicao(instituicoes.get(indiceInst));
-    //             return "Pet associado com sucesso";
-    //         }
-    //         return "Código de Pet não existente";
-    //     }
-    //     return "Código de instituição não existente";
-    // }
 }
