@@ -14,3 +14,10 @@ VALUES
 ('instituicao B', '11 92222-2222', 'sdhflaksdfnsdfas', null, 2),
 ('instituicao C', '11 93333-3333', 'sdofihasldkfjans', null, 3),
 ('instituicao D', '11 93333-3333', 'sdofihasldkfjans', null, null);
+
+
+-- Demanda
+--INSERT INTO
+--demanda(categoria, data_abertura, data_fechamento, status, fk_usuario, fk_instituicao, fk_pet)
+--VALUES
+--('ADOÇÃO', now(), now(), 'ABERTO', null, null, null);
