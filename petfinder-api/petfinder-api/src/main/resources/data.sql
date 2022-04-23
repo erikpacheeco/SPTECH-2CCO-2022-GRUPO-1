@@ -21,3 +21,11 @@ VALUES
 --demanda(categoria, data_abertura, data_fechamento, status, fk_usuario, fk_instituicao, fk_pet)
 --VALUES
 --('ADOÇÃO', now(), now(), 'ABERTO', null, null, null);
+
+
+-- usuiario 
+INSERT INTO 
+usuario(nome)
+VALUES
+('erik pacheco'),
+('lucas mesquita');
