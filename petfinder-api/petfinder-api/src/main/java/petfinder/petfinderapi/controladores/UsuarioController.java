@@ -22,7 +22,7 @@ public class UsuarioController {
         return "Dados Incorretos, por favor verifique e tente novamente";
     }
 
-    @GetMapping("/p/{porte}")
+    @GetMapping("/porte/{porte}")
     public List<Pet> procurarPorPorte(@PathVariable String porte){
         List<Pet> petsPorte = new ArrayList<>();
         for(Pet pet : PetsController.pets){
@@ -33,7 +33,7 @@ public class UsuarioController {
         return petsPorte;
     }
 
-    @GetMapping("/r/{raca}")
+    @GetMapping("/raca/{raca}")
     public List<Pet> procurarPorRaca(@PathVariable String raca){
         List<Pet> petsRaca = new ArrayList<>();
         for(Pet pet : PetsController.pets){
@@ -44,18 +44,18 @@ public class UsuarioController {
         return petsRaca;
     }
 
-    @GetMapping("/t/{tipo}")
+    @GetMapping("/tipo/{tipo}")
     public List<Pet> procurarPorTipo(@PathVariable String tipo){
         List<Pet> petsTipo = new ArrayList<>();
         for(Pet pet : PetsController.pets){
-            if(pet.getTipo().equalsIgnoreCase(tipo)){
+            if(pet.getEspecie().equalsIgnoreCase(tipo)){
                 petsTipo.add(pet);
             }
         }
         return petsTipo;
     }
 
-    @GetMapping("/s/{sexo}")
+    @GetMapping("/sexo/{sexo}")
     public List<Pet> procurarPorSexo(@PathVariable String sexo){
         List<Pet> petsSexo = new ArrayList<>();
         for(Pet pet : PetsController.pets){
