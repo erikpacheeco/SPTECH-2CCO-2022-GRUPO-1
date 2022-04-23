@@ -1,40 +1,67 @@
 package petfinder.petfinderapi.entidades;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
+    @Entity
 public class Pet implements Validavel{
+
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private String nome;
-    private String tipo;
+    private String dataNasc;
+    private String especie;
     private String raca;
     private String porte;
     private String sexo;
+    private String descricao;
     private Boolean emAdocao = false;
-    private Instituicao instituicao;
+    private int fkInstituicao;
 
-    public Pet(String nome, String tipo, String raca, String porte, String sexo) {
+    public Pet(String nome, String dataNasc, String especie, String raca, String porte, String sexo, String descricao, Boolean emAdocao, int instituicao) {
         this.nome = nome;
-        this.tipo = tipo;
+        this.dataNasc = dataNasc;
+        this.especie = especie;
         this.raca = raca;
         this.porte = porte;
         this.sexo = sexo;
+        this.descricao = descricao;
+        this.emAdocao = emAdocao;
+        this.fkInstituicao = instituicao;
     }
+
     //    MÉTODOS
 
     @Override
     public Boolean validar() {
         Boolean boolNome = Objects.isNull(this.nome) || this.nome.isEmpty() || this.nome.isBlank();
-        Boolean boolTipo = Objects.isNull(this.tipo) || this.tipo.isEmpty() || this.tipo.isBlank();
+        Boolean boolNasc = Objects.isNull(this.dataNasc) || this.dataNasc.isEmpty() || this.dataNasc.isBlank();
+        Boolean boolTipo = Objects.isNull(this.especie) || this.especie.isEmpty() || this.especie.isBlank();
         Boolean boolRaca = Objects.isNull(this.raca) || this.raca.isEmpty() || this.raca.isBlank();
         Boolean boolPorte = Objects.isNull(this.porte) || this.porte.isEmpty() || this.porte.isBlank();
         Boolean boolSexo = Objects.isNull(this.sexo) || this.sexo.isEmpty() || this.sexo.isBlank();
 
-        if(!(boolNome || boolTipo || boolRaca || boolPorte || boolSexo)){
+        if(!(boolNome || boolTipo || boolRaca || boolPorte || boolSexo || boolNasc)){
             return true;
         }
         return false;
     }
 
     //    GETTERS E SETTERS
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getNome() {
         return nome;
@@ -43,11 +70,28 @@ public class Pet implements Validavel{
         this.nome = nome;
     }
 
-    public String getTipo() {
-        return tipo;
+    public String getEspecie() {
+        return especie;
     }
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+
+    public void setEspecie(String especie) {
+        this.especie = especie;
+    }
+
+    public String getDataNasc() {
+        return dataNasc;
+    }
+
+    public void setDataNasc(String dataNasc) {
+        this.dataNasc = dataNasc;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public String getRaca() {
@@ -78,11 +122,11 @@ public class Pet implements Validavel{
         this.emAdocao = adotado;
     }
 
-    public Instituicao getInstituicao() {
-        return instituicao;
-    }
-    public void setInstituicao(Instituicao instituicao) {
-        this.instituicao = instituicao;
-    }
+        public int getFkInstituicao() {
+            return fkInstituicao;
+        }
 
-}
+        public void setFkInstituicao(int fkInstituicao) {
+            this.fkInstituicao = fkInstituicao;
+        }
+    }

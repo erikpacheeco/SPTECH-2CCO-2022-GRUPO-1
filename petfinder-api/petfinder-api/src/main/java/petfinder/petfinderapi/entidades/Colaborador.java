@@ -4,11 +4,11 @@ import java.util.Objects;
 
 public class Colaborador extends Pessoa {
 
-    private Instituicao instituicao;
+    private int fkInstituicao;
 
-    public Colaborador(String nome, String email, String senha, TodosCargo cargo, Instituicao instituicao) {
+    public Colaborador(String nome, String email, String senha, TodosCargo cargo, int instituicao) {
         super(nome, email, senha, cargo);
-        this.instituicao = instituicao;
+        this.fkInstituicao = instituicao;
     }
 
     //    MÉTODOS
@@ -28,11 +28,12 @@ public class Colaborador extends Pessoa {
 
     //    GETTERS E SETTERS
 
-    public Instituicao getInstituicao() {
-        return instituicao;
-    }
-    public void setInstituicao(Instituicao instituicao) {
-        this.instituicao = instituicao;
+
+    public int getFkInstituicao() {
+        return fkInstituicao;
     }
 
+    public void setFkInstituicao(int fkInstituicao) {
+        this.fkInstituicao = fkInstituicao;
+    }
 }

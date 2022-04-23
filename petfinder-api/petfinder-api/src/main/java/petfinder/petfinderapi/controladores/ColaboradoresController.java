@@ -30,7 +30,7 @@ public class ColaboradoresController {
     @PostMapping("/{indiceColab}")
     public String addPet(@RequestBody Pet novoPet, @PathVariable int indiceColab){
         if(novoPet.validar()){
-            novoPet.setInstituicao(colaboradores.get(indiceColab).getInstituicao());
+            novoPet.setFkInstituicao(colaboradores.get(indiceColab).getFkInstituicao());
             PetsController.pets.add(novoPet);
             return "Pet cadastrado com sucesso!";
         }
@@ -41,7 +41,7 @@ public class ColaboradoresController {
     public String validarAdocao(@PathVariable int indicePet,@PathVariable int indiceColab){
         if(!(PetsController.pets.size() <= indicePet)){
             if(!(colaboradores.size() <= indiceColab)){
-                if(PetsController.pets.get(indicePet).getInstituicao().equals(colaboradores.get(indiceColab).getInstituicao())){
+                if(PetsController.pets.get(indicePet).getFkInstituicao() == colaboradores.get(indiceColab).getFkInstituicao()){
                     if (PetsController.pets.get(indicePet).isEmAdocao().equals(true)) {
                         PetsController.pets.remove(indicePet);
                         return "Pet adotado com sucesso, suas informações foram alteradas e tirados da lista";
@@ -61,8 +61,8 @@ public class ColaboradoresController {
     {
         if(!(PetsController.pets.size() <= indicePet)){
             if(!(colaboradores.size() <= indiceColab)){
-                if(colaboradores.get(indiceColab).getInstituicao().equals(PetsController.pets.get(indicePet).getInstituicao())){
-                    petAtualizado.setInstituicao(PetsController.pets.get(indicePet).getInstituicao());
+                if(colaboradores.get(indiceColab).getFkInstituicao() == (PetsController.pets.get(indicePet).getFkInstituicao())){
+                    petAtualizado.setFkInstituicao((PetsController.pets.get(indicePet).getFkInstituicao()));
                     petAtualizado.setEstadoAdocao(PetsController.pets.get(indicePet).isEmAdocao());
                     PetsController.pets.set(indicePet, petAtualizado);
                     return "O pet foi atualizado com sucesso!";
