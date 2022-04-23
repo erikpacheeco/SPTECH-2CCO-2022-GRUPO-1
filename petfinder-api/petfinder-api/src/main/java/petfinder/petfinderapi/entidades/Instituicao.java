@@ -33,14 +33,16 @@ public class Instituicao {
 
     private String termoAdocao;
 
-    @OneToOne
-    @JoinColumn(name = "endereco", referencedColumnName = "id")
-    private Endereco endereco;
+    // @OneToOne
+    // @JoinColumn(name = "endereco", referencedColumnName = "id")
+    // private Endereco endereco;
+
+    private Integer fkEndereco;
 
     // MÉTODOS
     @Override
     public String toString() {
-        return "Instituicao [chavePix=" + chavePix + ", endereco=" + endereco + ", id=" + id + ", nome=" + nome
+        return "Instituicao [chavePix=" + chavePix + ", endereco=" + fkEndereco + ", id=" + id + ", nome=" + nome
                 + ", telefone=" + telefone + ", termoAdocao=" + termoAdocao + "]";
     }
     
@@ -76,10 +78,16 @@ public class Instituicao {
     public void setTermoAdocao(String termoAdocao) {
         this.termoAdocao = termoAdocao;
     }
-    public Endereco getEndereco() {
-        return endereco;
+    // public Endereco getEndereco() {
+    //     return endereco;
+    // }
+    // public void setEndereco(Endereco endereco) {
+    //     this.endereco = endereco;
+    // }
+    public Integer getFkEndereco() {
+        return this.fkEndereco;
     }
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
+    public void setFkEndereco(Integer fkEndereco) {
+        this.fkEndereco = fkEndereco;
     }
 }

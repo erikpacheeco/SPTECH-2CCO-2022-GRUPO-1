@@ -1,5 +1,6 @@
 package petfinder.petfinderapi.controladores;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -7,6 +8,9 @@ import petfinder.petfinderapi.entidades.Endereco;
 import petfinder.petfinderapi.entidades.Instituicao;
 import petfinder.petfinderapi.repositorios.EnderecoRepositorio;
 import petfinder.petfinderapi.repositorios.InstituicaoRepositorio;
+import petfinder.petfinderapi.resposta.InstituicaoEndereco;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -21,10 +25,10 @@ public class InsitituicoesController {
 
     // endereco
     @Autowired
-    private EnderecoRepositorio enderecoRepository;
+    private EnderecoRepositorio enderecoRepositorio;
 
     @Autowired
-    private InstituicaoRepositorio instituicaoRepository;
+    private InstituicaoRepositorio instituicaoRepositorio;
 
     // =================================================================================
     // CONTROLE INSTITUIÇÃO
@@ -34,7 +38,7 @@ public class InsitituicoesController {
     @GetMapping
     public ResponseEntity<List<Instituicao>> listarInstituicoes(){
 
-        List<Instituicao> instituicoes = instituicaoRepository.findAll();
+        List<Instituicao> instituicoes = instituicaoRepositorio.findAll();
 
         if(instituicoes.isEmpty()) {
             return ResponseEntity.status(204).body(instituicoes);
@@ -43,11 +47,31 @@ public class InsitituicoesController {
         return ResponseEntity.status(200).body(instituicoes);
     }
 
+    // retorna instituições + seus endereços
+    @GetMapping("/completa")
+    public ResponseEntity<List<InstituicaoEndereco>> getInstituicaoEndereco() {
+
+        List<Instituicao> instituicoes = instituicaoRepositorio.findAll();
+        List<InstituicaoEndereco> instituicaoEnderecos = new ArrayList<InstituicaoEndereco>();
+
+        instituicoes.stream().forEach(instituicao -> {
+            Endereco endereco = enderecoRepositorio.findById(instituicao.getFkEndereco()).get();
+            InstituicaoEndereco instituicaoEndereco = new InstituicaoEndereco(instituicao, endereco);
+            instituicaoEnderecos.add(instituicaoEndereco);
+        });
+
+        if (instituicaoEnderecos.isEmpty()) {
+            return ResponseEntity.status(200).body(instituicaoEnderecos);
+        }
+        
+        return ResponseEntity.status(200).body(instituicaoEnderecos);
+    }
+
     // retorna instituicao baseada no ID
     @GetMapping("/{id}")
     public ResponseEntity<Instituicao> getInstituicaoById(@PathVariable int id) {
 
-        Optional<Instituicao> instituicao = instituicaoRepository.findById(id);
+        Optional<Instituicao> instituicao = instituicaoRepositorio.findById(id);
 
         if(instituicao.isPresent()) {
             return ResponseEntity.status(200).body(instituicao.get());
@@ -56,15 +80,47 @@ public class InsitituicoesController {
         return ResponseEntity.status(400).build();
     }
 
+    // retorna instituicao específica + seu Endereco
+    @GetMapping("/{id}/completa")
+    public ResponseEntity<InstituicaoEndereco> getInstituicaoEnderecoById(@PathVariable int id) {
+
+        // dados do banco
+        Optional<Instituicao> instituicao = instituicaoRepositorio.findById(id);
+        Optional<Endereco> endereco = null;
+        InstituicaoEndereco instituicaoEndereco;
+
+        // verificando existencia da instituição
+        if (instituicao.isPresent()) {
+
+            Integer fkEndereco = instituicao.get().getFkEndereco();
+
+            // verificando existencia do endereço da instituição
+            if (Objects.nonNull(fkEndereco)) {
+                endereco = enderecoRepositorio.findById(instituicao.get().getFkEndereco());
+            } 
+
+            instituicaoEndereco = new InstituicaoEndereco(
+                instituicao.get(), 
+                Objects.nonNull(endereco) ? endereco.get() : null
+            );
+
+            // response
+            return ResponseEntity.status(200).body(instituicaoEndereco);
+        }
+        
+        // response
+        return ResponseEntity.status(404).build();
+    }
+
     // cadastra instituicao
     @PostMapping
-    public ResponseEntity<Object> addInstituicao(@RequestBody @Valid Instituicao instituicao){
+    public ResponseEntity<Object> postInstituicao(@RequestBody @Valid Instituicao instituicao){
 
-        if(Objects.nonNull(instituicao) && Objects.nonNull(instituicao.getEndereco())) {
+        if(Objects.nonNull(instituicao)) {
 
             // adicionando endereco + instituicao
-            enderecoRepository.save(instituicao.getEndereco());
-            instituicaoRepository.save(instituicao);
+            // enderecoRepositorio.save(instituicao.getEndereco());
+            instituicaoRepositorio.save(instituicao);
 
             return ResponseEntity.status(201).build();
         }
@@ -75,15 +131,15 @@ public class InsitituicoesController {
     // edita dados da instituicao
     @PutMapping("/{indice}")
     public ResponseEntity<Object> putInstituicao(@RequestBody @Valid Instituicao instituicaoAtualizada, @PathVariable int indice){
-        if(instituicaoRepository.existsById(indice)){
+        if(instituicaoRepositorio.existsById(indice)){
             instituicaoAtualizada.setId(indice);
-            instituicaoRepository.save(instituicaoAtualizada);
+            instituicaoRepositorio.save(instituicaoAtualizada);
             return ResponseEntity.status(200).build();
         }
         return ResponseEntity.status(400).build();
     }
 
-     // =================================================================================
+    // =================================================================================
     // CONTROLE ENDEREÇO
     // =================================================================================
 
@@ -91,7 +147,7 @@ public class InsitituicoesController {
     @GetMapping("/endereco")
     public ResponseEntity<List<Endereco>> getAllEndereco() {
 
-        List<Endereco> enderecos = enderecoRepository.findAll();
+        List<Endereco> enderecos = enderecoRepositorio.findAll();
 
         if (enderecos.isEmpty()) {
             return ResponseEntity.status(204).body(enderecos);
@@ -103,7 +159,7 @@ public class InsitituicoesController {
     // retorna endereco específico
     @GetMapping("/endereco/{id}")
     public ResponseEntity<Endereco> getEndereco(@PathVariable int id) {
-        Optional<Endereco> endereco = enderecoRepository.findById(id);
+        Optional<Endereco> endereco = enderecoRepositorio.findById(id);
 
         if(endereco.isPresent()) {
             return ResponseEntity.status(200).body(endereco.get());
@@ -116,7 +172,7 @@ public class InsitituicoesController {
     @PostMapping("/endereco")
     public ResponseEntity<Object> postEndereco(@RequestBody @Valid Endereco endereco) {
         if (Objects.nonNull(endereco)) {
-            enderecoRepository.save(endereco);
+            enderecoRepositorio.save(endereco);
             return ResponseEntity.status(201).build();
         } else {
             return ResponseEntity.status(400).build();
@@ -126,9 +182,9 @@ public class InsitituicoesController {
     // edita um endereco especifico
     @PutMapping("/endereco/{id}")
     public ResponseEntity<Object> putEndereco(@RequestBody @Valid Endereco endereco, @PathVariable int id) {
-        if (enderecoRepository.findById(id).isPresent()) {
+        if (enderecoRepositorio.findById(id).isPresent()) {
             endereco.setId(id);
-            enderecoRepository.save(endereco);
+            enderecoRepositorio.save(endereco);
             return ResponseEntity.status(200).build();
         }
 
