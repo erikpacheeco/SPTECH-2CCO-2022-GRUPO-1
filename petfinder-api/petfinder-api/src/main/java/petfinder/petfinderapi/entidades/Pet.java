@@ -23,18 +23,6 @@ public class Pet implements Validavel{
     private Boolean emAdocao = false;
     private int fkInstituicao;
 
-    public Pet(String nome, String dataNasc, String especie, String raca, String porte, String sexo, String descricao, Boolean emAdocao, int instituicao) {
-        this.nome = nome;
-        this.dataNasc = dataNasc;
-        this.especie = especie;
-        this.raca = raca;
-        this.porte = porte;
-        this.sexo = sexo;
-        this.descricao = descricao;
-        this.emAdocao = emAdocao;
-        this.fkInstituicao = instituicao;
-    }
-
     //    MÉTODOS
 
     @Override
