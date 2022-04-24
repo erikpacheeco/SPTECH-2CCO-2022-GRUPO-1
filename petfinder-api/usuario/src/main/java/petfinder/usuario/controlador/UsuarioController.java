@@ -9,9 +9,12 @@ import petfinder.usuario.repositorio.CaracteristicaRepository;
 import petfinder.usuario.repositorio.EnderecoRepository;
 import petfinder.usuario.repositorio.UsuarioHasInteresseRepository;
 import petfinder.usuario.repositorio.UsuarioRepository;
+import petfinder.usuario.requisicao.UsuarioLogin;
 
+import javax.validation.Valid;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -47,10 +50,12 @@ public class UsuarioController {
         return ResponseEntity.status(200).body(listaUsuario);
     }
 
-    // revisar
     @PostMapping
-    public ResponseEntity postUsuario(@RequestBody Usuario novoUsuario) {
-        return ResponseEntity.status(200).body(usuarioRepository.save(novoUsuario));
+    public ResponseEntity postUsuario(@RequestBody @Valid Usuario novoUsuario) {
+        if (Objects.isNull(novoUsuario)) {
+            return ResponseEntity.status(400).build();
+        }
+        return ResponseEntity.status(201).body(usuarioRepository.save(novoUsuario));
     }
 
     @PutMapping("/{id}")
@@ -72,12 +77,11 @@ public class UsuarioController {
         }
     }
 
-    // não estava sinalizado o tipo de metodo na arquitetura, deve ter um atributo autenticado??
-    @GetMapping("/autenticar")
-    public ResponseEntity autenticar(@PathVariable String email, @PathVariable String senha) {
-        List<Usuario> listaUsuario = usuarioRepository.findByEmailESenha(email, senha);
+    @PostMapping("/login")
+    public ResponseEntity login(@RequestBody @Valid UsuarioLogin usuarioLogin) {
+        List<Usuario> listaUsuario = usuarioRepository.findByEmailESenha(usuarioLogin.getEmail(), usuarioLogin.getSenha());
         if (listaUsuario.isEmpty()) {
-            return ResponseEntity.status(404).build();
+            return ResponseEntity.status(401).build();
         }
         return ResponseEntity.status(200).body(listaUsuario);
     }

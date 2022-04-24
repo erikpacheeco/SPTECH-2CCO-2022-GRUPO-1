@@ -28,11 +28,9 @@ public class Usuario {
     private String nivelAcesso;
 
     @NotNull
-    @NotBlank
     private int fkEndereco;
 
     @NotNull
-    @NotBlank
     private int fkInstituicao;
 
     public int getId() {
