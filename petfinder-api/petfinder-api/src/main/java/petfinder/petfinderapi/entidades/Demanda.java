@@ -74,7 +74,7 @@ public class Demanda {
     }
 
     public void setCategoria(String categoria) {
-        this.categoria = categoria;
+        this.categoria = categoria.toLowerCase();
     }
 
     public String getDataAbertura() {
@@ -98,7 +98,7 @@ public class Demanda {
     }
 
     public void setStatus(String status) {
-        this.status = status;
+        this.status = status.toLowerCase();
     }
 
     public int getFkUsuario() {

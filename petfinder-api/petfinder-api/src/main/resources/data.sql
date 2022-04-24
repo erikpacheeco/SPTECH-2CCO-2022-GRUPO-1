@@ -24,8 +24,19 @@ VALUES
 
 
 -- usuiario 
--- INSERT INTO 
--- usuario(nome)
--- VALUES
--- ('erik pacheco'),
--- ('lucas mesquita');
+INSERT INTO 
+usuario(nome, email, senha, nivel_acesso, fk_endereco, fk_instituicao)
+VALUES
+('lucas mesquita', 'lucas.msouza@bandtec.com', 'urubu100', 'sysadm', null, null),
+('Mylena Oliveira', 'myau@catdelivery.com', 'urubu200', 'adm', 1, 1),
+('Isabell', 'isa.bell@catdelivery.com', 'urubu200', 'petops', 1, 1),
+('Ana Maria', 'ana.maria@catdelivery.com', 'urubu200', 'chatops', 3, 1),
+('Kayo Fezz', 'kay.o@instb.com', 'urubu200', 'adm', 2, 2),
+('Sky Fernandez', 'sky.e@instb.com', 'urubu200', 'petops', 2, 2),
+('Peter Geferson', 'peter.g@instb.com', 'urubu200', 'chatops', 3, 2),
+('Reya', 'raya@instb.com', 'urubu200', 'chatops', 1, 2),
+('Breach', 'breach@gmail.com', 'urubu200', 'user', 1, null),
+('Reyna', 'reyna@gmail.com', 'urubu200', 'user', 3, null),
+('Cypher de Souza', 'cypher@gmail.com', 'urubu200', 'user', 2, null),
+('Yoru', 'yoru@gmail.com', 'urubu200', 'user', 2, null),
+('Sage', 'sage@gmail.com', 'urubu200', 'user', 1, null);

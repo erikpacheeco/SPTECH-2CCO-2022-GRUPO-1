@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class Usuario {
 
+    // atributos
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -26,72 +27,50 @@ public class Usuario {
     private String senha;
 
     private String nivelAcesso;
+    private Integer fkEndereco;
+    private Integer fkInstituicao;
 
-    @NotNull
-    private int fkEndereco;
-
-    @NotNull
-    private int fkInstituicao;
-
+    // getters e setters
     public int getId() {
         return id;
     }
     public void setId(int id) {
         this.id = id;
     }
-
     public String getNome() {
         return nome;
     }
     public void setNome(String nome) {
         this.nome = nome;
     }
-
     public String getEmail() {
         return email;
     }
     public void setEmail(String email) {
         this.email = email;
     }
-
     public String getSenha() {
         return senha;
     }
     public void setSenha(String senha) {
         this.senha = senha;
     }
-
     public String getNivelAcesso() {
         return nivelAcesso;
     }
     public void setNivelAcesso(String nivelAcesso) {
-        this.nivelAcesso = nivelAcesso;
+        this.nivelAcesso = nivelAcesso.toLowerCase();
     }
-
-    public int getFkEndereco() {
+    public Integer getFkEndereco() {
         return fkEndereco;
     }
-    public void setFkEndereco(int fkEndereco) {
+    public void setFkEndereco(Integer fkEndereco) {
         this.fkEndereco = fkEndereco;
     }
-
-    public int getFkInstituicao() {
+    public Integer getFkInstituicao() {
         return fkInstituicao;
     }
-    public void setFkInstituicao(int fkInstituicao) {
+    public void setFkInstituicao(Integer fkInstituicao) {
         this.fkInstituicao = fkInstituicao;
-    }
-
-    @Override
-    public String toString() {
-        return "Usuario{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", email='" + email + '\'' +
-                ", senha='" + senha + '\'' +
-                ", nivelAcesso=" + nivelAcesso +
-                ", fkEndereco=" + fkEndereco +
-                ", fkInstituicao=" + fkInstituicao +
-                '}';
     }
 }

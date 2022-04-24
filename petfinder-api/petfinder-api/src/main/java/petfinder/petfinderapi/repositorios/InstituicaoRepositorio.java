@@ -5,4 +5,6 @@ import petfinder.petfinderapi.entidades.Instituicao;
 
 public interface InstituicaoRepositorio extends JpaRepository<Instituicao, Integer>{
     
+    public Boolean existsById(int id);
+    
 }
