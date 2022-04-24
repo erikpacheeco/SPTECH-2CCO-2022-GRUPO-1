@@ -42,7 +42,17 @@ public class ListaObj<T>{
     public int buscaElemento(T elemento){
 
         for (int i = 0; i < nroElem; i++) {
-            if (elemento.equals(vetor[i])){
+            System.out.println("==============");
+            System.out.println(elemento);
+            System.out.println(vetor[i]);
+            System.out.println(((String) elemento).equalsIgnoreCase((String) vetor[i]));
+            if (elemento instanceof String){
+                String elementoStr = (String) elemento;
+                if (elementoStr.equalsIgnoreCase((String) vetor[i])){
+                    return i;
+                }
+            }
+            else if (elemento.equals(vetor[i])){
                 return i;
             }
         }

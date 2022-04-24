@@ -11,11 +11,12 @@ import petfinder.petfinderapi.requisicao.CriacaoDemanda;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/demanda")
+@RequestMapping("/demandas")
 public class DemandaController {
 
     @Autowired
@@ -25,16 +26,18 @@ public class DemandaController {
     private String[] listaStatus = {"ABERTO", "CONCLUIDO", "CANCELADO", "DOCUMENTO_VALIDO",
     "PGTO_REALIZADO_USER", "PGTO_REALIZADO_INST", "RESGATE_INVALIDO", "RESGATE_VALIDO"};
 
-    private ListaObj<String> categoria = new ListaObj<String>(listaCategoria);
-    private ListaObj<String> status = new ListaObj<String>(listaStatus);
+    private ListaObj<String> categoriasPossiveis = new ListaObj<String>(new String[]{"ADOCAO", "PAGAMENTO", "RESGATE"});
+    private ListaObj<String> statusPossiveis = new ListaObj<String>(new String[]{"ABERTO", "CONCLUIDO", "CANCELADO", "DOCUMENTO_VALIDO",
+            "PGTO_REALIZADO_USER", "PGTO_REALIZADO_INST", "RESGATE_INVALIDO", "RESGATE_VALIDO"});
 
     @PostMapping
     public ResponseEntity postDemanda(@RequestBody CriacaoDemanda novaDemanda){
         Demanda demanda = new Demanda(novaDemanda);
 
-        if (Objects.isNull(novaDemanda) || !categoria.verificaElemento(novaDemanda.getCategoria())){
+        if (Objects.isNull(novaDemanda) || !categoriasPossiveis.verificaElemento(novaDemanda.getCategoria())){
             return ResponseEntity.status(400).build();
         }
+        demanda.setCategoria(demanda.getCategoria());
         demandaRepositorio.save(demanda);
         return ResponseEntity.status(201).build();
     }
@@ -61,7 +64,7 @@ public class DemandaController {
             return ResponseEntity.status(204).build();
         }
         return  ResponseEntity.status(200).body(lista);
-    }
+    } /// Terminar este!!!!!!
 
     @GetMapping("/{id}")
     public ResponseEntity getDemandaById(@PathVariable int id){
@@ -73,8 +76,13 @@ public class DemandaController {
     }
 
     @PutMapping("/atualizar-demanda/{id}")
-    public ResponseEntity putDemanda(@PathVariable int id, @RequestBody @Valid Demanda demandaAtualizar){
+    public ResponseEntity patchDemanda(@PathVariable int id, @RequestBody @Valid Demanda demandaAtualizar){
         if (demandaRepositorio.existsById(id)){
+
+            if (Objects.isNull(demandaAtualizar) ||
+                    !categoriasPossiveis.verificaElemento(demandaAtualizar.getCategoria())){
+                return ResponseEntity.status(400).build();
+            }
             Demanda demanda = demandaRepositorio.getById(id);
 
             demanda.setCategoria(demandaAtualizar.getCategoria());
@@ -87,13 +95,15 @@ public class DemandaController {
         return ResponseEntity.status(404).build();
     }
 
-    @PatchMapping("/atualizar-status/{id}")
-    public ResponseEntity patchDemandaStatus(@PathVariable int id, @RequestBody EnumStatusDemanda statusAtualizar){
+    @PatchMapping("/atualizar-status/{id}/{status}")
+    public ResponseEntity patchDemandaStatus(@PathVariable int id, @PathVariable String statusAtualizar){
         if (demandaRepositorio.existsById(id)){
 
+            if (!statusPossiveis.verificaElemento(statusAtualizar)){
+                return ResponseEntity.status(400).build();
+            }
             Demanda demanda = demandaRepositorio.getById(id);
-
-//            demanda.setStatus(statusAtualizar);
+            demanda.setStatus(statusAtualizar.toLowerCase(Locale.ROOT));
             Demanda demandaAtulizada = demandaRepositorio.save(demanda);
             return ResponseEntity.status(200).build();
         }

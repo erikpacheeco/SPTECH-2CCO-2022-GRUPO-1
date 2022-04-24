@@ -9,4 +9,5 @@ public interface DemandaRepositorio extends JpaRepository<Demanda, Integer> {
 
     List<Demanda> findAllByFkUsuario(int id);
     List<Demanda> findAllByFkUsuarioAndStatus(int id, String demanda);
+    
 }

@@ -14,6 +14,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 @Entity
 public class Demanda {
@@ -23,11 +24,13 @@ public class Demanda {
     @NotNull
     private int id;
     @NotNull
+    @NotBlank
     private String categoria;
     @NotNull
     private String dataAbertura;
     private String dataFechamento;
     @NotNull
+    @NotBlank
     private String status;
     @NotNull
     private int fkUsuario;
@@ -36,10 +39,10 @@ public class Demanda {
 
     public Demanda( String categoria, String dataAbertura, String dataFechamento,
                    String status, int fkUsuario, Integer fkInstituicao, Integer fkPet) {
-        this.categoria = categoria;
+        this.categoria = categoria.toLowerCase(Locale.ROOT);
         this.dataAbertura = dataAbertura;
         this.dataFechamento = dataFechamento;
-        this.status = status;
+        this.status = status.toLowerCase(Locale.ROOT);
         this.fkUsuario = fkUsuario;
         this.fkInstituicao = fkInstituicao;
         this.fkPet = fkPet;
