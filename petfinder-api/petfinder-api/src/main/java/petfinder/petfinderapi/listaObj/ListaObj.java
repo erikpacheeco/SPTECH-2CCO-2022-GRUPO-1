@@ -54,7 +54,7 @@ public class ListaObj<T>{
         return -1;
     }
 
-    public boolean verificaElemento(T elemento){
+    public boolean elementoExiste(T elemento){
         if (buscaElemento(elemento) == -1){
             return false;
         }

@@ -15,15 +15,7 @@ VALUES
 ('instituicao C', '11 93333-3333', 'sdofihasldkfjans', null, 3),
 ('instituicao D', '11 93333-3333', 'sdofihasldkfjans', null, null);
 
-
--- Demanda
---INSERT INTO
---demanda(categoria, data_abertura, data_fechamento, status, fk_usuario, fk_instituicao, fk_pet)
---VALUES
---('ADOÇÃO', now(), now(), 'ABERTO', null, null, null);
-
-
--- usuiario 
+-- usuario 
 INSERT INTO 
 usuario(nome, email, senha, nivel_acesso, fk_endereco, fk_instituicao)
 VALUES
@@ -40,3 +32,11 @@ VALUES
 ('Cypher de Souza', 'cypher@gmail.com', 'urubu200', 'user', 2, null),
 ('Yoru', 'yoru@gmail.com', 'urubu200', 'user', 2, null),
 ('Sage', 'sage@gmail.com', 'urubu200', 'user', 1, null);
+
+-- Demanda
+INSERT INTO
+demanda(categoria, data_abertura, data_fechamento, status, fk_usuario, fk_instituicao, fk_pet)
+VALUES
+('pagamento', '2020/01/01', null, 'aberto', 9, 1, null),
+('adocao', '2020/01/01', null, 'aberto', 10, 1, null),
+('resgate', '2020/01/01', null, 'aberto', 9, 1, null);

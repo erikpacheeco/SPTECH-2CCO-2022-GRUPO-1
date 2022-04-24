@@ -1,7 +1,7 @@
 package petfinder.petfinderapi.entidades;
 
-import petfinder.petfinderapi.enums.EnumCategoria;
-import petfinder.petfinderapi.enums.EnumStatusDemanda;
+// import petfinder.petfinderapi.enums.EnumCategoria;
+// import petfinder.petfinderapi.enums.EnumStatusDemanda;
 import petfinder.petfinderapi.requisicao.CriacaoDemanda;
 
 import javax.persistence.Entity;
