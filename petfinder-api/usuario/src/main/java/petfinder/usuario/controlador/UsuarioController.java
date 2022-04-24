@@ -43,7 +43,7 @@ public class UsuarioController {
 
     @GetMapping("/{id}")
     public ResponseEntity getUsuarioById(@PathVariable int id) {
-        List<Usuario> listaUsuario = usuarioRepository.findAllById(Collections.singleton(id));
+        List<Usuario> listaUsuario = usuarioRepository.findAllById(id);
         if (!usuarioRepository.existsById(id)) {
             return ResponseEntity.status(400).build();
         }

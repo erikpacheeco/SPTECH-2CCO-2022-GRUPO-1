@@ -24,8 +24,8 @@ VALUES
 
 
 -- usuiario 
-INSERT INTO 
-usuario(nome)
-VALUES
-('erik pacheco'),
-('lucas mesquita');
+-- INSERT INTO 
+-- usuario(nome)
+-- VALUES
+-- ('erik pacheco'),
+-- ('lucas mesquita');

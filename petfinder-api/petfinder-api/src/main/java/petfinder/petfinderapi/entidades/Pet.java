@@ -10,8 +10,8 @@ import java.util.Objects;
     @Entity
 public class Pet implements Validavel{
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String nome;
     private String dataNasc;

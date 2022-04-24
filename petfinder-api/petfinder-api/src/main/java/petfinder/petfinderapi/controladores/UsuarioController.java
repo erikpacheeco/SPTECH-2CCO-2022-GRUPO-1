@@ -3,119 +3,107 @@ package petfinder.petfinderapi.controladores;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import petfinder.petfinderapi.entidades.Pet;
 import petfinder.petfinderapi.entidades.Usuario;
+import petfinder.petfinderapi.repositorios.CaracteristicaRepositorio;
+import petfinder.petfinderapi.repositorios.EnderecoRepositorio;
+import petfinder.petfinderapi.repositorios.UsuarioHasInteresseRepositorio;
 import petfinder.petfinderapi.repositorios.UsuarioRepositorio;
+import petfinder.petfinderapi.requisicao.UsuarioLogin;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
 
+    // repositorios
     @Autowired
-    private UsuarioRepositorio usuarioRepositorio;
+    private UsuarioRepositorio usuarioRepository;
 
+    @Autowired
+    private EnderecoRepositorio enderecoRepository;
+
+    @Autowired
+    private CaracteristicaRepositorio caracteristicaRepository;
+
+    @Autowired
+    private UsuarioHasInteresseRepositorio usuarioHasInteresseRepository;
+
+    // endpoints
     @GetMapping
-    public ResponseEntity<List<Usuario>> getUsuarios() {
-        return ResponseEntity.status(200).body(usuarioRepositorio.findAll());
+    public ResponseEntity<List<Usuario>> getUsuario() {
+        List<Usuario> listaUsuario = usuarioRepository.findAll();
+        if (listaUsuario.isEmpty()) {
+            return ResponseEntity.status(204).build();
+        }
+        return ResponseEntity.status(200).body(listaUsuario);
     }
-    
 
-    // List<Usuario> usuarios = new ArrayList<>();
+    // ======================================================
+    // RETORNO INAPROPRIADO
+    // Esperado:    status 404 (Vazio)
+    // Atual:       status 400 (Vazio)
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<Usuario>> getUsuarioById(@PathVariable int id) {
+        Optional<Usuario> usuario = usuarioRepository.findById(id);
+        if (!usuarioRepository.existsById(id)) {
+            return ResponseEntity.status(400).build();
+        }
+        return ResponseEntity.status(200).body(usuario);
+    }
 
-    // @PostMapping
-    // public String addUsuario(@RequestBody Usuario novoUsuario){
-    //     // if(novoUsuario.validar()){
-    //     //     usuarios.add(novoUsuario);
-    //     //     return "Novo Usuario cadastrado(a) com sucesso!";
-    //     // }
-    //     return "Dados Incorretos, por favor verifique e tente novamente";
-    // }
+    // =====================================================
+    // RETORNO INAPROPRIADO
+    // Esperado:    status 201 (VAZIO)
+    // Atual:       status 201 (Usuario)
+    @PostMapping
+    public ResponseEntity<Usuario> postUsuario(@RequestBody @Valid Usuario novoUsuario) {
+        if (Objects.isNull(novoUsuario)) {
+            return ResponseEntity.status(400).build();
+        }
+        return ResponseEntity.status(201).body(usuarioRepository.save(novoUsuario));
+    }
 
-    // @GetMapping("/p/{porte}")
-    // public List<Pet> procurarPorPorte(@PathVariable String porte){
-    //     List<Pet> petsPorte = new ArrayList<>();
-    //     for(Pet pet : PetsController.pets){
-    //         if(pet.getPorte().equalsIgnoreCase(porte)){
-    //             petsPorte.add(pet);
-    //         }
-    //     }
-    //     return petsPorte;
-    // }
+    // ==============================================================================
+    // Ao invés de atualizar dados de um usuário, está cadastrando um novo usuário
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updateUsuario(@PathVariable int id, @RequestBody @Valid Usuario novoUsuario) {
+        if (usuarioRepository.existsById(id)) {
+            usuarioRepository.save(novoUsuario);
+            return ResponseEntity.status(200).build();
+        }
+        return ResponseEntity.status(404).build();
+    }
 
-    // @GetMapping("/r/{raca}")
-    // public List<Pet> procurarPorRaca(@PathVariable String raca){
-    //     List<Pet> petsRaca = new ArrayList<>();
-    //     for(Pet pet : PetsController.pets){
-    //         if(pet.getRaca().equalsIgnoreCase(raca)){
-    //             petsRaca.add(pet);
-    //         }
-    //     }
-    //     return petsRaca;
-    // }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteUsuario(@PathVariable int id) {
+        if (usuarioRepository.existsById(id)) {
+            usuarioRepository.deleteById(id);
+            return ResponseEntity.status(200).build();
+        } else {
+            return ResponseEntity.status(404).build();
+        }
+    }
 
-    // @GetMapping("/t/{tipo}")
-    // public List<Pet> procurarPorTipo(@PathVariable String tipo){
-    //     List<Pet> petsTipo = new ArrayList<>();
-    //     for(Pet pet : PetsController.pets){
-    //         if(pet.getTipo().equalsIgnoreCase(tipo)){
-    //             petsTipo.add(pet);
-    //         }
-    //     }
-    //     return petsTipo;
-    // }
+    @PostMapping("/login")
+    public ResponseEntity login(@RequestBody @Valid UsuarioLogin usuarioLogin) {
+        List<Usuario> listaUsuario = usuarioRepository.findByEmailESenha(usuarioLogin.getEmail(), usuarioLogin.getSenha());
+        if (listaUsuario.isEmpty()) {
+            return ResponseEntity.status(401).build();
+        }
+        return ResponseEntity.status(200).body(listaUsuario);
+    }
 
-    // @GetMapping("/s/{sexo}")
-    // public List<Pet> procurarPorSexo(@PathVariable String sexo){
-    //     List<Pet> petsSexo = new ArrayList<>();
-    //     for(Pet pet : PetsController.pets){
-    //         if(pet.getSexo().equalsIgnoreCase(sexo)){
-    //             petsSexo.add(pet);
-    //         }
-    //     }
-    //     return petsSexo;
-    // }
-
-    // @PutMapping("/{indice}")
-    // public String solicitarAdocao(@PathVariable int indice){
-    //     if(!(PetsController.pets.size() <= indice)){
-    //         Pet petDesejado = PetsController.pets.get(indice);
-    //         petDesejado.setEstadoAdocao(true);
-    //         return "O Pet agora está em processo de adoção, aguarde o retorno da instituição";
-    //     }
-    //     return "Pet não encontrado";
-    // }
-
-    // @PostMapping("/in")
-    // public String login(@RequestBody Usuario usuarioCheck){
-    //     for(Usuario user : usuarios){
-    //         if(user.autenticarLogin(usuarioCheck.getEmail(),usuarioCheck.getSenha())){
-    //             if(user.isLogado()){
-    //                 return "Usuario já está logado";
-    //             }else{
-    //                 user.setLogado(true);
-    //                 return "Usuario logado com sucesso";
-    //             }
-    //         }
-    //     }
-    //     return "Email e/ou senha incorretos, por favor verifique e tente novamente";
-    // }
-
-    // @PostMapping("/off/{indice}")
-    // public String logoff(@PathVariable int indice){
-    //     if(!(usuarios.size() <= indice)){
-    //         if(usuarios.get(indice).isLogado()){
-    //             return "Usuario deslogado com sucesso";
-    //         }
-    //         return "Usuario não está logado";
-    //     }
-    //     return "Codigo do Usuário não encontrado";
-    // }
-
-    // @GetMapping
-    // public List<Usuario> listarUsuarios(){
-    //     return usuarios;
-    // }
+    @GetMapping("/acesso/{fkInstituicao}/{nivelAcesso}")
+    public ResponseEntity<List<Usuario>> getUsuarioByNivelAcesso(@PathVariable int fkInstituicao, @PathVariable String nivelAcesso) {
+        List<Usuario> listaUsuario = usuarioRepository.findByNivelAcesso(fkInstituicao, nivelAcesso);
+        if (listaUsuario.isEmpty()) {
+            return ResponseEntity.status(404).build();
+        }
+        return ResponseEntity.status(200).body(listaUsuario);
+    }
 }
