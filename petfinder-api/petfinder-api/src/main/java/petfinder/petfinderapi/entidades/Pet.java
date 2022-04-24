@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 // import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
@@ -13,14 +15,38 @@ public class Pet implements Validavel{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @NotNull
+    @NotBlank
     private String nome;
+
+    @NotNull
+    @NotBlank
     private String dataNasc;
+
+    @NotNull
+    @NotBlank
     private String especie;
+
+    @NotNull
+    @NotBlank
     private String raca;
+
+    @NotNull
+    @NotBlank
     private String porte;
+
+    @NotNull
+    @NotBlank
     private String sexo;
+
+    @NotNull
+    @NotBlank
     private String descricao;
+
     private Boolean emAdocao = false;
+
+    @NotNull
     private int fkInstituicao;
 
     //    MÉTODOS

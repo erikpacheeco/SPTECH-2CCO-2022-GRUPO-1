@@ -2,10 +2,12 @@ package petfinder.petfinderapi.entidades;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class PetHasCaracteristica {
 
+    @NotNull
     private int fkCaracteristica;
 
     @Id
