@@ -1,7 +1,7 @@
 package petfinder.petfinderapi.enums;
 
 public enum EnumCategoria {
-    ADOÇÃO,
+    ADOCAO,
     PAGAMENTO,
     RESGATE
 }

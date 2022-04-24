@@ -2,7 +2,7 @@ package petfinder.petfinderapi.enums;
 
 public enum EnumStatusDemanda {
     ABERTO,
-    CONCLUÍDO,
+    CONCLUIDO,
     CANCELADO,
     DOCUMENTO_VALIDO,
     PGTO_REALIZADO_USER,
