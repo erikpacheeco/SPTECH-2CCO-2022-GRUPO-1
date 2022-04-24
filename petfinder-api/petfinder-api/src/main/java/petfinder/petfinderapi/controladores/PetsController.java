@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import petfinder.petfinderapi.entidades.*;
 import petfinder.petfinderapi.repositorios.CaracteristicaRepositorio;
+import petfinder.petfinderapi.repositorios.PetHasCaracteristicaRepositorio;
 import petfinder.petfinderapi.repositorios.PetRepositorio;
 import petfinder.petfinderapi.repositorios.PremioRepositorio;
 
@@ -26,6 +27,8 @@ public class PetsController {
     @Autowired
     private CaracteristicaRepositorio repositoryCaracteristica;
 
+    @Autowired
+    private PetHasCaracteristicaRepositorio repositoryHasCaracteristica;
 
 
     public static List<Pet> pets = new ArrayList<>();
@@ -34,7 +37,7 @@ public class PetsController {
     @PostMapping("/post-pet")
     public ResponseEntity<Object> postPet(
             @RequestBody @Valid Pet novoPet) {
-        if(Objects.nonNull(novoPet)) {
+        if (Objects.nonNull(novoPet)) {
             repositoryPet.save(novoPet);
             return ResponseEntity.status(201).build();
         }
@@ -43,7 +46,7 @@ public class PetsController {
 
     @PutMapping("/atualizar-pet/{indice}")
     public ResponseEntity putPet(@RequestBody Pet petAtualizado, @PathVariable int indice) {
-        if (repositoryPet.existsById(indice)){
+        if (repositoryPet.existsById(indice)) {
             petAtualizado.setId(indice);
             repositoryPet.save(petAtualizado);
             return ResponseEntity.status(200).build();
@@ -107,7 +110,7 @@ public class PetsController {
 
     @PutMapping("/atualizar-premio/{indice}")
     public ResponseEntity putPremio(@RequestBody Premio premioAtualizado, @PathVariable int indice) {
-        if (repositoryPremio.existsById(indice)){
+        if (repositoryPremio.existsById(indice)) {
             premioAtualizado.setId(indice);
             repositoryPremio.save(premioAtualizado);
             return ResponseEntity.status(200).build();
@@ -151,7 +154,7 @@ public class PetsController {
     @PostMapping("/post-caracteristica")
     public ResponseEntity postCaracteristica(
             @RequestBody Caracteristica novaCaracteristica) {
-        if (Objects.nonNull(novaCaracteristica)){
+        if (Objects.nonNull(novaCaracteristica)) {
             repositoryCaracteristica.save(novaCaracteristica);
             return ResponseEntity.status(201).build();
         }
@@ -160,7 +163,7 @@ public class PetsController {
 
     @PutMapping("/atualizar-caracteristica/{indice}")
     public ResponseEntity putCaracteristica(@RequestBody Caracteristica caracteristicaAtualizada, @PathVariable int indice) {
-        if (repositoryCaracteristica.existsById(indice)){
+        if (repositoryCaracteristica.existsById(indice)) {
             caracteristicaAtualizada.setId(indice);
             repositoryCaracteristica.save(caracteristicaAtualizada);
             return ResponseEntity.status(200).build();
@@ -202,5 +205,35 @@ public class PetsController {
     // Pet Has Caracteristicas
     // ================================================= //
 
+    @PostMapping("/post-has-caracteristica")
+    public ResponseEntity postHasCaracteristica(
+            @RequestBody PetHasCaracteristica novaHasCaracteristica) {
+        if (Objects.nonNull(novaHasCaracteristica)) {
+            repositoryHasCaracteristica.save(novaHasCaracteristica);
+            return ResponseEntity.status(201).build();
+        }
+        return ResponseEntity.status(400).build();
+    }
+
+    @GetMapping("/get-has-caracteristicas")
+    public ResponseEntity getHasCaracteristica() {
+        List<PetHasCaracteristica> lista = repositoryHasCaracteristica.findAll();
+
+        if (lista.isEmpty()) {
+            return ResponseEntity.status(204).body(lista);
+        }
+
+        return ResponseEntity.status(200).body(lista);
+    }
+
+    @PutMapping("/atualizar-has-caracteristica/{indice}")
+    public ResponseEntity putHasCaracteristica(@RequestBody PetHasCaracteristica hasCaracteristicaAtualizada, @PathVariable int indice) {
+        if (repositoryHasCaracteristica.existsById(indice)) {
+            hasCaracteristicaAtualizada.setFkPet(indice);
+            repositoryHasCaracteristica.save(hasCaracteristicaAtualizada);
+            return ResponseEntity.status(200).build();
+        }
+        return ResponseEntity.status(400).build();
+    }
 
 }

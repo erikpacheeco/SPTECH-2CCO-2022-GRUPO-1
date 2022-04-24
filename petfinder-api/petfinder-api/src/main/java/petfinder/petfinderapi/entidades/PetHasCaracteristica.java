@@ -1,7 +1,14 @@
 package petfinder.petfinderapi.entidades;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class PetHasCaracteristica {
+
     private int fkCaracteristica;
+
+    @Id
     private int fkPet;
 
     public int getFkCaracteristica() {
