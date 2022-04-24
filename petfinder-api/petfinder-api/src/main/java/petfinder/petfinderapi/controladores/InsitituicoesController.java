@@ -18,18 +18,14 @@ import javax.validation.Valid;
 @RequestMapping("/instituicoes")
 public class InsitituicoesController {
 
-    // List<Instituicao> instituicoes = new ArrayList<>();
-
-    // endereco
+    // repositorios
     @Autowired
     private EnderecoRepositorio enderecoRepositorio;
 
     @Autowired
     private InstituicaoRepositorio instituicaoRepositorio;
 
-    // =================================================================================
-    // CONTROLE INSTITUIÇÃO
-    // =================================================================================
+    // endpoints
 
     // retorna todas as instituições
     @GetMapping
@@ -37,10 +33,14 @@ public class InsitituicoesController {
 
         List<Instituicao> instituicoes = instituicaoRepositorio.findAll();
 
+        // verifica se lista de instituições está vazia
         if(instituicoes.isEmpty()) {
+
+            // 204 no content
             return ResponseEntity.status(204).body(instituicoes);
         }
 
+        // 200
         return ResponseEntity.status(200).body(instituicoes);
     }
 
@@ -64,12 +64,12 @@ public class InsitituicoesController {
             instituicaoEnderecos.add(instituicaoEndereco);
         });
 
-        // bad request
+        // 204 no content
         if (instituicaoEnderecos.isEmpty()) {
-            return ResponseEntity.status(200).body(instituicaoEnderecos);
+            return ResponseEntity.status(204).body(instituicaoEnderecos);
         }
         
-        // status ok
+        // 200
         return ResponseEntity.status(200).body(instituicaoEnderecos);
     }
 
@@ -79,11 +79,15 @@ public class InsitituicoesController {
 
         Optional<Instituicao> instituicao = instituicaoRepositorio.findById(id);
 
+        // verificando se instituicao existe
         if(instituicao.isPresent()) {
+
+            // 200
             return ResponseEntity.status(200).body(instituicao.get());
         }
 
-        return ResponseEntity.status(400).build();
+        // 404 - instituicao não encontrada
+        return ResponseEntity.status(404).build();
     }
 
     // retorna instituicao específica + seu Endereco
@@ -98,56 +102,51 @@ public class InsitituicoesController {
         // verificando existencia da instituição
         if (instituicao.isPresent()) {
 
-            Integer fkEndereco = instituicao.get().getFkEndereco();
-
             // verificando existencia do endereço da instituição
-            if (Objects.nonNull(fkEndereco)) {
-                endereco = enderecoRepositorio.findById(instituicao.get().getFkEndereco());
-            } 
+            endereco = enderecoRepositorio.findById(instituicao.get().getFkEndereco());
 
             instituicaoEndereco = new InstituicaoEndereco(
                 instituicao.get(), 
-                Objects.nonNull(endereco) ? endereco.get() : null
+                endereco.get()
             );
 
-            // response
+            // 200
             return ResponseEntity.status(200).body(instituicaoEndereco);
         }
         
-        // response
+        // 404 instituicao não encontrada
         return ResponseEntity.status(404).build();
     }
 
     // cadastra instituicao
     @PostMapping
     public ResponseEntity<Object> postInstituicao(@RequestBody @Valid Instituicao instituicao){
-
-        if(Objects.nonNull(instituicao)) {
-
             // adicionando endereco + instituicao
             // enderecoRepositorio.save(instituicao.getEndereco());
             instituicaoRepositorio.save(instituicao);
 
+            // 201
             return ResponseEntity.status(201).build();
-        }
-        
-        return ResponseEntity.status(400).build();
     }
 
     // edita dados da instituicao
     @PutMapping("/{indice}")
     public ResponseEntity<Object> putInstituicao(@RequestBody @Valid Instituicao instituicaoAtualizada, @PathVariable int indice){
+
+        // verificando se instituicao existe
         if(instituicaoRepositorio.existsById(indice)){
             instituicaoAtualizada.setId(indice);
             instituicaoRepositorio.save(instituicaoAtualizada);
+
+            // 200
             return ResponseEntity.status(200).build();
         }
-        return ResponseEntity.status(400).build();
+
+        // 404 - instituicao não encontrada
+        return ResponseEntity.status(404).build();
     }
 
-    // =================================================================================
-    // CONTROLE ENDEREÇO
-    // =================================================================================
+    // ENDPOINTS ENDEREÇO
 
     // retorna todos os enderecos
     @GetMapping("/endereco")
@@ -155,10 +154,14 @@ public class InsitituicoesController {
 
         List<Endereco> enderecos = enderecoRepositorio.findAll();
 
+        // verifica se lista de endereços está vazia
         if (enderecos.isEmpty()) {
+
+            // 204
             return ResponseEntity.status(204).body(enderecos);
         } 
 
+        // 200
         return ResponseEntity.status(200).body(enderecos);
     }
 
@@ -167,33 +170,42 @@ public class InsitituicoesController {
     public ResponseEntity<Endereco> getEndereco(@PathVariable int id) {
         Optional<Endereco> endereco = enderecoRepositorio.findById(id);
 
+        // verifica se endereço é válido
         if(endereco.isPresent()) {
+
+            // 200
             return ResponseEntity.status(200).body(endereco.get());
         }
 
+        // 404 endereço não encontrado
         return ResponseEntity.status(404).build();
     }
 
     // cadastra endereco
     @PostMapping("/endereco")
     public ResponseEntity<Object> postEndereco(@RequestBody @Valid Endereco endereco) {
-        if (Objects.nonNull(endereco)) {
             enderecoRepositorio.save(endereco);
+
+            // 201
             return ResponseEntity.status(201).build();
-        } else {
-            return ResponseEntity.status(400).build();
-        }
     }
 
     // edita um endereco especifico
     @PutMapping("/endereco/{id}")
     public ResponseEntity<Object> putEndereco(@RequestBody @Valid Endereco endereco, @PathVariable int id) {
+
+        // verificando se endereço existe
         if (enderecoRepositorio.findById(id).isPresent()) {
+            
+            // atualizando endereço
             endereco.setId(id);
             enderecoRepositorio.save(endereco);
+
+            // 200
             return ResponseEntity.status(200).build();
         }
 
-        return ResponseEntity.status(400).build();
+        // 404 endereço não encontrado
+        return ResponseEntity.status(404).build();
     }
 }
