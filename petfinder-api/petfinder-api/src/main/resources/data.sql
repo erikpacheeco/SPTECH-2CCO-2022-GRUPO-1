@@ -40,3 +40,25 @@ VALUES
 ('pagamento', '2020/01/01', null, 'aberto', 9, 1, null),
 ('adocao', '2020/01/01', null, 'aberto', 10, 1, null),
 ('resgate', '2020/01/01', null, 'aberto', 9, 1, null);
+
+-- Pet
+INSERT INTO
+pet(nome, data_nasc, especie, raca, porte, sexo, descricao, em_adocao, fk_instituicao)
+VALUES
+('Antônio', '2020/02/28', 'Cachorro', 'Shits-zu', 'Pequeno', 'Macho', 'Branquinho, brincalhão e estressado com criança chata', true, 1),
+('Mel', '2027/04/12', 'Cachorro', 'Maltês', 'Pequeno', 'Fêmea', 'Nénem que ama, ficar no colo, fiel companheira', true, 1);
+
+-- Premio
+INSERT INTO
+premio(img, fk_pet)
+VALUES
+('Fofo, peludo, bochechuco', 1);
+
+-- Caracteristca
+INSERT INTO
+caracteristica(caracteristicas)
+VALUES
+('Fofo'),
+('Cheiroso'),
+('Branco'),
+('Calmo');
