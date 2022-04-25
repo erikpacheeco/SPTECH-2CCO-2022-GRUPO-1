@@ -34,11 +34,13 @@ public class Demanda {
     private String status;
     @NotNull
     private int fkUsuario;
+    @NotNull
     private Integer fkInstituicao;
     private Integer fkPet;
+    private Integer fkColaborador;
 
-    public Demanda( String categoria, String dataAbertura, String dataFechamento,
-                   String status, int fkUsuario, Integer fkInstituicao, Integer fkPet) {
+    public Demanda(String categoria, String dataAbertura, String dataFechamento,
+                   String status, int fkUsuario, Integer fkInstituicao, Integer fkPet, Integer fkColaborador) {
         this.categoria = categoria.toLowerCase(Locale.ROOT);
         this.dataAbertura = dataAbertura;
         this.dataFechamento = dataFechamento;
@@ -46,12 +48,13 @@ public class Demanda {
         this.fkUsuario = fkUsuario;
         this.fkInstituicao = fkInstituicao;
         this.fkPet = fkPet;
+        this.fkColaborador = fkColaborador;
     }
 
     public Demanda(CriacaoDemanda demanda) {
 
         this(demanda.getCategoria(), null, null,
-                "ABERTO", demanda.getFkUsuario(), demanda.getFkIntituicao(), demanda.getFkPet() );
+                "ABERTO", demanda.getFkUsuario(), demanda.getFkIntituicao(), demanda.getFkPet(), null);
         Date date = Calendar.getInstance().getTime();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String strDate = dateFormat.format(date);
@@ -123,5 +126,13 @@ public class Demanda {
 
     public void setFkPet(Integer fkPet) {
         this.fkPet = fkPet;
+    }
+
+    public Integer getFkColaborador() {
+        return fkColaborador;
+    }
+
+    public void setFkColaborador(Integer fkColaborador) {
+        this.fkColaborador = fkColaborador;
     }
 }

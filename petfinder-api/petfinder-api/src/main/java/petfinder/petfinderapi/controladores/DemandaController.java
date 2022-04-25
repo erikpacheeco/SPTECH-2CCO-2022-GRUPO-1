@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import petfinder.petfinderapi.entidades.Demanda;
 import petfinder.petfinderapi.listaObj.ListaObj;
 import petfinder.petfinderapi.repositorios.DemandaRepositorio;
+import petfinder.petfinderapi.repositorios.InstituicaoRepositorio;
 import petfinder.petfinderapi.repositorios.UsuarioRepositorio;
 import petfinder.petfinderapi.requisicao.CriacaoDemanda;
 import petfinder.petfinderapi.resposta.Message;
@@ -27,27 +28,42 @@ public class DemandaController {
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
 
+    @Autowired
+    private InstituicaoRepositorio instituicaoRepositorio;
+
     // enums
     private ListaObj<String> categoriasPossiveis = new ListaObj<String>(new String[]{"ADOCAO", "PAGAMENTO", "RESGATE"});
     private ListaObj<String> statusPossiveis = new ListaObj<String>(new String[]{"ABERTO", "CONCLUIDO", "CANCELADO", "DOCUMENTO_VALIDO",
-            "PGTO_REALIZADO_USER", "PGTO_REALIZADO_INST", "RESGATE_INVALIDO", "RESGATE_VALIDO"});
+            "PGTO_REALIZADO_USER", "PGTO_REALIZADO_INST", "RESGATE_INVALIDO", "RESGATE_VALIDO", "EM_ANDAMENTO"});
 
     // endpoints
     @PostMapping
     public ResponseEntity<Object> postDemanda(@RequestBody @Valid CriacaoDemanda novaDemanda){
-        
-        // verificando corpo da requisição
-        if (!categoriasPossiveis.elementoExiste(novaDemanda.getCategoria())){
-            
-            // 400 bad request
-            return ResponseEntity.status(400).body(new Message("Corpo da requisição vazio ou categoria de demanda inválida"));
+
+        if (instituicaoRepositorio.existsById(novaDemanda.getFkIntituicao())){
+
+            // verificando corpo da requisição
+            if (!categoriasPossiveis.elementoExiste(novaDemanda.getCategoria())){
+
+                // 400 bad request
+                return ResponseEntity.status(400).body(new Message("Corpo da requisição vazio ou categoria de demanda inválida"));
+            }
+
+            if (!usuarioRepositorio.existsById(novaDemanda.getFkUsuario())){
+                // 404 Usuario not found
+                return ResponseEntity.status(404).body(new Message("Usuario não encontrada"));
+            }
+
+            // 201 recurso criado
+            Demanda demanda = new Demanda(novaDemanda);
+            demanda.setCategoria(demanda.getCategoria());
+            demandaRepositorio.save(demanda);
+            return ResponseEntity.status(201).build();
+
         }
-        
-        // 201 recurso criado
-        Demanda demanda = new Demanda(novaDemanda);
-        demanda.setCategoria(demanda.getCategoria());
-        demandaRepositorio.save(demanda);
-        return ResponseEntity.status(201).build();
+        // 404 instituição not found
+        return ResponseEntity.status(404).body(new Message("Instituição não encontrada"));
+
     }
 
     @GetMapping
@@ -63,12 +79,27 @@ public class DemandaController {
         return ResponseEntity.status(200).body(lista);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> getDemandaById(@PathVariable int id){
+        Optional<Demanda> demanda = demandaRepositorio.findById(id);
+
+        // verificando existencia da demanda
+        if (demanda.isPresent()){
+
+            // 200
+            return ResponseEntity.status(200).body(demanda.get());
+        }
+
+        // 404 demanda não encontrada
+        return ResponseEntity.status(404).build();
+    }
+
     @GetMapping("/user/{fkUsuario}")
     public ResponseEntity<Object> getDemandasUserById(@PathVariable int fkUsuario){
 
         // verificando se usuario existe
         if (usuarioRepositorio.existsById(fkUsuario)) {
-
+            // Retornar demandas isoladas de acordo com o status
             // armazenando lista de demandas do usuário
             List<Demanda> lista = demandaRepositorio.findAllByFkUsuario(fkUsuario);
 
@@ -87,31 +118,19 @@ public class DemandaController {
         return ResponseEntity.status(404).body(new Message("Usuário não encontrado"));
     }
 
-    @GetMapping("/user/{fkUsuario}/status-aberto")
-    public ResponseEntity<Object> getDemandasUserByIdStatusAberto(@PathVariable int fkUsuario){
-        List<Demanda> lista = demandaRepositorio.findAllByFkUsuarioAndStatus(fkUsuario, "ABERTO");
-        if (lista.isEmpty()){
-            return ResponseEntity.status(204).build();
+    @GetMapping("/instituicao/{fkInstituicao}")
+    public ResponseEntity<Object> getDemandasAbertoInstituicao(@PathVariable int fkInstituicao){
+        if (instituicaoRepositorio.existsById(fkInstituicao)){
+            List<Demanda> lista = demandaRepositorio.findAllByFkInstituicaoAndStatus(fkInstituicao, "aberto");
+            if (lista.isEmpty()){
+                return ResponseEntity.status(204).build();
+            }
+            return  ResponseEntity.status(200).body(lista);
         }
-        return  ResponseEntity.status(200).body(lista);
+        // 404 instituição not found
+        return ResponseEntity.status(404).body(new Message("Instituição não encontrada"));
+
     } /// Terminar este!!!!!!
-    // !!!!!!!!!!!!!!!!!!!!!!!
-    // 💀💀💀 Lucas msg: ao meu ver, "status-aberto" pode ser apenas "status", deixando o usuário passar que tipo de status quer filtrar!
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Object> getDemandaById(@PathVariable int id){
-        Optional<Demanda> demanda = demandaRepositorio.findById(id);
-
-        // verificando existencia da demanda
-        if (demanda.isPresent()){
-
-            // 200
-            return ResponseEntity.status(200).body(demanda.get());
-        }
-
-        // 404 demanda não encontrada
-        return ResponseEntity.status(404).build();
-    }
 
     @PutMapping("/{id}")
     public ResponseEntity<Object> patchDemanda(@PathVariable int id, @RequestBody @Valid Demanda demandaAtualizar){
@@ -147,6 +166,28 @@ public class DemandaController {
 
         // 404 demanda não encontrada
         return ResponseEntity.status(404).build();
+    }
+
+    @PatchMapping("/status/{id}/{fkColaborador}")
+    public ResponseEntity<Object> patchDemandaStatus(@PathVariable int id, @PathVariable int fkColaborador){
+
+        // verificando existencia da demanda
+        if (demandaRepositorio.existsById(id)){
+            if (usuarioRepositorio.existsById(fkColaborador)){
+                // atualizando status da demanda
+                Demanda demanda = demandaRepositorio.getById(id);
+                demanda.setStatus("aberto");
+                demanda.setFkColaborador(fkColaborador);
+                demandaRepositorio.save(demanda);
+                // 200 - empty response
+                return ResponseEntity.status(200).build();
+            }
+            // 404 - demanda não encontrada
+            return ResponseEntity.status(404).body(new Message("Colaborador não encontrada"));
+        }
+        // 404 - demanda não encontrada
+        return ResponseEntity.status(404).body(new Message("Demanda não encontrada"));
+
     }
 
     @PatchMapping("/status/{id}/{statusAtualizar}")
