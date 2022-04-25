@@ -187,7 +187,6 @@ public class DemandaController {
         }
         // 404 - demanda não encontrada
         return ResponseEntity.status(404).body(new Message("Demanda não encontrada"));
-
     }
 
     @PatchMapping("/status/{id}/{statusAtualizar}")

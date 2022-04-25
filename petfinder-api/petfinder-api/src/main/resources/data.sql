@@ -17,21 +17,21 @@ VALUES
 
 -- usuario 
 INSERT INTO 
-usuario(nome, email, senha, nivel_acesso, fk_endereco, fk_instituicao)
+usuario(nome, email, senha, nivel_acesso, fk_endereco, fk_instituicao, logado)
 VALUES
-('lucas mesquita', 'lucas.msouza@bandtec.com', 'urubu100', 'sysadm', null, null),
-('Mylena Oliveira', 'myau@catdelivery.com', 'urubu200', 'adm', 1, 1),
-('Isabell', 'isa.bell@catdelivery.com', 'urubu200', 'petops', 1, 1),
-('Ana Maria', 'ana.maria@catdelivery.com', 'urubu200', 'chatops', 3, 1),
-('Kayo Fezz', 'kay.o@instb.com', 'urubu200', 'adm', 2, 2),
-('Sky Fernandez', 'sky.e@instb.com', 'urubu200', 'petops', 2, 2),
-('Peter Geferson', 'peter.g@instb.com', 'urubu200', 'chatops', 3, 2),
-('Reya', 'raya@instb.com', 'urubu200', 'chatops', 1, 2),
-('Breach', 'breach@gmail.com', 'urubu200', 'user', 1, null),
-('Reyna', 'reyna@gmail.com', 'urubu200', 'user', 3, null),
-('Cypher de Souza', 'cypher@gmail.com', 'urubu200', 'user', 2, null),
-('Yoru', 'yoru@gmail.com', 'urubu200', 'user', 2, null),
-('Sage', 'sage@gmail.com', 'urubu200', 'user', 1, null);
+('lucas mesquita', 'lucas.msouza@bandtec.com', 'urubu100', 'sysadm', null, null, false),
+('Mylena Oliveira', 'myau@catdelivery.com', 'urubu200', 'adm', 1, 1, false),
+('Isabell', 'isa.bell@catdelivery.com', 'urubu200', 'petops', 1, 1, false),
+('Ana Maria', 'ana.maria@catdelivery.com', 'urubu200', 'chatops', 3, 1, false),
+('Kayo Fezz', 'kay.o@instb.com', 'urubu200', 'adm', 2, 2, false),
+('Sky Fernandez', 'sky.e@instb.com', 'urubu200', 'petops', 2, 2, false),
+('Peter Geferson', 'peter.g@instb.com', 'urubu200', 'chatops', 3, 2, false),
+('Reya', 'raya@instb.com', 'urubu200', 'chatops', 1, 2, false),
+('Breach', 'breach@gmail.com', 'urubu200', 'user', 1, null, false),
+('Reyna', 'reyna@gmail.com', 'urubu200', 'user', 3, null, false),
+('Cypher de Souza', 'cypher@gmail.com', 'urubu200', 'user', 2, null, false),
+('Yoru', 'yoru@gmail.com', 'urubu200', 'user', 2, null, false),
+('Sage', 'sage@gmail.com', 'urubu200', 'user', 1, null, false);
 
 -- Demanda
 INSERT INTO

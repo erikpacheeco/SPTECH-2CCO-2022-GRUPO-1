@@ -20,6 +20,7 @@ public class Usuario {
     private String nome;
 
     @Email
+    @NotNull
     private String email;
 
     @NotNull
@@ -29,6 +30,9 @@ public class Usuario {
     private String nivelAcesso;
     private Integer fkEndereco;
     private Integer fkInstituicao;
+
+    // atributo temporario até definirmos o processo de logoff
+    private boolean logado;
 
     // getters e setters
     public int getId() {
@@ -72,5 +76,11 @@ public class Usuario {
     }
     public void setFkInstituicao(Integer fkInstituicao) {
         this.fkInstituicao = fkInstituicao;
+    }
+    public boolean isLogado() {
+        return logado;
+    }
+    public void setLogado(boolean logado) {
+        this.logado = logado;
     }
 }

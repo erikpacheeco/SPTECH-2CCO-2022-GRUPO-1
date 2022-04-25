@@ -3,6 +3,8 @@ package petfinder.petfinderapi.controladores;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import petfinder.petfinderapi.entidades.Endereco;
 import petfinder.petfinderapi.entidades.Usuario;
 import petfinder.petfinderapi.listaObj.ListaObj;
 import petfinder.petfinderapi.repositorios.CaracteristicaRepositorio;
@@ -12,8 +14,11 @@ import petfinder.petfinderapi.repositorios.UsuarioHasInteresseRepositorio;
 import petfinder.petfinderapi.repositorios.UsuarioRepositorio;
 import petfinder.petfinderapi.requisicao.UsuarioLogin;
 import petfinder.petfinderapi.resposta.Message;
+import petfinder.petfinderapi.resposta.UsuarioSemSenha;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -49,7 +54,7 @@ public class UsuarioController {
 
     // retorna todos os usuarios
     @GetMapping
-    public ResponseEntity<List<Usuario>> getUsuario() {
+    public ResponseEntity<List<UsuarioSemSenha>> getUsuario() {
         List<Usuario> listaUsuario = usuarioRepository.findAll();
 
         // verificando se lista de usuários está vazia
@@ -59,13 +64,21 @@ public class UsuarioController {
             return ResponseEntity.status(204).build();
         }
 
+        // exibindo DTO do usuário (sem a senha e com o endereço completo)
+        List<UsuarioSemSenha> usuariosSemSenha = new ArrayList<UsuarioSemSenha>();
+
+        listaUsuario.stream().forEach(usuario -> {
+            UsuarioSemSenha usuarioSemSenha = new UsuarioSemSenha(usuario, getEnderecoById(usuario.getFkEndereco()));
+            usuariosSemSenha.add(usuarioSemSenha);
+        });
+
         // 200
-        return ResponseEntity.status(200).body(listaUsuario);
+        return ResponseEntity.status(200).body(usuariosSemSenha);
     }
 
     // retorna usuário baseado no ID
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Usuario>> getUsuarioById(@PathVariable int id) {
+    public ResponseEntity<UsuarioSemSenha> getUsuarioById(@PathVariable int id) {
         Optional<Usuario> usuario = usuarioRepository.findById(id);
 
         // verificando se usuário existe
@@ -75,8 +88,12 @@ public class UsuarioController {
             return ResponseEntity.status(404).build();
         }
 
-        // 200
-        return ResponseEntity.status(200).body(usuario);
+        // 200 retornando DTO do usuário (sem senha e com endereço completo)
+        UsuarioSemSenha usuarioSemSenha = new UsuarioSemSenha(usuario.get(), getEnderecoById(usuario.get().getFkEndereco()));
+
+        System.out.println(usuarioSemSenha);
+
+        return ResponseEntity.status(200).body(usuarioSemSenha);
     }
 
     // cadastro usuário
@@ -117,6 +134,7 @@ public class UsuarioController {
 
                     // atualizando informações do novo usuário
                     novoUsuario.setId(id);
+                    novoUsuario.setLogado(usuarioAtual.isLogado());
                     usuarioRepository.save(novoUsuario);
 
                     // 200
@@ -162,8 +180,18 @@ public class UsuarioController {
             return ResponseEntity.status(401).build();
         }
 
-        // 200 autenticado
-        return ResponseEntity.status(200).body(listaUsuario);        
+        // usuário existente
+        Usuario usuario = listaUsuario.get(0);
+
+        // autenticando usuário
+        usuario.setLogado(true);
+        usuarioRepository.save(usuario);
+
+        // retornando DTO do usuário (sem senha e com endereço completo)
+        UsuarioSemSenha usuarioSemSenha = new UsuarioSemSenha(usuario, getEnderecoById(usuario.getFkEndereco()));
+
+        // 200
+        return ResponseEntity.status(200).body(usuarioSemSenha);        
     }
 
     @GetMapping("/acesso/{fkInstituicao}/{nivelAcessoReq}")
@@ -185,9 +213,16 @@ public class UsuarioController {
                     // 204 no content
                     return ResponseEntity.status(204).build();
                 }
+
+                List<UsuarioSemSenha> usuariosSemSenha = new ArrayList<UsuarioSemSenha>();
+                listaUsuario.stream().forEach(usuario -> {
+                    UsuarioSemSenha usuarioSemSenha = new UsuarioSemSenha(usuario, getEnderecoById(usuario.getFkEndereco()));
+                    usuariosSemSenha.add(usuarioSemSenha);
+                });
                 
                 // 200 - ok
-                return ResponseEntity.status(200).body(listaUsuario);
+                return ResponseEntity.status(200).body(usuariosSemSenha);
+                
             }
             
             // 400 - nível de acesso inválido
@@ -195,5 +230,24 @@ public class UsuarioController {
         }
         // 404 - instituicao inexistente
         return ResponseEntity.status(404).body(new Message("Instituicao inexistente"));
+    }
+
+    // retorna endereco baseado no id
+    private Endereco getEnderecoById(Integer id) {
+
+        // se id for null, retorna null
+        if (Objects.nonNull(id)) {
+            Optional<Endereco> endereco = enderecoRepository.findById(id);
+
+            // se endereco existe, retorna endereco
+            if (endereco.isPresent()) {
+                return endereco.get();
+            }
+
+            // endereço inexistente no banco
+            return null;
+        }
+
+        return null;
     }
 }
