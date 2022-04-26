@@ -168,7 +168,7 @@ public class UsuarioController {
         return ResponseEntity.status(404).build();
     }
 
-    @PostMapping("/login")
+    @PostMapping("/autenticacao")
     public ResponseEntity<Object> login(@RequestBody @Valid UsuarioLogin usuarioLogin) {
 
         // verificando se usuário existe
@@ -192,6 +192,33 @@ public class UsuarioController {
 
         // 200
         return ResponseEntity.status(200).body(usuarioSemSenha);        
+    }
+
+    @DeleteMapping("/autenticacao/{id}")
+    public ResponseEntity<Object> deleteLogoff(@PathVariable int id) {
+
+        // verificando se usuário existe
+        if (usuarioRepository.existsById(id)) {
+            Usuario usuario = usuarioRepository.findById(id).get();
+            
+            // usuário já está deslogado
+            if (!usuario.isLogado()) {
+
+                // usuário já estava logado
+                return ResponseEntity.status(202).body(new Message("Usuário já se encontra deslogado."));
+            }
+
+            // deslogando usuário
+            usuario.setLogado(false);
+            usuarioRepository.save(usuario);
+
+            // 200 - usuário deslogado com sucesso
+            return ResponseEntity.status(200).body(new Message("Usuário deslogado com sucesso"));
+        }
+
+        // 404 - usuário não encontrado
+        return ResponseEntity.status(404).body(new Message("Usuário não encontrado"));
+
     }
 
     @GetMapping("/acesso/{fkInstituicao}/{nivelAcessoReq}")
