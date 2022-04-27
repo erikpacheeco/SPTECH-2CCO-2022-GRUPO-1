@@ -1,4 +1,4 @@
-package petfinder.petfinderapi.listaObj;
+package petfinder.petfinderapi.utilitarios;
 
 public class ListaObj<T>{
 
@@ -87,7 +87,7 @@ public class ListaObj<T>{
         return nroElem;
     }
 
-    public T getElemnto(int indice){
+    public T getElemento(int indice){
         if (indice < 0 || indice >= nroElem){
             return null;
         }

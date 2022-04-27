@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import petfinder.petfinderapi.entidades.Endereco;
 import petfinder.petfinderapi.entidades.Usuario;
-import petfinder.petfinderapi.listaObj.ListaObj;
+import petfinder.petfinderapi.utilitarios.ListaObj;
 import petfinder.petfinderapi.repositorios.CaracteristicaRepositorio;
 import petfinder.petfinderapi.repositorios.EnderecoRepositorio;
 import petfinder.petfinderapi.repositorios.InstituicaoRepositorio;

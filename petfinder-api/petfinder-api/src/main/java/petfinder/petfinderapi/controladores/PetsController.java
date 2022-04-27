@@ -99,7 +99,7 @@ public class PetsController {
 
     @PostMapping("/post-premio")
     public ResponseEntity postPremio(
-            @RequestBody Premio novoPremio) {
+            @RequestBody @Valid Premio novoPremio) {
 
         if (Objects.nonNull(novoPremio)) {
             repositoryPremio.save(novoPremio);
@@ -153,7 +153,7 @@ public class PetsController {
 
     @PostMapping("/post-caracteristica")
     public ResponseEntity postCaracteristica(
-            @RequestBody Caracteristica novaCaracteristica) {
+            @RequestBody @Valid Caracteristica novaCaracteristica) {
         if (Objects.nonNull(novaCaracteristica)) {
             repositoryCaracteristica.save(novaCaracteristica);
             return ResponseEntity.status(201).build();

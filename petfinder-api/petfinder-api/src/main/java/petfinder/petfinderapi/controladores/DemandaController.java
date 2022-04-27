@@ -4,7 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import petfinder.petfinderapi.entidades.Demanda;
-import petfinder.petfinderapi.listaObj.ListaObj;
+import petfinder.petfinderapi.utilitarios.GerenciadorArquivos;
+import petfinder.petfinderapi.utilitarios.ListaObj;
 import petfinder.petfinderapi.repositorios.DemandaRepositorio;
 import petfinder.petfinderapi.repositorios.InstituicaoRepositorio;
 import petfinder.petfinderapi.repositorios.UsuarioRepositorio;
@@ -12,14 +13,15 @@ import petfinder.petfinderapi.requisicao.CriacaoDemanda;
 import petfinder.petfinderapi.resposta.Message;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.Optional;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.*;
 
 @RestController
 @RequestMapping("/demandas")
-public class DemandaController {
+public class DemandaController implements GerenciadorArquivos{
 
     // repositorios
     @Autowired
@@ -230,5 +232,129 @@ public class DemandaController {
 
         // 404 demanda não encontrada
         return ResponseEntity.status(404).build();
+    }
+
+    @GetMapping("/download/{idInstituicao}/{status}")
+    public ResponseEntity<Object> getDemandaCSV(@PathVariable int idInstituicao, @PathVariable String status){
+        List<Demanda> listaRepositorio = demandaRepositorio.findAllByFkInstituicaoAndStatus(idInstituicao,status);
+        ListaObj<Demanda> listaDemandas = new ListaObj<>(listaRepositorio.size());
+        for(Demanda d : listaRepositorio){
+            listaDemandas.adicionarElemento(d);
+        }
+
+        gravaArquivoCSV(listaDemandas,"demandas");
+        String relatorio = leArquivoCSV("demandas");
+
+        return ResponseEntity
+                .status(200)
+                .header("content-type", "text/csv")
+                //.header("content-length", "9999999999")
+                .header("content-disposition", "filename=\"demandas.csv\"")
+                .body(relatorio);
+    }
+
+
+//
+    @Override
+    public void gravaArquivoCSV(ListaObj lista, String nomeArquivo) {
+        FileWriter arq = null;
+        Formatter saida = null;
+        boolean deuRuim = false;
+        nomeArquivo += ".csv";
+        String formatacaoInsert = "%d;%s;%s;%s;%s\n";
+
+        try {
+            arq = new FileWriter(nomeArquivo);
+            saida = new Formatter(arq);
+        }
+        catch (IOException err){
+            System.out.println("Erro ao abrir o arquivo");
+            System.exit(1);
+        }
+
+        try{
+            for (int i = 0; i < lista.getTamanho(); i++) {
+                Demanda demanda = (Demanda) lista.getElemento(i);
+                if(Objects.isNull(demanda.getFkColaborador())){
+                    saida.format(formatacaoInsert,
+                            demanda.getId(),demanda.getCategoria(),
+                            usuarioRepositorio.findById(demanda.getFkUsuario()).get().getNome(),
+                            demanda.getDataAbertura(),
+                            '-');
+                }else{
+                    saida.format(formatacaoInsert,
+                            demanda.getId(),demanda.getCategoria(),
+                            usuarioRepositorio.findById(demanda.getFkUsuario()).get().getNome(),
+                            demanda.getDataAbertura(),
+                            usuarioRepositorio.findById(demanda.getFkColaborador()).get().getNome());
+                }
+            }
+        }catch (FormatterClosedException err){
+            System.out.println("Erro ao gravar arquivo");
+            deuRuim = true;
+        }
+        finally {
+            saida.close();
+            try {
+                arq.close();
+            }
+            catch (IOException err){
+                System.out.println("Erro ao fechar o arquivo");
+                deuRuim = true;
+            }
+            if(deuRuim){
+                System.exit(1);
+            }
+        }
+
+    }
+
+    @Override
+    public String leArquivoCSV(String nomeArq) {
+        FileReader arq = null;
+        Scanner entrada = null;
+        boolean deuRuim = false;
+        nomeArq += ".csv";
+
+        String relatorio ="";
+
+        try {
+            arq = new FileReader(nomeArq);
+            entrada = new Scanner(arq).useDelimiter(";|\\n");
+        }catch (FileNotFoundException err){
+            System.out.println("Arquivo não existe");
+            System.exit(1);
+        }
+
+        try {
+            while (entrada.hasNext()){
+                int id = entrada.nextInt();
+                String nome = entrada.next();
+                String categoria = entrada.next();
+                String data = entrada.next();
+                String colaborador = entrada.next();
+                relatorio += id+";"+nome+";"+categoria+";"+data+";"+colaborador+";"+"\n";
+            }
+        }catch (NoSuchElementException err){
+            System.out.println("Arquivo com problemas");
+            deuRuim = true;
+        }catch (IllegalStateException err){
+            System.out.println("Erro na leitura do arquivo");
+            deuRuim = true;
+        }
+        finally {
+            entrada.close();
+            try {
+                arq.close();
+            }
+            catch (IOException err){
+                System.out.println("Erro ao fechar o arquivo");
+                deuRuim = true;
+            }
+            if(deuRuim){
+                System.exit(1);
+            }
+            return relatorio;
+        }
     }
 }
