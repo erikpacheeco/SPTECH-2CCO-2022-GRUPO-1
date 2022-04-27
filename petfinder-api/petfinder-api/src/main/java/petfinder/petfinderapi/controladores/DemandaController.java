@@ -38,6 +38,8 @@ public class DemandaController implements GerenciadorArquivos{
     private ListaObj<String> statusPossiveis = new ListaObj<String>(new String[]{"ABERTO", "CONCLUIDO", "CANCELADO", "DOCUMENTO_VALIDO",
             "PGTO_REALIZADO_USER", "PGTO_REALIZADO_INST", "RESGATE_INVALIDO", "RESGATE_VALIDO", "EM_ANDAMENTO"});
 
+    private ListaObj<String> tiposMenssagensPossiveis = new ListaObj<String>(new String[]{"ARQUIVO", "MENSSAGEM"});
+
     // endpoints
     @PostMapping
     public ResponseEntity<Object> postDemanda(@RequestBody @Valid CriacaoDemanda novaDemanda){
@@ -69,21 +71,21 @@ public class DemandaController implements GerenciadorArquivos{
     }
 
     @GetMapping
-    public ResponseEntity<List<Demanda>> getDemandas(){
+    public ResponseEntity getDemanda(){
         List<Demanda> lista = demandaRepositorio.findAll();
 
         // 204, em caso de lista vazia
         if (lista.isEmpty()) {
-            return ResponseEntity.status(204).build();
+            return ResponseEntity.status(204).body(new Message("Lista vázia"));
         }
 
         // 200
         return ResponseEntity.status(200).body(lista);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Object> getDemandaById(@PathVariable int id){
-        Optional<Demanda> demanda = demandaRepositorio.findById(id);
+    @GetMapping("/{idDemanda}")
+    public ResponseEntity<Object> getDemandaById(@PathVariable int idDemanda){
+        Optional<Demanda> demanda = demandaRepositorio.findById(idDemanda);
 
         // verificando existencia da demanda
         if (demanda.isPresent()){
@@ -109,7 +111,7 @@ public class DemandaController implements GerenciadorArquivos{
             if (lista.isEmpty()){
 
                 // 204 no content
-                return ResponseEntity.status(204).build();
+                return ResponseEntity.status(204).body(new Message("Lista vázia"));
             }
 
             // 200 
@@ -121,11 +123,11 @@ public class DemandaController implements GerenciadorArquivos{
     }
 
     @GetMapping("/instituicao/{fkInstituicao}")
-    public ResponseEntity<Object> getDemandasAbertoInstituicao(@PathVariable int fkInstituicao){
+    public ResponseEntity<Object> getDemandaAbertoInstituicao(@PathVariable int fkInstituicao){
         if (instituicaoRepositorio.existsById(fkInstituicao)){
             List<Demanda> lista = demandaRepositorio.findAllByFkInstituicaoAndStatus(fkInstituicao, "aberto");
             if (lista.isEmpty()){
-                return ResponseEntity.status(204).build();
+                return ResponseEntity.status(204).body(new Message("Lista vázia"));
             }
             return  ResponseEntity.status(200).body(lista);
         }
@@ -134,11 +136,11 @@ public class DemandaController implements GerenciadorArquivos{
 
     } /// Terminar este!!!!!!
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Object> patchDemanda(@PathVariable int id, @RequestBody @Valid Demanda demandaAtualizar){
+    @PutMapping("/{idDemanda}")
+    public ResponseEntity<Object> patchDemanda(@PathVariable int idDemanda, @RequestBody @Valid Demanda demandaAtualizar){
 
         // verificando se demanda existe
-        if (demandaRepositorio.existsById(id)){
+        if (demandaRepositorio.existsById(idDemanda)){
 
             // validando categoria da demanda
             if (!categoriasPossiveis.elementoExiste(demandaAtualizar.getCategoria())){
@@ -155,7 +157,7 @@ public class DemandaController implements GerenciadorArquivos{
             }
 
             // atualizando valores da demanda
-            Demanda demanda = demandaRepositorio.getById(id);
+            Demanda demanda = demandaRepositorio.getById(idDemanda);
             demanda.setCategoria(demandaAtualizar.getCategoria());
             demanda.setDataAbertura(demandaAtualizar.getDataAbertura());
             demanda.setDataFechamento(demandaAtualizar.getDataFechamento());
@@ -170,15 +172,15 @@ public class DemandaController implements GerenciadorArquivos{
         return ResponseEntity.status(404).build();
     }
 
-    @PatchMapping("/status/{id}/{fkColaborador}")
-    public ResponseEntity<Object> patchDemandaStatus(@PathVariable int id, @PathVariable int fkColaborador){
+    @PatchMapping("/colaborador-abrir/{idDemanda}/{fkColaborador}")
+    public ResponseEntity<Object> patchDemandaColaborador(@PathVariable int idDemanda, @PathVariable int fkColaborador){
 
         // verificando existencia da demanda
-        if (demandaRepositorio.existsById(id)){
+        if (demandaRepositorio.existsById(idDemanda)){
             if (usuarioRepositorio.existsById(fkColaborador)){
                 // atualizando status da demanda
-                Demanda demanda = demandaRepositorio.getById(id);
-                demanda.setStatus("aberto");
+                Demanda demanda = demandaRepositorio.getById(idDemanda);
+                demanda.setStatus("em_andamento");
                 demanda.setFkColaborador(fkColaborador);
                 demandaRepositorio.save(demanda);
                 // 200 - empty response
@@ -191,11 +193,11 @@ public class DemandaController implements GerenciadorArquivos{
         return ResponseEntity.status(404).body(new Message("Demanda não encontrada"));
     }
 
-    @PatchMapping("/status/{id}/{statusAtualizar}")
-    public ResponseEntity<Object> patchDemandaStatus(@PathVariable int id, @PathVariable String statusAtualizar){
+    @PatchMapping("/status/{idDemanda}/{statusAtualizar}")
+    public ResponseEntity<Object> patchDemandaStatus(@PathVariable int idDemanda, @PathVariable String statusAtualizar){
 
         // verificando existencia da demanda
-        if (demandaRepositorio.existsById(id)){
+        if (demandaRepositorio.existsById(idDemanda)){
 
             // verificando validade do status
             if (!statusPossiveis.elementoExiste(statusAtualizar)){
@@ -205,7 +207,7 @@ public class DemandaController implements GerenciadorArquivos{
             }
 
             // atualizando status da demanda
-            Demanda demanda = demandaRepositorio.getById(id);
+            Demanda demanda = demandaRepositorio.getById(idDemanda);
             demanda.setStatus(statusAtualizar.toLowerCase(Locale.ROOT));
             demandaRepositorio.save(demanda);
 
@@ -217,14 +219,14 @@ public class DemandaController implements GerenciadorArquivos{
         return ResponseEntity.status(404).body(new Message("Demanda não encontrada"));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteDemanda(@PathVariable int id){
+    @DeleteMapping("/{idDemanda}")
+    public ResponseEntity<Object> deleteDemanda(@PathVariable int idDemanda){
 
         // verificando se demanda existe
-        if (demandaRepositorio.existsById(id)){
+        if (demandaRepositorio.existsById(idDemanda)){
 
             // deletando demanda
-            demandaRepositorio.deleteById(id);
+            demandaRepositorio.deleteById(idDemanda);
 
             // 200
             return ResponseEntity.status(200).build();
@@ -234,6 +236,7 @@ public class DemandaController implements GerenciadorArquivos{
         return ResponseEntity.status(404).build();
     }
 
+<<<<<<< HEAD
     @GetMapping("/download/{idInstituicao}/{status}")
     public ResponseEntity<Object> getDemandaCSV(@PathVariable int idInstituicao, @PathVariable String status){
         List<Demanda> listaRepositorio = demandaRepositorio.findAllByFkInstituicaoAndStatus(idInstituicao,status);
@@ -357,4 +360,13 @@ public class DemandaController implements GerenciadorArquivos{
             return relatorio;
         }
     }
+=======
+    // endpoint menssagem
+//    @PostMapping("/mensagens")
+//    public ResponseEntity postMensagem(@RequestBody @Valid Message novaMensagem){
+//
+////
+//
+//    }
+>>>>>>> 97d8bbf885308453b40d8ff2d015d860425293c8
 }
