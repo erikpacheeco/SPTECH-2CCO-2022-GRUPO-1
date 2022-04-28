@@ -236,13 +236,13 @@ public class DemandaController implements GerenciadorArquivos{
         return ResponseEntity.status(404).build();
     }
 
-<<<<<<< HEAD
     @GetMapping("/download/{idInstituicao}/{status}")
     public ResponseEntity<Object> getDemandaCSV(@PathVariable int idInstituicao, @PathVariable String status){
         List<Demanda> listaRepositorio = demandaRepositorio.findAllByFkInstituicaoAndStatus(idInstituicao,status);
         ListaObj<Demanda> listaDemandas = new ListaObj<>(listaRepositorio.size());
         for(Demanda d : listaRepositorio){
             listaDemandas.adicionarElemento(d);
+            System.out.println(d);
         }
 
         gravaArquivoCSV(listaDemandas,"demandas");
@@ -360,13 +360,4 @@ public class DemandaController implements GerenciadorArquivos{
             return relatorio;
         }
     }
-=======
-    // endpoint menssagem
-//    @PostMapping("/mensagens")
-//    public ResponseEntity postMensagem(@RequestBody @Valid Message novaMensagem){
-//
-////
-//
-//    }
->>>>>>> 97d8bbf885308453b40d8ff2d015d860425293c8
 }
