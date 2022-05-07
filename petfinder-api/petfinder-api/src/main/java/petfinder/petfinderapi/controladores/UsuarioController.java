@@ -68,7 +68,7 @@ public class UsuarioController {
         List<UsuarioSemSenha> usuariosSemSenha = new ArrayList<UsuarioSemSenha>();
 
         listaUsuario.stream().forEach(usuario -> {
-            UsuarioSemSenha usuarioSemSenha = new UsuarioSemSenha(usuario, getEnderecoById(usuario.getFkEndereco()));
+            UsuarioSemSenha usuarioSemSenha = new UsuarioSemSenha(usuario, usuario.getEndereco());
             usuariosSemSenha.add(usuarioSemSenha);
         });
 
@@ -89,7 +89,7 @@ public class UsuarioController {
         }
 
         // 200 retornando DTO do usuário (sem senha e com endereço completo)
-        UsuarioSemSenha usuarioSemSenha = new UsuarioSemSenha(usuario.get(), getEnderecoById(usuario.get().getFkEndereco()));
+        UsuarioSemSenha usuarioSemSenha = new UsuarioSemSenha(usuario.get(), usuario.get().getEndereco());
 
         System.out.println(usuarioSemSenha);
 
@@ -188,7 +188,7 @@ public class UsuarioController {
         usuarioRepository.save(usuario);
 
         // retornando DTO do usuário (sem senha e com endereço completo)
-        UsuarioSemSenha usuarioSemSenha = new UsuarioSemSenha(usuario, getEnderecoById(usuario.getFkEndereco()));
+        UsuarioSemSenha usuarioSemSenha = new UsuarioSemSenha(usuario, usuario.getEndereco());
 
         // 200
         return ResponseEntity.status(200).body(usuarioSemSenha);        
@@ -220,7 +220,7 @@ public class UsuarioController {
         return ResponseEntity.status(404).body(new Message("Usuário não encontrado"));
 
     }
-
+    /*
     @GetMapping("/acesso/{fkInstituicao}/{nivelAcessoReq}")
     public ResponseEntity<Object> getUsuarioByNivelAcesso(@PathVariable Integer fkInstituicao, @PathVariable String nivelAcessoReq) {
         nivelAcessoReq = nivelAcessoReq.toLowerCase();
@@ -230,10 +230,10 @@ public class UsuarioController {
 
             // validando nível de acesso
             if (nivelAcesso.elementoExiste(nivelAcessoReq)) {
-                
+
                 // lista de usuários da instituicao com o nível de acesso especificado
-                List<Usuario> listaUsuario = usuarioRepository.findByNivelAcesso(fkInstituicao, nivelAcessoReq);
-                
+                List<Usuario> listaUsuario = usuarioRepository.findByInstituicaoAndNivelAcesso(fkInstituicao, nivelAcessoReq);
+
                 // verificando se a lista está vazia
                 if (listaUsuario.isEmpty()) {
 
@@ -243,21 +243,22 @@ public class UsuarioController {
 
                 List<UsuarioSemSenha> usuariosSemSenha = new ArrayList<UsuarioSemSenha>();
                 listaUsuario.stream().forEach(usuario -> {
-                    UsuarioSemSenha usuarioSemSenha = new UsuarioSemSenha(usuario, getEnderecoById(usuario.getFkEndereco()));
+                    UsuarioSemSenha usuarioSemSenha = new UsuarioSemSenha(usuario, usuario.getEndereco());
                     usuariosSemSenha.add(usuarioSemSenha);
                 });
-                
+
                 // 200 - ok
                 return ResponseEntity.status(200).body(usuariosSemSenha);
-                
+
             }
-            
+
             // 400 - nível de acesso inválido
             return ResponseEntity.status(404).body(new Message("Nível de acesso inválido"));
         }
         // 404 - instituicao inexistente
         return ResponseEntity.status(404).body(new Message("Instituicao inexistente"));
     }
+    */
 
     // retorna endereco baseado no id
     private Endereco getEnderecoById(Integer id) {

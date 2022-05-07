@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import petfinder.petfinderapi.entidades.Endereco;
+import petfinder.petfinderapi.entidades.Instituicao;
 import petfinder.petfinderapi.entidades.Usuario;
 import petfinder.petfinderapi.repositorios.EnderecoRepositorio;
 
@@ -17,17 +18,18 @@ public class UsuarioSemSenha {
     private String email;
     private String nivelAcesso;
     private Endereco endereco;
-    private Integer fkInstituicao;
+    private Instituicao fkInstituicao;
     private boolean logado;
 
     // construtores
-    public UsuarioSemSenha(int id, String nome, String email, String nivelAcesso, Endereco endereco, Integer fkInstituicao,
-    boolean logado) {
+    public UsuarioSemSenha(int id, String nome, String email, String nivelAcesso, Endereco endereco,
+                           Instituicao fkInstituicao, boolean logado) {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.nivelAcesso = nivelAcesso;
         this.endereco = endereco;
+        this.fkInstituicao = fkInstituicao;
         this.logado = logado;
     }
     public UsuarioSemSenha(Usuario usuario, Endereco endereco) {
@@ -37,7 +39,7 @@ public class UsuarioSemSenha {
             usuario.getEmail(),
             usuario.getNivelAcesso(),
             endereco,
-            usuario.getFkInstituicao(),
+            usuario.getInstituicao(),
             usuario.isLogado()
         );
     }
@@ -73,10 +75,10 @@ public class UsuarioSemSenha {
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
     }
-    public Integer getFkInstituicao() {
+    public Instituicao getFkInstituicao() {
         return fkInstituicao;
     }
-    public void setFkInstituicao(Integer fkInstituicao) {
+    public void setFkInstituicao(Instituicao fkInstituicao) {
         this.fkInstituicao = fkInstituicao;
     }
     public boolean isLogado() {
