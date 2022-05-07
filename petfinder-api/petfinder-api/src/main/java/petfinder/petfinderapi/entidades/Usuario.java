@@ -1,9 +1,6 @@
 package petfinder.petfinderapi.entidades;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -28,8 +25,11 @@ public class Usuario {
     private String senha;
 
     private String nivelAcesso;
-    private Integer fkEndereco;
-    private Integer fkInstituicao;
+    @ManyToOne
+    private Endereco endereco;
+
+    @ManyToOne
+    private Instituicao instituicao;
 
     // atributo temporario até definirmos o processo de logoff
     private boolean logado;
@@ -65,17 +65,17 @@ public class Usuario {
     public void setNivelAcesso(String nivelAcesso) {
         this.nivelAcesso = nivelAcesso.toLowerCase();
     }
-    public Integer getFkEndereco() {
-        return fkEndereco;
+    public Endereco getEndereco() {
+        return endereco;
     }
-    public void setFkEndereco(Integer fkEndereco) {
-        this.fkEndereco = fkEndereco;
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
-    public Integer getFkInstituicao() {
-        return fkInstituicao;
+    public Instituicao getInstituicao() {
+        return instituicao;
     }
-    public void setFkInstituicao(Integer fkInstituicao) {
-        this.fkInstituicao = fkInstituicao;
+    public void setInstituicao(Instituicao instituicao) {
+        this.instituicao = instituicao;
     }
     public boolean isLogado() {
         return logado;

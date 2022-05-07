@@ -17,7 +17,7 @@ VALUES
 
 -- usuario 
 INSERT INTO 
-usuario(nome, email, senha, nivel_acesso, fk_endereco, fk_instituicao, logado)
+usuario(nome, email, senha, nivel_acesso, endereco_id, instituicao_id, logado)
 VALUES
 ('lucas mesquita', 'lucas.msouza@bandtec.com', 'urubu100', 'sysadm', null, null, false),
 ('Mylena Oliveira', 'myau@catdelivery.com', 'urubu200', 'adm', 1, 1, false),
