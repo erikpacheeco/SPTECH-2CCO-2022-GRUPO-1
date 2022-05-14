@@ -4,6 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import petfinder.petfinderapi.entidades.Demanda;
+import petfinder.petfinderapi.entidades.Instituicao;
+import petfinder.petfinderapi.entidades.Pet;
+import petfinder.petfinderapi.entidades.Usuario;
+import petfinder.petfinderapi.repositorios.PetRepositorio;
 import petfinder.petfinderapi.utilitarios.GerenciadorArquivos;
 import petfinder.petfinderapi.utilitarios.ListaObj;
 import petfinder.petfinderapi.repositorios.DemandaRepositorio;
@@ -33,6 +37,9 @@ public class DemandaController implements GerenciadorArquivos{
     @Autowired
     private InstituicaoRepositorio instituicaoRepositorio;
 
+    @Autowired
+    private PetRepositorio petRepositorio;
+
     // enums
     private ListaObj<String> categoriasPossiveis = new ListaObj<String>(new String[]{"ADOCAO", "PAGAMENTO", "RESGATE"});
     private ListaObj<String> statusPossiveis = new ListaObj<String>(new String[]{"ABERTO", "CONCLUIDO", "CANCELADO", "DOCUMENTO_VALIDO",
@@ -44,7 +51,11 @@ public class DemandaController implements GerenciadorArquivos{
     @PostMapping
     public ResponseEntity<Object> postDemanda(@RequestBody @Valid CriacaoDemanda novaDemanda){
 
-        if (instituicaoRepositorio.existsById(novaDemanda.getFkIntituicao())){
+        Optional<Usuario> usuario = usuarioRepositorio.findById(novaDemanda.getFkUsuario());
+        Optional<Instituicao> instituicao = instituicaoRepositorio.findById(novaDemanda.getFkIntituicao());
+        Optional<Pet> pet = petRepositorio.findById(novaDemanda.getFkPet());
+
+        if (instituicao.isPresent()){
 
             // verificando corpo da requisição
             if (!categoriasPossiveis.elementoExiste(novaDemanda.getCategoria())){
@@ -53,14 +64,13 @@ public class DemandaController implements GerenciadorArquivos{
                 return ResponseEntity.status(400).body(new Message("Corpo da requisição vazio ou categoria de demanda inválida"));
             }
 
-            if (!usuarioRepositorio.existsById(novaDemanda.getFkUsuario())){
+            if (!usuario.isPresent()){
                 // 404 Usuario not found
                 return ResponseEntity.status(404).body(new Message("Usuario não encontrada"));
             }
 
             // 201 recurso criado
-            Demanda demanda = new Demanda(novaDemanda);
-            demanda.setCategoria(demanda.getCategoria());
+            Demanda demanda = new Demanda(novaDemanda.getCategoria(), usuario.get(), instituicao.get(), pet.get());
             demandaRepositorio.save(demanda);
             return ResponseEntity.status(201).build();
 
@@ -105,7 +115,7 @@ public class DemandaController implements GerenciadorArquivos{
         if (usuarioRepositorio.existsById(fkUsuario)) {
             // Retornar demandas isoladas de acordo com o status
             // armazenando lista de demandas do usuário
-            List<Demanda> lista = demandaRepositorio.findAllByFkUsuario(fkUsuario);
+            List<Demanda> lista = demandaRepositorio.findAllByUsuario(fkUsuario);
 
             // verificando se a lista de demandas do usuário está vazia
             if (lista.isEmpty()){
@@ -125,7 +135,7 @@ public class DemandaController implements GerenciadorArquivos{
     @GetMapping("/instituicao/{fkInstituicao}")
     public ResponseEntity<Object> getDemandaAbertoInstituicao(@PathVariable int fkInstituicao){
         if (instituicaoRepositorio.existsById(fkInstituicao)){
-            List<Demanda> lista = demandaRepositorio.findAllByFkInstituicaoAndStatus(fkInstituicao, "aberto");
+            List<Demanda> lista = demandaRepositorio.findAllByInstituicaoAndStatus(fkInstituicao, "aberto");
             if (lista.isEmpty()){
                 return ResponseEntity.status(204).body(new Message("Lista vázia"));
             }
@@ -172,26 +182,26 @@ public class DemandaController implements GerenciadorArquivos{
         return ResponseEntity.status(404).build();
     }
 
-    @PatchMapping("/colaborador-abrir/{idDemanda}/{fkColaborador}")
-    public ResponseEntity<Object> patchDemandaColaborador(@PathVariable int idDemanda, @PathVariable int fkColaborador){
-
-        // verificando existencia da demanda
-        if (demandaRepositorio.existsById(idDemanda)){
-            if (usuarioRepositorio.existsById(fkColaborador)){
-                // atualizando status da demanda
-                Demanda demanda = demandaRepositorio.getById(idDemanda);
-                demanda.setStatus("em_andamento");
-                demanda.setFkColaborador(fkColaborador);
-                demandaRepositorio.save(demanda);
-                // 200 - empty response
-                return ResponseEntity.status(200).build();
-            }
-            // 404 - demanda não encontrada
-            return ResponseEntity.status(404).body(new Message("Colaborador não encontrada"));
-        }
-        // 404 - demanda não encontrada
-        return ResponseEntity.status(404).body(new Message("Demanda não encontrada"));
-    }
+//    @PatchMapping("/colaborador-abrir/{idDemanda}/{fkColaborador}")
+//    public ResponseEntity<Object> patchDemandaColaborador(@PathVariable int idDemanda, @PathVariable int fkColaborador){
+//
+//        // verificando existencia da demanda
+//        if (demandaRepositorio.existsById(idDemanda)){
+//            if (usuarioRepositorio.existsById(fkColaborador)){
+//                // atualizando status da demanda
+//                Demanda demanda = demandaRepositorio.getById(idDemanda);
+//                demanda.setStatus("em_andamento");
+//                demanda.setFkColaborador(fkColaborador);
+//                demandaRepositorio.save(demanda);
+//                // 200 - empty response
+//                return ResponseEntity.status(200).build();
+//            }
+//            // 404 - demanda não encontrada
+//            return ResponseEntity.status(404).body(new Message("Colaborador não encontrada"));
+//        }
+//        // 404 - demanda não encontrada
+//        return ResponseEntity.status(404).body(new Message("Demanda não encontrada"));
+//    }
 
     @PatchMapping("/status/{idDemanda}/{statusAtualizar}")
     public ResponseEntity<Object> patchDemandaStatus(@PathVariable int idDemanda, @PathVariable String statusAtualizar){
@@ -238,7 +248,7 @@ public class DemandaController implements GerenciadorArquivos{
 
     @GetMapping("/download/{idInstituicao}/{status}")
     public ResponseEntity<Object> getDemandaCSV(@PathVariable int idInstituicao, @PathVariable String status){
-        List<Demanda> listaRepositorio = demandaRepositorio.findAllByFkInstituicaoAndStatus(idInstituicao,status);
+        List<Demanda> listaRepositorio = demandaRepositorio.findAllByInstituicaoAndStatus(idInstituicao,status);
         ListaObj<Demanda> listaDemandas = new ListaObj<>(listaRepositorio.size());
         for(Demanda d : listaRepositorio){
             listaDemandas.adicionarElemento(d);
@@ -257,7 +267,7 @@ public class DemandaController implements GerenciadorArquivos{
     }
 
 
-//
+
     @Override
     public void gravaArquivoCSV(ListaObj lista, String nomeArquivo) {
         FileWriter arq = null;
@@ -278,18 +288,18 @@ public class DemandaController implements GerenciadorArquivos{
         try{
             for (int i = 0; i < lista.getTamanho(); i++) {
                 Demanda demanda = (Demanda) lista.getElemento(i);
-                if(Objects.isNull(demanda.getFkColaborador())){
+                if(Objects.isNull(demanda.getColaborador())){
                     saida.format(formatacaoInsert,
                             demanda.getId(),demanda.getCategoria(),
-                            usuarioRepositorio.findById(demanda.getFkUsuario()).get().getNome(),
+                            demanda.getUsuario().getNome(),
                             demanda.getDataAbertura(),
                             '-');
                 }else{
                     saida.format(formatacaoInsert,
                             demanda.getId(),demanda.getCategoria(),
-                            usuarioRepositorio.findById(demanda.getFkUsuario()).get().getNome(),
+                            demanda.getUsuario().getNome(),
                             demanda.getDataAbertura(),
-                            usuarioRepositorio.findById(demanda.getFkColaborador()).get().getNome());
+                            demanda.getColaborador().getNome());
                 }
             }
         }catch (FormatterClosedException err){

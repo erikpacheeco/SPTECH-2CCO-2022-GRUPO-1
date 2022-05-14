@@ -1,15 +1,19 @@
 package petfinder.petfinderapi.requisicao;
 
+import javax.validation.constraints.NotNull;
+
 public class CriacaoDemanda {
 
     // atributos
     private String categoria;
-    private int fkUsuario;
-    private int fkIntituicao;
+    @NotNull
+    private Integer fkUsuario;
+    @NotNull
+    private Integer fkIntituicao;
     private Integer fkPet;
 
     // construtor
-    public CriacaoDemanda(String categoria, int fkUsuario, int fkIntituicao, Integer fkPet) {
+    public CriacaoDemanda(String categoria, Integer fkUsuario, Integer fkIntituicao, Integer fkPet) {
         this.categoria = categoria;
         this.fkUsuario = fkUsuario;
         this.fkIntituicao = fkIntituicao;

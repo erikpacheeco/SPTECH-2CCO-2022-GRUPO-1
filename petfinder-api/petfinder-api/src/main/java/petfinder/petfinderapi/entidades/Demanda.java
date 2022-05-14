@@ -4,10 +4,7 @@ package petfinder.petfinderapi.entidades;
 // import petfinder.petfinderapi.enums.EnumStatusDemanda;
 import petfinder.petfinderapi.requisicao.CriacaoDemanda;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.text.DateFormat;
@@ -33,28 +30,37 @@ public class Demanda {
     @NotBlank
     private String status;
     @NotNull
-    private int fkUsuario;
+    @ManyToOne
+    private Usuario usuario;
     @NotNull
-    private Integer fkInstituicao;
-    private Integer fkPet;
-    private Integer fkColaborador;
+    @ManyToOne
+    private Instituicao instituicao;
+    @ManyToOne
+    private Pet pet;
+    @ManyToOne
+    private Usuario colaborador;
 
-    public Demanda(String categoria, String dataAbertura, String dataFechamento,
-                   String status, int fkUsuario, Integer fkInstituicao, Integer fkPet, Integer fkColaborador) {
-        this.categoria = categoria.toLowerCase(Locale.ROOT);
+    public Demanda(String categoria, String dataAbertura,
+                   String dataFechamento, String status,
+                   Usuario usuario, Instituicao instituicao,
+                   Pet pet, Usuario colaborador) {
+        this.categoria = categoria;
         this.dataAbertura = dataAbertura;
         this.dataFechamento = dataFechamento;
-        this.status = status.toLowerCase(Locale.ROOT);
-        this.fkUsuario = fkUsuario;
-        this.fkInstituicao = fkInstituicao;
-        this.fkPet = fkPet;
-        this.fkColaborador = fkColaborador;
+        this.status = status;
+        this.usuario = usuario;
+        this.instituicao = instituicao;
+        this.pet = pet;
+        this.colaborador = colaborador;
     }
 
-    public Demanda(CriacaoDemanda demanda) {
+    public Demanda(String categoria, Usuario usuario, Instituicao instituicao, Pet pet) {
 
-        this(demanda.getCategoria(), null, null,
-                "ABERTO", demanda.getFkUsuario(), demanda.getFkIntituicao(), demanda.getFkPet(), null);
+        this(categoria, null,
+                null, "ABERTO",
+                usuario, instituicao,
+                pet, null);
+
         Date date = Calendar.getInstance().getTime();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String strDate = dateFormat.format(date);
@@ -104,35 +110,35 @@ public class Demanda {
         this.status = status.toLowerCase();
     }
 
-    public int getFkUsuario() {
-        return fkUsuario;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setFkUsuario(int fkUsuario) {
-        this.fkUsuario = fkUsuario;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
-    public Integer getFkInstituicao() {
-        return fkInstituicao;
+    public Instituicao getInstituicao() {
+        return instituicao;
     }
 
-    public void setFkInstituicao(Integer fkInstituicao) {
-        this.fkInstituicao = fkInstituicao;
+    public void setInstituicao(Instituicao instituicao) {
+        this.instituicao = instituicao;
     }
 
-    public Integer getFkPet() {
-        return fkPet;
+    public Pet getPet() {
+        return pet;
     }
 
-    public void setFkPet(Integer fkPet) {
-        this.fkPet = fkPet;
+    public void setPet(Pet pet) {
+        this.pet = pet;
     }
 
-    public Integer getFkColaborador() {
-        return fkColaborador;
+    public Usuario getColaborador() {
+        return colaborador;
     }
 
-    public void setFkColaborador(Integer fkColaborador) {
-        this.fkColaborador = fkColaborador;
+    public void setColaborador(Usuario colaborador) {
+        this.colaborador = colaborador;
     }
 }

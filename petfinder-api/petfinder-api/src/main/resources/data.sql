@@ -33,14 +33,6 @@ VALUES
 ('Yoru', 'yoru@gmail.com', 'urubu200', 'user', 2, null, false),
 ('Sage', 'sage@gmail.com', 'urubu200', 'user', 1, null, false);
 
--- Demanda
-INSERT INTO
-demanda(categoria, data_abertura, data_fechamento, status, fk_usuario, fk_instituicao, fk_pet)
-VALUES
-('pagamento', '2020/01/01', null, 'aberto', 9, 1, null),
-('adocao', '2020/01/01', null, 'aberto', 10, 1, null),
-('resgate', '2020/01/01', null, 'aberto', 9, 1, null);
-
 -- Pet
 INSERT INTO
 pet(nome, data_nasc, especie, raca, porte, sexo, descricao, em_adocao, fk_instituicao)
@@ -62,3 +54,11 @@ VALUES
 ('Cheiroso'),
 ('Branco'),
 ('Calmo');
+
+-- Demanda
+INSERT INTO
+demanda(categoria, data_abertura, data_fechamento, status, usuario_id, instituicao_id, pet_id)
+VALUES
+('pagamento', '2020/01/01', null, 'aberto', 9, 1, null),
+('adocao', '2020/01/01', null, 'aberto', 10, 1, null),
+('resgate', '2020/01/01', null, 'aberto', 9, 1, null);
