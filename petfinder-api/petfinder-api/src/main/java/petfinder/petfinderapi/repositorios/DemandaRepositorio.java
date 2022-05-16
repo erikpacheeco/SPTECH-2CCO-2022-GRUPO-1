@@ -14,5 +14,7 @@ public interface DemandaRepositorio extends JpaRepository<Demanda, Integer> {
     List<Demanda> findAllByUsuarioAndStatus(int id, String status);
 
     @Query("select d from Demanda d WHERE d.instituicao.id = ?1 AND d.status = ?2")
-    List<Demanda> findAllByInstituicaoAndStatus(int instiuicao, String aberto);
+    List<Demanda> findAllByInstituicaoAndStatus(int instituicao, String aberto);
+
+    List<Demanda> findAllByInstituicao(int instituicao);
 }

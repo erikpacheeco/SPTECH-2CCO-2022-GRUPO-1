@@ -9,7 +9,6 @@ public class InstituicaoEndereco {
     private int id;
     private String nome;
     private String telefone;
-    private String chavePix;
     private String termoAdocao;
     private Endereco endereco;
 
@@ -19,7 +18,6 @@ public class InstituicaoEndereco {
         this.id = id;
         this.nome = nome;
         this.telefone = telefone;
-        this.chavePix = chavePix;
         this.termoAdocao = termoAdocao;
         this.endereco = endereco;
     }
@@ -27,7 +25,6 @@ public class InstituicaoEndereco {
         this.id = instituicao.getId();
         this.nome = instituicao.getNome();
         this.telefone = instituicao.getTelefone();
-        this.chavePix = instituicao.getChavePix();
         this.termoAdocao = instituicao.getTermoAdocao();
         this.endereco = endereco;
     }
@@ -50,12 +47,6 @@ public class InstituicaoEndereco {
     }
     public void setTelefone(String telefone) {
         this.telefone = telefone;
-    }
-    public String getChavePix() {
-        return chavePix;
-    }
-    public void setChavePix(String chavePix) {
-        this.chavePix = chavePix;
     }
     public String getTermoAdocao() {
         return termoAdocao;

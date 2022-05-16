@@ -1,5 +1,7 @@
 package petfinder.petfinderapi.controladores;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/instituicoes")
+@Tag(name = "Instituições e Endereço", description = "Essa API é reponsável por fazer requisições da instituição e do endereço")
 public class InsitituicoesController {
 
     // repositorios
@@ -29,6 +32,7 @@ public class InsitituicoesController {
 
     // retorna todas as instituições
     @GetMapping
+    @Operation(description = "Endpoint que retorna uma lista de todas as suas instituições")
     public ResponseEntity<List<Instituicao>> listarInstituicoes(){
 
         List<Instituicao> instituicoes = instituicaoRepositorio.findAll();
@@ -44,37 +48,9 @@ public class InsitituicoesController {
         return ResponseEntity.status(200).body(instituicoes);
     }
 
-    // retorna instituições + seus endereços
-    @GetMapping("/completa")
-    public ResponseEntity<List<InstituicaoEndereco>> getInstituicaoEndereco() {
-
-        // entidades
-        List<Instituicao> instituicoes = instituicaoRepositorio.findAll();
-        List<InstituicaoEndereco> instituicaoEnderecos = new ArrayList<InstituicaoEndereco>();
-
-        // atribuindo endereco de cada instituicao
-        instituicoes.stream().forEach(instituicao -> {
-            Endereco endereco = null;
-
-            if (Objects.nonNull(instituicao.getFkEndereco())) {
-                endereco = enderecoRepositorio.findById(instituicao.getFkEndereco()).get();
-            } 
-
-            InstituicaoEndereco instituicaoEndereco = new InstituicaoEndereco(instituicao, endereco);
-            instituicaoEnderecos.add(instituicaoEndereco);
-        });
-
-        // 204 no content
-        if (instituicaoEnderecos.isEmpty()) {
-            return ResponseEntity.status(204).body(instituicaoEnderecos);
-        }
-        
-        // 200
-        return ResponseEntity.status(200).body(instituicaoEnderecos);
-    }
-
     // retorna instituicao baseada no ID
     @GetMapping("/{id}")
+    @Operation(description = "Enpoint que retorna uma unica instituição filtrada pelo seu ID")
     public ResponseEntity<Instituicao> getInstituicaoById(@PathVariable int id) {
 
         Optional<Instituicao> instituicao = instituicaoRepositorio.findById(id);
@@ -90,36 +66,9 @@ public class InsitituicoesController {
         return ResponseEntity.status(404).build();
     }
 
-    // retorna instituicao específica + seu Endereco
-    @GetMapping("/{id}/completa")
-    public ResponseEntity<InstituicaoEndereco> getInstituicaoEnderecoById(@PathVariable int id) {
-
-        // dados do banco
-        Optional<Instituicao> instituicao = instituicaoRepositorio.findById(id);
-        Optional<Endereco> endereco = null;
-        InstituicaoEndereco instituicaoEndereco;
-
-        // verificando existencia da instituição
-        if (instituicao.isPresent()) {
-
-            // verificando existencia do endereço da instituição
-            endereco = enderecoRepositorio.findById(instituicao.get().getFkEndereco());
-
-            instituicaoEndereco = new InstituicaoEndereco(
-                instituicao.get(), 
-                endereco.get()
-            );
-
-            // 200
-            return ResponseEntity.status(200).body(instituicaoEndereco);
-        }
-        
-        // 404 instituicao não encontrada
-        return ResponseEntity.status(404).build();
-    }
-
     // cadastra instituicao
     @PostMapping
+    @Operation(description = "Endpoint para cadastro de instituição")
     public ResponseEntity<Object> postInstituicao(@RequestBody @Valid Instituicao instituicao){
             // adicionando endereco + instituicao
             // enderecoRepositorio.save(instituicao.getEndereco());
@@ -130,12 +79,13 @@ public class InsitituicoesController {
     }
 
     // edita dados da instituicao
-    @PutMapping("/{indice}")
-    public ResponseEntity<Object> putInstituicao(@RequestBody @Valid Instituicao instituicaoAtualizada, @PathVariable int indice){
+    @PutMapping("/{id}")
+    @Operation(description = "Endpoint para edição das informações da instituição")
+    public ResponseEntity<Object> putInstituicao(@RequestBody @Valid Instituicao instituicaoAtualizada, @PathVariable int id){
 
         // verificando se instituicao existe
-        if(instituicaoRepositorio.existsById(indice)){
-            instituicaoAtualizada.setId(indice);
+        if(instituicaoRepositorio.existsById(id)){
+            instituicaoAtualizada.setId(id);
             instituicaoRepositorio.save(instituicaoAtualizada);
 
             // 200
@@ -150,6 +100,7 @@ public class InsitituicoesController {
 
     // retorna todos os enderecos
     @GetMapping("/endereco")
+    @Operation(description = "Endpoint que retorna uma lista com todos os endereços")
     public ResponseEntity<List<Endereco>> getAllEndereco() {
 
         List<Endereco> enderecos = enderecoRepositorio.findAll();
@@ -167,6 +118,7 @@ public class InsitituicoesController {
 
     // retorna endereco específico
     @GetMapping("/endereco/{id}")
+    @Operation(description = "Endpoint que retorna um endereço especifico pelo seu ID")
     public ResponseEntity<Endereco> getEndereco(@PathVariable int id) {
         Optional<Endereco> endereco = enderecoRepositorio.findById(id);
 
@@ -183,6 +135,7 @@ public class InsitituicoesController {
 
     // cadastra endereco
     @PostMapping("/endereco")
+    @Operation(description = "Endpoint para cadastro de Endereço")
     public ResponseEntity<Object> postEndereco(@RequestBody @Valid Endereco endereco) {
             enderecoRepositorio.save(endereco);
 
@@ -192,6 +145,7 @@ public class InsitituicoesController {
 
     // edita um endereco especifico
     @PutMapping("/endereco/{id}")
+    @Operation(description = "Endpoint para edição de um endereço filtrado pelo ID")
     public ResponseEntity<Object> putEndereco(@RequestBody @Valid Endereco endereco, @PathVariable int id) {
 
         // verificando se endereço existe

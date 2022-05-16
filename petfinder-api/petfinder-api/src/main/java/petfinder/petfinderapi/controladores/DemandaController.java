@@ -1,5 +1,7 @@
 package petfinder.petfinderapi.controladores;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +27,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/demandas")
+@Tag(name = "Demanda",description = "Essa API é utilizada para controlar as transações do sistema")
 public class DemandaController implements GerenciadorArquivos{
 
     // repositorios
@@ -48,7 +51,8 @@ public class DemandaController implements GerenciadorArquivos{
     private ListaObj<String> tiposMenssagensPossiveis = new ListaObj<String>(new String[]{"ARQUIVO", "MENSSAGEM"});
 
     // endpoints
-    @PostMapping
+    @PostMapping()
+    @Operation(description = "Endpoint de criação de novas demandas, utilizando de uma DTO")
     public ResponseEntity<Object> postDemanda(@RequestBody @Valid CriacaoDemanda novaDemanda){
 
         Optional<Usuario> usuario = usuarioRepositorio.findById(novaDemanda.getFkUsuario());
@@ -81,6 +85,7 @@ public class DemandaController implements GerenciadorArquivos{
     }
 
     @GetMapping
+    @Operation(description = "Endpoint que retorna uma lista de demandas sem filtro")
     public ResponseEntity getDemanda(){
         List<Demanda> lista = demandaRepositorio.findAll();
 
@@ -94,6 +99,7 @@ public class DemandaController implements GerenciadorArquivos{
     }
 
     @GetMapping("/{idDemanda}")
+    @Operation(description = "Endpoint que retorna uma lista de demandas filtradas por ID")
     public ResponseEntity<Object> getDemandaById(@PathVariable int idDemanda){
         Optional<Demanda> demanda = demandaRepositorio.findById(idDemanda);
 
@@ -109,6 +115,7 @@ public class DemandaController implements GerenciadorArquivos{
     }
 
     @GetMapping("/user/{fkUsuario}")
+    @Operation(description = "Endpoint que retorna uma lista de demandas filtradas pelo ID do Usuário")
     public ResponseEntity<Object> getDemandasUserById(@PathVariable int fkUsuario){
 
         // verificando se usuario existe
@@ -133,9 +140,10 @@ public class DemandaController implements GerenciadorArquivos{
     }
 
     @GetMapping("/instituicao/{fkInstituicao}")
-    public ResponseEntity<Object> getDemandaAbertoInstituicao(@PathVariable int fkInstituicao){
+    @Operation(description = "Endpoint que retorna uma lista de demandas de uma instituição ")
+    public ResponseEntity<Object> getDemandaByInstituicao(@PathVariable int fkInstituicao){
         if (instituicaoRepositorio.existsById(fkInstituicao)){
-            List<Demanda> lista = demandaRepositorio.findAllByInstituicaoAndStatus(fkInstituicao, "aberto");
+            List<Demanda> lista = demandaRepositorio.findAllByInstituicao(fkInstituicao);
             if (lista.isEmpty()){
                 return ResponseEntity.status(204).body(new Message("Lista vázia"));
             }
@@ -143,10 +151,24 @@ public class DemandaController implements GerenciadorArquivos{
         }
         // 404 instituição not found
         return ResponseEntity.status(404).body(new Message("Instituição não encontrada"));
+    }
 
-    } /// Terminar este!!!!!!
+    @GetMapping("/instituicao/{fkInstituicao}/{status}")
+    @Operation(description = "Endpoint que retorna uma lista de demandas filtradas pela instituição e pelo status da demanda")
+    public ResponseEntity<Object> getDemandaByInstituicaoAndStatus(@PathVariable int fkInstituicao, @PathVariable String status){
+        if (instituicaoRepositorio.existsById(fkInstituicao)){
+            List<Demanda> lista = demandaRepositorio.findAllByInstituicaoAndStatus(fkInstituicao, status);
+            if (lista.isEmpty()){
+                return ResponseEntity.status(204).body(new Message("Lista vázia"));
+            }
+            return  ResponseEntity.status(200).body(lista);
+        }
+        // 404 instituição not found
+        return ResponseEntity.status(404).body(new Message("Instituição não encontrada"));
+    }
 
     @PutMapping("/{idDemanda}")
+    @Operation(description = "Endpoint para....") // !! ATUALIZAR ESSA DESCRIÇÂO
     public ResponseEntity<Object> patchDemanda(@PathVariable int idDemanda, @RequestBody @Valid Demanda demandaAtualizar){
 
         // verificando se demanda existe
@@ -204,6 +226,7 @@ public class DemandaController implements GerenciadorArquivos{
 //    }
 
     @PatchMapping("/status/{idDemanda}/{statusAtualizar}")
+    @Operation(description = "Endpoint para atualizar o status de uma demanda especifica filtrada pelo ID")
     public ResponseEntity<Object> patchDemandaStatus(@PathVariable int idDemanda, @PathVariable String statusAtualizar){
 
         // verificando existencia da demanda
@@ -230,6 +253,7 @@ public class DemandaController implements GerenciadorArquivos{
     }
 
     @DeleteMapping("/{idDemanda}")
+    @Operation(description = "Enpoint que deleta uma demanda especifica filtrada pelo ID")
     public ResponseEntity<Object> deleteDemanda(@PathVariable int idDemanda){
 
         // verificando se demanda existe
@@ -247,6 +271,7 @@ public class DemandaController implements GerenciadorArquivos{
     }
 
     @GetMapping("/download/{idInstituicao}/{status}")
+    @Operation(description = "Endpoint responsável por fazer o download do log de demandas com um tipo de status e de uma unica instiuição filtrada pelo seu ID")
     public ResponseEntity<Object> getDemandaCSV(@PathVariable int idInstituicao, @PathVariable String status){
         List<Demanda> listaRepositorio = demandaRepositorio.findAllByInstituicaoAndStatus(idInstituicao,status);
         ListaObj<Demanda> listaDemandas = new ListaObj<>(listaRepositorio.size());

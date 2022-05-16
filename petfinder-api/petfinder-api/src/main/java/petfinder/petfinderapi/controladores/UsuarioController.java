@@ -1,5 +1,7 @@
 package petfinder.petfinderapi.controladores;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +27,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/usuarios")
+@Tag(name = "Usuario",description = "API para controlar as ações do usuário")
 public class UsuarioController {
 
     // repositorios
@@ -54,6 +57,7 @@ public class UsuarioController {
 
     // retorna todos os usuarios
     @GetMapping
+    @Operation(description = "Endpoint que retorna uma lista com todos os usuários")
     public ResponseEntity<List<UsuarioSemSenha>> getUsuario() {
         List<Usuario> listaUsuario = usuarioRepository.findAll();
 
@@ -78,6 +82,7 @@ public class UsuarioController {
 
     // retorna usuário baseado no ID
     @GetMapping("/{id}")
+    @Operation(description = "Endpoint que retonar um usuario especifico filtrado pelo ID")
     public ResponseEntity<UsuarioSemSenha> getUsuarioById(@PathVariable int id) {
         Optional<Usuario> usuario = usuarioRepository.findById(id);
 
@@ -98,6 +103,7 @@ public class UsuarioController {
 
     // cadastro usuário
     @PostMapping
+    @Operation(description = "Endpoint que cadastra um novo usuário")
     public ResponseEntity<Object> postUsuario(@RequestBody @Valid Usuario novoUsuario) {
 
         // verificando se algum usuário já possui o email fornecido
@@ -118,6 +124,7 @@ public class UsuarioController {
 
     // atualizando informações do usuário
     @PutMapping("/{id}")
+    @Operation(description = "Endpoint que atualiza as informações de um usuario especifico filtrado pelo ID")
     public ResponseEntity<Object> updateUsuario(@PathVariable int id, @RequestBody @Valid Usuario novoUsuario) {
 
         // verificando se usuário existe
@@ -154,6 +161,7 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(description = "Endpoint que deleta um usuario filtrado pelo ID")
     public ResponseEntity<Object> deleteUsuario(@PathVariable int id) {
 
         // verificando se usuário existe
@@ -169,6 +177,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/autenticacao")
+    @Operation(description = "Endpoint que faz a autenticação e login do usuário")
     public ResponseEntity<Object> login(@RequestBody @Valid UsuarioLogin usuarioLogin) {
 
         // verificando se usuário existe
@@ -195,6 +204,7 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/autenticacao/{id}")
+    @Operation(description = "Endpoint que faz o logoff de um usuario especifico filtrado pelo ID")
     public ResponseEntity<Object> deleteLogoff(@PathVariable int id) {
 
         // verificando se usuário existe
@@ -259,23 +269,4 @@ public class UsuarioController {
         return ResponseEntity.status(404).body(new Message("Instituicao inexistente"));
     }
     */
-
-    // retorna endereco baseado no id
-    private Endereco getEnderecoById(Integer id) {
-
-        // se id for null, retorna null
-        if (Objects.nonNull(id)) {
-            Optional<Endereco> endereco = enderecoRepository.findById(id);
-
-            // se endereco existe, retorna endereco
-            if (endereco.isPresent()) {
-                return endereco.get();
-            }
-
-            // endereço inexistente no banco
-            return null;
-        }
-
-        return null;
-    }
 }
