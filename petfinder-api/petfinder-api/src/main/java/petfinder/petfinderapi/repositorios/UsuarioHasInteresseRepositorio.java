@@ -15,8 +15,4 @@ public interface UsuarioHasInteresseRepositorio extends JpaRepository<UsuarioHas
     @Query("SELECT u FROM UsuarioHasInteresse u WHERE u.fkCaracteristica.id = ?1 AND u.fkUsuario.id = ?2")
     List<UsuarioHasInteresse> findByFkCaracteisticaAndFkUsuario(Integer caracteristica, Integer usuario);
 
-    //@Query("INSERT INTO UsuarioHasInteresse (fkCaracteristica.id, fkUsuario.id) VALUES (?1, ?2)")
-    //UsuarioHasInteresse save(Integer caracteristica, Integer usuario);
-
-
 }

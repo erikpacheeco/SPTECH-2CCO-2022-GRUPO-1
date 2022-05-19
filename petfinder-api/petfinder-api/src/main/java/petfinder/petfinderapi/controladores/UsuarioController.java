@@ -335,4 +335,22 @@ public class UsuarioController {
         return ResponseEntity.status(201).body(usuarioHasInteresse);
 
     }
+
+    // cadastra endereco
+    @PostMapping("/endereco")
+    public ResponseEntity<Object> postEndereco(@RequestBody @Valid Endereco novoEndereco) {
+        List<Endereco> lista = enderecoRepository.findAll();
+
+        if (lista.contains(novoEndereco)) {
+            // 409 - Conflict
+            return ResponseEntity.status(409).build();
+        }
+
+        enderecoRepository.save(novoEndereco);
+
+        // 201 - Endereco criado
+        return ResponseEntity.status(201).build();
+    }
+
+
 }
