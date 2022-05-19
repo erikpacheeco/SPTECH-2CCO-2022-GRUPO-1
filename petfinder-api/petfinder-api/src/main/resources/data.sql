@@ -4,16 +4,17 @@ endereco(rua, num, complemento, bairro, cidade, uf, cep, latitude, longitude)
 VALUES
 ('rua A', '111', null, 'Bairro A', 'Sao Paulo', 'SP', '11111111', null, null),
 ('rua B', '222', null, 'Bairro B', 'Sao Paulo', 'SP', '22222222', null, null),
-('rua C', '333', null, 'Bairro C', 'Sao Paulo', 'SP', '33333333', null, null);
+('rua C', '333', null, 'Bairro C', 'Sao Paulo', 'SP', '33333333', null, null),
+('rua D', '444', null, 'Bairro D', 'Sao Paulo', 'SP', '44444444', null, null);
 
 -- instituicao
 INSERT INTO 
-instituicao(nome, telefone, chave_pix, termo_adocao, fk_endereco)
+instituicao(nome, telefone, termo_adocao, endereco_id)
 VALUES 
-('instituicao A', '11 91111-1111', 'poadskfafioasjdf', null, 1),
-('instituicao B', '11 92222-2222', 'sdhflaksdfnsdfas', null, 2),
-('instituicao C', '11 93333-3333', 'sdofihasldkfjans', null, 3),
-('instituicao D', '11 93333-3333', 'sdofihasldkfjans', null, null);
+('instituicao A', '11 91111-1111', null, 1),
+('instituicao B', '11 92222-2222', null, 2),
+('instituicao C', '11 93333-3333', null, 3),
+('instituicao D', '11 93333-3333', null, 4);
 
 -- usuario 
 INSERT INTO 
@@ -32,14 +33,6 @@ VALUES
 ('Cypher de Souza', 'cypher@gmail.com', 'urubu200', 'user', 2, null, false),
 ('Yoru', 'yoru@gmail.com', 'urubu200', 'user', 2, null, false),
 ('Sage', 'sage@gmail.com', 'urubu200', 'user', 1, null, false);
-
--- Demanda
-INSERT INTO
-demanda(categoria, data_abertura, data_fechamento, status, fk_usuario, fk_instituicao, fk_pet)
-VALUES
-('pagamento', '2020/01/01', null, 'aberto', 9, 1, null),
-('adocao', '2020/01/01', null, 'aberto', 10, 1, null),
-('resgate', '2020/01/01', null, 'aberto', 9, 1, null);
 
 -- Pet
 INSERT INTO
@@ -74,3 +67,12 @@ VALUES
 (3, 12),
 (1, 13),
 (4, 13);
+
+-- Demanda
+INSERT INTO
+demanda(categoria, data_abertura, data_fechamento, status, usuario_id, instituicao_id, pet_id)
+VALUES
+('pagamento', '2020/01/01', null, 'aberto', 9, 1, null),
+('adocao', '2020/01/01', null, 'aberto', 10, 1, null),
+('resgate', '2020/01/01', null, 'aberto', 9, 1, null);
+
