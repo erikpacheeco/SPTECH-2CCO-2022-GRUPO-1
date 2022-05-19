@@ -1,11 +1,15 @@
 package petfinder.petfinderapi.controladores;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import petfinder.petfinderapi.entidades.Caracteristica;
 import petfinder.petfinderapi.entidades.Endereco;
 import petfinder.petfinderapi.entidades.Usuario;
+import petfinder.petfinderapi.entidades.UsuarioHasInteresse;
+import petfinder.petfinderapi.requisicao.InteresseUsuario;
 import petfinder.petfinderapi.utilitarios.ListaObj;
 import petfinder.petfinderapi.repositorios.CaracteristicaRepositorio;
 import petfinder.petfinderapi.repositorios.EnderecoRepositorio;
@@ -15,12 +19,12 @@ import petfinder.petfinderapi.repositorios.UsuarioRepositorio;
 import petfinder.petfinderapi.requisicao.UsuarioLogin;
 import petfinder.petfinderapi.resposta.Message;
 import petfinder.petfinderapi.resposta.UsuarioSemSenha;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.Valid;
 
 @RestController
@@ -97,6 +101,7 @@ public class UsuarioController {
     }
 
     // cadastro usuário
+
     @PostMapping
     public ResponseEntity<Object> postUsuario(@RequestBody @Valid Usuario novoUsuario) {
 
@@ -111,7 +116,7 @@ public class UsuarioController {
             usuarioRepository.save(novoUsuario);
             return ResponseEntity.status(201).build();
         }
-        
+
         // 400 bad request - nível de acesso inválido
         return ResponseEntity.status(400).body(new Message("Nível de acesso do usuário inválido."));
     }
@@ -220,9 +225,11 @@ public class UsuarioController {
         return ResponseEntity.status(404).body(new Message("Usuário não encontrado"));
 
     }
-    /*
+
+
     @GetMapping("/acesso/{fkInstituicao}/{nivelAcessoReq}")
-    public ResponseEntity<Object> getUsuarioByNivelAcesso(@PathVariable Integer fkInstituicao, @PathVariable String nivelAcessoReq) {
+    public ResponseEntity<Object> getUsuarioByNivelAcesso(@PathVariable Integer fkInstituicao,
+                                                          @PathVariable String nivelAcessoReq) {
         nivelAcessoReq = nivelAcessoReq.toLowerCase();
 
         // verificando se instituicao existe
@@ -258,7 +265,6 @@ public class UsuarioController {
         // 404 - instituicao inexistente
         return ResponseEntity.status(404).body(new Message("Instituicao inexistente"));
     }
-    */
 
     // retorna endereco baseado no id
     private Endereco getEnderecoById(Integer id) {
@@ -277,5 +283,48 @@ public class UsuarioController {
         }
 
         return null;
+    }
+
+    @GetMapping("/interesse/{idUsuario}")
+    public ResponseEntity<Object> getUsuarioInteresse(@PathVariable Integer idUsuario) {
+
+        // verificando se o usuario existe
+        if (usuarioHasInteresseRepository.existsById(idUsuario)) {
+            List<UsuarioHasInteresse> lista = usuarioHasInteresseRepository.findByFkUsuario(idUsuario);
+
+            // verificando se a lista está vazia
+            if (lista.isEmpty()) {
+
+                // 204 no content
+                return ResponseEntity.status(204).build();
+            }
+
+            // 200 - ok
+            return ResponseEntity.status(200).body(lista);
+        }
+
+        // 404 - instituicao inexistente
+        return ResponseEntity.status(404).body(new Message("Usuário não encontrado"));
+    }
+
+    @PostMapping("/interesse")
+    public ResponseEntity postUsuarioInteresse(@RequestBody @Valid InteresseUsuario novoInteresse) {
+
+        if (!caracteristicaRepository.findById(novoInteresse.getFkCaracteristica()).isPresent() ||
+                !usuarioRepository.findById(novoInteresse.getFkUsuario()).isPresent()) {
+            //404 - Not found
+            return ResponseEntity.status(404).build();
+        }
+
+        UsuarioHasInteresse usuarioHasInteresse = new UsuarioHasInteresse();
+
+        usuarioHasInteresse.setFkCaracteristica(caracteristicaRepository.getById(novoInteresse.getFkCaracteristica()));
+        usuarioHasInteresse.setFkUsuario(usuarioRepository.getById(novoInteresse.getFkUsuario()));
+
+        usuarioHasInteresseRepository.save(usuarioHasInteresse);
+
+        // 201 interesse criado
+        return ResponseEntity.status(201).body(usuarioHasInteresse);
+
     }
 }

@@ -62,3 +62,15 @@ VALUES
 ('Cheiroso'),
 ('Branco'),
 ('Calmo');
+
+-- UsuarioHasInteresse
+INSERT INTO
+usuario_has_interesse(fk_caracteristica_id, fk_usuario_id)
+VALUES
+(1, 9),
+(3, 9),
+(4, 10),
+(2, 12),
+(3, 12),
+(1, 13),
+(4, 13);

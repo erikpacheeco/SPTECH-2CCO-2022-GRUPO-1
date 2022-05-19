@@ -1,7 +1,7 @@
 package petfinder.petfinderapi.entidades;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import java.util.Optional;
 
 @Entity
 public class UsuarioHasInteresse {

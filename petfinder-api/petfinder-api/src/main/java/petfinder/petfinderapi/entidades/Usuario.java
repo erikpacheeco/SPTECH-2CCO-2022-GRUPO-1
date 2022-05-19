@@ -25,6 +25,7 @@ public class Usuario {
     private String senha;
 
     private String nivelAcesso;
+
     @ManyToOne
     private Endereco endereco;
 
