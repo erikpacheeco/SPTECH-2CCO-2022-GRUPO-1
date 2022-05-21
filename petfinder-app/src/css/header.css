@@ -1,0 +1,22 @@
+:root{
+    --gradient: 270deg, #50077E 0%, #7F2AB5 48.44%, #50077E 100%;
+    --font:
+}
+
+body{
+    margin: 0;
+}
+
+nav{
+    width: 100wh;
+    padding: 16px 40px;
+    background: linear-gradient(var(--gradient))
+}
+
+nav img{
+    height: 68%;
+}
+
+p{
+
+}
