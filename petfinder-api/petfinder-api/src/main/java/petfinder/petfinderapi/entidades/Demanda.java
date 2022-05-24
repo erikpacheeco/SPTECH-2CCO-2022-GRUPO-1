@@ -18,7 +18,6 @@ public class Demanda {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull
     private int id;
     @NotNull
     @NotBlank

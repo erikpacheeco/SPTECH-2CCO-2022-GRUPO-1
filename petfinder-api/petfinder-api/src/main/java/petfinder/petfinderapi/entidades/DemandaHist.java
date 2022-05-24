@@ -1,9 +1,6 @@
 package petfinder.petfinderapi.entidades;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -12,7 +9,6 @@ public class DemandaHist {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull
     private int id;
     @NotNull
     private String data;
@@ -20,7 +16,18 @@ public class DemandaHist {
     @NotBlank
     private String status;
     @NotNull
-    private int fkDemanda;
+    @ManyToOne
+    private Demanda fkDemanda;
+
+    public DemandaHist() {
+    }
+
+    public DemandaHist(Demanda fkDemanda) {
+        this.status = fkDemanda.getStatus();
+        // flexibilidade de data no update
+        this.data = fkDemanda.getDataAbertura();
+        this.fkDemanda = fkDemanda;
+    }
 
     public int getId() {
         return id;
@@ -46,11 +53,11 @@ public class DemandaHist {
         this.status = status;
     }
 
-    public int getFkDemanda() {
+    public Demanda getFkDemanda() {
         return fkDemanda;
     }
 
-    public void setFkDemanda(int fkDemanda) {
+    public void setFkDemanda(Demanda fkDemanda) {
         this.fkDemanda = fkDemanda;
     }
 }

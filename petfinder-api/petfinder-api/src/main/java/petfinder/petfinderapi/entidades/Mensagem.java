@@ -12,7 +12,6 @@ public class Mensagem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull
     private int id;
     private String conteudo;
     @NotNull

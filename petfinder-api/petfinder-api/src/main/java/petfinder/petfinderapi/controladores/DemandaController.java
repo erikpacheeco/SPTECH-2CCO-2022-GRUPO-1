@@ -5,16 +5,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import petfinder.petfinderapi.entidades.Demanda;
-import petfinder.petfinderapi.entidades.Instituicao;
-import petfinder.petfinderapi.entidades.Pet;
-import petfinder.petfinderapi.entidades.Usuario;
-import petfinder.petfinderapi.repositorios.PetRepositorio;
+import petfinder.petfinderapi.entidades.*;
+import petfinder.petfinderapi.repositorios.*;
 import petfinder.petfinderapi.utilitarios.GerenciadorArquivos;
 import petfinder.petfinderapi.utilitarios.ListaObj;
-import petfinder.petfinderapi.repositorios.DemandaRepositorio;
-import petfinder.petfinderapi.repositorios.InstituicaoRepositorio;
-import petfinder.petfinderapi.repositorios.UsuarioRepositorio;
 import petfinder.petfinderapi.requisicao.CriacaoDemanda;
 import petfinder.petfinderapi.resposta.Message;
 
@@ -43,6 +37,9 @@ public class DemandaController implements GerenciadorArquivos{
     @Autowired
     private PetRepositorio petRepositorio;
 
+    @Autowired
+    private DemandaHistRepository demandaHistRepository;
+
     // enums
     private ListaObj<String> categoriasPossiveis = new ListaObj<String>(new String[]{"ADOCAO", "PAGAMENTO", "RESGATE"});
     private ListaObj<String> statusPossiveis = new ListaObj<String>(new String[]{"ABERTO", "CONCLUIDO", "CANCELADO", "DOCUMENTO_VALIDO",
@@ -53,34 +50,40 @@ public class DemandaController implements GerenciadorArquivos{
     // endpoints
     @PostMapping()
     @Operation(description = "Endpoint de criação de novas demandas, utilizando de uma DTO")
-    public ResponseEntity<Object> postDemanda(@RequestBody @Valid CriacaoDemanda novaDemanda){
+    public ResponseEntity<Demanda> postDemanda(@RequestBody @Valid CriacaoDemanda novaDemanda){
 
         Optional<Usuario> usuario = usuarioRepositorio.findById(novaDemanda.getFkUsuario());
         Optional<Instituicao> instituicao = instituicaoRepositorio.findById(novaDemanda.getFkIntituicao());
-        Optional<Pet> pet = petRepositorio.findById(novaDemanda.getFkPet());
+        Pet pet = null;
+        if (Objects.nonNull(novaDemanda.getFkPet())){
+            if (petRepositorio.existsById(novaDemanda.getFkPet())){
+                pet = petRepositorio.findById(novaDemanda.getFkPet()).get();
+            }
+        }
 
         if (instituicao.isPresent()){
 
             // verificando corpo da requisição
             if (!categoriasPossiveis.elementoExiste(novaDemanda.getCategoria())){
-
                 // 400 bad request
-                return ResponseEntity.status(400).body(new Message("Corpo da requisição vazio ou categoria de demanda inválida"));
+                return ResponseEntity.status(400).build();
             }
 
             if (!usuario.isPresent()){
                 // 404 Usuario not found
-                return ResponseEntity.status(404).body(new Message("Usuario não encontrada"));
+                return ResponseEntity.status(404).build();
             }
 
             // 201 recurso criado
-            Demanda demanda = new Demanda(novaDemanda.getCategoria(), usuario.get(), instituicao.get(), pet.get());
-            demandaRepositorio.save(demanda);
-            return ResponseEntity.status(201).build();
+            Demanda demanda = new Demanda(novaDemanda.getCategoria(), usuario.get(), instituicao.get(), pet);
+            demanda = demandaRepositorio.save(demanda);
+            DemandaHist demandaHist = new DemandaHist(demanda);
+            demandaHistRepository.save(demandaHist);
+            return ResponseEntity.ok(demanda);
 
         }
         // 404 instituição not found
-        return ResponseEntity.status(404).body(new Message("Instituição não encontrada"));
+        return ResponseEntity.status(404).build();
 
     }
 
@@ -112,6 +115,8 @@ public class DemandaController implements GerenciadorArquivos{
 
         // 404 demanda não encontrada
         return ResponseEntity.status(404).build();
+
+
     }
 
     @GetMapping("/user/{fkUsuario}")
@@ -138,6 +143,8 @@ public class DemandaController implements GerenciadorArquivos{
         // 404 usuario not found
         return ResponseEntity.status(404).body(new Message("Usuário não encontrado"));
     }
+
+
 
     @GetMapping("/instituicao/{fkInstituicao}")
     @Operation(description = "Endpoint que retorna uma lista de demandas de uma instituição ")
@@ -204,26 +211,30 @@ public class DemandaController implements GerenciadorArquivos{
         return ResponseEntity.status(404).build();
     }
 
-//    @PatchMapping("/colaborador-abrir/{idDemanda}/{fkColaborador}")
-//    public ResponseEntity<Object> patchDemandaColaborador(@PathVariable int idDemanda, @PathVariable int fkColaborador){
-//
-//        // verificando existencia da demanda
-//        if (demandaRepositorio.existsById(idDemanda)){
-//            if (usuarioRepositorio.existsById(fkColaborador)){
-//                // atualizando status da demanda
-//                Demanda demanda = demandaRepositorio.getById(idDemanda);
-//                demanda.setStatus("em_andamento");
-//                demanda.setFkColaborador(fkColaborador);
-//                demandaRepositorio.save(demanda);
-//                // 200 - empty response
-//                return ResponseEntity.status(200).build();
-//            }
-//            // 404 - demanda não encontrada
-//            return ResponseEntity.status(404).body(new Message("Colaborador não encontrada"));
-//        }
-//        // 404 - demanda não encontrada
-//        return ResponseEntity.status(404).body(new Message("Demanda não encontrada"));
-//    }
+    @PatchMapping("/colaborador-abrir/{idDemanda}/{fkColaborador}")
+    @Operation(description = "Endpoint que insere um colaborador na demanda")
+    public ResponseEntity<Object> patchDemandaColaborador(@PathVariable int idDemanda, @PathVariable int idColaborador){
+        Optional<Demanda> demanda = demandaRepositorio.findById(idDemanda);
+        Optional<Usuario> colaborador = usuarioRepositorio.findById(idColaborador);
+
+        // verificando existencia da demanda
+        if (demanda.isPresent()){
+            if (colaborador.isPresent()){
+
+                demanda.get().setStatus("em_andamento");
+                demanda.get().setColaborador(colaborador.get());
+                demandaRepositorio.save(demanda.get());
+                DemandaHist demandaHist = new DemandaHist(demanda.get());
+                demandaHistRepository.save(demandaHist);
+                // 200 - empty response
+                return ResponseEntity.status(200).build();
+            }
+            // 404 - demanda não encontrada
+            return ResponseEntity.status(404).body(new Message("Colaborador não encontrada"));
+        }
+        // 404 - demanda não encontrada
+        return ResponseEntity.status(404).body(new Message("Demanda não encontrada"));
+    }
 
     @PatchMapping("/status/{idDemanda}/{statusAtualizar}")
     @Operation(description = "Endpoint para atualizar o status de uma demanda especifica filtrada pelo ID")
@@ -395,4 +406,20 @@ public class DemandaController implements GerenciadorArquivos{
             return relatorio;
         }
     }
+
+
+    @GetMapping("/historico")
+    @Operation(description = "Endpoint que retorna todo o histórico de demandas")
+    public ResponseEntity<List<DemandaHist>> getHistDemanda(){
+        List<DemandaHist> lista = demandaHistRepository.findAll();
+
+        // 204, em caso de lista vazia
+        if (lista.isEmpty()) {
+            return ResponseEntity.status(204).build();
+        }
+
+        // 200
+        return ResponseEntity.ok(lista);
+    }
+
 }
