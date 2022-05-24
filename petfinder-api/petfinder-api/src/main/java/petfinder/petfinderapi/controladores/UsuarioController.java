@@ -6,16 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import petfinder.petfinderapi.entidades.Demanda;
 import petfinder.petfinderapi.entidades.Endereco;
 import petfinder.petfinderapi.entidades.Usuario;
 import petfinder.petfinderapi.entidades.UsuarioHasInteresse;
+import petfinder.petfinderapi.repositorios.*;
 import petfinder.petfinderapi.requisicao.InteresseUsuario;
 import petfinder.petfinderapi.utilitarios.ListaObj;
-import petfinder.petfinderapi.repositorios.CaracteristicaRepositorio;
-import petfinder.petfinderapi.repositorios.EnderecoRepositorio;
-import petfinder.petfinderapi.repositorios.InstituicaoRepositorio;
-import petfinder.petfinderapi.repositorios.UsuarioHasInteresseRepositorio;
-import petfinder.petfinderapi.repositorios.UsuarioRepositorio;
 import petfinder.petfinderapi.requisicao.UsuarioLogin;
 import petfinder.petfinderapi.resposta.Message;
 import petfinder.petfinderapi.resposta.UsuarioSemSenha;
@@ -24,7 +21,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.Valid;
 
 @RestController
@@ -47,6 +43,9 @@ public class UsuarioController {
 
     @Autowired
     private InstituicaoRepositorio instituicaoRepositorio;
+
+    @Autowired
+    private DemandaRepositorio demandaRepository;
 
     // enums
     ListaObj<String> nivelAcesso = new ListaObj<String>(
@@ -236,6 +235,7 @@ public class UsuarioController {
 
 
     @GetMapping("/acesso/{fkInstituicao}/{nivelAcessoReq}")
+    @Operation(description = "Endpoint que retorna uma lista de usuários de uma instituição com o mesmo nivel de acesso")
     public ResponseEntity<Object> getUsuarioByNivelAcesso(@PathVariable Integer fkInstituicao,
                                                           @PathVariable String nivelAcessoReq) {
         nivelAcessoReq = nivelAcessoReq.toLowerCase();
@@ -294,6 +294,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/interesse/{idUsuario}")
+    @Operation(description = "Endpoint que retorna a lista de interesses de um usuário")
     public ResponseEntity<Object> getUsuarioInteresse(@PathVariable Integer idUsuario) {
 
         // verificando se o usuario existe
@@ -316,6 +317,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/interesse")
+    @Operation(description = "Endpoint que retorna a lista de interesses disponívies para serem usados")
     public ResponseEntity postUsuarioInteresse(@RequestBody @Valid InteresseUsuario novoInteresse) {
 
         if (!caracteristicaRepository.findById(novoInteresse.getFkCaracteristica()).isPresent() ||
@@ -338,6 +340,7 @@ public class UsuarioController {
 
     // cadastra endereco
     @PostMapping("/endereco")
+    @Operation(description = "Endpoint que cadastra o endereço de um usuário")
     public ResponseEntity<Object> postEndereco(@RequestBody @Valid Endereco novoEndereco) {
         List<Endereco> lista = enderecoRepository.findAll();
 
@@ -352,5 +355,32 @@ public class UsuarioController {
         return ResponseEntity.status(201).build();
     }
 
+    @GetMapping("/pontucacao/{idUsuario}")
+    @Operation(description = "Endpoint que retorna a pontuação de um usuário")
+    public ResponseEntity getPontuacao(@PathVariable int idUsuario) {
+
+        List<Demanda> listaDemandasAll = demandaRepository.findAllByUsuario(idUsuario);
+        List<Demanda> listaDemandasAberta = demandaRepository.findAllByUsuarioAndStatus(idUsuario, "ABERTO");
+        List<Demanda> listaDemandasAndamento = demandaRepository.findAllByUsuarioAndStatus(idUsuario, "EM_ANDAMENTO");
+        List<Demanda> listaDemandasConcluida = demandaRepository.findAllByUsuarioAndStatus(idUsuario, "CONCLUIDO");
+        List<Demanda> listaDemandasCancelada = demandaRepository.findAllByUsuarioAndStatus(idUsuario, "CANCELADO");
+        List<Demanda> listaDemandasPagamento = demandaRepository.findAllByUsuarioAndStatus(idUsuario, "PGTO_REALIZADO_USER");
+        List<Demanda> listaDemandasResValido = demandaRepository.findAllByUsuarioAndStatus(idUsuario, "RESGATE_VALIDO");
+        List<Demanda> listaDemandasResInvalido = demandaRepository.findAllByUsuarioAndStatus(idUsuario, "RESGATE_INVALIDO");
+
+        Double pontos = 100.0;
+
+        if (listaDemandasAberta.size() > (listaDemandasAll.size() * 0.20)) {
+            pontos -= 10.0;
+        }
+
+
+/*
+        "ABERTO", "CONCLUIDO", "CANCELADO", "DOCUMENTO_VALIDO",
+                "PGTO_REALIZADO_USER", "PGTO_REALIZADO_INST",
+                "RESGATE_INVALIDO", "RESGATE_VALIDO", "EM_ANDAMENTO"
+ */
+        return ResponseEntity.status(200).body(pontos);
+    }
 
 }
