@@ -9,10 +9,9 @@ import petfinder.petfinderapi.entidades.Endereco;
 import petfinder.petfinderapi.entidades.Instituicao;
 import petfinder.petfinderapi.repositorios.EnderecoRepositorio;
 import petfinder.petfinderapi.repositorios.InstituicaoRepositorio;
-import petfinder.petfinderapi.resposta.InstituicaoEndereco;
-import java.util.ArrayList;
+import petfinder.petfinderapi.rest.apiCep.ClienteCep;
+
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import javax.validation.Valid;
 
@@ -27,6 +26,8 @@ public class InsitituicoesController {
 
     @Autowired
     private InstituicaoRepositorio instituicaoRepositorio;
+
+    private ClienteCep clienteCep;
 
     // endpoints
 
@@ -161,5 +162,16 @@ public class InsitituicoesController {
 
         // 404 endereço não encontrado
         return ResponseEntity.status(404).build();
+    }
+
+    @GetMapping("/distancia/{cepUsuario}/{cepInstituicao}")
+    @Operation(description = "Endpoint para obter a distância entre o Usuário e a Instituição")
+    public ResponseEntity getDistancia(@PathVariable String cepUsuario,
+                                       @PathVariable String cepInstituicao) {
+
+        String distancia = clienteCep.getDistancia(cepUsuario, cepInstituicao).getDistancia();
+
+        return ResponseEntity.status(200).body(distancia);
+        //return ResponseEntity.status(404).build();
     }
 }
