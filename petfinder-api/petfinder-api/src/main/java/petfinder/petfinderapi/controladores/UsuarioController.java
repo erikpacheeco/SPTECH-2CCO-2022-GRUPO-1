@@ -298,7 +298,7 @@ public class UsuarioController {
     public ResponseEntity<Object> getUsuarioInteresse(@PathVariable Integer idUsuario) {
 
         // verificando se o usuario existe
-        if (usuarioHasInteresseRepository.existsById(idUsuario)) {
+        if (usuarioRepository.existsById(idUsuario)) {
             List<UsuarioHasInteresse> lista = usuarioHasInteresseRepository.findByFkUsuario(idUsuario);
 
             // verificando se a lista está vazia
@@ -359,28 +359,35 @@ public class UsuarioController {
     @Operation(description = "Endpoint que retorna a pontuação de um usuário")
     public ResponseEntity getPontuacao(@PathVariable int idUsuario) {
 
-        List<Demanda> listaDemandasAll = demandaRepository.findAllByUsuario(idUsuario);
-        List<Demanda> listaDemandasAberta = demandaRepository.findAllByUsuarioAndStatus(idUsuario, "ABERTO");
-        List<Demanda> listaDemandasAndamento = demandaRepository.findAllByUsuarioAndStatus(idUsuario, "EM_ANDAMENTO");
-        List<Demanda> listaDemandasConcluida = demandaRepository.findAllByUsuarioAndStatus(idUsuario, "CONCLUIDO");
-        List<Demanda> listaDemandasCancelada = demandaRepository.findAllByUsuarioAndStatus(idUsuario, "CANCELADO");
-        List<Demanda> listaDemandasPagamento = demandaRepository.findAllByUsuarioAndStatus(idUsuario, "PGTO_REALIZADO_USER");
-        List<Demanda> listaDemandasResValido = demandaRepository.findAllByUsuarioAndStatus(idUsuario, "RESGATE_VALIDO");
-        List<Demanda> listaDemandasResInvalido = demandaRepository.findAllByUsuarioAndStatus(idUsuario, "RESGATE_INVALIDO");
+        if (usuarioRepository.existsById(idUsuario)) {
 
-        Double pontos = 100.0;
+            Integer id = usuarioRepository.getById(idUsuario).getId();
 
-        if (listaDemandasAberta.size() > (listaDemandasAll.size() * 0.20)) {
-            pontos -= 10.0;
+            List<Demanda> listaDemandasAll = demandaRepository.findAllByUsuario(id);
+            List<Demanda> listaDemandasAberta = demandaRepository.findAllByUsuarioAndStatus(id, "ABERTO");
+            List<Demanda> listaDemandasAndamento = demandaRepository.findAllByUsuarioAndStatus(idUsuario, "EM_ANDAMENTO");
+            List<Demanda> listaDemandasConcluida = demandaRepository.findAllByUsuarioAndStatus(idUsuario, "CONCLUIDO");
+            List<Demanda> listaDemandasCancelada = demandaRepository.findAllByUsuarioAndStatus(idUsuario, "CANCELADO");
+            List<Demanda> listaDemandasPagamento = demandaRepository.findAllByUsuarioAndStatus(idUsuario, "PGTO_REALIZADO_USER");
+            List<Demanda> listaDemandasResValido = demandaRepository.findAllByUsuarioAndStatus(idUsuario, "RESGATE_VALIDO");
+            List<Demanda> listaDemandasResInvalido = demandaRepository.findAllByUsuarioAndStatus(idUsuario, "RESGATE_INVALIDO");
+
+            Double pontos = 100.0;
+
+            if (listaDemandasAberta.size() > (listaDemandasAll.size() * 0.20)) {
+                pontos -= 10.0;
+            }
+
+
+    /*
+            "ABERTO", "CONCLUIDO", "CANCELADO", "DOCUMENTO_VALIDO",
+                    "PGTO_REALIZADO_USER", "PGTO_REALIZADO_INST",
+                    "RESGATE_INVALIDO", "RESGATE_VALIDO", "EM_ANDAMENTO"
+     */
+            return ResponseEntity.status(200).body(pontos);
         }
+        return ResponseEntity.status(404).build();
 
-
-/*
-        "ABERTO", "CONCLUIDO", "CANCELADO", "DOCUMENTO_VALIDO",
-                "PGTO_REALIZADO_USER", "PGTO_REALIZADO_INST",
-                "RESGATE_INVALIDO", "RESGATE_VALIDO", "EM_ANDAMENTO"
- */
-        return ResponseEntity.status(200).body(pontos);
     }
 
 }
