@@ -4,7 +4,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(value = "cep", url = "https://distancep.herokuapp.com/distance")
+@FeignClient(value = "cep", url = "https://distancep.herokuapp.com/distance/")
 public interface ClienteCep {
 
     @GetMapping("/{cepUsuario}/{cepInstituicao}")
