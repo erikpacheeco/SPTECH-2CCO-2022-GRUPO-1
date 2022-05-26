@@ -39,6 +39,27 @@ public class PetsController {
     public static List<Pet> pets = new ArrayList<>();
     public static List<Premio> premios = new ArrayList<>();
 
+    @PatchMapping(value = "/foto/{id}", consumes = "image/jpeg")
+    @Operation(description = "EndPoint para cadastrar a foto de perfil do animal")
+    public ResponseEntity patchFoto(@PathVariable int id, @RequestBody byte[] novaFoto) {
+
+        Pet petEncontrado = repositoryPet.getById(id);
+        petEncontrado.setFotoPerfil(novaFoto);
+        repositoryPet.save(petEncontrado);
+
+        return ResponseEntity.status(200).build();
+    }
+
+    @GetMapping(value = "/foto/{codigo}", produces = "image/jpeg")
+    @Operation(description = "EndPoint para ver as fotos dos animais")
+    public ResponseEntity<byte[]> getFoto(@PathVariable int codigo) {
+        if (!repositoryPet.existsById(codigo)){
+            return ResponseEntity.status(404).build();
+        }
+        Pet petEncontrado = repositoryPet.getById(codigo);
+        return ResponseEntity.status(200).body(petEncontrado.getFotoPerfil());
+    }
+
     @PostMapping("/post-pet")
     @Operation(description = "Endpoint para cadastro de um novo pet em uma instituição especifica")
     public ResponseEntity<Object> postPet(
@@ -107,6 +128,27 @@ public class PetsController {
     // ================================================= //
     // Premios
     // ================================================= //
+
+    @PatchMapping(value = "/premio/foto/{id}", consumes = "image/jpeg")
+    @Operation(description = "Inserir imagem no premio")
+    public ResponseEntity patchFotoPremio(@PathVariable int id, @RequestBody byte[] novaFoto) {
+
+        Premio premioEncontrado = repositoryPremio.getById(id);
+        premioEncontrado.setImg(novaFoto);
+        repositoryPremio.save(premioEncontrado);
+
+        return ResponseEntity.status(200).build();
+    }
+
+    @GetMapping(value = "/premio/foto/{codigo}", produces = "image/jpeg")
+    @Operation(description = "Endpoint pegar foto do premio por id do premio")
+    public ResponseEntity<byte[]> getFotoPremio(@PathVariable int codigo) {
+        if (!repositoryPremio.existsById(codigo)){
+            return ResponseEntity.status(404).build();
+        }
+        Premio premioEncontrado = repositoryPremio.getById(codigo);
+        return ResponseEntity.status(200).body(premioEncontrado.getImg());
+    }
 
     @PostMapping("/post-premio")
     @Operation(description = "Endpoint para cadastrar um novo premio")

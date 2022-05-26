@@ -36,16 +36,18 @@ VALUES
 
 -- Pet
 INSERT INTO
-pet(nome, data_nasc, especie, raca, porte, sexo, descricao, em_adocao, fk_instituicao)
+pet(nome, data_nasc, especie, raca, porte, sexo, descricao, adotado, fk_instituicao_id)
 VALUES
 ('Antônio', '2020/02/28', 'Cachorro', 'Shits-zu', 'Pequeno', 'Macho', 'Branquinho, brincalhão e estressado com criança chata', true, 1),
 ('Mel', '2027/04/12', 'Cachorro', 'Maltês', 'Pequeno', 'Fêmea', 'Nénem que ama, ficar no colo, fiel companheira', true, 1);
 
 -- Premio
 INSERT INTO
-premio(img, fk_pet)
+premio(fk_pet_id)
 VALUES
-('Fofo, peludo, bochechuco', 1);
+(1),
+(1);
+
 
 -- Caracteristca
 INSERT INTO
@@ -55,6 +57,15 @@ VALUES
 ('Cheiroso'),
 ('Branco'),
 ('Calmo');
+
+-- PetHasCaracteristica
+INSERT INTO
+pet_has_caracteristica(fk_caracteristica, fk_pet)
+VALUES
+(1, 1),
+(2, 1),
+(3, 1),
+(4, 2);
 
 -- UsuarioHasInteresse
 INSERT INTO
