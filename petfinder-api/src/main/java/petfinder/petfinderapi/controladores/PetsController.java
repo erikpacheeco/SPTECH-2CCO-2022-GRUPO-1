@@ -11,6 +11,9 @@ import petfinder.petfinderapi.repositorios.CaracteristicaRepositorio;
 import petfinder.petfinderapi.repositorios.PetHasCaracteristicaRepositorio;
 import petfinder.petfinderapi.repositorios.PetRepositorio;
 import petfinder.petfinderapi.repositorios.PremioRepositorio;
+import petfinder.petfinderapi.rest.ClienteCep;
+import petfinder.petfinderapi.rest.DistanciaResposta;
+import petfinder.petfinderapi.utilitarios.FilaObj;
 
 import javax.validation.Valid;
 import javax.websocket.OnError;
@@ -20,7 +23,6 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("/pets")
-@CrossOrigin
 @Tag(name = "Pet",description = "API para controlar os pets, os prêmios e as caracteristicas")
 public class PetsController {
 
@@ -36,9 +38,12 @@ public class PetsController {
     @Autowired
     private PetHasCaracteristicaRepositorio repositoryHasCaracteristica;
 
+    @Autowired
+    private ClienteCep clienteCep;
 
     public static List<Pet> pets = new ArrayList<>();
     public static List<Premio> premios = new ArrayList<>();
+    private FilaObj filaObj = new FilaObj<>(10);
 
     @PatchMapping(value = "/foto/{id}", consumes = "image/jpeg")
     @Operation(description = "EndPoint para cadastrar a foto de perfil do animal")
@@ -303,4 +308,25 @@ public class PetsController {
         return ResponseEntity.status(400).build();
     }
 
+
+    @GetMapping("/distancias/{cepUsuario}/{distanciaMax}")
+    public ResponseEntity getListaDistanciasPet(@PathVariable String cepUsuario,
+                                                          @PathVariable Integer distanciaMax) {
+        List<Pet> lista = repositoryPet.findAll();
+
+        if (lista.isEmpty()) {
+            return ResponseEntity.status(404).build();
+        }
+        for (int i = 0; i < lista.size(); i++) {
+            DistanciaResposta resposta = clienteCep.getDistancia(cepUsuario,
+                    lista.get(i).getFkInstituicao().getEndereco().getCep());
+            Integer distancia = resposta.getDistancia();
+
+            if (distancia <= distanciaMax) {
+                filaObj.insert(lista.get(i));
+            }
+        }
+
+        return ResponseEntity.status(200).body(filaObj.getFila());
+    }
 }

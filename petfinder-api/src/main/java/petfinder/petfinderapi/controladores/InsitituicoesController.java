@@ -19,7 +19,6 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/instituicoes")
-@CrossOrigin
 @Tag(name = "Instituições e Endereço", description = "Essa API é reponsável por fazer requisições da instituição e do endereço")
 public class InsitituicoesController {
 
@@ -192,15 +191,11 @@ public class InsitituicoesController {
             return ResponseEntity.status(404).build();
         }
         for (int i = 0; i < lista.size(); i++) {
-            //String distancia = String.valueOf(getDistancia(cepUsuario, lista.get(i).getEndereco().getCep()));
-            //int conversaoDistancia = Integer.parseInt(distancia);
             DistanciaResposta resposta = clienteCep.getDistancia(cepUsuario, lista.get(i).getEndereco().getCep());
             Integer distancia = resposta.getDistancia();
-            //Integer dis = Integer.getInteger(distancia);
-            filaObj.insert(lista.get(i));
 
-            if (distancia >= distanciaMax) {
-                filaObj.poll();
+            if (distancia <= distanciaMax) {
+                filaObj.insert(lista.get(i));
             }
         }
 
