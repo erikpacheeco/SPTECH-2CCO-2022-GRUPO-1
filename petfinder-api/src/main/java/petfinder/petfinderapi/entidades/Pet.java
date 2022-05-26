@@ -1,16 +1,15 @@
 package petfinder.petfinderapi.entidades;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 // import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
-    @Entity
-public class Pet implements Validavel{
+@Entity
+public class Pet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,30 +43,17 @@ public class Pet implements Validavel{
     @NotBlank
     private String descricao;
 
-    private Boolean emAdocao = false;
+    @Column(length = 50_000_000)
+    @JsonIgnore
+    private byte[] fotoPerfil;
+
+    private Boolean adotado = false;
 
     @NotNull
-    private int fkInstituicao;
-
-    //    MÉTODOS
-
-    @Override
-    public Boolean validar() {
-        Boolean boolNome = Objects.isNull(this.nome) || this.nome.isEmpty() || this.nome.isBlank();
-        Boolean boolNasc = Objects.isNull(this.dataNasc) || this.dataNasc.isEmpty() || this.dataNasc.isBlank();
-        Boolean boolTipo = Objects.isNull(this.especie) || this.especie.isEmpty() || this.especie.isBlank();
-        Boolean boolRaca = Objects.isNull(this.raca) || this.raca.isEmpty() || this.raca.isBlank();
-        Boolean boolPorte = Objects.isNull(this.porte) || this.porte.isEmpty() || this.porte.isBlank();
-        Boolean boolSexo = Objects.isNull(this.sexo) || this.sexo.isEmpty() || this.sexo.isBlank();
-
-        if(!(boolNome || boolTipo || boolRaca || boolPorte || boolSexo || boolNasc)){
-            return true;
-        }
-        return false;
-    }
+    @ManyToOne
+    private Instituicao fkInstituicao;
 
     //    GETTERS E SETTERS
-
 
     public int getId() {
         return id;
@@ -129,18 +115,24 @@ public class Pet implements Validavel{
         this.sexo = sexo;
     }
 
-    public Boolean isEmAdocao() {
-        return emAdocao;
+    public byte[] getFotoPerfil() {
+        return fotoPerfil;
     }
-    public void setEstadoAdocao(Boolean adotado) {
-        this.emAdocao = adotado;
+    public void setFotoPerfil(byte[] fotoPerfil) {
+        this.fotoPerfil = fotoPerfil;
     }
 
-        public int getFkInstituicao() {
-            return fkInstituicao;
-        }
-
-        public void setFkInstituicao(int fkInstituicao) {
-            this.fkInstituicao = fkInstituicao;
-        }
+    public Boolean getAdotado() {
+        return adotado;
     }
+    public void setAdotado(Boolean adotado) {
+        this.adotado = adotado;
+    }
+
+    public Instituicao getFkInstituicao() {
+        return fkInstituicao;
+    }
+    public void setFkInstituicao(Instituicao fkInstituicao) {
+        this.fkInstituicao = fkInstituicao;
+    }
+}

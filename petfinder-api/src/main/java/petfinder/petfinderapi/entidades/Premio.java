@@ -1,9 +1,8 @@
 package petfinder.petfinderapi.entidades;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -14,12 +13,13 @@ public class Premio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotNull
-    @NotBlank
-    private String img;
+    @Column(length = 50_000_000)
+    @JsonIgnore
+    private byte[] img;
 
     @NotNull
-    private int fkPet;
+    @ManyToOne
+    private Pet fkPet;
 
     public int getId() {
         return id;
@@ -29,19 +29,19 @@ public class Premio {
         this.id = id;
     }
 
-    public String getImg() {
+    public byte[] getImg() {
         return img;
     }
 
-    public void setImg(String img) {
+    public void setImg(byte[] img) {
         this.img = img;
     }
 
-    public int getFkPet() {
+    public Pet getFkPet() {
         return fkPet;
     }
 
-    public void setFkPet(int fkPet) {
+    public void setFkPet(Pet fkPet) {
         this.fkPet = fkPet;
     }
 }
