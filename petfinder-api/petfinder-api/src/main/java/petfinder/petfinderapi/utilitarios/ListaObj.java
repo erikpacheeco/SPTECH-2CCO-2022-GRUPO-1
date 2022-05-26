@@ -97,5 +97,4 @@ public class ListaObj<T>{
     public void limpa(){
         nroElem = 0;
     }
-
 }

@@ -9,7 +9,9 @@ import petfinder.petfinderapi.entidades.Endereco;
 import petfinder.petfinderapi.entidades.Instituicao;
 import petfinder.petfinderapi.repositorios.EnderecoRepositorio;
 import petfinder.petfinderapi.repositorios.InstituicaoRepositorio;
-import petfinder.petfinderapi.rest.apiCep.ClienteCep;
+import petfinder.petfinderapi.rest.ClienteCep;
+import petfinder.petfinderapi.rest.DistanciaResposta;
+import petfinder.petfinderapi.utilitarios.FilaObj;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +29,10 @@ public class InsitituicoesController {
     @Autowired
     private InstituicaoRepositorio instituicaoRepositorio;
 
+    @Autowired
     private ClienteCep clienteCep;
+
+    private FilaObj filaObj = new FilaObj<>(10);
 
     // endpoints
 
@@ -167,11 +172,37 @@ public class InsitituicoesController {
     @GetMapping("/distancia/{cepUsuario}/{cepInstituicao}")
     @Operation(description = "Endpoint para obter a distância entre o Usuário e a Instituição")
     public ResponseEntity getDistancia(@PathVariable String cepUsuario,
-                                       @PathVariable String cepInstituicao) {
+                               @PathVariable String cepInstituicao) {
 
-        String distancia = clienteCep.getDistancia(cepUsuario, cepInstituicao).getDistancia();
+        DistanciaResposta clienteDistancia = clienteCep.getDistancia(cepUsuario, cepInstituicao);
 
-        return ResponseEntity.status(200).body(distancia);
-        //return ResponseEntity.status(404).build();
+        if (clienteDistancia != null) {
+            return ResponseEntity.status(200).body(clienteDistancia.getDistancia());
+        }
+        return ResponseEntity.status(404).build();
+    }
+
+    @GetMapping("/distancias/{cepUsuario}/{distanciaMax}")
+    public ResponseEntity getListaDistanciasInstituicaoes(@PathVariable String cepUsuario,
+                                                     @PathVariable Integer distanciaMax) {
+        List<Instituicao> lista = instituicaoRepositorio.findAll();
+
+        if (lista.isEmpty()) {
+            return ResponseEntity.status(404).build();
+        }
+        for (int i = 0; i < lista.size(); i++) {
+            //String distancia = String.valueOf(getDistancia(cepUsuario, lista.get(i).getEndereco().getCep()));
+            //int conversaoDistancia = Integer.parseInt(distancia);
+            DistanciaResposta resposta = clienteCep.getDistancia(cepUsuario, lista.get(i).getEndereco().getCep());
+            Integer distancia = resposta.getDistancia();
+            //Integer dis = Integer.getInteger(distancia);
+            filaObj.insert(lista.get(i));
+
+            if (distancia >= distanciaMax) {
+                filaObj.poll();
+            }
+        }
+
+        return ResponseEntity.status(200).body(filaObj.getFila());
     }
 }

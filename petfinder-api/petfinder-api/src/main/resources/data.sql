@@ -2,10 +2,10 @@
 INSERT INTO 
 endereco(rua, num, complemento, bairro, cidade, uf, cep, latitude, longitude)
 VALUES
-('rua A', '111', null, 'Bairro A', 'Sao Paulo', 'SP', '11111111', null, null),
-('rua B', '222', null, 'Bairro B', 'Sao Paulo', 'SP', '22222222', null, null),
-('rua C', '333', null, 'Bairro C', 'Sao Paulo', 'SP', '33333333', null, null),
-('rua D', '444', null, 'Bairro D', 'Sao Paulo', 'SP', '44444444', null, null);
+('rua A', '111', null, 'Bairro A', 'Sao Paulo', 'SP', '05143320', null, null),
+('rua B', '222', null, 'Bairro B', 'Sao Paulo', 'SP', '24455540', null, null),
+('rua C', '333', null, 'Bairro C', 'Sao Paulo', 'SP', '03181050', null, null),
+('rua D', '444', null, 'Bairro D', 'Sao Paulo', 'SP', '05845270', null, null);
 
 -- instituicao
 INSERT INTO 

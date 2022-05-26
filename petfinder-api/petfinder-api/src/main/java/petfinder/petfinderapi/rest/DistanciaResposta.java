@@ -1,4 +1,4 @@
-package petfinder.petfinderapi.rest.apiCep;
+package petfinder.petfinderapi.rest;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
