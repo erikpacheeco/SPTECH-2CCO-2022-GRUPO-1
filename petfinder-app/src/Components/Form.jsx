@@ -1,11 +1,14 @@
 import Input from "./Input";
+import Button from "./Button"
 
 
 function Form(props) {
     Form.defaultProps = {
         action: "",
         title: "Form",
-        inputs: [<Input/>, <Input/>]
+        inputs: [<Input/>, <Input/>],
+        buttons: [<Button/>, <Button/>],
+        isLogin: false
     }
     return (
         <div className="form-container">
@@ -24,12 +27,19 @@ function Form(props) {
                 }
 
                 <div className="label-container">
-                    <a className="link-senha link">Esqueci a senha</a>
+                    {
+                        props.isLogin 
+                            ?(<a className="link-senha link">Esqueci a senha</a>) 
+                            :(<></>)
+                    }
                 </div>
 
                 <div className="button-container">
-                    <input type="submit" value="Login" className="btn-form" />
-                    <button value="Cadastre-se" className="btn-form">Cadastre-se</button>
+                    {
+                        props.buttons.map((button)=>(
+                            <Button id={button.props.id} label={button.props.label}/>
+                        ))
+                    }
                 </div>
             </form>
         </div>

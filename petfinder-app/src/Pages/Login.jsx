@@ -3,6 +3,7 @@ import "../css/login.css"
 import "../css/form.css"
 import Input from "../Components/Input";
 import Form from "../Components/Form"
+import Button from "../Components/Button"
 import api from "../Api";
 
 function Login() {
@@ -17,10 +18,15 @@ function Login() {
             <div className="container">
                 <Form
                     action = "GET"
-                    title="Login" 
+                    title="Login"
+                    isLogin= {true}
                     inputs={[
                         <Input id="email" label="E-mail" type="e-mail" required={true}/>,
                         <Input id="senha" label="Senha" type="password" required={true}/>,
+                    ,]}
+                    buttons={[
+                        <Button id="login" label="Login"/>,
+                        <Button id="cadastro" label="Cadastre-se"/>,
                     ,]}
                 />
             </div>    
