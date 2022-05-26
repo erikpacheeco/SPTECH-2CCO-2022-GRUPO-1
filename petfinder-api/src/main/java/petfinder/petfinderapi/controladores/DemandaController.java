@@ -21,6 +21,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/demandas")
+@CrossOrigin
 @Tag(name = "Demanda",description = "Essa API é utilizada para controlar as transações do sistema")
 public class DemandaController implements GerenciadorArquivos{
 

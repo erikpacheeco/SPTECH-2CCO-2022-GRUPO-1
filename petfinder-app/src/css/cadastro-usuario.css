@@ -1,0 +1,91 @@
+.container{
+    display: flex;
+    justify-content: center;
+}
+
+h1, h2{
+    color: #7F2AB5;
+    text-align: center;
+    margin-top: 16px;
+}
+.form-container{
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 80px;
+    margin-bottom: 80px;
+}
+
+.form-container form {
+    position: relative;
+}
+
+.input-container{
+    margin-top: 16px;
+}
+
+.num-compl-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.num-compl-container .num {
+    width: 20%;
+}
+
+.num-compl-container .compl {
+    width: 70%;
+}
+
+.cidade-estado-container{
+    display: flex;
+    justify-content: space-between;
+}
+
+.cidade-estado-container .cidade{
+    width: 70%;
+}
+
+.cidade-estado-container .estado{
+    width: 20%;
+}
+
+p{
+    color: #7F2AB5;
+    margin-top: 24px;
+}
+
+.check-box{
+    margin-left: 8px;
+}
+
+.check-box-padrao {
+    color: #7F2AB5;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.check-box-padrao label{
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+.check-box-padrao input{
+    height: 20px;
+    border-radius: 5px;
+    border: 1px solid #7F2AB5;
+}
+
+.button-container{
+    margin-top: 16px;
+    margin-bottom: 16px;
+    display: flex;
+}
+
+.button-container input{
+    width: 200px;
+}
+
+
+

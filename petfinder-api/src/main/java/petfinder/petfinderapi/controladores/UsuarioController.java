@@ -25,6 +25,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/usuarios")
+@CrossOrigin
 @Tag(name = "Usuario",description = "API para controlar as ações do usuário")
 public class UsuarioController {
 

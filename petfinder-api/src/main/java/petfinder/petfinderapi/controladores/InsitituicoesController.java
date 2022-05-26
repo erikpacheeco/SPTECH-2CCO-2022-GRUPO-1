@@ -19,6 +19,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/instituicoes")
+@CrossOrigin
 @Tag(name = "Instituições e Endereço", description = "Essa API é reponsável por fazer requisições da instituição e do endereço")
 public class InsitituicoesController {
 
