@@ -55,6 +55,9 @@ public class UsuarioController {
         }
     );
 
+    private ListaObj<String> statusPossiveis = new ListaObj<String>(new String[]{"ABERTO", "CONCLUIDO", "CANCELADO", "DOCUMENTO_VALIDO",
+            "PGTO_REALIZADO_USER", "PGTO_REALIZADO_INST", "RESGATE_INVALIDO", "RESGATE_VALIDO", "EM_ANDAMENTO"});
+
     // endpoints
 
     // retorna todos os usuarios
@@ -362,29 +365,48 @@ public class UsuarioController {
 
         if (usuarioRepository.existsById(idUsuario)) {
 
-            Integer id = usuarioRepository.getById(idUsuario).getId();
+            List<Demanda> listaDemandasAll = demandaRepository.findAllByUsuarioId(idUsuario);
+            List<Demanda> listaDemandasAberta = demandaRepository.findAllByUsuarioIdAndStatus(idUsuario, "ABERTO");
+            List<Demanda> listaDemandasAndamento = demandaRepository.findAllByUsuarioIdAndStatus(idUsuario, "EM_ANDAMENTO");
+            List<Demanda> listaDemandasConcluida = demandaRepository.findAllByUsuarioIdAndStatus(idUsuario, "CONCLUIDO");
+            List<Demanda> listaDemandasCancelada = demandaRepository.findAllByUsuarioIdAndStatus(idUsuario, "CANCELADO");
+            List<Demanda> listaDemandasPagamento = demandaRepository.findAllByUsuarioIdAndStatus(idUsuario, "PGTO_REALIZADO_USER");
+            List<Demanda> listaDemandasResValido = demandaRepository.findAllByUsuarioIdAndStatus(idUsuario, "RESGATE_VALIDO");
+            List<Demanda> listaDemandasResInvalido = demandaRepository.findAllByUsuarioIdAndStatus(idUsuario, "RESGATE_INVALIDO");
+            List<Demanda> listaDemandasDocValido = demandaRepository.findAllByUsuarioIdAndStatus(idUsuario, "DOCUMENTO_VALIDO");
 
-            List<Demanda> listaDemandasAll = demandaRepository.findAllByUsuario(id);
-            List<Demanda> listaDemandasAberta = demandaRepository.findAllByUsuarioAndStatus(id, "ABERTO");
-            List<Demanda> listaDemandasAndamento = demandaRepository.findAllByUsuarioAndStatus(idUsuario, "EM_ANDAMENTO");
-            List<Demanda> listaDemandasConcluida = demandaRepository.findAllByUsuarioAndStatus(idUsuario, "CONCLUIDO");
-            List<Demanda> listaDemandasCancelada = demandaRepository.findAllByUsuarioAndStatus(idUsuario, "CANCELADO");
-            List<Demanda> listaDemandasPagamento = demandaRepository.findAllByUsuarioAndStatus(idUsuario, "PGTO_REALIZADO_USER");
-            List<Demanda> listaDemandasResValido = demandaRepository.findAllByUsuarioAndStatus(idUsuario, "RESGATE_VALIDO");
-            List<Demanda> listaDemandasResInvalido = demandaRepository.findAllByUsuarioAndStatus(idUsuario, "RESGATE_INVALIDO");
+            Double pontos = 1000.0;
 
-            Double pontos = 100.0;
-
-            if (listaDemandasAberta.size() > (listaDemandasAll.size() * 0.20)) {
+            // diminuindo pontos
+            if (listaDemandasAberta.size() > (listaDemandasAll.size() * 0.3)) {
                 pontos -= 10.0;
             }
 
+            if (listaDemandasAndamento.size() < (listaDemandasAberta.size() * 0.3)) {
+                pontos -= 10.0;
+            }
 
-    /*
-            "ABERTO", "CONCLUIDO", "CANCELADO", "DOCUMENTO_VALIDO",
-                    "PGTO_REALIZADO_USER", "PGTO_REALIZADO_INST",
-                    "RESGATE_INVALIDO", "RESGATE_VALIDO", "EM_ANDAMENTO"
-     */
+            if (listaDemandasCancelada.size() > (listaDemandasConcluida.size() * 0.3)) {
+                pontos -= 10.0;
+            }
+
+            if (listaDemandasResInvalido.size() > listaDemandasResValido.size()) {
+                pontos -= 10.0;
+            }
+
+            // aumentando pontos
+            if (listaDemandasPagamento.size() > (listaDemandasAll.size() * 0.3)) {
+                pontos += 10.0;
+            }
+
+            if (listaDemandasDocValido.size() > (listaDemandasAll.size() * 0.3)) {
+                pontos += 10.0;
+            }
+
+            if (listaDemandasConcluida.size() > (listaDemandasAll.size() * 0.3)) {
+                pontos += 10.0;
+            }
+
             return ResponseEntity.status(200).body(pontos);
         }
         return ResponseEntity.status(404).build();

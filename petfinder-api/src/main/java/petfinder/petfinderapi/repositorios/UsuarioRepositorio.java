@@ -3,6 +3,7 @@ package petfinder.petfinderapi.repositorios;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import petfinder.petfinderapi.entidades.Pet;
 import petfinder.petfinderapi.entidades.Usuario;
 
 public interface UsuarioRepositorio extends JpaRepository<Usuario, Integer>{
@@ -18,5 +19,7 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, Integer>{
 
     @Query("SELECT u FROM Usuario u WHERE u.email = ?1 AND u.email <> ?2")
     public List<Usuario> findByActualEmailAndNewEmail(String emailNovo, String emailAtual);
+
+    List<Usuario> findByInstituicaoId(int id);
 
 }
