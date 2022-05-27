@@ -7,10 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import petfinder.petfinderapi.entidades.*;
-import petfinder.petfinderapi.repositorios.CaracteristicaRepositorio;
-import petfinder.petfinderapi.repositorios.PetHasCaracteristicaRepositorio;
-import petfinder.petfinderapi.repositorios.PetRepositorio;
-import petfinder.petfinderapi.repositorios.PremioRepositorio;
+import petfinder.petfinderapi.repositorios.*;
+import petfinder.petfinderapi.resposta.Message;
 import petfinder.petfinderapi.rest.ClienteCep;
 import petfinder.petfinderapi.rest.DistanciaResposta;
 import petfinder.petfinderapi.utilitarios.FilaObj;
@@ -41,8 +39,12 @@ public class PetsController {
     @Autowired
     private ClienteCep clienteCep;
 
+    @Autowired
+    private InstituicaoRepositorio repositoryInstituicao;
+
     public static List<Pet> pets = new ArrayList<>();
     public static List<Premio> premios = new ArrayList<>();
+    public static List<Premio> premiosPorInstituicao = new ArrayList<>();
     private FilaObj filaObj = new FilaObj<>(10);
 
     @PatchMapping(value = "/foto/{id}", consumes = "image/jpeg")
@@ -114,7 +116,11 @@ public class PetsController {
     @Operation(description = "Endpoint que retorna uma lista de pets de uma instituição especifica")
     ResponseEntity getByInstiuicaoId(@PathVariable int id) {
         if (repositoryPet.existsById(id)) {
-            List<Pet> lista = repositoryPet.findByFkInstituicao(id);
+            List<Pet> lista = repositoryPet.findByFkInstituicaoId(id);
+
+            if (lista.isEmpty()) {
+                return ResponseEntity.status(404).body(new Message("Instituição ainda não possui pets"));
+            }
             return ResponseEntity.status(200).body(lista);
         }
         return ResponseEntity.status(404).build();
@@ -329,4 +335,55 @@ public class PetsController {
 
         return ResponseEntity.status(200).body(filaObj.getFila());
     }
+/*
+
+    @GetMapping("/mimos/{idUsuario}")
+    public ResponseEntity getMimosByUsuario(@PathVariable int idUsuario) {
+        return null;
+    }
+ */
+
+    @GetMapping("/mimos-instituicao/{idInstituicao}")
+    public ResponseEntity getMimosByInstituicao(@PathVariable int idInstituicao) {
+        List<Pet> listaPet = repositoryPet.findByFkInstituicaoId(idInstituicao);
+
+        for (int i = 0; i < listaPet.size(); i++) {
+            Integer idPet = listaPet.get(i).getId();
+            List<Premio> listaPremio = repositoryPremio.findByFkPetId(idPet);
+
+            for (int j = 0; j < listaPremio.size(); j++) {
+                if (listaPet.get(j).getId() == listaPremio.get(j).getId()) {
+                    premiosPorInstituicao.add(i, listaPremio.get(j));
+                }
+            }
+        }
+
+        if (listaPet.isEmpty()) {
+            return ResponseEntity.status(404).body(new Message("Ainda não temos animais dessa com mimos cadastrados" +
+                    " nessa instituição"));
+        }
+        return ResponseEntity.status(200).body(premiosPorInstituicao);
+    }
+
+    @GetMapping("/mimos-especie/{especie}")
+    public ResponseEntity getMimosByEspecie(@PathVariable String especie) {
+        List<Pet> listaPet = repositoryPet.findByEspecieIgnoreCase(especie);
+
+        for (int i = 0; i < listaPet.size(); i++) {
+            Integer idPet = listaPet.get(i).getId();
+
+            List<Premio> listaPremio = repositoryPremio.findByFkPetId(idPet);
+
+            for (int j = 0; j < listaPremio.size(); j++) {
+                premios.add(i, listaPremio.get(j));
+            }
+        }
+
+        if (listaPet.isEmpty()) {
+            return ResponseEntity.status(404).body(new Message("Ainda não temos animais dessa espécie com mimos " +
+                    "cadastrados"));
+        }
+        return ResponseEntity.status(200).body(premios);
+    }
+
 }
