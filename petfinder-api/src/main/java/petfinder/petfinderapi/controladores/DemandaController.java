@@ -128,7 +128,7 @@ public class DemandaController implements GerenciadorArquivos{
         if (usuarioRepositorio.existsById(fkUsuario)) {
             // Retornar demandas isoladas de acordo com o status
             // armazenando lista de demandas do usuário
-            List<Demanda> lista = demandaRepositorio.findAllByUsuario(fkUsuario);
+            List<Demanda> lista = demandaRepositorio.findAllByUsuarioId(fkUsuario);
 
             // verificando se a lista de demandas do usuário está vazia
             if (lista.isEmpty()){
@@ -165,7 +165,7 @@ public class DemandaController implements GerenciadorArquivos{
     @Operation(description = "Endpoint que retorna uma lista de demandas filtradas pela instituição e pelo status da demanda")
     public ResponseEntity<Object> getDemandaByInstituicaoAndStatus(@PathVariable int fkInstituicao, @PathVariable String status){
         if (instituicaoRepositorio.existsById(fkInstituicao)){
-            List<Demanda> lista = demandaRepositorio.findAllByInstituicaoAndStatus(fkInstituicao, status);
+            List<Demanda> lista = demandaRepositorio.findAllByInstituicaoIdAndStatus(fkInstituicao, status);
             if (lista.isEmpty()){
                 return ResponseEntity.status(204).body(new Message("Lista vázia"));
             }
@@ -285,7 +285,7 @@ public class DemandaController implements GerenciadorArquivos{
     @GetMapping("/download/{idInstituicao}/{status}")
     @Operation(description = "Endpoint responsável por fazer o download do log de demandas com um tipo de status e de uma unica instiuição filtrada pelo seu ID")
     public ResponseEntity<Object> getDemandaCSV(@PathVariable int idInstituicao, @PathVariable String status){
-        List<Demanda> listaRepositorio = demandaRepositorio.findAllByInstituicaoAndStatus(idInstituicao,status);
+        List<Demanda> listaRepositorio = demandaRepositorio.findAllByInstituicaoIdAndStatus(idInstituicao,status);
         ListaObj<Demanda> listaDemandas = new ListaObj<>(listaRepositorio.size());
         for(Demanda d : listaRepositorio){
             listaDemandas.adicionarElemento(d);

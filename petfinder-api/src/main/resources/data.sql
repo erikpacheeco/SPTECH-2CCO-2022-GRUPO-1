@@ -39,13 +39,14 @@ INSERT INTO
 pet(nome, data_nasc, especie, raca, porte, sexo, descricao, adotado, fk_instituicao_id)
 VALUES
 ('Antônio', '2020/02/28', 'Cachorro', 'Shits-zu', 'Pequeno', 'Macho', 'Branquinho, brincalhão e estressado com criança chata', true, 1),
-('Mel', '2027/04/12', 'Cachorro', 'Maltês', 'Pequeno', 'Fêmea', 'Nénem que ama, ficar no colo, fiel companheira', true, 1);
+('Mel', '2027/04/12', 'Cachorro', 'Maltês', 'Pequeno', 'Fêmea', 'Nénem que ama, ficar no colo, fiel companheira', true, 2);
 
 -- Premio
 INSERT INTO
 premio(fk_pet_id)
 VALUES
 (1),
+(2),
 (1);
 
 
@@ -83,7 +84,18 @@ VALUES
 INSERT INTO
 demanda(categoria, data_abertura, data_fechamento, status, usuario_id, instituicao_id, pet_id)
 VALUES
-('pagamento', '2020/01/01', null, 'aberto', 9, 1, null),
-('adocao', '2020/01/01', null, 'aberto', 10, 1, null),
-('resgate', '2020/01/01', null, 'aberto', 9, 1, null);
+('pagamento', '2020/01/01', null, 'ABERTO', 9, 1, null),
+('apadrinhamento', '2020/01/01', null, 'CONCLUIDO', 9, 1, null),
+('apadrinhamento', '2020/01/01', null, 'ABERTO', 9, 1, 1),
+('apadrinhamento', '2020/01/01', null, 'ABERTO', 9, 1, 2),
+('adocao', '2020/01/01', null, 'ABERTO', 9, 1, null),
+('apadrinhamento', '2020/01/01', null, 'CANCELADO', 9, 1, null),
+('adocao', '2020/01/01', null, 'CANCELADO', 9, 1, null),
+('pagamento', '2020/01/01', null, 'PGTO_REALIZADO_USER', 9, 1, null),
+('pagamento', '2020/01/01', null, 'PGTO_REALIZADO_USER', 9, 1, null),
+('adocao', '2020/01/01', null, 'CANCELADO', 9, 1, null),
+('resgate', '2020/01/01', null, 'RESGATE_INVALIDO', 9, 1, null),
+('resgate', '2020/01/01', null, 'RESGATE_INVALIDO', 9, 1, null),
+('resgate', '2020/01/01', null, 'RESGATE_VALIDO', 9, 1, null);
+
 
