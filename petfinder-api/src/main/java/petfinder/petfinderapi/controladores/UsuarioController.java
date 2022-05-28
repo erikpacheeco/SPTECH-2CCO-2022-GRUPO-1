@@ -55,9 +55,6 @@ public class UsuarioController {
         }
     );
 
-    private ListaObj<String> statusPossiveis = new ListaObj<String>(new String[]{"ABERTO", "CONCLUIDO", "CANCELADO", "DOCUMENTO_VALIDO",
-            "PGTO_REALIZADO_USER", "PGTO_REALIZADO_INST", "RESGATE_INVALIDO", "RESGATE_VALIDO", "EM_ANDAMENTO"});
-
     // endpoints
 
     // retorna todos os usuarios
@@ -413,4 +410,23 @@ public class UsuarioController {
 
     }
 
+    @PostMapping("/usuario-resgate")
+    public ResponseEntity postUsuarioResgate(@RequestBody Endereco novoEndereco) {
+
+        if (novoEndereco == null) {
+            return ResponseEntity.status(404).build();
+        }
+        enderecoRepository.save(novoEndereco);
+
+        Usuario usuario = new Usuario();
+        usuario.setNome("UNSIGNED");
+        usuario.setEmail("");
+        usuario.setSenha("UNSIGNED");
+        usuario.setNivelAcesso("UNSIGNED");
+        usuario.setEndereco(novoEndereco);
+        usuario.setLogado(false);
+        usuarioRepository.save(usuario);
+
+        return ResponseEntity.status(200).body(usuario);
+    }
 }

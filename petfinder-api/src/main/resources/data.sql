@@ -39,7 +39,8 @@ INSERT INTO
 pet(nome, data_nasc, especie, raca, porte, sexo, descricao, adotado, fk_instituicao_id)
 VALUES
 ('Antônio', '2020/02/28', 'Cachorro', 'Shits-zu', 'Pequeno', 'Macho', 'Branquinho, brincalhão e estressado com criança chata', true, 1),
-('Mel', '2027/04/12', 'Cachorro', 'Maltês', 'Pequeno', 'Fêmea', 'Nénem que ama, ficar no colo, fiel companheira', true, 2);
+('Mel', '2027/04/12', 'Cachorro', 'Maltês', 'Pequeno', 'Fêmea', 'Nénem que ama, ficar no colo, fiel companheira', true, 2),
+('Carlos Eduardo', '2019/06/20', 'Gato', 'SRD', 'Pequeno', 'Macho', 'Brincalhão e gosta de passear', false, 2);
 
 -- Premio
 INSERT INTO
@@ -61,11 +62,12 @@ VALUES
 
 -- PetHasCaracteristica
 INSERT INTO
-pet_has_caracteristica(fk_caracteristica, fk_pet)
+pet_has_caracteristica(fk_caracteristica_id, fk_pet_id)
 VALUES
 (1, 1),
 (2, 1),
 (3, 1),
+(4, 1),
 (4, 2);
 
 -- UsuarioHasInteresse
@@ -85,11 +87,11 @@ INSERT INTO
 demanda(categoria, data_abertura, data_fechamento, status, usuario_id, instituicao_id, pet_id)
 VALUES
 ('pagamento', '2020/01/01', null, 'ABERTO', 9, 1, null),
-('apadrinhamento', '2020/01/01', null, 'CONCLUIDO', 9, 1, null),
-('apadrinhamento', '2020/01/01', null, 'ABERTO', 9, 1, 1),
-('apadrinhamento', '2020/01/01', null, 'ABERTO', 9, 1, 2),
+('pagamento', '2020/01/01', null, 'CONCLUIDO', 9, 1, null),
+('pagamento', '2020/01/01', null, 'ABERTO', 9, 1, 1),
+('pagamento', '2020/01/01', null, 'ABERTO', 9, 1, 2),
 ('adocao', '2020/01/01', null, 'ABERTO', 9, 1, null),
-('apadrinhamento', '2020/01/01', null, 'CANCELADO', 9, 1, null),
+('pagamento', '2020/01/01', null, 'CANCELADO', 9, 1, null),
 ('adocao', '2020/01/01', null, 'CANCELADO', 9, 1, null),
 ('pagamento', '2020/01/01', null, 'PGTO_REALIZADO_USER', 9, 1, null),
 ('pagamento', '2020/01/01', null, 'PGTO_REALIZADO_USER', 9, 1, null),
