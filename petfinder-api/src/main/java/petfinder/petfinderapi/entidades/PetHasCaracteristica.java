@@ -1,9 +1,6 @@
 package petfinder.petfinderapi.entidades;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -13,25 +10,33 @@ public class PetHasCaracteristica {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotNull
-    private int fkCaracteristica;
+    @ManyToOne
+    private Caracteristica fkCaracteristica;
 
-    @NotNull
-    private int fkPet;
+    @ManyToOne
+    private Pet fkPet;
 
-    public int getFkCaracteristica() {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Caracteristica getFkCaracteristica() {
         return fkCaracteristica;
     }
 
-    public void setFkCaracteristica(int fkCaracteristica) {
+    public void setFkCaracteristica(Caracteristica fkCaracteristica) {
         this.fkCaracteristica = fkCaracteristica;
     }
 
-    public int getFkPet() {
+    public Pet getFkPet() {
         return fkPet;
     }
 
-    public void setFkPet(int fkPet) {
+    public void setFkPet(Pet fkPet) {
         this.fkPet = fkPet;
     }
 }

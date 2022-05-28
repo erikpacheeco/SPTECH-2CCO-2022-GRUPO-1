@@ -1,7 +1,9 @@
 package petfinder.petfinderapi.repositorios;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import petfinder.petfinderapi.entidades.Caracteristica;
+import petfinder.petfinderapi.entidades.Pet;
 
 import java.util.List;
 
