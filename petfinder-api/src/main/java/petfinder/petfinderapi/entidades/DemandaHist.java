@@ -17,7 +17,7 @@ public class DemandaHist {
     private String status;
     @NotNull
     @ManyToOne
-    private Demanda fkDemanda;
+    private Demanda demanda;
 
     public DemandaHist() {
     }
@@ -26,7 +26,7 @@ public class DemandaHist {
         this.status = fkDemanda.getStatus();
         // flexibilidade de data no update
         this.data = fkDemanda.getDataAbertura();
-        this.fkDemanda = fkDemanda;
+        this.demanda = fkDemanda;
     }
 
     public int getId() {
@@ -54,10 +54,10 @@ public class DemandaHist {
     }
 
     public Demanda getFkDemanda() {
-        return fkDemanda;
+        return demanda;
     }
 
     public void setFkDemanda(Demanda fkDemanda) {
-        this.fkDemanda = fkDemanda;
+        this.demanda = fkDemanda;
     }
 }

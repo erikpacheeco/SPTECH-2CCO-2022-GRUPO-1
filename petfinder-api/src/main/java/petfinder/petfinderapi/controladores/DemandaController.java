@@ -11,7 +11,7 @@ import petfinder.petfinderapi.utilitarios.GerenciadorArquivos;
 import petfinder.petfinderapi.utilitarios.ListaObj;
 import petfinder.petfinderapi.requisicao.CriacaoDemanda;
 import petfinder.petfinderapi.resposta.Message;
-
+import petfinder.petfinderapi.resposta.DemandaUsuario;
 import javax.validation.Valid;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -48,6 +48,12 @@ public class DemandaController implements GerenciadorArquivos{
 
     private ListaObj<String> tiposMenssagensPossiveis = new ListaObj<String>(new String[]{"ARQUIVO", "MENSSAGEM"});
 
+
+    public void gerarHistoricoDemanda(Demanda demanda){
+        DemandaHist demandaHist = new DemandaHist(demanda);
+        demandaHistRepository.save(demandaHist);
+    }
+
     // endpoints
     @PostMapping()
     @Operation(description = "Endpoint de criação de novas demandas, utilizando de uma DTO")
@@ -56,30 +62,26 @@ public class DemandaController implements GerenciadorArquivos{
         Optional<Usuario> usuario = usuarioRepositorio.findById(novaDemanda.getFkUsuario());
         Optional<Instituicao> instituicao = instituicaoRepositorio.findById(novaDemanda.getFkIntituicao());
         Pet pet = null;
+
         if (Objects.nonNull(novaDemanda.getFkPet())){
             if (petRepositorio.existsById(novaDemanda.getFkPet())){
                 pet = petRepositorio.findById(novaDemanda.getFkPet()).get();
             }
         }
 
-        if (instituicao.isPresent()){
-
+        if (instituicao.isPresent() && usuario.isPresent()){
             // verificando corpo da requisição
             if (!categoriasPossiveis.elementoExiste(novaDemanda.getCategoria())){
                 // 400 bad request
                 return ResponseEntity.status(400).build();
             }
 
-            if (!usuario.isPresent()){
-                // 404 Usuario not found
-                return ResponseEntity.status(404).build();
-            }
-
             // 201 recurso criado
             Demanda demanda = new Demanda(novaDemanda.getCategoria(), usuario.get(), instituicao.get(), pet);
             demanda = demandaRepositorio.save(demanda);
-            DemandaHist demandaHist = new DemandaHist(demanda);
-            demandaHistRepository.save(demandaHist);
+
+            gerarHistoricoDemanda(demanda);
+
             return ResponseEntity.ok(demanda);
 
         }
@@ -90,110 +92,159 @@ public class DemandaController implements GerenciadorArquivos{
 
     @GetMapping
     @Operation(description = "Endpoint que retorna uma lista de demandas sem filtro")
-    public ResponseEntity getDemanda(){
+    public ResponseEntity<List<Demanda>> getDemanda(){
         List<Demanda> lista = demandaRepositorio.findAll();
-
         // 204, em caso de lista vazia
         if (lista.isEmpty()) {
-            return ResponseEntity.status(204).body(new Message("Lista vázia"));
+            return ResponseEntity.status(204).build();
         }
-
         // 200
         return ResponseEntity.status(200).body(lista);
     }
 
     @GetMapping("/{idDemanda}")
-    @Operation(description = "Endpoint que retorna uma lista de demandas filtradas por ID")
-    public ResponseEntity<Object> getDemandaById(@PathVariable int idDemanda){
+    @Operation(description = "Endpoint que retorna uma demanda filtrada pelo ID")
+    public ResponseEntity<Demanda> getDemandaById(@PathVariable int idDemanda){
         Optional<Demanda> demanda = demandaRepositorio.findById(idDemanda);
-
         // verificando existencia da demanda
         if (demanda.isPresent()){
-
             // 200
             return ResponseEntity.status(200).body(demanda.get());
         }
-
         // 404 demanda não encontrada
         return ResponseEntity.status(404).build();
 
 
     }
 
-    @GetMapping("/user/{fkUsuario}")
+    @GetMapping("/user/{idUsuario}")
     @Operation(description = "Endpoint que retorna uma lista de demandas filtradas pelo ID do Usuário")
-    public ResponseEntity<Object> getDemandasUserById(@PathVariable int fkUsuario){
-
+    public ResponseEntity<List<Demanda>> getDemandaUserById(@PathVariable int idUsuario){
+        Optional<Usuario> usuario = usuarioRepositorio.findById(idUsuario);
         // verificando se usuario existe
-        if (usuarioRepositorio.existsById(fkUsuario)) {
-            // Retornar demandas isoladas de acordo com o status
-            // armazenando lista de demandas do usuário
-            List<Demanda> lista = demandaRepositorio.findAllByUsuarioId(fkUsuario);
-
-            // verificando se a lista de demandas do usuário está vazia
-            if (lista.isEmpty()){
-
-                // 204 no content
-                return ResponseEntity.status(204).body(new Message("Lista vázia"));
+        if (usuario.isPresent()) {
+            if (usuario.get().getNivelAcesso().equalsIgnoreCase("USER")){
+                List<Demanda> lista = demandaRepositorio.findAllByUsuarioId(idUsuario);
+                if (lista.isEmpty()){
+                    return ResponseEntity.status(204).build();
+                }
+                return  ResponseEntity.status(200).body(lista);
             }
 
-            // 200 
-            return  ResponseEntity.status(200).body(lista);
+            if (usuario.get().getNivelAcesso().equalsIgnoreCase("CHATOPS") ||
+                    usuario.get().getNivelAcesso().equalsIgnoreCase("PETOPS") ||
+                    usuario.get().getNivelAcesso().equalsIgnoreCase("ADM")) {
+
+                List<Demanda> lista = demandaRepositorio.findAllDemandaColaborador(idUsuario);
+                if (lista.isEmpty()){
+                    return ResponseEntity.status(204).build();
+                }
+                return  ResponseEntity.status(200).body(lista);
+            }
+
+            return ResponseEntity.status(400).build();
+
         }
 
         // 404 usuario not found
-        return ResponseEntity.status(404).body(new Message("Usuário não encontrado"));
+        return ResponseEntity.status(404).build();
+    }
+
+    // Aviso!!! Necessário reparos !!!
+    @GetMapping("/user/{idUsuario}/grupoStatus")
+    @Operation(description = "Endpoint que retorna uma lista de demandas de acordo com o status e filtrada pelo tipo de usuário")
+    public ResponseEntity<DemandaUsuario> getDemandaColaboradorStatus(@PathVariable int idUsuario){
+        Optional<Usuario> usuario = usuarioRepositorio.findById(idUsuario);
+        if (usuario.isPresent()){
+            if (usuario.get().getNivelAcesso().equalsIgnoreCase("USER")){
+                // usuário é usuário
+                List<Demanda> listaAberta = demandaRepositorio.findAllStatusAbertaUsuario(idUsuario);
+                List<Demanda> listaEmAndamento = demandaRepositorio.findAllStatusEmAndamentoUsuario(idUsuario);
+                List<Demanda> listaConluida = demandaRepositorio.findAllStatusConcluidoUsuario(idUsuario);
+
+                DemandaUsuario demandaUsuario = new DemandaUsuario(listaAberta, listaEmAndamento, listaConluida);
+                if (Objects.isNull(demandaUsuario)){
+                    return ResponseEntity.status(404).build();
+                }
+                return ResponseEntity.status(200).body(demandaUsuario);
+            }
+
+            if (usuario.get().getNivelAcesso().equalsIgnoreCase("CHATOPS") ||
+                    usuario.get().getNivelAcesso().equalsIgnoreCase("PETOPS") ||
+            usuario.get().getNivelAcesso().equalsIgnoreCase("ADM")) {
+                // usuário é colaboraor
+                List<Demanda> listaAberta = demandaRepositorio.findAllStatusAbertaInstituicao(usuario.get().getInstituicao().getId());
+                List<Demanda> listaEmAndamento = demandaRepositorio.findAllStatusEmAndamentoColaborador(idUsuario);
+                List<Demanda> listaConluida = demandaRepositorio.findAllStatusConcluidoColaborador(idUsuario);
+
+                DemandaUsuario demandaUsuario = new DemandaUsuario(listaAberta, listaEmAndamento, listaConluida);
+                if (Objects.isNull(demandaUsuario)){
+                    return ResponseEntity.status(404).build();
+                }
+                return ResponseEntity.status(200).body(demandaUsuario);
+
+            }
+
+            return ResponseEntity.status(400).build();
+
+        }
+        return ResponseEntity.status(404).build();
     }
 
 
 
-    @GetMapping("/instituicao/{fkInstituicao}")
-    @Operation(description = "Endpoint que retorna uma lista de demandas de uma instituição ")
-    public ResponseEntity<Object> getDemandaByInstituicao(@PathVariable int fkInstituicao){
-        if (instituicaoRepositorio.existsById(fkInstituicao)){
-            List<Demanda> lista = demandaRepositorio.findAllByInstituicao(fkInstituicao);
+    @GetMapping("/instituicao/{idInstituicao}")
+    @Operation(description = "Endpoint que retorna uma lista de demandas de uma instituição")
+    public ResponseEntity<List<Demanda>> getDemandaByInstituicao(@PathVariable int idInstituicao){
+        if (instituicaoRepositorio.existsById(idInstituicao)){
+            List<Demanda> lista = demandaRepositorio.findAllByInstituicaoId(idInstituicao);
             if (lista.isEmpty()){
-                return ResponseEntity.status(204).body(new Message("Lista vázia"));
+                return ResponseEntity.status(204).build();
             }
             return  ResponseEntity.status(200).body(lista);
         }
         // 404 instituição not found
-        return ResponseEntity.status(404).body(new Message("Instituição não encontrada"));
+        return ResponseEntity.status(404).build();
     }
 
-    @GetMapping("/instituicao/{fkInstituicao}/{status}")
+    @GetMapping("/instituicao/{idInstituicao}/{status}")
     @Operation(description = "Endpoint que retorna uma lista de demandas filtradas pela instituição e pelo status da demanda")
-    public ResponseEntity<Object> getDemandaByInstituicaoAndStatus(@PathVariable int fkInstituicao, @PathVariable String status){
-        if (instituicaoRepositorio.existsById(fkInstituicao)){
-            List<Demanda> lista = demandaRepositorio.findAllByInstituicaoIdAndStatus(fkInstituicao, status);
-            if (lista.isEmpty()){
-                return ResponseEntity.status(204).body(new Message("Lista vázia"));
+    public ResponseEntity<List<Demanda>> getDemandaByInstituicaoAndStatus(@PathVariable int idInstituicao, @PathVariable String status){
+        if (instituicaoRepositorio.existsById(idInstituicao)){
+
+            if (!statusPossiveis.elementoExiste(status)) {
+                // 400 bad request - status da demanda inválida
+                return ResponseEntity.status(400).build();
             }
+
+            List<Demanda> lista = demandaRepositorio.findAllByInstituicaoAndStatus(idInstituicao, status);
+
+            if (lista.isEmpty()){
+                return ResponseEntity.status(204).build();
+            }
+
             return  ResponseEntity.status(200).body(lista);
         }
         // 404 instituição not found
-        return ResponseEntity.status(404).body(new Message("Instituição não encontrada"));
+        return ResponseEntity.status(404).build();
     }
 
     @PutMapping("/{idDemanda}")
-    @Operation(description = "Endpoint para....") // !! ATUALIZAR ESSA DESCRIÇÂO
-    public ResponseEntity<Object> patchDemanda(@PathVariable int idDemanda, @RequestBody @Valid Demanda demandaAtualizar){
-
+    @Operation(description = "Endpoint para atualizar por completo uma demanda")
+    public ResponseEntity<Demanda> patchDemanda(@PathVariable int idDemanda, @RequestBody @Valid Demanda demandaAtualizar){
         // verificando se demanda existe
         if (demandaRepositorio.existsById(idDemanda)){
 
             // validando categoria da demanda
             if (!categoriasPossiveis.elementoExiste(demandaAtualizar.getCategoria())){
-
                 // 400 bad request - categoria da demanda inválida
-                return ResponseEntity.status(400).body(new Message("Categoria da demanda inválida"));
+                return ResponseEntity.status(400).build();
             }
 
             // validando status da demanda
             if (!statusPossiveis.elementoExiste(demandaAtualizar.getStatus())) {
-
                 // 400 bad request - status da demanda inválida
-                return ResponseEntity.status(400).body(new Message("Status da demanda inválido"));
+                return ResponseEntity.status(400).build();
             }
 
             // atualizando valores da demanda
@@ -203,7 +254,6 @@ public class DemandaController implements GerenciadorArquivos{
             demanda.setDataFechamento(demandaAtualizar.getDataFechamento());
             demanda.setStatus(demandaAtualizar.getStatus());
             demandaRepositorio.save(demanda);
-
             // 200
             return ResponseEntity.status(200).build();
         }
@@ -212,7 +262,7 @@ public class DemandaController implements GerenciadorArquivos{
         return ResponseEntity.status(404).build();
     }
 
-    @PatchMapping("/colaborador-abrir/{idDemanda}/{fkColaborador}")
+    @PatchMapping("/colaborador-abrir/{idDemanda}/{idColaborador}")
     @Operation(description = "Endpoint que insere um colaborador na demanda")
     public ResponseEntity<Object> patchDemandaColaborador(@PathVariable int idDemanda, @PathVariable int idColaborador){
         Optional<Demanda> demanda = demandaRepositorio.findById(idDemanda);
@@ -225,8 +275,8 @@ public class DemandaController implements GerenciadorArquivos{
                 demanda.get().setStatus("em_andamento");
                 demanda.get().setColaborador(colaborador.get());
                 demandaRepositorio.save(demanda.get());
-                DemandaHist demandaHist = new DemandaHist(demanda.get());
-                demandaHistRepository.save(demandaHist);
+
+                gerarHistoricoDemanda(demanda.get());
                 // 200 - empty response
                 return ResponseEntity.status(200).build();
             }
@@ -237,31 +287,30 @@ public class DemandaController implements GerenciadorArquivos{
         return ResponseEntity.status(404).body(new Message("Demanda não encontrada"));
     }
 
-    @PatchMapping("/status/{idDemanda}/{statusAtualizar}")
+    @PatchMapping("/status/{idDemanda}/{statusNovo}")
     @Operation(description = "Endpoint para atualizar o status de uma demanda especifica filtrada pelo ID")
-    public ResponseEntity<Object> patchDemandaStatus(@PathVariable int idDemanda, @PathVariable String statusAtualizar){
-
+    public ResponseEntity<Demanda> patchDemandaStatus(@PathVariable int idDemanda, @PathVariable String statusNovo){
+        Optional<Demanda> demanda = demandaRepositorio.findById(idDemanda);
         // verificando existencia da demanda
-        if (demandaRepositorio.existsById(idDemanda)){
-
+        if (demanda.isPresent()){
             // verificando validade do status
-            if (!statusPossiveis.elementoExiste(statusAtualizar)){
-
+            if (!statusPossiveis.elementoExiste(statusNovo)){
                 // 404 - status inválido
-                return ResponseEntity.status(404).body(new Message("Status inválido"));
+                return ResponseEntity.status(404).build();
             }
 
             // atualizando status da demanda
-            Demanda demanda = demandaRepositorio.getById(idDemanda);
-            demanda.setStatus(statusAtualizar.toLowerCase(Locale.ROOT));
-            demandaRepositorio.save(demanda);
+            Demanda demandaAtualizada = demanda.get();
+            demandaAtualizada.setStatus(statusNovo.toLowerCase());
+            demandaRepositorio.save(demandaAtualizada);
 
+            gerarHistoricoDemanda(demandaAtualizada);
             // 200 - empty response
-            return ResponseEntity.status(200).build();
+            return ResponseEntity.status(200).body(demandaAtualizada);
         }
 
         // 404 - demanda não encontrada
-        return ResponseEntity.status(404).body(new Message("Demanda não encontrada"));
+        return ResponseEntity.status(404).build();
     }
 
     @DeleteMapping("/{idDemanda}")
@@ -270,10 +319,8 @@ public class DemandaController implements GerenciadorArquivos{
 
         // verificando se demanda existe
         if (demandaRepositorio.existsById(idDemanda)){
-
             // deletando demanda
             demandaRepositorio.deleteById(idDemanda);
-
             // 200
             return ResponseEntity.status(200).build();
         }
@@ -282,10 +329,22 @@ public class DemandaController implements GerenciadorArquivos{
         return ResponseEntity.status(404).build();
     }
 
+    @GetMapping("/historico/{idDemanda}")
+    @Operation(description = "Endpoint que retorna todo o histórico de demandas")
+    public ResponseEntity<List<DemandaHist>> getHistDemanda(@PathVariable int idDemanda){
+        List<DemandaHist> lista = demandaHistRepository.findAllByDemandaId(idDemanda);
+        // 204, em caso de lista vazia
+        if (lista.isEmpty()) {
+            return ResponseEntity.status(204).build();
+        }
+        // 200
+        return ResponseEntity.ok(lista);
+    }
+
     @GetMapping("/download/{idInstituicao}/{status}")
     @Operation(description = "Endpoint responsável por fazer o download do log de demandas com um tipo de status e de uma unica instiuição filtrada pelo seu ID")
     public ResponseEntity<Object> getDemandaCSV(@PathVariable int idInstituicao, @PathVariable String status){
-        List<Demanda> listaRepositorio = demandaRepositorio.findAllByInstituicaoIdAndStatus(idInstituicao,status);
+        List<Demanda> listaRepositorio = demandaRepositorio.findAllByInstituicaoAndStatus(idInstituicao,status);
         ListaObj<Demanda> listaDemandas = new ListaObj<>(listaRepositorio.size());
         for(Demanda d : listaRepositorio){
             listaDemandas.adicionarElemento(d);
@@ -302,7 +361,6 @@ public class DemandaController implements GerenciadorArquivos{
                 .header("content-disposition", "filename=\"demandas.csv\"")
                 .body(relatorio);
     }
-
 
 
     @Override
@@ -406,21 +464,6 @@ public class DemandaController implements GerenciadorArquivos{
             }
             return relatorio;
         }
-    }
-
-
-    @GetMapping("/historico")
-    @Operation(description = "Endpoint que retorna todo o histórico de demandas")
-    public ResponseEntity<List<DemandaHist>> getHistDemanda(){
-        List<DemandaHist> lista = demandaHistRepository.findAll();
-
-        // 204, em caso de lista vazia
-        if (lista.isEmpty()) {
-            return ResponseEntity.status(204).build();
-        }
-
-        // 200
-        return ResponseEntity.ok(lista);
     }
 
 }
