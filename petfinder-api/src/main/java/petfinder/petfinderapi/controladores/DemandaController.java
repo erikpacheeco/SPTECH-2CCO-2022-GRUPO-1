@@ -172,8 +172,10 @@ public class DemandaController implements GerenciadorArquivos{
             if (usuario.get().getNivelAcesso().equalsIgnoreCase("CHATOPS") ||
                     usuario.get().getNivelAcesso().equalsIgnoreCase("PETOPS") ||
             usuario.get().getNivelAcesso().equalsIgnoreCase("ADM")) {
+
                 // usuário é colaboraor
-                List<Demanda> listaAberta = demandaRepositorio.findAllStatusAbertaInstituicao(usuario.get().getInstituicao().getId());
+                int idInstituicao = usuario.get().getInstituicao().getId();
+                List<Demanda> listaAberta = demandaRepositorio.findAllStatusAbertaInstituicao(idInstituicao);
                 List<Demanda> listaEmAndamento = demandaRepositorio.findAllStatusEmAndamentoColaborador(idUsuario);
                 List<Demanda> listaConluida = demandaRepositorio.findAllStatusConcluidoColaborador(idUsuario);
 

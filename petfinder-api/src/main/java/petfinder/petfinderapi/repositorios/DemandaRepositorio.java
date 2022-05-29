@@ -31,25 +31,26 @@ public interface DemandaRepositorio extends JpaRepository<Demanda, Integer> {
     @Query("SELECT d from Demanda d WHERE d.usuario.id = ?1 AND d.status = 'ABERTO'")
     List<Demanda> findAllStatusAbertaUsuario(int idUsuario);
 
+    // Traz todas demadas em andamento do usuário
+    @Query("SELECT d from Demanda d WHERE d.usuario.id = ?1 AND d.status NOT IN ('ABERTO', 'CONCLUIDO','CANCELADO')")
+    List<Demanda> findAllStatusEmAndamentoUsuario(int idUsuario);
+
     // Traz todas demadas concluidas do usuário
-    @Query("SELECT d from Demanda d WHERE d.usuario.id = ?1 AND d.status = 'CONCLUIDO'")
+    @Query("SELECT d from Demanda d WHERE d.usuario.id = ?1 AND d.status IN ('CONCLUIDO','CANCELADO')")
     List<Demanda> findAllStatusConcluidoUsuario(int idUsuario);
 
-    // Traz todas demadas em andamento do usuário
-    @Query("SELECT d from Demanda d WHERE d.usuario.id = ?1 AND d.status NOT IN ('ABERTO', 'CONLUIDO')")
-    List<Demanda> findAllStatusEmAndamentoUsuario(int idUsuario);
+
 
     // Traz todas demadas abertas da instituição
     @Query("SELECT d FROM Demanda d WHERE d.status = 'ABERTO' AND d.instituicao.id = ?1")
-    List<Demanda> findAllStatusAbertaInstituicao(int idInstituicao);
+    List<Demanda> findAllStatusAbertaInstituicao(Integer idInstituicao);
 
     // Traz todas demadas em andamento da instituição de acordo com um colaborador
-    @Query("SELECT d FROM Demanda d WHERE d.colaborador = ?1 AND d.status NOT IN ('ABERTO', 'CONLUIDO')")
-    List<Demanda> findAllStatusEmAndamentoColaborador(int idUsuario);
+    @Query("SELECT d FROM Demanda d WHERE d.colaborador.id = ?1 AND d.status NOT IN ('ABERTO', 'CONCLUIDO','CANCELADO')")
+    List<Demanda> findAllStatusEmAndamentoColaborador(Integer idUsuario);
 
     // Traz todas demadas concluidas da instituição de acordo com um colaborador
-    @Query("SELECT d FROM Demanda d WHERE d.colaborador = ?1 AND d.status = 'CONCLUIDO'")
-    List<Demanda> findAllStatusConcluidoColaborador(int idUsuario);
-
+    @Query("SELECT d FROM Demanda d WHERE d.colaborador.id = ?1 AND d.status IN ('CONCLUIDO','CANCELADO')")
+    List<Demanda> findAllStatusConcluidoColaborador(Integer idUsuario);
 
 }
