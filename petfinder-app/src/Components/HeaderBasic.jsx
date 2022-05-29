@@ -1,6 +1,7 @@
 import logo from '../Images/img_logo.svg'
 import "../css/style.css"
 import NavItem from './NavItem';
+import { Link } from 'react-router-dom';
 
 function HeaderBasic() {
 
@@ -15,11 +16,16 @@ function HeaderBasic() {
         </a>
 
         <div className="navbar-container-itens">
-          <NavItem id="home" label="Home"/>
-          <NavItem id="login" label="Login"/>
-          <a className="nav-item">
+          <NavItem id="home" label="Home" />
+
+          <Link to="/login">
+            <NavItem id="login" label="Login" />
+          </Link>
+          
+          <Link to="/cadastro" className="nav-item">
             <div className="bg-yellow">Cadastro</div>
-          </a>
+          </Link>
+
         </div>
       </section>
     </nav>
