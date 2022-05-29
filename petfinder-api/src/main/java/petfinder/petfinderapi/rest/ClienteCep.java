@@ -1,6 +1,7 @@
 package petfinder.petfinderapi.rest;
 
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -14,4 +15,7 @@ public interface ClienteCep {
     @GetMapping("/{cepUsuario}/{cepInstituicao}")
     String getDistanciaInstituicao(@PathVariable String cepUsuario,
                                    @PathVariable String cepInstituicao);
+
+    @GetMapping("/{origin}/{destination}")
+    ResponseEntity<Distancep> getDistancep(@PathVariable String origin, @PathVariable String destination);
 }

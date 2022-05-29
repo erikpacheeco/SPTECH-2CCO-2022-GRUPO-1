@@ -19,4 +19,7 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, Integer>{
     @Query("SELECT u FROM Usuario u WHERE u.email = ?1 AND u.email <> ?2")
     public List<Usuario> findByActualEmailAndNewEmail(String emailNovo, String emailAtual);
 
+    @Query("SELECT u FROM Usuario u WHERE u.instituicao.id = ?1")
+    Usuario findByInstituicaoId(int id);
+
 }

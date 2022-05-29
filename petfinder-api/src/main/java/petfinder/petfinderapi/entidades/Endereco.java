@@ -36,6 +36,7 @@ public class Endereco {
 
     @NotNull
     @NotEmpty
+    @Size(min = 2, max = 2)
     private String uf;
 
     @NotNull
@@ -45,6 +46,8 @@ public class Endereco {
 
     private String latitude;
     private String longitude;
+
+    
 
 
 //    METODOS

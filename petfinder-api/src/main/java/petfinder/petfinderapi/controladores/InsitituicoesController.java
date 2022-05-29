@@ -7,12 +7,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import petfinder.petfinderapi.entidades.Endereco;
 import petfinder.petfinderapi.entidades.Instituicao;
+import petfinder.petfinderapi.entidades.Usuario;
 import petfinder.petfinderapi.repositorios.EnderecoRepositorio;
 import petfinder.petfinderapi.repositorios.InstituicaoRepositorio;
+import petfinder.petfinderapi.repositorios.UsuarioRepositorio;
 import petfinder.petfinderapi.rest.ClienteCep;
+import petfinder.petfinderapi.rest.Distancep;
 import petfinder.petfinderapi.rest.DistanciaResposta;
-import petfinder.petfinderapi.utilitarios.FilaObj;
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
@@ -30,9 +32,10 @@ public class InsitituicoesController {
     private InstituicaoRepositorio instituicaoRepositorio;
 
     @Autowired
-    private ClienteCep clienteCep;
+    private UsuarioRepositorio usuarioRepositorio;
 
-    private FilaObj filaObj = new FilaObj<>(10);
+    @Autowired
+    private ClienteCep clienteCep;
 
     // endpoints
 
@@ -74,14 +77,29 @@ public class InsitituicoesController {
 
     // cadastra instituicao
     @PostMapping
-    @Operation(description = "Endpoint para cadastro de instituição")
-    public ResponseEntity<Object> postInstituicao(@RequestBody @Valid Instituicao instituicao){
-            // adicionando endereco + instituicao
-            // enderecoRepositorio.save(instituicao.getEndereco());
-            instituicaoRepositorio.save(instituicao);
+    @Operation(description = "Endpoint para cadastro de instituição, juntamente com seu endereço e primeiro usuário admin")
+    public ResponseEntity<Instituicao> postInstituicao(@RequestBody @Valid Usuario usuario){
 
-            // 201
-            return ResponseEntity.status(201).build();
+        
+        // 400 nivel acesso do usuário inválido
+        if (!usuario.getNivelAcesso().equalsIgnoreCase("admin")) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        // 400 email já em uso
+        if (!usuarioRepositorio.findByEmail(usuario.getEmail()).isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        // saving values
+        Endereco endereco = enderecoRepositorio.save(usuario.getInstituicao().getEndereco());
+        usuario.getInstituicao().getEndereco().setId(endereco.getId());
+        Instituicao instituicao = instituicaoRepositorio.save(usuario.getInstituicao());
+        usuario.getInstituicao().setId(instituicao.getId());
+        usuario = usuarioRepositorio.save(usuario);
+        
+        // 201
+        return ResponseEntity.status(201).body(usuario.getInstituicao());
     }
 
     // edita dados da instituicao
@@ -183,22 +201,63 @@ public class InsitituicoesController {
     }
 
     @GetMapping("/distancias/{cepUsuario}/{distanciaMax}")
-    public ResponseEntity getListaDistanciasInstituicaoes(@PathVariable String cepUsuario,
-                                                     @PathVariable Integer distanciaMax) {
+    public ResponseEntity<List<Instituicao>> getListaDistanciasInstituicaoes(
+        @PathVariable String cepUsuario,
+        @PathVariable Integer distanciaMax) {
+
+        // listas
         List<Instituicao> lista = instituicaoRepositorio.findAll();
+        List<Instituicao> instituicoesProximas = new ArrayList<Instituicao>();
 
+        // 204 sem instituições cadastradas
         if (lista.isEmpty()) {
-            return ResponseEntity.status(404).build();
-        }
-        for (int i = 0; i < lista.size(); i++) {
-            DistanciaResposta resposta = clienteCep.getDistancia(cepUsuario, lista.get(i).getEndereco().getCep());
-            Integer distancia = resposta.getDistancia();
-
-            if (distancia <= distanciaMax) {
-                filaObj.insert(lista.get(i));
-            }
+            return ResponseEntity.status(204).build();
         }
 
-        return ResponseEntity.status(200).body(filaObj.getFila());
+        // percorrendo todas as instituições para medir sua distância com o usuário
+        for (Instituicao instituicao : lista) {
+            String cepInstituicao = instituicao.getEndereco().getCep();
+
+            // usuário tem o mesmo cep da instituição
+            if (cepUsuario.equals(cepInstituicao)) {
+                instituicoesProximas.add(instituicao);
+                continue;
+            } 
+
+            // pegando distancia entre usuário e instituição
+            ResponseEntity<Distancep> res = clienteCep.getDistancep(cepUsuario, cepInstituicao);
+
+            // verificando se requisição foi realizada com sucesso (STATUS OK 200)
+            // verificando se distancia entre usuário e instituicao é menor que a distancia máxima
+            if (res.getStatusCodeValue() == 200 && res.getBody().getDistance() <= distanciaMax) {
+                // add inst
+                instituicoesProximas.add(instituicao);
+                continue;
+            } 
+        }
+        
+        // 200 ok
+        return ResponseEntity.status(200).body(instituicoesProximas);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteInstituicao(@PathVariable int id) {
+
+        // instituicao existe
+        if (instituicaoRepositorio.existsById(id)) {
+            Instituicao instituicao = instituicaoRepositorio.findById(id).get();
+            int idEndereco = instituicao.getEndereco().getId();
+            int adminId = usuarioRepositorio.findByInstituicaoId(id).getId();
+
+            // deleting instituicao
+            usuarioRepositorio.deleteById(adminId);
+            instituicaoRepositorio.deleteById(id);
+            enderecoRepositorio.deleteById(idEndereco);
+
+            return ResponseEntity.noContent().build();
+        }
+
+        // 404 instituicao não encontrada
+        return ResponseEntity.notFound().build();
     }
 }
