@@ -26,7 +26,7 @@ public class Usuario {
 
     private String nivelAcesso;
 
-    @ManyToOne
+    @OneToOne
     private Endereco endereco;
 
     @ManyToOne

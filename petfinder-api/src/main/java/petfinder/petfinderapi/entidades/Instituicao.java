@@ -3,7 +3,7 @@ package petfinder.petfinderapi.entidades;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Instituicao {
@@ -19,7 +19,7 @@ public class Instituicao {
 
     @NotNull
     @NotEmpty
-    @Pattern(regexp = "(\\(?\\d{2}\\)?\\s)?(\\d{4,5}\\-\\d{4})", message = "Informe um telefone válido com ou sem DDD")
+    @Size(min = 8, max= 13)
     private String telefone;
 
     private String termoAdocao;
