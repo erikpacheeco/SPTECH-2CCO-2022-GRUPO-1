@@ -38,32 +38,50 @@
     <!-- conteúdo -->
     <div class="container">
         <div class="form-container">
-            <form action="">
-                <h1>Cadastro do Usuário</h1>
+            <form action="" class="form-usuario" style="display: none;">
+                <div class="btn">
+                    <button class="btn-paginas"></button>
+                    <button class="btn-paginas"></button>
+                    <button class="btn-paginas"></button>
+                </div>
+
+                <h1>CADASTRO DO USUÁRIO</h1>
                 <div class="dados-pessoais">
                     <div class="input-container">
                         <label for="">Nome completo: </label>
-                        <input type="email" required />
+                        <input type="text"  />
                     </div>
 
                     <div class="input-container">
                         <label for="">Telefone para contato: </label>
-                        <input type="text" required />
+                        <input type="text"  />
                     </div>
 
                     <div class="input-container">
                         <label for="">E-mail: </label>
-                        <input type="text" required />
+                        <input type="email"  />
                     </div>
 
                     <div class="input-container">
                         <label for="">Senha: </label>
-                        <input type="text" required />
+                        <input type="text"  />
                     </div>
                 </div>
 
-                <h2>Endereço</h2>
+                <div class="button-container">
+                    <button class="btn-form" name="btnProximo" onclick="exibeFormEndereco()">Próximo</button>
+                </div>
+            </form>
 
+            <form action="" class="form-endereco" style="display: none;">
+                <div class="btn">
+                    <button class="btn-paginas"></button>
+                    <button class="btn-paginas"></button>
+                    <button class="btn-paginas"></button>
+                </div>
+
+                <h1>CADASTRO DO USUÁRIO</h1>
+                <h2>Endereço</h2>
                 <div class="endereco">
                     <div class="input-container">
                         <label for="">CEP: </label>
@@ -103,75 +121,54 @@
                             <input type="text" id="inEstado" required />
                         </div>
                     </div>
+                </div>
 
-                    <div class="preferencias-container">
+                <div class="button">
+                    <div class="button-container">
+                        <input type="submit" class="btn-form" name="btnVoltar" value="Voltar" onclick="exibeFormUsuario"/>
+                    </div>
 
-                        <p class="preferencias">Tipo de animal que procura:</p>
-
-                        <div class="check-box">
-                            <div class="check-box-padrao">
-                                <input type="checkbox" id="cachorro" name="cachorro"/>
-                                <label for="cachorro">Cachorro</label>
-                            </div>
-
-                            <div class="check-box-padrao">
-                                <input type="checkbox" id="gato" name="gato"/>
-                                <label for="gato">Gato</label>
-                            </div>
-
-                            <div class="check-box-padrao">
-                                <input type="checkbox" id="outros" name="outros"/>
-                                <label for="outros">Outros</label>
-
-                                <input type="text" />
-                            </div>
-
-                        </div>
-
-                        <p class="porte-animal">Porte do animal:</p>
-
-                        <div class="check-box">
-                            <div class="check-box-padrao">
-                                <input type="checkbox" id="pequeno" name="pequeno"/>
-                                <label for="pequeno">Pequeno</label>
-                            </div>
-
-                            <div class="check-box-padrao">
-                                <input type="checkbox" id="medio" name="medio"/>
-                                <label for="medio">Médio</label>
-                            </div>
-
-                            <div class="check-box-padrao">
-                                <input type="checkbox" id="grande" name="grande"/>
-                                <label for="grande">Grande</label>
-                            </div>
-                        </div>
-
-                        <p class="preferencias">Preferência de sexo do animal:</p>
-
-                        <div class="check-box">
-                            <div class="check-box-padrao">
-                                <input type="radio" id="macho" name="sexo" value="macho"/>
-                                <label for="macho">Macho</label><br />
-                            </div>
-
-                            <div class="check-box-padrao">
-                                <input type="radio" id="femea" name="sexo" value="femea"/>
-                                <label for="femea">Fêmea</label><br />
-                            </div>
-
-                            <div class="check-box-padrao">
-                                <input type="radio" id="semPrefencia" name="sexo" value="semPreferencia"/>
-                                <label for="semPrefencia">Sem preferência</label><br/>
-                            </div>
-                        </div>
+                    <div class="button-container" onclick="">
+                        <input type="submit" class="btn-form" name="btnProximo" value="Proximo" onclick="exibeFormPreferencias"/>
                     </div>
                 </div>
+            </form>
 
-                <div class="button-container">
-                    <input type="submit" class="btn-form" name="btnCadastrar" value="Cadastrar" onclick="moveTo('./login.html')"/>
+            <form action="" class="form-preferencias" >
+                <div class="btn">
+                    <button class="btn-paginas"></button>
+                    <button class="btn-paginas"></button>
+                    <button class="btn-paginas"></button>
+                </div>
+
+                <h1>PREFERÊNCIAS</h1>
+
+                <div class="preferencias-container">
+                    <button class="btn-preferencia">Médio</button>
+                    <button class="btn-preferencia">Pequeno</button>
+                    <button class="btn-preferencia">Grande</button>
+                    <button class="btn-preferencia">Dócil</button>
+                    <button class="btn-preferencia">SRD</button>
+                    <button class="btn-preferencia">Preguiçoso</button>
+                    <button class="btn-preferencia">Esfomeado</button>
+                    <button class="btn-preferencia">Carinhoso</button>
+                    <button class="btn-preferencia">Feliz</button>
+                    <button class="btn-preferencia">Animado</button>
+                    <button class="btn-preferencia">Brincalhão</button>
+                    <button class="btn-preferencia">Amigável</button>
+                </div>
+
+                <div class="button">
+                    <div class="button-container">
+                        <input type="submit" class="btn-form" name="btnVoltar" value="Voltar" onclick="exibeFormEndereco"/>
+                    </div>
+
+                    <div class="button-container">
+                        <input type="submit" class="btn-form" name="btnCadastrar" value="Cadastrar" onclick="moveTo('./login.html')"/>
+                    </div>
                 </div>
             </form>
+
         </div>
     </div>
     <!-- fim conteúdo -->
