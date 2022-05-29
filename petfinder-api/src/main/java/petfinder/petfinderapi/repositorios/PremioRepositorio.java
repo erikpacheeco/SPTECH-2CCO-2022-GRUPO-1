@@ -12,7 +12,7 @@ public interface PremioRepositorio extends JpaRepository<Premio, Integer> {
 
     List<Premio> findById(int id);
 
-    List<Premio> findByFkPet(int id);
+    List<Premio> findByFkPetId(int id);
 
     void deleteById(int id);
 }

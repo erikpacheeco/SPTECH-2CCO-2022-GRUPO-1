@@ -8,13 +8,49 @@ import java.util.List;
 
 public interface DemandaRepositorio extends JpaRepository<Demanda, Integer> {
 
-    List<Demanda> findAllByUsuario(int id);
 
-    @Query("select d from Demanda d WHERE d.usuario.id = ?1 AND d.status = ?2")
-    List<Demanda> findAllByUsuarioAndStatus(int id, String status);
+    List<Demanda> findAllByUsuarioId(Integer id);
 
-    @Query("select d from Demanda d WHERE d.instituicao.id = ?1 AND d.status = ?2")
+//    List<Demanda> findAllByColaboradorId(Integer id); saber se são iguais
+    // Traz todas as demandas dos colaboradores sem filtro por status
+    @Query("SELECT d FROM Demanda d WHERE d.colaborador.id = ?1")
+    List<Demanda> findAllDemandaColaborador(int idUsuario);
+
+    @Query("SELECT d from Demanda d WHERE d.usuario.id = ?1 AND d.status = ?2")
+    List<Demanda> findAllByUsuarioIdAndStatus(int id, String status);
+
+    @Query("SELECT d from Demanda d WHERE d.instituicao.id = ?1 AND d.status = ?2")
+    List<Demanda> findAllByInstituicaoIdAndStatus(int instituicao, String aberto);
+
+    @Query("SELECT d from Demanda d WHERE d.instituicao.id = ?1 AND d.status = ?2")
     List<Demanda> findAllByInstituicaoAndStatus(int instituicao, String aberto);
 
-    List<Demanda> findAllByInstituicao(int instituicao);
+    List<Demanda> findAllByInstituicaoId(int instituicao);
+
+    // Traz todas demadas abertas do usuário
+    @Query("SELECT d from Demanda d WHERE d.usuario.id = ?1 AND d.status = 'ABERTO'")
+    List<Demanda> findAllStatusAbertaUsuario(int idUsuario);
+
+    // Traz todas demadas em andamento do usuário
+    @Query("SELECT d from Demanda d WHERE d.usuario.id = ?1 AND d.status NOT IN ('ABERTO', 'CONCLUIDO','CANCELADO')")
+    List<Demanda> findAllStatusEmAndamentoUsuario(int idUsuario);
+
+    // Traz todas demadas concluidas do usuário
+    @Query("SELECT d from Demanda d WHERE d.usuario.id = ?1 AND d.status IN ('CONCLUIDO','CANCELADO')")
+    List<Demanda> findAllStatusConcluidoUsuario(int idUsuario);
+
+
+
+    // Traz todas demadas abertas da instituição
+    @Query("SELECT d FROM Demanda d WHERE d.status = 'ABERTO' AND d.instituicao.id = ?1")
+    List<Demanda> findAllStatusAbertaInstituicao(Integer idInstituicao);
+
+    // Traz todas demadas em andamento da instituição de acordo com um colaborador
+    @Query("SELECT d FROM Demanda d WHERE d.colaborador.id = ?1 AND d.status NOT IN ('ABERTO', 'CONCLUIDO','CANCELADO')")
+    List<Demanda> findAllStatusEmAndamentoColaborador(Integer idUsuario);
+
+    // Traz todas demadas concluidas da instituição de acordo com um colaborador
+    @Query("SELECT d FROM Demanda d WHERE d.colaborador.id = ?1 AND d.status IN ('CONCLUIDO','CANCELADO')")
+    List<Demanda> findAllStatusConcluidoColaborador(Integer idUsuario);
+
 }

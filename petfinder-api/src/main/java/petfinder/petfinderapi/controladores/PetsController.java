@@ -7,10 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import petfinder.petfinderapi.entidades.*;
-import petfinder.petfinderapi.repositorios.CaracteristicaRepositorio;
-import petfinder.petfinderapi.repositorios.PetHasCaracteristicaRepositorio;
-import petfinder.petfinderapi.repositorios.PetRepositorio;
-import petfinder.petfinderapi.repositorios.PremioRepositorio;
+import petfinder.petfinderapi.repositorios.*;
+import petfinder.petfinderapi.resposta.Message;
 import petfinder.petfinderapi.rest.ClienteCep;
 import petfinder.petfinderapi.rest.DistanciaResposta;
 import petfinder.petfinderapi.utilitarios.FilaObj;
@@ -40,6 +38,9 @@ public class PetsController {
 
     @Autowired
     private ClienteCep clienteCep;
+
+    @Autowired
+    private InstituicaoRepositorio repositoryInstituicao;
 
     public static List<Pet> pets = new ArrayList<>();
     public static List<Premio> premios = new ArrayList<>();
@@ -114,7 +115,11 @@ public class PetsController {
     @Operation(description = "Endpoint que retorna uma lista de pets de uma instituição especifica")
     ResponseEntity getByInstiuicaoId(@PathVariable int id) {
         if (repositoryPet.existsById(id)) {
-            List<Pet> lista = repositoryPet.findByFkInstituicao(id);
+            List<Pet> lista = repositoryPet.findByFkInstituicaoId(id);
+
+            if (lista.isEmpty()) {
+                return ResponseEntity.status(404).body(new Message("Instituição ainda não possui pets"));
+            }
             return ResponseEntity.status(200).body(lista);
         }
         return ResponseEntity.status(404).build();
@@ -299,9 +304,10 @@ public class PetsController {
 
     @PutMapping("/atualizar-has-caracteristica/{indice}")
     @Operation(description = "Endpoint para atualização do relacionamente de uma caracteristica")
-    public ResponseEntity putHasCaracteristica(@RequestBody PetHasCaracteristica hasCaracteristicaAtualizada, @PathVariable int indice) {
+    public ResponseEntity putHasCaracteristica(@RequestBody PetHasCaracteristica hasCaracteristicaAtualizada,
+                                               @PathVariable int indice) {
         if (repositoryHasCaracteristica.existsById(indice)) {
-            hasCaracteristicaAtualizada.setFkPet(indice);
+            hasCaracteristicaAtualizada.setId(indice);
             repositoryHasCaracteristica.save(hasCaracteristicaAtualizada);
             return ResponseEntity.status(200).build();
         }
@@ -329,4 +335,82 @@ public class PetsController {
 
         return ResponseEntity.status(200).body(filaObj.getFila());
     }
+
+    @GetMapping("/premios-instituicao/{idInstituicao}")
+    @Operation(description = "Endpoint para retornar todos os todos os mimos de determinada instituição")
+    public ResponseEntity getByMimosInstituicao(@PathVariable int idInstituicao) {
+        List<Pet> listaPet = repositoryPet.findByFkInstituicaoId(idInstituicao);
+
+        for (int i = 0; i < listaPet.size(); i++) {
+            Integer idPet = listaPet.get(i).getId();
+            List<Premio> listaPremio = repositoryPremio.findByFkPetId(idPet);
+
+            for (int j = 0; j < listaPremio.size(); j++) {
+                if (listaPet.get(i).getId() == listaPremio.get(j).getId()) {
+                    premios.add(i, listaPremio.get(j));
+                }
+            }
+        }
+
+        if (listaPet.isEmpty()) {
+            return ResponseEntity.status(404).body(new Message("Ainda não temos animais dessa com mimos cadastrados" +
+                    " nessa instituição"));
+        }
+        return ResponseEntity.status(200).body(premios);
+    }
+
+    @GetMapping("/premios-especie/{especie}")
+    @Operation(description = "Endpoint para retornar todos os mimos de determinada espécie")
+    public ResponseEntity getByMimosEspecie(@PathVariable String especie) {
+        List<Pet> listaPet = repositoryPet.findByEspecieIgnoreCase(especie);
+
+        for (int i = 0; i < listaPet.size(); i++) {
+            Integer idPet = listaPet.get(i).getId();
+
+            List<Premio> listaPremio = repositoryPremio.findByFkPetId(idPet);
+
+            for (int j = 0; j < listaPremio.size(); j++) {
+                premios.add(i, listaPremio.get(j));
+            }
+        }
+
+        if (listaPet.isEmpty()) {
+            return ResponseEntity.status(404).body(new Message("Ainda não temos animais dessa espécie com mimos " +
+                    "cadastrados"));
+        }
+        return ResponseEntity.status(200).body(premios);
+    }
+
+    @GetMapping("/premios-pet/{idPet}")
+    @Operation(description = "Endpoint para retornar todos os mimos de determinado pet")
+    public ResponseEntity getByMimosPet(@PathVariable int idPet) {
+        List<Pet> listaPet = repositoryPet.findById(idPet);
+
+        for (int i = 0; i < listaPet.size(); i++) {
+            Integer id = listaPet.get(i).getId();
+
+            List<Premio> listaPremio = repositoryPremio.findByFkPetId(id);
+
+            for (int j = 0; j < listaPremio.size(); j++) {
+                premios.add(i, listaPremio.get(j));
+            }
+        }
+
+        if (listaPet.isEmpty()) {
+            return ResponseEntity.status(404).body(new Message("Ainda não temos mimos cadastrados para esse pet"));
+        }
+        return ResponseEntity.status(200).body(premios);
+    }
+
+    @GetMapping("/caracteristicas/{idCaracteristica}")
+    @Operation(description = "Endpoint para retornar uma lista de pets com determinada caracteristica")
+    public ResponseEntity getByCaracteristicasPet(@PathVariable int idCaracteristica) {
+        List<PetHasCaracteristica> lista = repositoryHasCaracteristica.findByFkCaracteriticaId(idCaracteristica);
+
+        if (lista.isEmpty()) {
+            return ResponseEntity.status(404).build();
+        }
+        return ResponseEntity.status(200).body(lista);
+    }
+
 }

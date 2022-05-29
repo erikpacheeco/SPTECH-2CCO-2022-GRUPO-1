@@ -27,7 +27,7 @@
 
 .first-img {
     width: 100%;
-    margin-bottom: 74px;
+    margin-bottom: 80px;
 }
 
 .container-first-img {
@@ -37,6 +37,7 @@
 
 .container-first-img img{
     width: 100%;
+    border-radius: 20px;
 }
 
 .h2-ajude-ongs {
@@ -59,6 +60,73 @@
     margin-top: 20px;
     
 }
+
+/* Inicío dos serviços oferecidos */
+.container-session-service{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 80px;
+}
+
+.h2-servico-oferecido{
+    display: flex;
+    justify-content: center;
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 55px;
+    color: #7F2AB5;
+    margin-bottom: 36px;
+}
+
+.session-service{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.box-service{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 426px;
+    height: 250px;
+    margin: 18px;
+
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+}
+
+.img-service{
+    width: 89px;
+    height: 89px;
+}
+
+.title-service {
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 25px;
+    color: #7F2AB5;
+}
+
+.text-service{
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+    text-align: center;
+}
+
+
+/* Fim dos serviços oferecidos */
+
 
 .h2-sobre-nos{
     color: #7F2AB5;

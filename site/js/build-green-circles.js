@@ -28,7 +28,7 @@ let newCircle = (side, height) => {
 let body = document.querySelector("body");
 
 // adicionando circulos
-for (let i = 0; i < 3; i++) {
+for (let i = 0; i < 4; i++) {
     let position = i % 2 == 0 ? "left" : "right";
     body.appendChild(newCircle(position, (i * 400) + randomNum(20, 150)))
 }

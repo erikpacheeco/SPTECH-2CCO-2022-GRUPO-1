@@ -7,6 +7,7 @@ let btnVoltar = document.querySelector("#btnVoltar");
 
 let prCircle1 = document.querySelector("#prCircle1");
 let prCircle2 = document.querySelector("#prCircle2");
+let prCircle3 = document.querySelector("#prCircle3");
 
 let inRua = document.querySelector('#inRua');
 let inBairro = document.querySelector('#inBairro');
@@ -14,15 +15,28 @@ let inCidade = document.querySelector('#inCidade');
 let inEstado = document.querySelector('#inEstado');
 let inComplemento = document.querySelector('#inComplemento');
 
-prCircle2.addEventListener("click", (evt) => {
-    prCircle1.classList.remove("pr-filled");
-    prCircle2.classList.add("pr-filled");
-    hideForm1();
-})
 
 prCircle1.addEventListener("click", (evt) => {
+    prCircle3.classList.remove("pr-filled");
     prCircle2.classList.remove("pr-filled");
     prCircle1.classList.add("pr-filled");
+    hideForm2();
+    hideForm3();
+})
+
+prCircle2.addEventListener("click", (evt) => {
+    prCircle1.classList.remove("pr-filled");
+    prCircle3.classList.remove("pr-filled");
+    prCircle2.classList.add("pr-filled");
+    hideForm1();
+    hideForm3();
+})
+
+prCircle3.addEventListener("click", (evt) => {
+    prCircle1.classList.remove("pr-filled");
+    prCircle2.classList.remove("pr-filled");
+    prCircle3.classList.add("pr-filled");
+    hideForm1();
     hideForm2();
 })
 
