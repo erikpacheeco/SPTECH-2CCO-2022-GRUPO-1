@@ -1,6 +1,6 @@
 function Cadastro(){
     return(
-        <></>
+        <>asdsa</>
     );
 }
 

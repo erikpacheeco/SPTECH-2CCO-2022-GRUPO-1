@@ -1,4 +1,5 @@
-.container{
+.cad-user-container{
+    width: 90%;
     display: flex;
     justify-content: center;
 }
@@ -16,7 +17,7 @@ h2{
     font-size: 24px;
 }
 
-.form-container{
+.cad-user-form-container{
     width: 50%;
     margin-left: auto;
     margin-right: auto;
@@ -24,7 +25,14 @@ h2{
     margin-bottom: 80px;
 }
 
-.form-container form {
+.cad-user-  form-container form {
+    background-color: rgb(246 246 246);
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+    border: 1px rgba(0, 0, 0, 0.11) solid;
+    box-shadow: -1px 1px 10px 0px black;
     position: relative;
     padding: 40px 80px;
 }
@@ -137,6 +145,10 @@ p{
 
 .button-container input{
     width: 140px;
+}
+
+.cad-user-hide{
+    display: none;
 }
 
 

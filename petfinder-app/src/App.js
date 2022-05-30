@@ -1,9 +1,8 @@
-import HeaderBasic from "./Components/HeaderBasic";
-import Login from "./Pages/Login";
+import Rotas from "./routes"
 
 function App() {
   return (
-    <Login/>
+    <Rotas/>
   );
 }
 
