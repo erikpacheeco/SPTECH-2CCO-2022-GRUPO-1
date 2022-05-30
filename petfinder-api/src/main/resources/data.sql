@@ -86,18 +86,18 @@ VALUES
 INSERT INTO
 demanda(categoria, data_abertura, data_fechamento, status, usuario_id, instituicao_id, pet_id)
 VALUES
-('pagamento', '2020/01/01', null, 'ABERTO', 9, 1, null),
-('pagamento', '2020/01/01', null, 'CONCLUIDO', 9, 1, null),
-('pagamento', '2020/01/01', null, 'ABERTO', 9, 1, 1),
-('pagamento', '2020/01/01', null, 'ABERTO', 9, 1, 2),
+('PAGAMENTO', '2020/01/01', null, 'ABERTO', 9, 1, null),
+('PAGAMENTO', '2020/01/01', null, 'CONCLUIDO', 9, 1, null),
+('PAGAMENTO', '2020/01/01', null, 'ABERTO', 9, 1, 1),
+('PAGAMENTO', '2020/01/01', null, 'ABERTO', 9, 1, 2),
 ('adocao', '2020/01/01', null, 'ABERTO', 9, 1, null),
-('pagamento', '2020/01/01', null, 'CANCELADO', 9, 1, null),
-('adocao', '2020/01/01', null, 'CANCELADO', 9, 1, null),
-('pagamento', '2020/01/01', null, 'PGTO_REALIZADO_USER', 9, 1, null),
-('pagamento', '2020/01/01', null, 'PGTO_REALIZADO_USER', 9, 1, null),
-('adocao', '2020/01/01', null, 'CANCELADO', 9, 1, null),
-('resgate', '2020/01/01', null, 'RESGATE_INVALIDO', 9, 1, null),
-('resgate', '2020/01/01', null, 'RESGATE_INVALIDO', 9, 1, null),
-('resgate', '2020/01/01', null, 'RESGATE_VALIDO', 9, 1, null);
+('PAGAMENTO', '2020/01/01', null, 'CANCELADO', 9, 1, null),
+('ADOCAO', '2020/01/01', null, 'CANCELADO', 9, 1, null),
+('PAGAMENTO', '2020/01/01', null, 'PGTO_REALIZADO_USER', 9, 1, null),
+('PAGAMENTO', '2020/01/01', null, 'PGTO_REALIZADO_USER', 9, 1, null),
+('ADOCAO', '2020/01/01', null, 'CANCELADO', 9, 1, null),
+('RESGATE', '2020/01/01', null, 'RESGATE_INVALIDO', 9, 1, null),
+('RESGATE', '2020/01/01', null, 'RESGATE_INVALIDO', 9, 1, null),
+('RESGATE', '2020/01/01', null, 'RESGATE_VALIDO', 9, 1, null);
 
 

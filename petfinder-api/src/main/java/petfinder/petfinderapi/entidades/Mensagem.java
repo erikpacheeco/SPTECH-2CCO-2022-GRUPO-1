@@ -1,10 +1,8 @@
 package petfinder.petfinderapi.entidades;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -13,6 +11,8 @@ public class Mensagem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @NotNull
+    @NotEmpty
     private String conteudo;
     @NotNull
     private String dataEnvio;
@@ -20,9 +20,11 @@ public class Mensagem {
     @NotBlank
     private String tipo;
     @NotNull
-    private int fkUsuario;
+    @ManyToOne
+    private Usuario usuario;
     @NotNull
-    private int fkDemanda;
+    @ManyToOne
+    private Demanda demanda;
 
     public int getId() {
         return id;
@@ -56,19 +58,19 @@ public class Mensagem {
         this.tipo = tipo;
     }
 
-    public int getFkUsuario() {
-        return fkUsuario;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setFkUsuario(int fkUsuario) {
-        this.fkUsuario = fkUsuario;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
-    public int getFkDemanda() {
-        return fkDemanda;
+    public Demanda getDemanda() {
+        return demanda;
     }
 
-    public void setFkDemanda(int fkDemanda) {
-        this.fkDemanda = fkDemanda;
+    public void setDemanda(Demanda demanda) {
+        this.demanda = demanda;
     }
 }

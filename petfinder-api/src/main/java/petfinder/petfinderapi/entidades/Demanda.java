@@ -55,7 +55,7 @@ public class Demanda {
 
     public Demanda(String categoria, Usuario usuario, Instituicao instituicao, Pet pet) {
 
-        this(categoria, null,
+        this(categoria.toUpperCase(), null,
                 null, "ABERTO",
                 usuario, instituicao,
                 pet, null);
@@ -82,7 +82,7 @@ public class Demanda {
     }
 
     public void setCategoria(String categoria) {
-        this.categoria = categoria.toLowerCase();
+        this.categoria = categoria.toUpperCase();
     }
 
     public String getDataAbertura() {
@@ -106,7 +106,7 @@ public class Demanda {
     }
 
     public void setStatus(String status) {
-        this.status = status.toLowerCase();
+        this.status = status.toUpperCase();
     }
 
     public Usuario getUsuario() {

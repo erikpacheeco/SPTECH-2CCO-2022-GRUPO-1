@@ -13,10 +13,14 @@ import petfinder.petfinderapi.requisicao.CriacaoDemanda;
 import petfinder.petfinderapi.resposta.Message;
 import petfinder.petfinderapi.resposta.DemandaUsuario;
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
@@ -41,17 +45,27 @@ public class DemandaController implements GerenciadorArquivos{
     @Autowired
     private DemandaHistRepository demandaHistRepository;
 
+    @Autowired
+    private MensagemRepository mensagemRepository;
+
     // enums
     private ListaObj<String> categoriasPossiveis = new ListaObj<String>(new String[]{"ADOCAO", "PAGAMENTO", "RESGATE"});
     private ListaObj<String> statusPossiveis = new ListaObj<String>(new String[]{"ABERTO", "CONCLUIDO", "CANCELADO", "DOCUMENTO_VALIDO",
             "PGTO_REALIZADO_USER", "PGTO_REALIZADO_INST", "RESGATE_INVALIDO", "RESGATE_VALIDO", "EM_ANDAMENTO"});
 
-    private ListaObj<String> tiposMenssagensPossiveis = new ListaObj<String>(new String[]{"ARQUIVO", "MENSSAGEM"});
+    private ListaObj<String> tiposMenssagensPossiveis = new ListaObj<String>(new String[]{"MENSAGEM", "ARQ_DOCUMENTO", "ARQ_IMAGEM"});
 
 
-    public void gerarHistoricoDemanda(Demanda demanda){
+    private void gerarHistoricoDemanda(Demanda demanda){
         DemandaHist demandaHist = new DemandaHist(demanda);
         demandaHistRepository.save(demandaHist);
+    }
+
+    private String gerarDataAtual(){
+        Date date = Calendar.getInstance().getTime();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String strDate = dateFormat.format(date);
+        return strDate;
     }
 
     // endpoints
@@ -251,10 +265,10 @@ public class DemandaController implements GerenciadorArquivos{
 
             // atualizando valores da demanda
             Demanda demanda = demandaRepositorio.getById(idDemanda);
-            demanda.setCategoria(demandaAtualizar.getCategoria());
+            demanda.setCategoria(demandaAtualizar.getCategoria().toUpperCase());
             demanda.setDataAbertura(demandaAtualizar.getDataAbertura());
             demanda.setDataFechamento(demandaAtualizar.getDataFechamento());
-            demanda.setStatus(demandaAtualizar.getStatus());
+            demanda.setStatus(demandaAtualizar.getStatus().toUpperCase());
             demandaRepositorio.save(demanda);
             // 200
             return ResponseEntity.status(200).build();
@@ -274,8 +288,9 @@ public class DemandaController implements GerenciadorArquivos{
         if (demanda.isPresent()){
             if (colaborador.isPresent()){
 
-                demanda.get().setStatus("em_andamento");
+                demanda.get().setStatus("EM_ANDAMENTO");
                 demanda.get().setColaborador(colaborador.get());
+                demanda.get().setDataAbertura(gerarDataAtual());
                 demandaRepositorio.save(demanda.get());
 
                 gerarHistoricoDemanda(demanda.get());
@@ -297,13 +312,14 @@ public class DemandaController implements GerenciadorArquivos{
         if (demanda.isPresent()){
             // verificando validade do status
             if (!statusPossiveis.elementoExiste(statusNovo)){
-                // 404 - status inválido
-                return ResponseEntity.status(404).build();
+                // 400 - status inválido
+                return ResponseEntity.status(400).build();
             }
 
             // atualizando status da demanda
             Demanda demandaAtualizada = demanda.get();
-            demandaAtualizada.setStatus(statusNovo.toLowerCase());
+            demandaAtualizada.setStatus(statusNovo.toUpperCase());
+            demandaAtualizada.setDataAbertura(gerarDataAtual());
             demandaRepositorio.save(demandaAtualizada);
 
             gerarHistoricoDemanda(demandaAtualizada);
@@ -342,6 +358,41 @@ public class DemandaController implements GerenciadorArquivos{
         // 200
         return ResponseEntity.ok(lista);
     }
+
+    @PostMapping("/mensagem")
+    @Operation(description = "Endpoint que cria as mensagens relacionadas a uma demanda")
+    public ResponseEntity<Mensagem> postMensagem(@RequestBody @Valid Mensagem mensagem){
+
+        Optional<Demanda> demanda = demandaRepositorio.findById(mensagem.getDemanda().getId());
+        Optional<Usuario> usuario = usuarioRepositorio.findById(mensagem.getUsuario().getId());
+
+        if (demanda.isPresent() && usuario.isPresent()){
+            if (!tiposMenssagensPossiveis.elementoExiste(mensagem.getTipo())){
+                return ResponseEntity.status(400).build();
+            }
+            mensagem.setTipo(mensagem.getTipo().toUpperCase());
+            mensagem.setDataEnvio(gerarDataAtual());
+            mensagemRepository.save(mensagem);
+
+            return ResponseEntity.status(200).body(mensagem);
+        }
+        return ResponseEntity.status(404).build();
+    }
+
+    @GetMapping("/mensagem/{idDemanda}")
+    @Operation(description = "Endpoint que retorna as mensagens da mais recente a mais antiga")
+    public ResponseEntity<List<Mensagem>> getMensagemDecredcente(@PathVariable Integer idDemanda){
+        if (demandaRepositorio.existsById(idDemanda)){
+            List<Mensagem> lista = mensagemRepository.findAllMensagemDemandaDecrescente(idDemanda);
+
+            if (!lista.isEmpty()){
+                return ResponseEntity.status(200).body(lista);
+            }
+            return ResponseEntity.status(204).build();
+        }
+        return ResponseEntity.status(404).build();
+    }
+
 
     @GetMapping("/download/{idInstituicao}/{status}")
     @Operation(description = "Endpoint responsável por fazer o download do log de demandas com um tipo de status e de uma unica instiuição filtrada pelo seu ID")
