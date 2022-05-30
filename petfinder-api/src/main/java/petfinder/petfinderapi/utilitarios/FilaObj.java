@@ -1,5 +1,7 @@
 package petfinder.petfinderapi.utilitarios;
 
+import java.util.List;
+
 public class FilaObj<T> {
     private int tamanho;
     private T[] fila;
@@ -8,9 +10,19 @@ public class FilaObj<T> {
         this.tamanho = 0;
         this.fila = (T[]) new Object[capacidade];
     }
+    public FilaObj(List<T> list) {
+        this(list.size());
+        for (T item : list) {
+            this.insert(item);
+        }
+    }
 
     public boolean isEmpty() {
         return tamanho == 0;
+    }
+
+    public boolean isNotEmpty() {
+        return !isEmpty();
     }
 
     public boolean isFull() {

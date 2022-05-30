@@ -14,6 +14,8 @@ import petfinder.petfinderapi.repositorios.UsuarioRepositorio;
 import petfinder.petfinderapi.rest.ClienteCep;
 import petfinder.petfinderapi.rest.Distancep;
 import petfinder.petfinderapi.rest.DistanciaResposta;
+import petfinder.petfinderapi.utilitarios.FilaObj;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
