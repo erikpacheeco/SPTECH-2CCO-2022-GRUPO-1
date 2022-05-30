@@ -51,6 +51,15 @@ h2{
     margin: 4px;
 }
 
+.btn-paginas-selected{
+    width: 15px;
+    height: 15px;
+    border-radius: 100%;
+    background-color: #ad54e5;
+    border: none;
+    margin: 4px;
+}
+
 .input-container{
     margin-top: 16px;
 }

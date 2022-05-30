@@ -35,7 +35,6 @@ function Login() {
             }
         ).then((res) => {
             try {
-                console.log("🚀 ~ file: Login.jsx ~ line 33 ~ ).then ~ res.data", res.data)
                 localStorage.setItem("petfinder_id_user",JSON.stringify(res.data.id))
                 navigate("/home-user")
             } catch (error) {
