@@ -12,23 +12,17 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     @NotNull
     private String nome;
-
     @Email
     @NotNull
     private String email;
-
     @NotNull
     @NotBlank
     private String senha;
-
     private String nivelAcesso;
-
     @OneToOne
     private Endereco endereco;
-
     @ManyToOne
     private Instituicao instituicao;
 
@@ -64,7 +58,7 @@ public class Usuario {
         return nivelAcesso;
     }
     public void setNivelAcesso(String nivelAcesso) {
-        this.nivelAcesso = nivelAcesso.toLowerCase();
+        this.nivelAcesso = nivelAcesso.toUpperCase();
     }
     public Endereco getEndereco() {
         return endereco;

@@ -124,6 +124,7 @@ public class InsitituicoesControllerTest {
     }
 
     @Test
+    @DisplayName("Deve retornar lista de instituicoes com uma distância máxima")
     void getListaDistanciasInstituicaoes() {
 
         ResponseEntity<List<Instituicao>> res = controller.getListaDistanciasInstituicaoes("05846140", 2);

@@ -5,13 +5,15 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import petfinder.petfinderapi.entidades.Caracteristica;
 import petfinder.petfinderapi.entidades.Demanda;
 import petfinder.petfinderapi.entidades.Endereco;
 import petfinder.petfinderapi.entidades.Usuario;
 import petfinder.petfinderapi.entidades.UsuarioHasInteresse;
 import petfinder.petfinderapi.repositorios.*;
+import petfinder.petfinderapi.requisicao.CriacaoUsuario;
 import petfinder.petfinderapi.requisicao.InteresseUsuario;
+import petfinder.petfinderapi.utilitarios.FilaObj;
 import petfinder.petfinderapi.utilitarios.ListaObj;
 import petfinder.petfinderapi.requisicao.UsuarioLogin;
 import petfinder.petfinderapi.resposta.Message;
@@ -84,7 +86,7 @@ public class UsuarioController {
 
     // retorna usuário baseado no ID
     @GetMapping("/{id}")
-    @Operation(description = "Endpoint que retonar um usuario especifico filtrado pelo ID")
+    @Operation(description = "Endpoint que retona um usuario especifico filtrado pelo ID")
     public ResponseEntity<UsuarioSemSenha> getUsuarioById(@PathVariable int id) {
         Optional<Usuario> usuario = usuarioRepository.findById(id);
 
@@ -98,8 +100,6 @@ public class UsuarioController {
         // 200 retornando DTO do usuário (sem senha e com endereço completo)
         UsuarioSemSenha usuarioSemSenha = new UsuarioSemSenha(usuario.get(), usuario.get().getEndereco());
 
-        System.out.println(usuarioSemSenha);
-
         return ResponseEntity.status(200).body(usuarioSemSenha);
     }
 
@@ -107,28 +107,53 @@ public class UsuarioController {
 
     @PostMapping
     @Operation(description = "Endpoint que cadastra um novo usuário")
-    public ResponseEntity<Object> postUsuario(@RequestBody @Valid Usuario novoUsuario) {
+    public ResponseEntity<UsuarioSemSenha> postUsuario(@RequestBody @Valid CriacaoUsuario criacaoUsuario) {
+
+        Usuario novoUsuario = criacaoUsuario.getUsuario();
 
         // verificando se algum usuário já possui o email fornecido
         if (usuarioRepository.findByEmail(novoUsuario.getEmail()).size() > 0) {
-            return ResponseEntity.status(409).body(new Message("Email já em uso."));
+            return ResponseEntity.status(409).build();
         }
 
         // verificando se nivelAcesso foi especificado corretamente
         if (nivelAcesso.elementoExiste(novoUsuario.getNivelAcesso())) {
+
             // cadastrando novo usuário
-            usuarioRepository.save(novoUsuario);
-            return ResponseEntity.status(201).build();
+            Endereco endereco = enderecoRepository.save(novoUsuario.getEndereco());
+            novoUsuario.getEndereco().setId(endereco.getId());;
+
+            novoUsuario = usuarioRepository.save(novoUsuario);
+            UsuarioSemSenha res = new UsuarioSemSenha(novoUsuario, novoUsuario.getEndereco());
+
+            // cadastrando interesses
+
+            FilaObj<Caracteristica> fila = new FilaObj<Caracteristica>(criacaoUsuario.getInteresses());
+
+            if (fila.isNotEmpty()) {
+                while (fila.isNotEmpty()) {
+                    Caracteristica caracteristica = caracteristicaRepository.findByCaracteristicas(fila.poll().getCaracteristicas());
+
+                    if (Objects.nonNull(caracteristica)) {
+                        UsuarioHasInteresse relation = new UsuarioHasInteresse();
+                        relation.setFkCaracteristica(caracteristica);
+                        relation.setFkUsuario(novoUsuario);
+                        usuarioHasInteresseRepository.save(relation);
+                    }
+                }
+            }
+
+            return ResponseEntity.status(201).body(res);
         }
 
         // 400 bad request - nível de acesso inválido
-        return ResponseEntity.status(400).body(new Message("Nível de acesso do usuário inválido."));
+        return ResponseEntity.status(400).build();
     }
 
     // atualizando informações do usuário
     @PutMapping("/{id}")
     @Operation(description = "Endpoint que atualiza as informações de um usuario especifico filtrado pelo ID")
-    public ResponseEntity<Object> updateUsuario(@PathVariable int id, @RequestBody @Valid Usuario novoUsuario) {
+    public ResponseEntity<UsuarioSemSenha> updateUsuario(@PathVariable int id, @RequestBody @Valid Usuario novoUsuario) {
 
         // verificando se usuário existe
         if (usuarioRepository.existsById(id)) {
@@ -138,25 +163,25 @@ public class UsuarioController {
 
             // verificando se outro usuário já possui novo email
             if (usuarioAtual.getEmail().equals(novoUsuario.getEmail()) || usuarioRepository.findByEmail(novoUsuario.getEmail()).size() ==  0) {
-
+ 
                 // verificando se nivel acesso está válido
                 if (nivelAcesso.elementoExiste(novoUsuario.getNivelAcesso())) {
 
                     // atualizando informações do novo usuário
                     novoUsuario.setId(id);
                     novoUsuario.setLogado(usuarioAtual.isLogado());
-                    usuarioRepository.save(novoUsuario);
+                    novoUsuario = usuarioRepository.save(novoUsuario);
 
                     // 200
-                    return ResponseEntity.status(200).build();
+                    return ResponseEntity.status(200).body(new UsuarioSemSenha(novoUsuario, novoUsuario.getEndereco()));
                 }
 
                 // 400 bad request - nível de acesso inválido
-                return ResponseEntity.status(400).body(new Message("Nivel de acesso inválido"));
+                return ResponseEntity.status(400).build();
             }
 
             // 409 email já existe
-            return ResponseEntity.status(409).body(new Message("Email já em uso."));
+            return ResponseEntity.status(409).build();
         }
 
         // 404 usuário não encontrado
@@ -169,6 +194,13 @@ public class UsuarioController {
 
         // verificando se usuário existe
         if (usuarioRepository.existsById(id)) {
+
+            List<UsuarioHasInteresse> interesses = caracteristicaRepository.findInteressesByUserId(id);
+
+            for (UsuarioHasInteresse i : interesses) {
+                usuarioHasInteresseRepository.deleteById(i.getId());
+            }
+
             usuarioRepository.deleteById(id);
 
             // 200
@@ -181,7 +213,7 @@ public class UsuarioController {
 
     @PostMapping("/autenticacao")
     @Operation(description = "Endpoint que faz a autenticação e login do usuário")
-    public ResponseEntity<Object> login(@RequestBody @Valid UsuarioLogin usuarioLogin) {
+    public ResponseEntity<Integer> login(@RequestBody @Valid UsuarioLogin usuarioLogin) {
 
         // verificando se usuário existe
         List<Usuario> listaUsuario = usuarioRepository.findByEmailESenha(usuarioLogin.getEmail(), usuarioLogin.getSenha());
@@ -203,7 +235,7 @@ public class UsuarioController {
         UsuarioSemSenha usuarioSemSenha = new UsuarioSemSenha(usuario, usuario.getEndereco());
 
         // 200
-        return ResponseEntity.status(200).body(usuarioSemSenha);        
+        return ResponseEntity.status(200).body(usuarioSemSenha.getId());        
     }
 
     @DeleteMapping("/autenticacao/{id}")
@@ -296,11 +328,19 @@ public class UsuarioController {
 
     @GetMapping("/interesse/{idUsuario}")
     @Operation(description = "Endpoint que retorna a lista de interesses de um usuário")
-    public ResponseEntity<Object> getUsuarioInteresse(@PathVariable Integer idUsuario) {
+    public ResponseEntity<List<UsuarioHasInteresse>> getUsuarioInteresse(@PathVariable Integer idUsuario) {
+
+        Optional<Usuario> usuario = usuarioRepository.findById(idUsuario);
 
         // verificando se o usuario existe
-        if (usuarioRepository.existsById(idUsuario)) {
-            List<UsuarioHasInteresse> lista = usuarioHasInteresseRepository.findByFkUsuario(idUsuario);
+        if (usuario.isPresent()) {
+
+            // nível de acesso diferente de USER
+            if (!usuario.get().getNivelAcesso().equalsIgnoreCase("USER")) {
+                return ResponseEntity.badRequest().build();
+            }
+
+            List<UsuarioHasInteresse> lista = caracteristicaRepository.findInteressesByUserId(idUsuario);
 
             // verificando se a lista está vazia
             if (lista.isEmpty()) {
@@ -313,8 +353,8 @@ public class UsuarioController {
             return ResponseEntity.status(200).body(lista);
         }
 
-        // 404 - instituicao inexistente
-        return ResponseEntity.status(404).body(new Message("Usuário não encontrado"));
+        // 404 - usuário inexistente
+        return ResponseEntity.status(404).build();
     }
 
     @PostMapping("/interesse")

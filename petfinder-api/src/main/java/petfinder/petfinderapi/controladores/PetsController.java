@@ -2,7 +2,6 @@ package petfinder.petfinderapi.controladores;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.tags.Tags;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +11,7 @@ import petfinder.petfinderapi.resposta.Message;
 import petfinder.petfinderapi.rest.ClienteCep;
 import petfinder.petfinderapi.rest.DistanciaResposta;
 import petfinder.petfinderapi.utilitarios.FilaObj;
-
 import javax.validation.Valid;
-import javax.websocket.OnError;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -244,7 +241,7 @@ public class PetsController {
 
     @GetMapping("/get-caracteristicas")
     @Operation(description = "Endpoint que retorna uma lista com todas as caracteristicas")
-    public ResponseEntity getCaracteristica() {
+    public ResponseEntity<List<Caracteristica>> getCaracteristica() {
         List<Caracteristica> lista = repositoryCaracteristica.findAll();
 
         if (lista.isEmpty()) {
