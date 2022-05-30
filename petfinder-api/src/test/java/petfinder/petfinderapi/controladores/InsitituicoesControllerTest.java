@@ -20,7 +20,7 @@ public class InsitituicoesControllerTest {
     private InsitituicoesController controller;
 
     // methods
-    private Endereco fastEndereco() {
+    public static Endereco fastEndereco() {
         Endereco endereco = new Endereco();
 
         endereco.setBairro("bairro 1");
@@ -32,7 +32,7 @@ public class InsitituicoesControllerTest {
 
         return endereco;
     }
-    private Instituicao fastInstituicao() {
+    public static Instituicao fastInstituicao() {
         Instituicao instituicao = new Instituicao();
 
         instituicao.setEndereco(fastEndereco());
@@ -42,7 +42,7 @@ public class InsitituicoesControllerTest {
 
         return instituicao;
     } 
-    private Usuario fastUsuario() {
+    public static Usuario fastUsuario() {
         Usuario usuario = new Usuario();
 
         usuario.setEmail("usuario.temporario@email.com");

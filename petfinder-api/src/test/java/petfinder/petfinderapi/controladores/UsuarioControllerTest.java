@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.util.ArrayList;
 import java.util.List;
 import javax.validation.ConstraintViolationException;
 import org.junit.jupiter.api.DisplayName;
@@ -15,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 
 import petfinder.petfinderapi.entidades.Caracteristica;
 import petfinder.petfinderapi.entidades.Endereco;
+import petfinder.petfinderapi.entidades.Instituicao;
 import petfinder.petfinderapi.entidades.Usuario;
 import petfinder.petfinderapi.entidades.UsuarioHasInteresse;
 import petfinder.petfinderapi.requisicao.CriacaoUsuario;
@@ -29,6 +32,9 @@ public class UsuarioControllerTest {
 
     @Autowired
     private PetsController petController;
+
+    @Autowired
+    private InsitituicoesController instController;
 
     // methods
     private CriacaoUsuario fastUsuario() {
@@ -57,6 +63,10 @@ public class UsuarioControllerTest {
 
         return endereco;
     }
+
+    // private Instituicao fastInstituicao() {
+
+    // }
 
     // tests
     
@@ -286,41 +296,78 @@ public class UsuarioControllerTest {
     void postAutenticacaoEmailErrado() {
 
         // creating
-    }
+        // creating
+        ResponseEntity<UsuarioSemSenha> created = controller.postUsuario(fastUsuario());
 
-    @Test
-    @DisplayName("Retorna status 200 e lista de usuários de acordo com a instituição e nivel de acesso")
-    void getUsuarioByNivelAcessoValido() {
+        // requesting
+        UsuarioLogin login1 = new UsuarioLogin("user.test2@test.com", "urubu101");
+        ResponseEntity<Integer> res1 = controller.login(login1);
 
-    }
+        UsuarioLogin login2 = new UsuarioLogin("user.test@test.com", "urubu102");
+        ResponseEntity<Integer> res2 = controller.login(login2);
 
-    @Test
-    @DisplayName("Retorna status 404 se id da instituição não for encontrado")
-    void getUsuarioByNivelAcessoIdInstituicaoNaoEncontrada() {
+        // deleting
+        controller.deleteLogoff(created.getBody().getId());
 
-    }
-
-    @Test
-    @DisplayName("Retorna status 400 se nível de acesso não for encontrado")
-    void getUsuarioByNivelAcessoNivelAcessoInvalido() {
-        
+        // asserts
+        assertEquals(401, res1.getStatusCodeValue());
+        assertNull(res1.getBody());
+        assertEquals(401, res2.getStatusCodeValue());
+        assertNull(res2.getBody());
     }
 
     @Test
     @DisplayName("Retorna status 200 e lista de interesses do usuário")
     void getUsuarioInteresse() {
-        
+
+        // creating
+        List<Caracteristica> interesses = petController.getCaracteristica().getBody();
+        CriacaoUsuario usuario = fastUsuario();
+        usuario.getInteresses().add(interesses.get(0));
+        usuario.getInteresses().add(interesses.get(1));
+
+        // requesting
+        ResponseEntity<UsuarioSemSenha> createdUser = controller.postUsuario(usuario);
+        ResponseEntity<List<UsuarioHasInteresse>> res = controller.getUsuarioInteresse(createdUser.getBody().getId());
+
+        // deleting
+        controller.deleteUsuario(createdUser.getBody().getId());
+
+        // asserts
+        assertEquals(200, res.getStatusCodeValue());
+        assertEquals("Fofo", res.getBody().get(0).getFkCaracteristica().getCaracteristicas());
+        assertEquals("Cheiroso", res.getBody().get(1).getFkCaracteristica().getCaracteristicas());
     }
 
     @Test
     @DisplayName("Retorna status 204 se usuário não tiver interesses")
     void getUsuarioInteresseNoContent() {
-        
+
+        // creating
+        CriacaoUsuario usuario = fastUsuario();
+        UsuarioSemSenha created = controller.postUsuario(usuario).getBody();
+
+        // requesting
+        ResponseEntity<List<UsuarioHasInteresse>> res = controller.getUsuarioInteresse(created.getId());
+            
+        // deleting
+        controller.deleteUsuario(created.getId());
+
+        // asserts
+        assertEquals(204, res.getStatusCodeValue());
+        assertNull(res.getBody());
     }
 
     @Test
-    @DisplayName("Retorna status 400 se usuário não existir")
+    @DisplayName("Retorna status 404 se usuário não existir")
     void getUsuarioInteresseNotFound() {
         
+        int id = controller.postUsuario(fastUsuario()).getBody().getId();
+        controller.deleteUsuario(id);
+
+        ResponseEntity<List<UsuarioHasInteresse>> res = controller.getUsuarioInteresse(id);
+
+        assertEquals(404, res.getStatusCodeValue());
+        assertNull(res.getBody());
     }
 }
