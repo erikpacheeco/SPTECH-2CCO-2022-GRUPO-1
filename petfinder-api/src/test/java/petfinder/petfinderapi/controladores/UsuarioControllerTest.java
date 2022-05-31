@@ -282,8 +282,8 @@ public class UsuarioControllerTest {
 
         // created
         controller.postUsuario(fastUsuario());
-        ResponseEntity<Integer> res = controller.login(new UsuarioLogin("user.test@test.com", "urubu101"));
-        controller.deleteUsuario(res.getBody().intValue());
+        ResponseEntity<UsuarioSemSenha> res = controller.login(new UsuarioLogin("user.test@test.com", "urubu101"));
+        controller.deleteUsuario(res.getBody().getId());
 
         // asserts
         assertEquals(200, res.getStatusCodeValue());
@@ -301,10 +301,10 @@ public class UsuarioControllerTest {
 
         // requesting
         UsuarioLogin login1 = new UsuarioLogin("user.test2@test.com", "urubu101");
-        ResponseEntity<Integer> res1 = controller.login(login1);
+        ResponseEntity<UsuarioSemSenha> res1 = controller.login(login1);
 
         UsuarioLogin login2 = new UsuarioLogin("user.test@test.com", "urubu102");
-        ResponseEntity<Integer> res2 = controller.login(login2);
+        ResponseEntity<UsuarioSemSenha> res2 = controller.login(login2);
 
         // deleting
         controller.deleteLogoff(created.getBody().getId());
