@@ -129,17 +129,19 @@ public class UsuarioController {
             // cadastrando interesses
 
             FilaObj<Caracteristica> fila = new FilaObj<Caracteristica>(criacaoUsuario.getInteresses());
+            
+            while (fila.isNotEmpty()) {
 
-            if (fila.isNotEmpty()) {
-                while (fila.isNotEmpty()) {
-                    Caracteristica caracteristica = caracteristicaRepository.findByCaracteristicas(fila.poll().getCaracteristicas());
+                System.out.println("====================");
+                System.out.println(fila.peek().getCaracteristicas());
 
-                    if (Objects.nonNull(caracteristica)) {
-                        UsuarioHasInteresse relation = new UsuarioHasInteresse();
-                        relation.setFkCaracteristica(caracteristica);
-                        relation.setFkUsuario(novoUsuario);
-                        usuarioHasInteresseRepository.save(relation);
-                    }
+                Caracteristica caracteristica = caracteristicaRepository.findByCaracteristicas(fila.poll().getCaracteristicas());
+
+                if (Objects.nonNull(caracteristica)) {
+                    UsuarioHasInteresse relation = new UsuarioHasInteresse();
+                    relation.setFkCaracteristica(caracteristica);
+                    relation.setFkUsuario(novoUsuario);
+                    usuarioHasInteresseRepository.save(relation);
                 }
             }
 
