@@ -519,4 +519,9 @@ public class DemandaController implements GerenciadorArquivos{
         }
     }
 
+    @Override
+    public boolean leArquivoTxt(String nomeArq, Instituicao instituicao) {
+        return false;
+    }
+
 }
