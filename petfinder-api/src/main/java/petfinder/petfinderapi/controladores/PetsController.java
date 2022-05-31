@@ -72,7 +72,7 @@ public class PetsController implements GerenciadorArquivos {
         return ResponseEntity.status(200).body(petEncontrado.getFotoPerfil());
     }
 
-    @PostMapping("/post-pet")
+    @PostMapping
     @Operation(description = "Endpoint para cadastro de um novo pet em uma instituição especifica")
     public ResponseEntity<Object> postPet(
             @RequestBody @Valid Pet novoPet) {
@@ -83,7 +83,7 @@ public class PetsController implements GerenciadorArquivos {
         return ResponseEntity.status(400).build();
     }
 
-    @PutMapping("/atualizar-pet/{id}")
+    @PutMapping("/{id}")
     @Operation(description = "Endpoint para atualizar informações de um pet especifico")
     public ResponseEntity putPet(@RequestBody Pet petAtualizado, @PathVariable int id) {
         if (repositoryPet.existsById(id)) {
@@ -94,7 +94,7 @@ public class PetsController implements GerenciadorArquivos {
         return ResponseEntity.status(400).build();
     }
 
-    @GetMapping("/get-pets")
+    @GetMapping("/pets")
     @Operation(description = "Endpoint que retorna uma lista com todos os pets")
     public ResponseEntity getPets() {
         List<Pet> lista = repositoryPet.findAll();
@@ -106,7 +106,7 @@ public class PetsController implements GerenciadorArquivos {
         return ResponseEntity.status(200).body(lista);
     }
 
-    @GetMapping("/filtro-id-pet/{id}")
+    @GetMapping("/{id}")
     @Operation(description = "Endpoint que retorna um pet especifico pelo ID")
     ResponseEntity getByid(@PathVariable int id) {
         if (repositoryPet.existsById(id)) {
@@ -116,7 +116,7 @@ public class PetsController implements GerenciadorArquivos {
         return ResponseEntity.status(404).build();
     }
 
-    @GetMapping("/filtro-id-pets/instituicao/{id}")
+    @GetMapping("/instituicao/{id}")
     @Operation(description = "Endpoint que retorna uma lista de pets de uma instituição especifica")
     ResponseEntity getByInstiuicaoId(@PathVariable int id) {
         if (repositoryPet.existsById(id)) {
@@ -130,7 +130,7 @@ public class PetsController implements GerenciadorArquivos {
         return ResponseEntity.status(404).build();
     }
 
-    @DeleteMapping("/delete-id-pet/{id}")
+    @DeleteMapping("/{id}")
     @Operation(description = "Endpoint que deleta um pet especifico pelo ID")
     ResponseEntity deleteByIdpet(@PathVariable int id) {
         if (repositoryPet.existsById(id)) {
@@ -139,7 +139,6 @@ public class PetsController implements GerenciadorArquivos {
         }
         return ResponseEntity.status(404).build();
     }
-
 
     // ================================================= //
     // Premios
@@ -166,7 +165,7 @@ public class PetsController implements GerenciadorArquivos {
         return ResponseEntity.status(200).body(premioEncontrado.getImg());
     }
 
-    @PostMapping("/post-premio")
+    @PostMapping("/premio")
     @Operation(description = "Endpoint para cadastrar um novo premio")
     public ResponseEntity postPremio(
             @RequestBody @Valid Premio novoPremio) {
@@ -178,7 +177,7 @@ public class PetsController implements GerenciadorArquivos {
         return ResponseEntity.status(400).build();
     }
 
-    @PutMapping("/atualizar-premio/{id}")
+    @PutMapping("/premio/{id}")
     @Operation(description = "Endpoint que atualiza um premio especifico filtrado pelo ID")
     public ResponseEntity putPremio(@RequestBody Premio premioAtualizado, @PathVariable int id) {
         if (repositoryPremio.existsById(id)) {
@@ -189,7 +188,7 @@ public class PetsController implements GerenciadorArquivos {
         return ResponseEntity.status(400).build();
     }
 
-    @GetMapping("/get-premios")
+    @GetMapping("/premios")
     @Operation(description = "Endpoint que retorna uma lista de todos os premios")
     public ResponseEntity getPremios() {
         List<Premio> lista = repositoryPremio.findAll();
@@ -201,7 +200,7 @@ public class PetsController implements GerenciadorArquivos {
         return ResponseEntity.status(200).body(lista);
     }
 
-    @GetMapping("/filtro-id-premio/{id}")
+    @GetMapping("/premio/{id}")
     @Operation(description = "Endpoint que retorna um premio filtrado pelo ID")
     ResponseEntity getByidPremios(@PathVariable int id) {
         if (repositoryPremio.existsById(id)) {
@@ -211,7 +210,7 @@ public class PetsController implements GerenciadorArquivos {
         return ResponseEntity.status(404).build();
     }
 
-    @DeleteMapping("/delete-id-premio/{id}")
+    @DeleteMapping("/premio/{id}")
     @Operation(description = "Endpoint que deleta um premio especifico filtrado pelo ID")
     ResponseEntity deleteByIdPremio(@PathVariable int id) {
         if (repositoryPremio.existsById(id)) {
@@ -225,7 +224,7 @@ public class PetsController implements GerenciadorArquivos {
     // Caracteristicas
     // ================================================= //
 
-    @PostMapping("/post-caracteristica")
+    @PostMapping("/caracteristica")
     @Operation(description = "Endpoint para cadastrar uma caracteristica")
     public ResponseEntity postCaracteristica(
             @RequestBody @Valid Caracteristica novaCaracteristica) {
@@ -236,7 +235,7 @@ public class PetsController implements GerenciadorArquivos {
         return ResponseEntity.status(400).build();
     }
 
-    @PutMapping("/atualizar-caracteristica/{id}")
+    @PutMapping("/caracteristica/{id}")
     @Operation(description = "Endpoint para atualizar uma caracteristica especifica filtrada pelo ID ")
     public ResponseEntity putCaracteristica(@RequestBody Caracteristica caracteristicaAtualizada, @PathVariable int id) {
         if (repositoryCaracteristica.existsById(id)) {
@@ -247,7 +246,7 @@ public class PetsController implements GerenciadorArquivos {
         return ResponseEntity.status(400).build();
     }
 
-    @GetMapping("/get-caracteristicas")
+    @GetMapping("/caracteristicas")
     @Operation(description = "Endpoint que retorna uma lista com todas as caracteristicas")
     public ResponseEntity<List<Caracteristica>> getCaracteristica() {
         List<Caracteristica> lista = repositoryCaracteristica.findAll();
@@ -259,7 +258,7 @@ public class PetsController implements GerenciadorArquivos {
         return ResponseEntity.status(200).body(lista);
     }
 
-    @GetMapping("/filtro-id-caracteristica/{id}")
+    @GetMapping("/caracteristica/{id}")
     @Operation(description = "Endpoint que retorna uma caracteristica especifica filtrada pelo ID")
     ResponseEntity getByidCaracteristca(@PathVariable int id) {
         if (repositoryCaracteristica.existsById(id)) {
@@ -270,7 +269,7 @@ public class PetsController implements GerenciadorArquivos {
     }
 
 
-    @DeleteMapping("/delete-id-caracteristica/{id}")
+    @DeleteMapping("/caracteristica/{id}")
     @Operation(description = "Endpoint que deleta uma caracteristica especifica filtrada pelo ID")
     ResponseEntity deleteByIdCaracteristica(@PathVariable int id) {
         if (repositoryCaracteristica.existsById(id)) {
@@ -284,7 +283,7 @@ public class PetsController implements GerenciadorArquivos {
     // Pet Has Caracteristicas
     // ================================================= //
     // !! REVISAR ESSA DESCRIÇÃO
-    @PostMapping("/post-has-caracteristica")
+    @PostMapping("/has-caracteristica")
     @Operation(description = "Endpoint para cadastrar um relacionamento de uma caracteristica")
     public ResponseEntity postHasCaracteristica(
             @RequestBody PetHasCaracteristica novaHasCaracteristica) {
@@ -295,7 +294,7 @@ public class PetsController implements GerenciadorArquivos {
         return ResponseEntity.status(400).build();
     }
 
-    @GetMapping("/get-has-caracteristicas")
+    @GetMapping("/has-caracteristicas")
     @Operation(description = "Endpoint para retornar todos os registros de relacionamentos")
     public ResponseEntity getHasCaracteristica() {
         List<PetHasCaracteristica> lista = repositoryHasCaracteristica.findAll();
@@ -307,7 +306,7 @@ public class PetsController implements GerenciadorArquivos {
         return ResponseEntity.status(200).body(lista);
     }
 
-    @PutMapping("/atualizar-has-caracteristica/{indice}")
+    @PutMapping("/has-caracteristica/{indice}")
     @Operation(description = "Endpoint para atualização do relacionamente de uma caracteristica")
     public ResponseEntity putHasCaracteristica(@RequestBody PetHasCaracteristica hasCaracteristicaAtualizada,
                                                @PathVariable int indice) {
@@ -386,7 +385,7 @@ public class PetsController implements GerenciadorArquivos {
         return ResponseEntity.status(200).body(premios);
     }
 
-    @GetMapping("/premios-pet/{idPet}")
+    @GetMapping("/premios/{idPet}")
     @Operation(description = "Endpoint para retornar todos os mimos de determinado pet")
     public ResponseEntity getByMimosPet(@PathVariable int idPet) {
         List<Pet> listaPet = repositoryPet.findById(idPet);
