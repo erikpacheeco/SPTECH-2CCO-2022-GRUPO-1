@@ -45,6 +45,8 @@ public class Pet {
     @JsonIgnore
     private byte[] fotoPerfil;
 
+    private Boolean doente = false;
+
     private Boolean adotado = false;
 
     @NotNull
@@ -54,7 +56,7 @@ public class Pet {
     public Pet() {
     }
 
-    public Pet(String nome, String dataNasc, String especie, String raca, String porte, String sexo, String descricao, Boolean adotado, Instituicao fkInstituicao) {
+    public Pet(String nome, String dataNasc, String especie, String raca, String porte, String sexo, String descricao, Boolean doente, Boolean adotado, Instituicao fkInstituicao) {
         this.nome = nome;
         this.dataNasc = dataNasc;
         this.especie = especie;
@@ -62,6 +64,7 @@ public class Pet {
         this.porte = porte;
         this.sexo = sexo;
         this.descricao = descricao;
+        this.doente = doente;
         this.adotado = adotado;
         this.fkInstituicao = fkInstituicao;
     }
@@ -133,6 +136,13 @@ public class Pet {
     }
     public void setFotoPerfil(byte[] fotoPerfil) {
         this.fotoPerfil = fotoPerfil;
+    }
+
+    public Boolean getDoente() {
+        return doente;
+    }
+    public void setDoente(Boolean doente) {
+        this.doente = doente;
     }
 
     public Boolean getAdotado() {

@@ -431,7 +431,7 @@ public class PetsController implements GerenciadorArquivos {
         BufferedReader entrada = null;
         String registro, tipoRegistro;
         String nome, dataNasc, especie, raca, porte, descricao, sexo;
-        Boolean adotado;
+        Boolean adotado, doente;
         int contaRegCorpoLido = 0;
         int qtdRegCorpoGravado;
 
@@ -477,10 +477,11 @@ public class PetsController implements GerenciadorArquivos {
                     porte = registro.substring(102,122).trim();
                     sexo = registro.substring(122,127).trim();
                     descricao = registro.substring(127,377).trim();
-                    adotado = Boolean.valueOf(registro.substring(378,388));
+                    doente = Boolean.valueOf(registro.substring(378,383));
+                    adotado = Boolean.valueOf(registro.substring(384,389));
                     contaRegCorpoLido++;
 
-                    Pet pet = new Pet(nome,dataNasc,especie,raca,porte,sexo,descricao,adotado,instituicao);
+                    Pet pet = new Pet(nome,dataNasc,especie,raca,porte,sexo,descricao,doente,adotado,instituicao);
 
                     repositoryPet.save(pet);
 
@@ -512,14 +513,6 @@ public class PetsController implements GerenciadorArquivos {
 
     @PostMapping(value = "/import-pet/{idInstituicao}", consumes = "multipart/form-data")
     public ResponseEntity postNovoUsuario(@RequestBody MultipartFile novoPet, @PathVariable int idInstituicao) {
-        /*
-
-        try {
-            byte[] bytes = novoPet.getBytes();
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-        */
         String nomeArq = novoPet.getResource().getFilename();
         Instituicao instituicao = repositoryInstituicao.getById(idInstituicao);
         if (leArquivoTxt(nomeArq, instituicao)) {
@@ -528,4 +521,18 @@ public class PetsController implements GerenciadorArquivos {
         return ResponseEntity.status(404).build();
     }
 
+    @GetMapping("/doentes/{qtdPets}")
+    public ResponseEntity getPetsDoentes(@PathVariable int qtdPets) {
+        List<Pet> petsDoentes = repositoryPet.findByDoenteAndAdotado();
+
+        if (petsDoentes.isEmpty()) {
+            return ResponseEntity.status(204).build();
+        }
+
+        List<Pet> listaPet = new ArrayList<>();
+        for (int i = 0; i < qtdPets; i++) {
+            listaPet.add(petsDoentes.get(i));
+        }
+        return ResponseEntity.status(200).body(listaPet);
+    }
 }
