@@ -1,0 +1,68 @@
+/* geral */
+@import url('https://fonts.googleapis.com/css2?family=Hind+Madurai:wght@300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+  }
+
+body {
+    padding-top: 100px;
+    font-family: 'Hind Madurai', sans-serif;
+}
+
+.nav {
+    background-image: linear-gradient(270deg, #50077E 0%, #7F2AB5 48.44%, #50077E 100%);
+    position: fixed;
+    width: 100%;
+    height: 100px;
+    top: 0px;
+    z-index: 1;
+}
+
+.container-nav{
+    margin: 0px 40px;
+    height: 100%;
+     display: flex;
+    align-items: center; 
+    justify-content: flex-start;
+} 
+
+.application-menu {
+    margin-right: 40px;
+}
+
+.perfil-nav{
+    margin-left: 40px;
+}
+
+.container-btn-nav{
+    height: 100%;
+    width: 100%;
+    display: flex;
+}
+
+
+.btn-nav {
+    background: none;
+    border: none;
+    width: auto;
+    height: 100%;
+
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 33px;
+    display: flex;
+    align-items: center;
+
+    color: #FFFFFF;
+    
+    margin: 0px 20px;
+}
+
+.option-green{
+    border-bottom: 3px solid #B4F12C !important;
+}
