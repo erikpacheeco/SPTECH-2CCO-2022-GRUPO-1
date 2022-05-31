@@ -2,42 +2,93 @@ import HeaderBasic from "../Components/HeaderBasic";
 import "../css/style.css"
 import "../css/form.css"
 import "../css/cadastro-usuario.css"
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import api from "../Api"
 
-function initialValues() {
+function initialValuesUsuario() {
     return {
         nome: "",
         email: "",
         senha: "",
-        nivelAcesso: "USER",
-        endereco: {
-            rua: "",
-            num: "",
-            complemento: "",
-            bairro: "",
-            cidade: "",
-            uf: "",
-            cep: ""
-        }
+        nivelAcesso: "user",
     }
+}
+
+function initialValuesEndereco() {
+    return {
+        rua: "",
+        complemento:  null,
+        num: "",
+        bairro: "",
+        cidade: "",
+        uf: "",
+        cep: ""
+    }
+
 }
 
 function Cadastro() {
 
-    const [values, setValues] = useState(initialValues);
+    const [valuesUsuario, setValuesUsuario] = useState(initialValuesUsuario)
+    const [valuesEndereco, setValuesEndereco] = useState(initialValuesEndereco)
+    const [valuesInteresse, setValuesInteresse] = useState([])
+    const [preferencias, setPreferencias] = useState([])
 
     const [formUser, setFormUser] = useState(true);
-    const [formEndereco, setFormEndereco] = useState(false);
-    const [formPreferencias, setFormPreferencias] = useState(false);
+    const [formEndereco, setFormEndereco] = useState(false)
+    const [formPreferencias, setFormPreferencias] = useState(false)
 
-    function handleChange(event) {
-        const { value, name } = event.target;
-        setValues({ ...values, [name]: value, })
+    function handleChangeUser(event) {
+        const { value, name } = event.target
+        setValuesUsuario({ ...valuesUsuario, [name]: value, })
     }
 
-    function submitForm(){
-        api.post("/usuario")
+    function handleChangeEndereco(event) {
+        const { value, name } = event.target
+        setValuesEndereco({ ...valuesEndereco, [name]: value, })
     }
+
+    function handleSubmit(event) {
+        event.preventDefault()
+        let json = {
+            usuario: {
+                nome: valuesUsuario.nome,
+                email: valuesUsuario.email,
+                senha: valuesUsuario.senha,
+                nivelAcesso: "user",
+                endereco: {
+                    rua: valuesEndereco.rua,
+                    complemento: valuesEndereco.complemento,
+                    num: valuesEndereco.num,
+                    bairro: valuesEndereco.bairro,
+                    cidade: valuesEndereco.cidade,
+                    uf: valuesEndereco.uf,
+                    cep: valuesEndereco.cep
+                }
+            },
+            interesses: valuesInteresse
+        }
+        console.log(json)
+        api.post("/usuarios", json, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((res) => {
+            console.log(res.status)
+        }).catch((error) => { console.log(error) })
+    }
+
+    useEffect(() => {
+        api.get("/pets/get-caracteristicas").then((res) => {
+            try {
+                console.log(res.data)
+                setPreferencias(res.data)
+            } catch (error) {
+                console.log(error)
+            }
+        })
+    }, [])
+
 
     function handleChangeUserEndereco() {
         setFormEndereco(true);
@@ -59,12 +110,12 @@ function Cadastro() {
         setFormPreferencias(false);
     }
 
-
     return (
         <>
             <HeaderBasic />
             <div className="cad-user-container">
-                <form className="cad-user-form-container" onSubmit={submitForm}>
+                <form className="cad-user-form-container" onSubmit={handleSubmit}>
+
                     <div className={formUser ? ("form-usuario cad-user-form") : ("form-usuario cad-user-form cad-user-hide")}>
                         <div className="btn">
                             <button type="button" className="btn-paginas-selected"></button>
@@ -76,17 +127,38 @@ function Cadastro() {
                         <div className="dados-pessoais">
                             <div className="input-container">
                                 <label htmlFor="nome">Nome completo: </label>
-                                <input id="nome" value={values.nome} type="text" />
+                                <input
+                                    id="nome"
+                                    name="nome"
+                                    type="text"
+                                    value={valuesUsuario.nome}
+                                    required
+                                    onChange={handleChangeUser}
+                                />
                             </div>
 
                             <div className="input-container">
                                 <label htmlFor="email">E-mail: </label>
-                                <input id="email" value={values.email} type="email" />
+                                <input
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    value={valuesUsuario.email}
+                                    required
+                                    onChange={handleChangeUser}
+                                />
                             </div>
 
                             <div className="input-container">
-                                <label htmlFor="">Senha: </label>
-                                <input type="text" />
+                                <label htmlFor="senha">Senha: </label>
+                                <input
+                                    id="senha"
+                                    name="senha"
+                                    type="password"
+                                    value={valuesUsuario.senha}
+                                    required
+                                    onChange={handleChangeUser}
+                                />
                             </div>
                         </div>
 
@@ -113,41 +185,93 @@ function Cadastro() {
                         <h2>Endereço</h2>
                         <div className="endereco">
                             <div className="input-container">
-                                <label html="">CEP: </label>
-                                <input type="text" id="inCEP" maxLength={8} pattern="[0-9]+" required />
+                                <label html="cep">CEP: </label>
+                                <input
+                                    id="cep"
+                                    name="cep"
+                                    type="text"
+                                    value={valuesEndereco.cep}
+                                    maxLength={8}
+                                    minLength={8}
+                                    pattern="[0-9]+"
+                                    required
+                                    onChange={handleChangeEndereco}
+                                />
                             </div>
 
                             <div className="input-container">
-                                <label html="">Rua: </label>
-                                <input type="text" id="inRua" required />
+                                <label html="rua">Rua: </label>
+                                <input
+                                    id="rua"
+                                    name="rua"
+                                    type="text"
+                                    value={valuesEndereco.rua}
+                                    required
+                                    onChange={handleChangeEndereco}
+                                />
                             </div>
 
                             <div className="num-compl-container">
                                 <div className="input-container num">
-                                    <label html="">Número: </label>
-                                    <input type="text" required />
+                                    <label html="numero">Número: </label>
+                                    <input
+                                        id="numero"
+                                        name="num"
+                                        type="text"
+                                        value={valuesEndereco.num}
+                                        required
+                                        onChange={handleChangeEndereco}
+                                    />
                                 </div>
 
                                 <div className="input-container compl">
                                     <label html="">Complemento: </label>
-                                    <input type="text" id="inComplemento" />
+                                    <input
+                                        id="complemento"
+                                        type="text"
+                                        name="complemento"
+                                        value={valuesEndereco.complemento}
+                                        onChange={handleChangeEndereco} />
                                 </div>
                             </div>
 
                             <div className="input-container">
-                                <label html="">Bairro: </label>
-                                <input type="text" id="inBairro" required />
+                                <label html="bairro">Bairro: </label>
+                                <input
+                                    id="bairro"
+                                    name="bairro"
+                                    type="text"
+                                    value={valuesEndereco.bairro}
+                                    onChange={handleChangeEndereco}
+                                    required
+                                />
                             </div>
 
                             <div className="cidade-estado-container">
                                 <div className="input-container cidade">
-                                    <label html="">Cidade: </label>
-                                    <input type="text" id="inCidade" required />
+                                    <label html="cidade">Cidade: </label>
+                                    <input
+                                        id="cidade"
+                                        name="cidade"
+                                        type="text"
+                                        value={valuesEndereco.cidade}
+                                        required
+                                        onChange={handleChangeEndereco}
+                                    />
                                 </div>
 
                                 <div className="input-container estado">
-                                    <label html="">Estado: </label>
-                                    <input type="text" id="inEstado" required />
+                                    <label html="estado">UF: </label>
+                                    <input
+                                        id="estado"
+                                        name="uf"
+                                        minLength={2}
+                                        maxLength={2}
+                                        type="text"
+                                        value={valuesEndereco.uf}
+                                        required
+                                        onChange={handleChangeEndereco}
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -187,25 +311,48 @@ function Cadastro() {
                         <h1>PREFERÊNCIAS</h1>
 
                         <div className="preferencias-container">
-                            <button className="btn-preferencia">Médio</button>
-                            <button className="btn-preferencia">Pequeno</button>
-                            <button className="btn-preferencia">Grande</button>
-                            <button className="btn-preferencia">Dócil</button>
-                            <button className="btn-preferencia">SRD</button>
-                            <button className="btn-preferencia">Preguiçoso</button>
-                            <button className="btn-preferencia">Esfomeado</button>
-                            <button className="btn-preferencia">Carinhoso</button>
-                            <button className="btn-preferencia">Feliz</button>
-                            <button className="btn-preferencia">Animado</button>
-                            <button className="btn-preferencia">Brincalhão</button>
-                            <button className="btn-preferencia">Amigável</button>
+                            {
+                                preferencias.map((pref) => (
+                                    <>
+                                        <input
+                                            className="cad-user-hide"
+                                            value={pref.caracteristicas}
+                                            type="checkbox"
+                                            id={pref.id}
+                                        />
+                                        <button
+                                            type="checkbox"
+                                            className="btn-preferencia"
+                                            id={pref.id + "-btn"}
+                                            onClick={() => {
+                                                let input = document.getElementById(pref.id)
+                                                let btn = document.getElementById(pref.id + "-btn")
+                                                const { value } = input
+
+                                                input.checked = !document.getElementById(pref.id).checked
+                                                
+                                                if (input.checked) {
+                                                    btn.classList.replace("btn-preferencia", "btn-preferencia-checked")
+                                                    setValuesInteresse([...valuesInteresse,{caracteristicas: value }])
+                                                }
+                                                else {
+                                                    btn.classList.replace("btn-preferencia-checked", "btn-preferencia")
+                                                    setValuesInteresse( valuesInteresse.filter((e) => e.caracteristicas !== value))
+                                                }
+                                            }}
+                                        >
+                                            {pref.caracteristicas}
+                                        </button>
+                                    </>
+                                ))
+                            }
                         </div>
 
                         <div className="button">
                             <div className="button-container">
-                            <button 
-                                    type="button" 
-                                    className="btn-form" 
+                                <button
+                                    type="button"
+                                    className="btn-form"
                                     name="btnVoltar"
                                     onClick={handleChangePreferenciaEndereco}
                                 >
@@ -214,13 +361,12 @@ function Cadastro() {
                             </div>
 
                             <div className="button-container">
-                            <button 
-                                    type="button" 
-                                    className="btn-form" 
+                                <button
+                                    type="submit"
+                                    className="btn-form"
                                     name="btnCadastro"
-                                    onClick={handleChangeEnderecoUser}
                                 >
-                                    Cadastrar
+                                    Finalizar
                                 </button>
                             </div>
                         </div>
@@ -228,6 +374,22 @@ function Cadastro() {
 
                 </form>
             </div>
+
+            <button onClick={() => {
+                console.log(valuesUsuario)
+            }}>user</button>
+
+            <button onClick={() => {
+                console.log(valuesEndereco)
+            }}>end</button>
+
+            <button onClick={() => {
+                console.log(valuesInteresse)
+            }}>interesse</button>
+
+            <button onClick={() => {
+                console.log(preferencias)
+            }}>interesse</button>
         </>
     );
 }

@@ -18,7 +18,7 @@ function HeaderBasic() {
         <div className="navbar-container-itens">
           <NavItem id="home" label="Home" />
 
-          <Link to="/login">
+          <Link to="/">
             <NavItem id="login" label="Login" />
           </Link>
           
