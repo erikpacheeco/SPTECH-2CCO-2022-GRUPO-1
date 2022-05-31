@@ -215,7 +215,7 @@ public class UsuarioController {
 
     @PostMapping("/autenticacao")
     @Operation(description = "Endpoint que faz a autenticação e login do usuário")
-    public ResponseEntity<Integer> login(@RequestBody @Valid UsuarioLogin usuarioLogin) {
+    public ResponseEntity<UsuarioSemSenha> login(@RequestBody @Valid UsuarioLogin usuarioLogin) {
 
         // verificando se usuário existe
         List<Usuario> listaUsuario = usuarioRepository.findByEmailESenha(usuarioLogin.getEmail(), usuarioLogin.getSenha());
@@ -237,7 +237,7 @@ public class UsuarioController {
         UsuarioSemSenha usuarioSemSenha = new UsuarioSemSenha(usuario, usuario.getEndereco());
 
         // 200
-        return ResponseEntity.status(200).body(usuarioSemSenha.getId());        
+        return ResponseEntity.status(200).body(usuarioSemSenha);        
     }
 
     @DeleteMapping("/autenticacao/{id}")
