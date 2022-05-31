@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 // import javax.validation.constraints.NotNull;
+import java.util.Arrays;
 import java.util.Objects;
 
 @Entity
@@ -52,6 +53,21 @@ public class Pet {
     @NotNull
     @ManyToOne
     private Instituicao fkInstituicao;
+
+    public Pet() {
+    }
+
+    public Pet(String nome, String dataNasc, String especie, String raca, String porte, String sexo, String descricao, Boolean adotado, Instituicao fkInstituicao) {
+        this.nome = nome;
+        this.dataNasc = dataNasc;
+        this.especie = especie;
+        this.raca = raca;
+        this.porte = porte;
+        this.sexo = sexo;
+        this.descricao = descricao;
+        this.adotado = adotado;
+        this.fkInstituicao = fkInstituicao;
+    }
 
     //    GETTERS E SETTERS
 

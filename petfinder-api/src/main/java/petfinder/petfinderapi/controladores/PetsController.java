@@ -3,15 +3,23 @@ package petfinder.petfinderapi.controladores;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import petfinder.petfinderapi.entidades.*;
 import petfinder.petfinderapi.repositorios.*;
 import petfinder.petfinderapi.resposta.Message;
 import petfinder.petfinderapi.rest.ClienteCep;
 import petfinder.petfinderapi.rest.DistanciaResposta;
 import petfinder.petfinderapi.utilitarios.FilaObj;
+import petfinder.petfinderapi.utilitarios.GerenciadorArquivos;
+import petfinder.petfinderapi.utilitarios.ListaObj;
+
 import javax.validation.Valid;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -19,7 +27,7 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/pets")
 @Tag(name = "Pet",description = "API para controlar os pets, os prêmios e as caracteristicas")
-public class PetsController {
+public class PetsController implements GerenciadorArquivos {
 
     @Autowired
     private PetRepositorio repositoryPet;
@@ -408,6 +416,117 @@ public class PetsController {
             return ResponseEntity.status(404).build();
         }
         return ResponseEntity.status(200).body(lista);
+    }
+
+    @Override
+    public void gravaArquivoCSV(ListaObj lista, String nomeArquivo) {
+    }
+
+    @Override
+    public String leArquivoCSV(String nomeArq) {
+        return null;
+    }
+
+    @Override
+    public boolean leArquivoTxt(String nomeArq, Instituicao instituicao) {
+        BufferedReader entrada = null;
+        String registro, tipoRegistro;
+        String nome, dataNasc, especie, raca, porte, descricao, sexo;
+        Boolean adotado;
+        int contaRegCorpoLido = 0;
+        int qtdRegCorpoGravado;
+
+        List<Pet> listaLida = new ArrayList<>();
+
+        try {
+            entrada = new BufferedReader(new FileReader(nomeArq));
+        }
+        catch (IOException erro) {
+            System.out.println("Erro ao abrir o arquivo: " + erro);
+        }
+
+        try {
+            registro = entrada.readLine();
+
+            while (registro != null) {
+                tipoRegistro = registro.substring(0,2);
+                if (tipoRegistro.equals("00")) {
+                    System.out.println("É um registro de header");
+                    System.out.println("Tipo de arquivo: " + registro.substring(2,6));
+                    System.out.println("Ano e semestre: " + registro.substring(6,11));
+                    System.out.println("Data e hora da gravação: " + registro.substring(11,30));
+                    System.out.println("Versão do documento: " + registro.substring(30,33));
+                }
+                else if (tipoRegistro.equals("01")) {
+                    System.out.println("É um registro de trailer");
+                    qtdRegCorpoGravado = Integer.parseInt(registro.substring(2,5));
+                    if (contaRegCorpoLido == qtdRegCorpoGravado) {
+                        System.out.println("Quantidade de registros lidos é compatível " +
+                                "com a quantidade de registros gravados");
+                    }
+                    else {
+                        System.out.println("Quantidade de registros lidos não é compatível " +
+                                "com a quantidade de registros gravados");
+                    }
+                }
+                else if (tipoRegistro.equals("02")) {
+                    System.out.println("É um registro de corpo");
+                    nome = registro.substring(2,32).trim();
+                    dataNasc = registro.substring(32, 42).trim();
+                    especie = registro.substring(42,72).trim();
+                    raca = registro.substring(72,102).trim();
+                    porte = registro.substring(102,122).trim();
+                    sexo = registro.substring(122,127).trim();
+                    descricao = registro.substring(127,377).trim();
+                    adotado = Boolean.valueOf(registro.substring(378,388));
+                    contaRegCorpoLido++;
+
+                    Pet pet = new Pet(nome,dataNasc,especie,raca,porte,sexo,descricao,adotado,instituicao);
+
+                    repositoryPet.save(pet);
+
+                    listaLida.add(pet);
+                }
+                else {
+                    System.out.println("Tipo de registro inválido!");
+                }
+
+                registro = entrada.readLine();
+            }
+
+            entrada.close();
+        }
+        catch (IOException erro) {
+            System.out.println("Erro ao ler o arquivo: " + erro);
+            return false;
+        }
+
+        repositoryPet.saveAll(listaLida);
+
+        System.out.println("\nConteúdo da lista lida:");
+        for (Pet pet : listaLida) {
+            System.out.println(pet);
+        }
+
+        return true;
+    }
+
+    @PostMapping(value = "/import-pet/{idInstituicao}", consumes = "multipart/form-data")
+    public ResponseEntity postNovoUsuario(@RequestBody MultipartFile novoPet, @PathVariable int idInstituicao) {
+        /*
+
+        try {
+            byte[] bytes = novoPet.getBytes();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+        */
+        String nomeArq = novoPet.getResource().getFilename();
+        Instituicao instituicao = repositoryInstituicao.getById(idInstituicao);
+        if (leArquivoTxt(nomeArq, instituicao)) {
+            return ResponseEntity.status(200).build();
+        }
+        return ResponseEntity.status(404).build();
     }
 
 }
