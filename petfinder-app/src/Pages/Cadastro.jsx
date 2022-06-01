@@ -4,6 +4,7 @@ import "../css/form.css"
 import "../css/cadastro-usuario.css"
 import { useEffect, useState } from "react";
 import api from "../Api"
+import FloatResgate from "../Components/FloatResgate";
 
 function initialValuesUsuario() {
     return {
@@ -374,22 +375,7 @@ function Cadastro() {
 
                 </form>
             </div>
-
-            <button onClick={() => {
-                console.log(valuesUsuario)
-            }}>user</button>
-
-            <button onClick={() => {
-                console.log(valuesEndereco)
-            }}>end</button>
-
-            <button onClick={() => {
-                console.log(valuesInteresse)
-            }}>interesse</button>
-
-            <button onClick={() => {
-                console.log(preferencias)
-            }}>interesse</button>
+            <FloatResgate/>
         </>
     );
 }

@@ -109,6 +109,12 @@ p {
     line-height: 33px;
 }
 
+.nav-item:hover{
+    font-weight: 700;
+}
+
+
+
 .navbar-container a {
     text-decoration: none;
 }

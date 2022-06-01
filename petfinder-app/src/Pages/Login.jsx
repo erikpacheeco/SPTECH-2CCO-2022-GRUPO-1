@@ -4,6 +4,7 @@ import "../css/login.css"
 import api from "../Api";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import FloatResgate from "../Components/FloatResgate";
 
 function resetValues() {
     return { email: "", senha: "" }
@@ -35,7 +36,7 @@ function Login() {
             }
         ).then((res) => {
             try {
-                localStorage.setItem("petfinder_id_user",JSON.stringify(res.data))
+                localStorage.setItem("petfinder_user",JSON.stringify(res.data))
                 navigate("/home-user")
             } catch (error) {
                 console.log(error)
@@ -95,6 +96,7 @@ function Login() {
                     </form>
                 </div>
             </div>
+            <FloatResgate/>
         </>
     );
 }

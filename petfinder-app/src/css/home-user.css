@@ -1,0 +1,251 @@
+/* geral */
+@import url('https://fonts.googleapis.com/css2?family=Hind+Madurai:wght@300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+  }
+
+body {
+    padding-top: 100px;
+    font-family: 'Hind Madurai', sans-serif;
+}
+
+.nav {
+    background-image: linear-gradient(270deg, #50077E 0%, #7F2AB5 48.44%, #50077E 100%);
+    position: fixed;
+    width: 100%;
+    height: 100px;
+    top: 0px;
+    z-index: 1;
+}
+
+.container-nav{
+    margin: 0px 40px;
+    height: 100%;
+     display: flex;
+    align-items: center; 
+    justify-content: flex-start;
+} 
+
+.application-menu {
+    margin-right: 40px;
+}
+
+.perfil-nav{
+    margin-left: 40px;
+}
+
+.container-btn-nav{
+    height: 100%;
+    width: 100%;
+    display: flex;
+}
+
+
+.btn-nav {
+    background: none;
+    border: none;
+    width: auto;
+    height: 100%;
+
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 33px;
+    display: flex;
+    align-items: center;
+
+    color: #FFFFFF;
+    
+    margin: 0px 20px;
+}
+
+.option-green{
+    border-bottom: 3px solid #B4F12C !important;
+}
+
+/* geral */
+@import url('https://fonts.googleapis.com/css2?family=Hind+Madurai:wght@300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+  }
+
+body {
+    padding-top: 100px;
+    font-family: 'Hind Madurai', sans-serif;
+}
+
+.header {
+    background-image: linear-gradient(270deg, #50077E 0%, #7F2AB5 48.44%, #50077E 100%);
+    position: fixed;
+    width: 100%;
+    height: 100px;
+    top: 0px;
+    z-index: 2;
+    margin-bottom:80px;
+}
+
+.container-header{
+    width: calc(100% - 80px);
+    height: 100%;
+    margin: auto;
+    display: flex;
+    align-items: center; 
+    justify-content: flex-start;
+} 
+
+.application-menu {
+    margin-right: 40px;
+}
+
+.perfil-header{
+    margin-left: 40px;
+}
+
+.container-items-header{
+    height: 100%;
+    width: 100%;
+    display: flex;
+}
+
+
+.btn-header {
+    background: none;
+    border: none;
+    width: auto;
+    height: 100%;
+
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 33px;
+    display: flex;
+    align-items: center;
+
+    color: #FFFFFF;
+    
+    margin: 0px 20px;
+}
+
+.option-green{
+    border-bottom: 3px solid #B4F12C !important;
+    border-top: 3px solid transparent !important;
+}
+
+/* Fim do Header */
+
+
+.main{
+    z-index: 1;
+    width: 100%;
+}
+
+.container-main{
+    width: calc(100% - 80px);
+    margin: 80px auto;
+}
+
+
+.section-pet{
+    margin-bottom: 40px;
+    background-color: bisque;
+    width: 100%;
+    display: grid;
+}
+
+.titulo {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    width: 100%;
+}
+
+.titulo h1{
+    margin: 0px 44px;
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 44px;
+
+    color: #000000;
+}
+
+.titulo h3{
+    margin: 0px 44px;
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 22px;
+
+    color: #50077E;
+}
+
+.lista-ajuda{
+    display: grid;  
+    grid-template-columns: repeat(3, 1fr 2fr 1fr);
+    background-color:limegreen;
+}
+
+.container-carrosel{
+    margin: 0 auto;
+}
+
+
+.carrosel-img{
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+}
+
+.img-pet{
+    width: 206px;
+    height: 206px;
+    box-shadow: inset 0px -80px 50px -33px #30024E;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    border-radius: 10px;
+    background-size: cover;
+    background-image: url();
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    position: relative;
+}
+
+.img-pet p {
+    z-index: 1;
+    color: white;
+    margin: 15px 20px;
+}
+
+.img-pet img{
+    position: absolute;
+    bottom: 192px;
+    left: 192px;
+
+}
+
+.lista-adotar{
+    width: 100%;
+    margin: auto;
+    /* display: grid;  
+    grid-template-columns: repeat(1, 1fr); */
+    /* background-color:limegreen; */
+}
+
+.container-adotar{
+    width: calc(100% - 80px);
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(5, 206px);
+    gap: 80px;
+}
+

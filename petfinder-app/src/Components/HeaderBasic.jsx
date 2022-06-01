@@ -16,12 +16,10 @@ function HeaderBasic() {
         </a>
 
         <div className="navbar-container-itens">
-          <NavItem id="home" label="Home" />
+          <NavItem id="home" label="Home"/>
 
-          <Link to="/">
-            <NavItem id="login" label="Login" />
-          </Link>
-          
+          <NavItem id="login" label="Login" navigateTo="/"/>
+
           <Link to="/cadastro" className="nav-item">
             <div className="bg-yellow">Cadastro</div>
           </Link>
