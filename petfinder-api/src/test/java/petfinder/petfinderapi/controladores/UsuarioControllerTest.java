@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import java.util.ArrayList;
 import java.util.List;
 import javax.validation.ConstraintViolationException;
 import org.junit.jupiter.api.DisplayName;
@@ -14,10 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.ResponseEntity;
-
 import petfinder.petfinderapi.entidades.Caracteristica;
 import petfinder.petfinderapi.entidades.Endereco;
-import petfinder.petfinderapi.entidades.Instituicao;
 import petfinder.petfinderapi.entidades.Usuario;
 import petfinder.petfinderapi.entidades.UsuarioHasInteresse;
 import petfinder.petfinderapi.requisicao.CriacaoUsuario;
@@ -32,9 +28,6 @@ public class UsuarioControllerTest {
 
     @Autowired
     private PetsController petController;
-
-    @Autowired
-    private InsitituicoesController instController;
 
     // methods
     private CriacaoUsuario fastUsuario() {
@@ -282,12 +275,12 @@ public class UsuarioControllerTest {
 
         // created
         controller.postUsuario(fastUsuario());
-        ResponseEntity<Integer> res = controller.login(new UsuarioLogin("user.test@test.com", "urubu101"));
-        controller.deleteUsuario(res.getBody().intValue());
+        ResponseEntity<UsuarioSemSenha> res = controller.login(new UsuarioLogin("user.test@test.com", "urubu101"));
+        controller.deleteUsuario(res.getBody().getId());
 
         // asserts
         assertEquals(200, res.getStatusCodeValue());
-        assertInstanceOf(Integer.class, res.getBody());
+        assertInstanceOf(UsuarioSemSenha.class, res.getBody());
 
     }
 
@@ -301,10 +294,10 @@ public class UsuarioControllerTest {
 
         // requesting
         UsuarioLogin login1 = new UsuarioLogin("user.test2@test.com", "urubu101");
-        ResponseEntity<Integer> res1 = controller.login(login1);
+        ResponseEntity<UsuarioSemSenha> res1 = controller.login(login1);
 
         UsuarioLogin login2 = new UsuarioLogin("user.test@test.com", "urubu102");
-        ResponseEntity<Integer> res2 = controller.login(login2);
+        ResponseEntity<UsuarioSemSenha> res2 = controller.login(login2);
 
         // deleting
         controller.deleteLogoff(created.getBody().getId());

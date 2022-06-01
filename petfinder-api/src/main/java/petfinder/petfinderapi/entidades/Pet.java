@@ -51,6 +51,14 @@ public class Pet {
     @ManyToOne
     private Instituicao fkInstituicao;
 
+    // methods
+    @Override
+    public String toString() {
+        return "Pet [adotado=" + adotado + ", dataNasc=" + dataNasc + ", descricao=" + descricao + ", especie="
+                + especie + ", fkInstituicao=" + fkInstituicao + ", id=" + id + ", nome=" + nome + ", porte=" + porte
+                + ", raca=" + raca + ", sexo=" + sexo + "]";
+    }
+
     //    GETTERS E SETTERS
 
     public int getId() {

@@ -11,8 +11,6 @@ public interface PetRepositorio extends JpaRepository<Pet, Integer> {
 
     List<Pet> findAll();
 
-    List<Pet> findById(int id);
-
     List<Pet> findByFkInstituicaoId(int id);
 
     void deleteById(int id);
