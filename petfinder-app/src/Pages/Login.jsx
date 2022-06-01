@@ -35,7 +35,7 @@ function Login() {
             }
         ).then((res) => {
             try {
-                localStorage.setItem("petfinder_id_user",JSON.stringify(res.data.id))
+                localStorage.setItem("petfinder_id_user",JSON.stringify(res.data))
                 navigate("/home-user")
             } catch (error) {
                 console.log(error)

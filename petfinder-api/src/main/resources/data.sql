@@ -36,11 +36,11 @@ VALUES
 
 -- Pet
 INSERT INTO
-pet(nome, data_nasc, especie, raca, porte, sexo, descricao, adotado, fk_instituicao_id)
+pet(nome, data_nasc, especie, raca, porte, sexo, descricao, doente, adotado, fk_instituicao_id)
 VALUES
-('Antônio', '2020/02/28', 'Cachorro', 'Shits-zu', 'Pequeno', 'Macho', 'Branquinho, brincalhão e estressado com criança chata', true, 1),
-('Mel', '2027/04/12', 'Cachorro', 'Maltês', 'Pequeno', 'Fêmea', 'Nénem que ama, ficar no colo, fiel companheira', true, 2),
-('Carlos Eduardo', '2019/06/20', 'Gato', 'SRD', 'Pequeno', 'Macho', 'Brincalhão e gosta de passear', false, 2);
+('Antônio', '2020/02/28', 'Cachorro', 'Shits-zu', 'Pequeno', 'Macho', 'Branquinho, brincalhão e estressado com criança chata', true, false, 1),
+('Mel', '2027/04/12', 'Cachorro', 'Maltês', 'Pequeno', 'Fêmea', 'Nénem que ama, ficar no colo, fiel companheira', true, false, 2),
+('Carlos Eduardo', '2019/06/20', 'Gato', 'SRD', 'Pequeno', 'Macho', 'Brincalhão e gosta de passear', true, false, 2);
 
 -- Premio
 INSERT INTO
