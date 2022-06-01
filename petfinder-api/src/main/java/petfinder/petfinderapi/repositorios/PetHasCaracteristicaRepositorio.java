@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface PetHasCaracteristicaRepositorio extends JpaRepository<PetHasCaracteristica, Integer> {
 
+    // @Query("")
     List<PetHasCaracteristica> findByFkPetId(int id);
 /*
 SELECT *
