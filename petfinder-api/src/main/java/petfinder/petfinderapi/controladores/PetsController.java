@@ -17,9 +17,9 @@ import petfinder.petfinderapi.utilitarios.GerenciadorArquivos;
 import petfinder.petfinderapi.utilitarios.ListaObj;
 
 import javax.validation.Valid;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -430,12 +430,13 @@ public class PetsController implements GerenciadorArquivos {
     public boolean leArquivoTxt(String nomeArq, Instituicao instituicao) {
         BufferedReader entrada = null;
         String registro, tipoRegistro;
-        String nome, dataNasc, especie, raca, porte, descricao, sexo;
+        String nome, dataNasc, especie, raca, porte, descricao, sexo, caracteristica;
         Boolean adotado, doente;
         int contaRegCorpoLido = 0;
         int qtdRegCorpoGravado;
 
         List<Pet> listaLida = new ArrayList<>();
+        List<Caracteristica> listaLida2 = new ArrayList<>();
 
         try {
             entrada = new BufferedReader(new FileReader(nomeArq));
@@ -487,6 +488,17 @@ public class PetsController implements GerenciadorArquivos {
 
                     listaLida.add(pet);
                 }
+                else if (tipoRegistro.equals("03")) {
+                    System.out.println("É um registro do segundo corpo");
+                    caracteristica = registro.substring(2,20).trim();
+                    contaRegCorpoLido++;
+
+                    Caracteristica c = new Caracteristica(caracteristica);
+
+                    repositoryCaracteristica.save(c);
+
+                    listaLida2.add(c);
+                }
                 else {
                     System.out.println("Tipo de registro inválido!");
                 }
@@ -511,8 +523,17 @@ public class PetsController implements GerenciadorArquivos {
         return true;
     }
 
+    @Override
+    public void gravaRegistro(String registro, String nomeArq) {
+    }
+
+    @Override
+    public <T> T gravaArquivoTxt(List<Demanda> listaDemanda, List<Usuario> listaUsuario, List<Instituicao> listaInstituicao, List<Pet> listaPet, String nomeArq) {
+        return null;
+    }
+
     @PostMapping(value = "/import-pet/{idInstituicao}", consumes = "multipart/form-data")
-    public ResponseEntity postNovoUsuario(@RequestBody MultipartFile novoPet, @PathVariable int idInstituicao) {
+    public ResponseEntity postNovoPet(@RequestBody MultipartFile novoPet, @PathVariable int idInstituicao) {
         String nomeArq = novoPet.getResource().getFilename();
         Instituicao instituicao = repositoryInstituicao.getById(idInstituicao);
         if (leArquivoTxt(nomeArq, instituicao)) {

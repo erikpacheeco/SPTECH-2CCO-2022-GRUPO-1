@@ -15,6 +15,14 @@ public class Caracteristica {
     @NotBlank
     private String caracteristicas;
 
+
+    public Caracteristica() {
+    }
+
+    public Caracteristica(String caracteristicas) {
+        this.caracteristicas = caracteristicas;
+    }
+
     public int getId() {
         return id;
     }

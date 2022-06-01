@@ -1,4 +1,6 @@
-00PETS2022131-05-2022 17:28:520001
+00PETS2022101-06-2022 10:55:350001
 02Yasmin                        2010/06/24Gato                          Siamês                        pequeno             Femea Quieta, gosta do próprio espaço e d epedir carinho.                                                                                                                                                                                                       false false 
 02Peponi                        2000/04/08Papagaio                      Papagaio Verdadeiro           Médio               Femea Barulhenta, rabugenta, carinhoso com a mãe, roedor.                                                                                                                                                                                                       true  true  
-010002
+03Brincalhão          
+03Carinhoso           
+010004
