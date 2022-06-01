@@ -53,9 +53,15 @@ public class Pet {
     @ManyToOne
     private Instituicao fkInstituicao;
 
+    // methods
+    @Override
+    public String toString() {
+        return "Pet [adotado=" + adotado + ", dataNasc=" + dataNasc + ", descricao=" + descricao + ", especie="
+                + especie + ", fkInstituicao=" + fkInstituicao + ", id=" + id + ", nome=" + nome + ", porte=" + porte
+                + ", raca=" + raca + ", sexo=" + sexo + "]";
+            }
     public Pet() {
     }
-
     public Pet(String nome, String dataNasc, String especie, String raca, String porte, String sexo, String descricao, Boolean doente, Boolean adotado, Instituicao fkInstituicao) {
         this.nome = nome;
         this.dataNasc = dataNasc;

@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import java.util.ArrayList;
 import java.util.List;
 import javax.validation.ConstraintViolationException;
 import org.junit.jupiter.api.DisplayName;
@@ -14,10 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.ResponseEntity;
-
 import petfinder.petfinderapi.entidades.Caracteristica;
 import petfinder.petfinderapi.entidades.Endereco;
-import petfinder.petfinderapi.entidades.Instituicao;
 import petfinder.petfinderapi.entidades.Usuario;
 import petfinder.petfinderapi.entidades.UsuarioHasInteresse;
 import petfinder.petfinderapi.requisicao.CriacaoUsuario;
@@ -32,9 +28,6 @@ public class UsuarioControllerTest {
 
     @Autowired
     private PetsController petController;
-
-    @Autowired
-    private InsitituicoesController instController;
 
     // methods
     private CriacaoUsuario fastUsuario() {
@@ -287,7 +280,7 @@ public class UsuarioControllerTest {
 
         // asserts
         assertEquals(200, res.getStatusCodeValue());
-        assertInstanceOf(Integer.class, res.getBody());
+        assertInstanceOf(UsuarioSemSenha.class, res.getBody());
 
     }
 
