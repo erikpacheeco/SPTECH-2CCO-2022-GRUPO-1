@@ -119,24 +119,22 @@ public class UsuarioController {
         // verificando se nivelAcesso foi especificado corretamente
         if (nivelAcesso.elementoExiste(novoUsuario.getNivelAcesso())) {
 
-            // cadastrando novo usuário
+            // cadastrando endereco do novo usuário
             Endereco endereco = enderecoRepository.save(novoUsuario.getEndereco());
+            
+            // cadastrando novo usuário
             novoUsuario.getEndereco().setId(endereco.getId());;
-
             novoUsuario = usuarioRepository.save(novoUsuario);
             UsuarioSemSenha res = new UsuarioSemSenha(novoUsuario, novoUsuario.getEndereco());
 
             // cadastrando interesses
-
             FilaObj<Caracteristica> fila = new FilaObj<Caracteristica>(criacaoUsuario.getInteresses());
             
             while (fila.isNotEmpty()) {
-
-                System.out.println("====================");
-                System.out.println(fila.peek().getCaracteristicas());
-
+                // Validando interesses
                 Caracteristica caracteristica = caracteristicaRepository.findByCaracteristicas(fila.poll().getCaracteristicas());
 
+                // relacionando interesse (Caracteristica) ao usuário
                 if (Objects.nonNull(caracteristica)) {
                     UsuarioHasInteresse relation = new UsuarioHasInteresse();
                     relation.setFkCaracteristica(caracteristica);
@@ -145,6 +143,7 @@ public class UsuarioController {
                 }
             }
 
+            // 201 usuário criado
             return ResponseEntity.status(201).body(res);
         }
 

@@ -12,43 +12,33 @@ public class Pet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     @NotNull
     @NotBlank
     private String nome;
-
     @NotNull
     @NotBlank
     private String dataNasc;
-
     @NotNull
     @NotBlank
     private String especie;
-
     @NotNull
     @NotBlank
     private String raca;
-
     @NotNull
     @NotBlank
     private String porte;
-
     @NotNull
     @NotBlank
     private String sexo;
-
     @NotNull
     @NotBlank
     private String descricao;
-
     @Column(length = 50_000_000)
     @JsonIgnore
     private byte[] fotoPerfil;
-
+    private String caminhoImagem;
     private Boolean doente = false;
-
     private Boolean adotado = false;
-
     @NotNull
     @ManyToOne
     private Instituicao fkInstituicao;
@@ -163,5 +153,11 @@ public class Pet {
     }
     public void setFkInstituicao(Instituicao fkInstituicao) {
         this.fkInstituicao = fkInstituicao;
+    }
+    public String getCaminhoImagem() {
+        return caminhoImagem;
+    }
+    public void setCaminhoImagem(String caminhoImagem) {
+        this.caminhoImagem = caminhoImagem;
     }
 }
