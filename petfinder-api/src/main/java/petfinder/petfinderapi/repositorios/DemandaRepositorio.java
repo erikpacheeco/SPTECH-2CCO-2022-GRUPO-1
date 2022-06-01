@@ -53,4 +53,6 @@ public interface DemandaRepositorio extends JpaRepository<Demanda, Integer> {
     @Query("SELECT d FROM Demanda d WHERE d.colaborador.id = ?1 AND d.status IN ('CONCLUIDO','CANCELADO')")
     List<Demanda> findAllStatusConcluidoColaborador(Integer idUsuario);
 
+    Integer countByStatus(String status);
+    Integer countByStatusAndCategoria(String status, String categoria);
 }

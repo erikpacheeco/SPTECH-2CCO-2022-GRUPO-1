@@ -1,0 +1,35 @@
+00DEMANDAS2022101-06-2022 11:50:030001
+02PAGAMENTO2020/01/01      nullABERTO             
+02PAGAMENTO2020/01/01      nullCONCLUIDO          
+02PAGAMENTO2020/01/01      nullABERTO             
+02PAGAMENTO2020/01/01      nullABERTO             
+02adocao   2020/01/01      nullABERTO             
+02PAGAMENTO2020/01/01      nullCANCELADO          
+02ADOCAO   2020/01/01      nullCANCELADO          
+02PAGAMENTO2020/01/01      nullPGTO_REALIZADO_USER
+02PAGAMENTO2020/01/01      nullPGTO_REALIZADO_USER
+02ADOCAO   2020/01/01      nullCANCELADO          
+02RESGATE  2020/01/01      nullRESGATE_INVALIDO   
+02RESGATE  2020/01/01      nullRESGATE_INVALIDO   
+02RESGATE  2020/01/01      nullRESGATE_VALIDO     
+03lucas mesquita                                    
+03Mylena Oliveira                                   
+03Isabell                                           
+03Ana Maria                                         
+03Kayo Fezz                                         
+03Sky Fernandez                                     
+03Peter Geferson                                    
+03Reya                                              
+03Breach                                            
+03Reyna                                             
+03Cypher de Souza                                   
+03Yoru                                              
+03Sage                                              
+04instituicao A                                     
+04instituicao B                                     
+04instituicao C                                     
+04instituicao D                                     
+05Antônio                                           
+05Mel                                               
+05Carlos Eduardo                                    
+0100330004000100000001

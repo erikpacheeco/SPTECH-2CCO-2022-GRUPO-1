@@ -15,12 +15,11 @@ import petfinder.petfinderapi.resposta.DemandaUsuario;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @RestController
@@ -524,4 +523,120 @@ public class DemandaController implements GerenciadorArquivos{
         return false;
     }
 
+    @Override
+    public void gravaRegistro(String registro, String nomeArq) {
+        BufferedWriter saida = null;
+
+        // try-catch para abrir o arquivo
+        try {
+            saida = new BufferedWriter(new FileWriter(nomeArq, true));
+        }
+        catch (IOException erro) {
+            System.out.println("Erro ao abrir o arquivo: " + erro);
+        }
+
+        // try-catch para gravar o registro e fechar o arquivo
+        try {
+            saida.append(registro + "\n");
+            saida.close();
+        }
+        catch (IOException erro) {
+            System.out.println("Erro ao gravar o arquivo: " + erro);
+        }
+    }
+
+    @Override
+    public <T> T gravaArquivoTxt(List<Demanda> listaDemanda, List<Usuario> listaUsuario,
+                                 List<Instituicao> listaInstituicao, List<Pet> listaPet, String nomeArq) {
+        int contaRegCorpo = 0;
+
+        // Monta o registro de header
+        String header = "00DEMANDAS20221";
+        header += LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
+        header += "0001";
+        // Grava o registro de header
+        gravaRegistro(header, nomeArq);
+
+        // Monta e grava os registros de corpo
+        String corpo;
+        for (Demanda d : listaDemanda) {
+            corpo = "02";
+            corpo += String.format("%-9.9s", d.getCategoria());
+            corpo += String.format("%10.10s", d.getDataAbertura());
+            corpo += String.format("%10.10s", d.getDataFechamento());
+            corpo += String.format("%-19.19s", d.getStatus());
+            contaRegCorpo++;
+            gravaRegistro(corpo, nomeArq);
+        }
+
+        for (Usuario u : listaUsuario) {
+            corpo = "03";
+            corpo += String.format("%-50.50s", u.getNome());
+            contaRegCorpo++;
+            gravaRegistro(corpo, nomeArq);
+        }
+
+        for (Instituicao i : listaInstituicao) {
+            corpo = "04";
+            corpo += String.format("%-50.50s", i.getNome());
+            contaRegCorpo++;
+            gravaRegistro(corpo, nomeArq);
+        }
+
+        for (Pet p : listaPet) {
+            corpo = "05";
+            corpo += String.format("%-50.50s", p.getNome());
+            contaRegCorpo++;
+            gravaRegistro(corpo, nomeArq);
+        }
+
+        // masi um for para o segundo corpo
+
+        // Monta e grava o registro de trailer
+        String trailer = "01";
+        trailer += String.format("%04d", contaRegCorpo);
+        trailer += String.format("%04d", demandaRepositorio.countByStatus("ABERTO"));
+        trailer += String.format("%04d", demandaRepositorio.countByStatus("CONCLUIDO"));
+        trailer += String.format("%04d", demandaRepositorio.countByStatusAndCategoria("ABERTO", "ADOCAO"));
+        trailer += String.format("%04d", demandaRepositorio.countByStatusAndCategoria("CONCLUIDO", "PAGAMENTO"));
+        gravaRegistro(trailer, nomeArq);
+        return null;
+    }
+
+    @GetMapping("/export-demandas")
+    public ResponseEntity getPetsGravarDoc(){
+        List<Demanda> demanda = demandaRepositorio.findAll();
+        List<Demanda> listaDemanda = new ArrayList<>();
+
+        for (Demanda d : demanda) {
+            listaDemanda.add(d);
+        }
+
+        List<Usuario> usuario = usuarioRepositorio.findAll();
+        List<Usuario> listaUsuario = new ArrayList<>();
+
+        for (Usuario u : usuario) {
+            listaUsuario.add(u);
+        }
+
+        List<Instituicao> instituicao = instituicaoRepositorio.findAll();
+        List<Instituicao> listaInstituicao = new ArrayList<>();
+
+        for (Instituicao i : instituicao) {
+            listaInstituicao.add(i);
+        }
+
+        List<Pet> pet = petRepositorio.findAll();
+        List<Pet> listaPet = new ArrayList<>();
+
+        for (Pet p : pet) {
+            listaPet.add(p);
+        }
+
+        return ResponseEntity
+                .status(200)
+                .header("content-type", "text/csv")
+                .header("content-disposition", "filename=\"demandas.txt\"")
+                .body(gravaArquivoTxt(listaDemanda, listaUsuario, listaInstituicao, listaPet,"demandas.txt"));
+    }
 }
