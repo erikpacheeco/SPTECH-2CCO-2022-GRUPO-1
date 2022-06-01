@@ -652,7 +652,7 @@ public class PetsController implements GerenciadorArquivos {
         }
 
         List<Pet> listaPet = new ArrayList<>();
-        for (int i = 0; i < qtdPets; i++) {
+        for (int i = 0; i < qtdPets && i < petsDoentes.size(); i++) {
             listaPet.add(petsDoentes.get(i));
         }
         return ResponseEntity.status(200).body(listaPet);
