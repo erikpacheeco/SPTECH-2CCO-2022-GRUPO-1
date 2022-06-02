@@ -23,7 +23,7 @@ export default function HomeUser() {
         },
         desktop: {
             breakpoint: { max: 3000, min: 1024 },
-            items: 5
+            items: 6
         },
         tablet: {
             breakpoint: { max: 1024, min: 464 },
@@ -53,33 +53,39 @@ export default function HomeUser() {
             ]}
             />
 
-            <main className="big">
-                <div className="container-main">
+            <main className="container-main">
+                <div className="home-user-container">
                     <section className="section-pet">
-                        <div className="titulo">
-                            <h1>Não pode nos adotar? Nos ajude!</h1>
-                            <h3>Ver Mais</h3>
+                        <div className="home-user-container-center">
+                            <div className="titulo">
+                                <h1>Não pode nos adotar? Ajude nossos pets doentinhos!</h1>
+                                <h3>Ver Mais</h3>
+                            </div>
                         </div>
-                        <div className="lista-ajuda">
-                            <Carousel responsive={responsive}>
-                                {
-                                    sickPets.map((p) => (
-                                        <CardPet nome={p.nome} isDoente={true} backgroundImage={p.caminhoImagem}/>
-                                    ))
-                                }
-                            </Carousel>
+                        <div className="home-user-container-center">
+                            <div className="lista-ajuda">
+                                <Carousel responsive={responsive}>
+                                    {
+                                        sickPets.map((p) => (
+                                            <CardPet nome={p.nome} isDoente={false} backgroundImage={p.caminhoImagem} />
+                                        ))
+                                    }
+                                </Carousel>
+                            </div>
                         </div>
                     </section>
                     <section className="section-pet">
-                        <div className="titulo">
-                            <h1>Adote um desses animaizinhos</h1>
-                            <h3>Ver Mais</h3>
+                        <div className="home-user-container-center">
+                            <div className="titulo">
+                                <h1>Adote um desses animaizinhos</h1>
+                                <h3>Ver Mais</h3>
+                            </div>
                         </div>
                         <div className="lista-adotar">
                             <div className="container-adotar">
                                 {
                                     allPets.map((p) => (
-                                        <CardPet nome={p.nome} isDoente={p.doente} backgroundImage={p.caminhoImagem}/>
+                                        <CardPet nome={p.nome} isDoente={p.doente} backgroundImage={p.caminhoImagem} />
                                     ))
                                 }
                             </div>
