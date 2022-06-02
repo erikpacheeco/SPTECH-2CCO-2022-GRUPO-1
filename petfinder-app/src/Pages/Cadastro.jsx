@@ -5,6 +5,10 @@ import "../css/cadastro-usuario.css"
 import { useEffect, useState } from "react";
 import api from "../Api"
 import FloatResgate from "../Components/FloatResgate";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import { useNavigate } from "react-router-dom";
+
 
 function initialValuesUsuario() {
     return {
@@ -38,6 +42,9 @@ function Cadastro() {
     const [formUser, setFormUser] = useState(true);
     const [formEndereco, setFormEndereco] = useState(false)
     const [formPreferencias, setFormPreferencias] = useState(false)
+
+    const swal = withReactContent(Swal);
+    const navigate = useNavigate();
 
     function handleChangeUser(event) {
         const { value, name } = event.target
@@ -74,13 +81,25 @@ function Cadastro() {
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).then((res) => {
-            console.log(res.status)
-        }).catch((error) => { console.log(error) })
+        })
+        .then((res) => {
+            swal.fire({
+                icon: "success",
+                title: <h1>Você será redirecionado para o login</h1>,
+            }).then(()=>{
+                navigate("/")
+            })
+        }).catch((error) => {
+            swal.fire({
+                icon: "error",
+                title: <h1>Ops! Algo deu errado da nossa parte :(</h1>,
+                text: "Por favor, tente novamente!"
+            });
+        })
     }
 
     useEffect(() => {
-        api.get("/pets/get-caracteristicas").then((res) => {
+        api.get("/pets/caracteristicas").then((res) => {
             try {
                 console.log(res.data)
                 setPreferencias(res.data)
@@ -322,7 +341,7 @@ function Cadastro() {
                                             id={pref.id}
                                         />
                                         <button
-                                            type="checkbox"
+                                            type="button"
                                             className="btn-preferencia"
                                             id={pref.id + "-btn"}
                                             onClick={() => {

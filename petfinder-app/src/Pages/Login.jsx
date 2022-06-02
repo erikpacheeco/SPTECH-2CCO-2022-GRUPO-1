@@ -5,6 +5,8 @@ import api from "../Api";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import FloatResgate from "../Components/FloatResgate";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 function resetValues() {
     return { email: "", senha: "" }
@@ -14,13 +16,14 @@ function Login() {
     // FAZER AUTENTICAÇÃO E REDIRECIONAMENTO DO USER POR NIVEL ACESSO
     const [values, setValues] = useState(resetValues)
     const navigate = useNavigate()
+    const swal = withReactContent(Swal);
 
     function handleChange(event) {
         const { value, name } = event.target;
         setValues({ ...values, [name]: value, })
     }
 
-    function handleClickRedirect(event){
+    function handleClickRedirect(event) {
         event.preventDefault()
         navigate("/cadastro")
     }
@@ -35,13 +38,26 @@ function Login() {
                 }
             }
         ).then((res) => {
-            try {
-                localStorage.setItem("petfinder_user",JSON.stringify(res.data))
-                navigate("/home-user")
-            } catch (error) {
-                console.log(error)
-            }
+            localStorage.setItem("petfinder_user", JSON.stringify(res.data))
+            navigate("/home-user")
         })
+            .catch(error => {
+                if (error.request.status == 401) {
+                    console.log("success")
+                    swal.fire({
+                        icon: "error",
+                        title: <h1>Ops... Dados inválidos :(</h1>,
+                        text: "Por favor, tente novamente!"
+                    });
+                } else {
+                    console.error("err")
+                    swal.fire({
+                        icon: "error",
+                        title: <h1>Ops! Algo deu errado da nossa parte :(</h1>,
+                        text: "Por favor, tente novamente!"
+                    });
+                }
+            });
     }
 
     return (
@@ -84,9 +100,9 @@ function Login() {
                         {/* Buttons */}
                         <div className="button-container">
                             <button type="submit" id="login" className="btn-form">Login</button>
-                            <button 
-                                type="button" 
-                                id="cadastro" 
+                            <button
+                                type="button"
+                                id="cadastro"
                                 className="btn-form"
                                 onClick={handleClickRedirect}
                             >
@@ -96,7 +112,7 @@ function Login() {
                     </form>
                 </div>
             </div>
-            <FloatResgate/>
+            <FloatResgate />
         </>
     );
 }
