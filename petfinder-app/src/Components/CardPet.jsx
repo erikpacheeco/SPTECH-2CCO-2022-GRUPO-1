@@ -1,9 +1,20 @@
-export default function CardPet() {
+import doente from "../Images/png_img/saude_2.png"
+
+export default function CardPet(props) {
+
+    CardPet.defaultProps= {
+        isDoente: false,
+        nome: "Label",
+    }
+
     return (
-        <figure class="img-pet">
-            <p>Gato de Botas</p>
-            <img src="./img/saude 2.png" alt="" />
-            <img src="./img/download.jpg" alt="" />
+        <figure class="img-pet" style={{backgroundImage: `url("http://localhost:8080${props.backgroundImage}")`}}>
+            <p>{props.nome}</p>
+            <img
+                className={
+                    props.isDoente ? ("") : ("cad-user-hide")
+                } src={doente} alt={props.tipo}
+            />
         </figure>
     );
 }

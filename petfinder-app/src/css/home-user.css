@@ -1,4 +1,4 @@
-/* geral */
+    /* geral */
 @import url('https://fonts.googleapis.com/css2?family=Hind+Madurai:wght@300;400;500;600;700&display=swap');
 
 * {
@@ -144,7 +144,8 @@ body {
 
 .main{
     z-index: 1;
-    width: 100%;
+    width: 100vw;
+    background-color: #000000;
 }
 
 .container-main{
@@ -157,7 +158,6 @@ body {
     margin-bottom: 40px;
     background-color: bisque;
     width: 100%;
-    display: grid;
 }
 
 .titulo {
@@ -191,9 +191,8 @@ body {
 }
 
 .lista-ajuda{
-    display: grid;  
-    grid-template-columns: repeat(3, 1fr 2fr 1fr);
     background-color:limegreen;
+    margin: 0px 24px;
 }
 
 .container-carrosel{
@@ -218,6 +217,7 @@ body {
     align-items: flex-end;
     justify-content: flex-start;
     position: relative;
+    /* margin: 0px 24px; */
 }
 
 .img-pet p {
@@ -242,10 +242,9 @@ body {
 }
 
 .container-adotar{
-    width: calc(100% - 80px);
-    margin: auto;
+    /* width: calc(100% - 80px); */
+    /* margin: 0px 20px; */
     display: grid;
-    grid-template-columns: repeat(5, 206px);
-    gap: 80px;
+    grid-template-columns: repeat( auto-fit, minmax(225px, 1fr) );
+    grid-template-rows: auto 1fr auto;
 }
-

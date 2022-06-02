@@ -27,6 +27,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/pets")
+@CrossOrigin
 @Tag(name = "Pet",description = "API para controlar os pets, os prêmios e as caracteristicas")
 public class PetsController implements GerenciadorArquivos {
 
