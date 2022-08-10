@@ -1,0 +1,14 @@
+.editar-colaborador-container {
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.editar-colaborador-title {
+    /* background-color: aqua; */
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}

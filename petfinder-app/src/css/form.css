@@ -15,7 +15,7 @@
     flex-wrap: nowrap;
 }
 
-.input-container input, .long-text textarea {
+.input-container input, .long-text textarea, .input-container select{
     height: 90px;
     padding-left: 10px;
     font-size: 16px;
@@ -23,7 +23,7 @@
     padding-top: 5px;
 }
 
-.input-container input {
+.input-container input, .input-container select {
     height: 37px;
     border: 1px solid #7F2AB5;
 }
@@ -38,14 +38,14 @@
     color: #7F2AB5;
 }
 
-.input-container input:focus-visible, .long-text textarea {
+.input-container input:focus-visible, .long-text textarea, .input-container select:focus-visible{
     outline-offset: none;
     outline: none;
     border: 1px solid #7F2AB5;
     font-size: 16px;
 }
 
-.btn-form, .input-container input, .input-container textarea {
+.btn-form, .input-container input, .input-container textarea , .input-container select {
     border-radius: 5px;
 }
 

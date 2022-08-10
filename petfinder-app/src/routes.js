@@ -4,6 +4,7 @@ import Cadastro from "./Pages/Cadastro";
 import HomeUser from "./Pages/HomeUser";
 import ListaPet from "./Pages/ListaPet";
 import CadastroPet from "./Pages/CadastroPet"
+import EditarColaborador from "./Pages/EditarColaborador";
 
 function Rotas() {
     return (
@@ -14,6 +15,7 @@ function Rotas() {
                 <Route path="/home-user" element={<HomeUser/>} />
                 <Route path="/lista-pet" element={<ListaPet/>} />
                 <Route path="/cadastro-pet" element={<CadastroPet/>} />
+                <Route path="/editar-colaborador" element={<EditarColaborador/>} />
             </Routes>
         </BrowserRouter>
     );
