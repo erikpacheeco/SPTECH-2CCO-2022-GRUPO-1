@@ -24,6 +24,7 @@
 }
 
 .input-container input, .input-container select {
+    background-color: #F3F2F2;
     height: 37px;
     border: 1px solid #7F2AB5;
 }

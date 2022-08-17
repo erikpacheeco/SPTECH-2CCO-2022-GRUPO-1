@@ -1,0 +1,89 @@
+
+.container {
+    width: 100%;
+    height: 80vh;
+    display: flex;
+    align-items: center;
+}
+
+.title{
+    margin-bottom: 3%;
+}
+.form-container-cad {
+    width: 35%;
+    margin-left: auto;
+    padding: 1% 2% 1% 2%;
+    margin-right: auto;
+    color: #7F2AB5;
+    /* padding-bottom: 10px; */
+    background-color: #F3F2F2;
+    border-radius: 2%;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.form-container h1 {
+    text-align: center;
+    /* margin-bottom: 32px; */
+}
+
+.input-select {
+    width: 99%;
+    height: 5vh;
+    background-color: #F3F2F2;
+    color: #7F2AB5;
+    border: 1.5px solid #7F2AB5;
+    border-radius: 5px;
+}
+
+.container-label{
+    margin-bottom: 5%;
+}
+
+label {
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    font-size: 18px;
+}
+
+input {
+    background-color: #F3F2F2 ;
+}
+
+
+.btn-enviar {
+    margin-left: auto;
+    margin-right: auto;
+    cursor: pointer;
+    border: 1.5px #7F2AB5 solid;
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    color: #7F2AB5;
+    width: 15%;
+    padding-left: 4.5%;
+    padding: 1%;
+    display: flex;
+    justify-content: center;
+    border-radius: 10px;
+    font-size: 18px;
+    margin-top: 5%;
+}
+
+.btn-enviar:hover {
+    background-color: #7F2AB5;
+    color: #ffe56f;
+}
+
+.input-text {
+    padding: 1.4%;
+    margin: 10px 5px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    width: 95%;
+    border: 1px solid #7F2AB5;
+    border-radius: 10px;
+    font-size: 18px;
+}
