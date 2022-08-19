@@ -1,6 +1,8 @@
 package petfinder.petfinderapi.controladores;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -12,6 +14,7 @@ import petfinder.petfinderapi.repositorios.*;
 import petfinder.petfinderapi.resposta.Message;
 import petfinder.petfinderapi.rest.ClienteCep;
 import petfinder.petfinderapi.rest.DistanciaResposta;
+import petfinder.petfinderapi.service.ServicePet;
 import petfinder.petfinderapi.utilitarios.FilaObj;
 import petfinder.petfinderapi.utilitarios.PilhaObj;
 import petfinder.petfinderapi.utilitarios.GerenciadorArquivos;
@@ -52,6 +55,17 @@ public class PetsController implements GerenciadorArquivos {
     public static List<Pet> pets = new ArrayList<>();
     public static List<Premio> premios = new ArrayList<>();
     private FilaObj filaObj = new FilaObj<>(10);
+
+    @Autowired
+    private ServicePet servicePet;
+
+    @GetMapping("/{id}/perfil")
+    @Operation(description = "retorna dados do perfil do pet")
+    @ApiResponse(responseCode = "200", description = "Ok")
+    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
+    public ResponseEntity<Pet> getPetPerfil(@PathVariable Integer id) {
+        return ResponseEntity.ok(servicePet.getPetPerfil(id));
+    }
 
     @PatchMapping(value = "/foto/{id}", consumes = "image/jpeg")
     @Operation(description = "EndPoint para cadastrar a foto de perfil do animal")
