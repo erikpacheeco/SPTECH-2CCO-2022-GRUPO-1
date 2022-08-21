@@ -62,8 +62,8 @@ public class PetsController implements GerenciadorArquivos {
     @Operation(description = "retorna dados do perfil do pet")
     @ApiResponse(responseCode = "200", description = "Ok")
     @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
-    public ResponseEntity<PetPerfil> getPetPerfil(@PathVariable Integer id) {
-        return ResponseEntity.ok(servicePet.getPetPerfil(id));
+    public ResponseEntity<PetPerfil> getPetPerfil(@PathVariable Integer id, @RequestParam(required = false) Integer userId) {
+        return ResponseEntity.ok(servicePet.getPetPerfil(id, userId));
     }
 
     @PatchMapping(value = "/foto/{id}", consumes = "image/jpeg")
