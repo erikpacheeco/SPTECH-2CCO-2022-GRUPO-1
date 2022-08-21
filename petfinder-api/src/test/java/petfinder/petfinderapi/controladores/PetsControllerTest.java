@@ -16,6 +16,7 @@ import petfinder.petfinderapi.entidades.Pet;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @SpringBootTest
@@ -32,7 +33,7 @@ public class PetsControllerTest {
         pet.setNome("Arnaldo");
         pet.setEspecie("cachorro");
         pet.setDescricao("Este é um dog fofinho");
-        pet.setDataNasc("2020-05-01");
+        pet.setDataNasc(new Date("2020-05-01"));
         pet.setPorte("Médio");
         pet.setRaca("Golden");
         pet.setSexo("macho");

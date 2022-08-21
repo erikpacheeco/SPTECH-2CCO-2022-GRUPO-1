@@ -5,13 +5,13 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import petfinder.petfinderapi.entidades.*;
 import petfinder.petfinderapi.repositorios.*;
 import petfinder.petfinderapi.resposta.Message;
+import petfinder.petfinderapi.resposta.PetPerfil;
 import petfinder.petfinderapi.rest.ClienteCep;
 import petfinder.petfinderapi.rest.DistanciaResposta;
 import petfinder.petfinderapi.service.ServicePet;
@@ -21,9 +21,8 @@ import petfinder.petfinderapi.utilitarios.GerenciadorArquivos;
 import petfinder.petfinderapi.utilitarios.ListaObj;
 import javax.validation.Valid;
 import java.io.*;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -54,7 +53,7 @@ public class PetsController implements GerenciadorArquivos {
 
     public static List<Pet> pets = new ArrayList<>();
     public static List<Premio> premios = new ArrayList<>();
-    private FilaObj filaObj = new FilaObj<>(10);
+    private FilaObj<Object> filaObj = new FilaObj<Object>(10);
 
     @Autowired
     private ServicePet servicePet;
@@ -63,13 +62,13 @@ public class PetsController implements GerenciadorArquivos {
     @Operation(description = "retorna dados do perfil do pet")
     @ApiResponse(responseCode = "200", description = "Ok")
     @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
-    public ResponseEntity<Pet> getPetPerfil(@PathVariable Integer id) {
+    public ResponseEntity<PetPerfil> getPetPerfil(@PathVariable Integer id) {
         return ResponseEntity.ok(servicePet.getPetPerfil(id));
     }
 
     @PatchMapping(value = "/foto/{id}", consumes = "image/jpeg")
     @Operation(description = "EndPoint para cadastrar a foto de perfil do animal")
-    public ResponseEntity patchFoto(@PathVariable int id, @RequestBody byte[] novaFoto) {
+    public ResponseEntity<Void> patchFoto(@PathVariable int id, @RequestBody byte[] novaFoto) {
 
         Pet petEncontrado = repositoryPet.getById(id);
         petEncontrado.setFotoPerfil(novaFoto);
@@ -106,7 +105,7 @@ public class PetsController implements GerenciadorArquivos {
 
     @PutMapping("/{id}")
     @Operation(description = "Endpoint para atualizar informações de um pet especifico")
-    public ResponseEntity putPet(@RequestBody Pet petAtualizado, @PathVariable int id) {
+    public ResponseEntity<Void> putPet(@RequestBody Pet petAtualizado, @PathVariable int id) {
         if (repositoryPet.existsById(id)) {
             petAtualizado.setId(id);
             repositoryPet.save(petAtualizado);
@@ -117,7 +116,7 @@ public class PetsController implements GerenciadorArquivos {
 
     @GetMapping
     @Operation(description = "Endpoint que retorna uma lista com todos os pets")
-    public ResponseEntity getPets() {
+    public ResponseEntity<List<Pet>> getPets() {
         List<Pet> lista = repositoryPet.findAll();
 
         if (lista.isEmpty()) {
@@ -142,7 +141,7 @@ public class PetsController implements GerenciadorArquivos {
 
     @GetMapping("/instituicao/{id}")
     @Operation(description = "Endpoint que retorna uma lista de pets de uma instituição especifica")
-    ResponseEntity getByInstiuicaoId(@PathVariable int id) {
+    ResponseEntity<Object> getByInstiuicaoId(@PathVariable int id) {
         if (repositoryPet.existsById(id)) {
             List<Pet> lista = repositoryPet.findByFkInstituicaoId(id);
 
@@ -181,7 +180,7 @@ public class PetsController implements GerenciadorArquivos {
 
             Pet pet = repositoryPet.findById(id).get();
             List<Premio> premios = repositoryPremio.findByPetId(pet.getId());
-            List<PetHasCaracteristica> caracteristicas = repositoryHasCaracteristica.findByFkPetId(id);
+            List<PetHasCaracteristica> caracteristicas = repositoryHasCaracteristica.findByPetId(id);
 
             for (PetHasCaracteristica phc : caracteristicas) {
                 repositoryHasCaracteristica.deleteById(phc.getId());
@@ -204,7 +203,7 @@ public class PetsController implements GerenciadorArquivos {
 
     @PatchMapping(value = "/premio/foto/{id}", consumes = "image/jpeg")
     @Operation(description = "Inserir imagem no premio")
-    public ResponseEntity patchFotoPremio(@PathVariable int id, @RequestBody byte[] novaFoto) {
+    public ResponseEntity<Object> patchFotoPremio(@PathVariable int id, @RequestBody byte[] novaFoto) {
 
         Premio premioEncontrado = repositoryPremio.getById(id);
         premioEncontrado.setImg(novaFoto);
@@ -225,7 +224,7 @@ public class PetsController implements GerenciadorArquivos {
 
     @PostMapping("/premio")
     @Operation(description = "Endpoint para cadastrar um novo premio")
-    public ResponseEntity postPremio(
+    public ResponseEntity<Object> postPremio(
             @RequestBody @Valid Premio novoPremio) {
 
         if (Objects.nonNull(novoPremio)) {
@@ -237,7 +236,7 @@ public class PetsController implements GerenciadorArquivos {
 
     @PutMapping("/premio/{id}")
     @Operation(description = "Endpoint que atualiza um premio especifico filtrado pelo ID")
-    public ResponseEntity putPremio(@RequestBody Premio premioAtualizado, @PathVariable int id) {
+    public ResponseEntity<Object> putPremio(@RequestBody Premio premioAtualizado, @PathVariable int id) {
         if (repositoryPremio.existsById(id)) {
             premioAtualizado.setId(id);
             repositoryPremio.save(premioAtualizado);
@@ -248,7 +247,7 @@ public class PetsController implements GerenciadorArquivos {
 
     @GetMapping("/premios")
     @Operation(description = "Endpoint que retorna uma lista de todos os premios")
-    public ResponseEntity getPremios() {
+    public ResponseEntity<Object> getPremios() {
         List<Premio> lista = repositoryPremio.findAll();
 
         if (lista.isEmpty()) {
@@ -260,7 +259,7 @@ public class PetsController implements GerenciadorArquivos {
 
     @GetMapping("/premio/{id}")
     @Operation(description = "Endpoint que retorna um premio filtrado pelo ID")
-    ResponseEntity getByidPremios(@PathVariable int id) {
+    ResponseEntity<Object> getByidPremios(@PathVariable int id) {
         if (repositoryPremio.existsById(id)) {
             List<Premio> lista = repositoryPremio.findById(id);
             return ResponseEntity.status(200).body(lista);
@@ -277,10 +276,10 @@ public class PetsController implements GerenciadorArquivos {
         // pet encontrado
         if (pet.isPresent()) {
             List<Caracteristica> caracteristicas = new ArrayList<Caracteristica>();
-            List<PetHasCaracteristica> relation = repositoryHasCaracteristica.findByFkPetId(id);
+            List<PetHasCaracteristica> relation = repositoryHasCaracteristica.findByPetId(id);
 
             for (PetHasCaracteristica phc : relation) {
-                caracteristicas.add(phc.getFkCaracteristica());
+                caracteristicas.add(phc.getCaracteristica());
             }
 
             return ResponseEntity.status(200).body(caracteristicas);
@@ -292,7 +291,7 @@ public class PetsController implements GerenciadorArquivos {
 
     @DeleteMapping("/premio/{id}")
     @Operation(description = "Endpoint que deleta um premio especifico filtrado pelo ID")
-    ResponseEntity deleteByIdPremio(@PathVariable int id) {
+    ResponseEntity<Object> deleteByIdPremio(@PathVariable int id) {
         if (repositoryPremio.existsById(id)) {
             repositoryPremio.deleteById(id);
             return ResponseEntity.status(200).build();
@@ -306,7 +305,7 @@ public class PetsController implements GerenciadorArquivos {
 
     @PostMapping("/caracteristica")
     @Operation(description = "Endpoint para cadastrar uma caracteristica")
-    public ResponseEntity postCaracteristica(
+    public ResponseEntity<Object> postCaracteristica(
             @RequestBody @Valid Caracteristica novaCaracteristica) {
         if (Objects.nonNull(novaCaracteristica)) {
             repositoryCaracteristica.save(novaCaracteristica);
@@ -317,7 +316,7 @@ public class PetsController implements GerenciadorArquivos {
 
     @PutMapping("/caracteristica/{id}")
     @Operation(description = "Endpoint para atualizar uma caracteristica especifica filtrada pelo ID ")
-    public ResponseEntity putCaracteristica(@RequestBody Caracteristica caracteristicaAtualizada, @PathVariable int id) {
+    public ResponseEntity<Object> putCaracteristica(@RequestBody Caracteristica caracteristicaAtualizada, @PathVariable int id) {
         if (repositoryCaracteristica.existsById(id)) {
             caracteristicaAtualizada.setId(id);
             repositoryCaracteristica.save(caracteristicaAtualizada);
@@ -351,7 +350,7 @@ public class PetsController implements GerenciadorArquivos {
 
     @DeleteMapping("/caracteristica/{id}")
     @Operation(description = "Endpoint que deleta uma caracteristica especifica filtrada pelo ID")
-    ResponseEntity deleteByIdCaracteristica(@PathVariable int id) {
+    ResponseEntity<Object> deleteByIdCaracteristica(@PathVariable int id) {
         if (repositoryCaracteristica.existsById(id)) {
             repositoryCaracteristica.deleteById(id);
             return ResponseEntity.status(200).build();
@@ -388,8 +387,8 @@ public class PetsController implements GerenciadorArquivos {
             // salvando relacionamento no banco
             while (caracteristicasValidas.isNotEmpty()) {
                 PetHasCaracteristica relation = new PetHasCaracteristica();
-                relation.setFkPet(pet.get());
-                relation.setFkCaracteristica(caracteristicasValidas.peek());
+                relation.setPet(pet.get());
+                relation.setCaracteristica(caracteristicasValidas.peek());
 
                 repositoryHasCaracteristica.save(relation);
                 caracteristicasRegistradas.add(caracteristicasValidas.pop());
@@ -412,7 +411,7 @@ public class PetsController implements GerenciadorArquivos {
 
     @GetMapping("/has-caracteristicas")
     @Operation(description = "Endpoint para retornar todos os registros de relacionamentos")
-    public ResponseEntity getHasCaracteristica() {
+    public ResponseEntity<Object> getHasCaracteristica() {
         List<PetHasCaracteristica> lista = repositoryHasCaracteristica.findAll();
 
         if (lista.isEmpty()) {
@@ -424,7 +423,7 @@ public class PetsController implements GerenciadorArquivos {
 
     @PutMapping("/has-caracteristica/{indice}")
     @Operation(description = "Endpoint para atualização do relacionamente de uma caracteristica")
-    public ResponseEntity putHasCaracteristica(@RequestBody PetHasCaracteristica hasCaracteristicaAtualizada,
+    public ResponseEntity<Object> putHasCaracteristica(@RequestBody PetHasCaracteristica hasCaracteristicaAtualizada,
                                                @PathVariable int indice) {
         if (repositoryHasCaracteristica.existsById(indice)) {
             hasCaracteristicaAtualizada.setId(indice);
@@ -436,7 +435,7 @@ public class PetsController implements GerenciadorArquivos {
 
 
     @GetMapping("/distancias/{cepUsuario}/{distanciaMax}")
-    public ResponseEntity getListaDistanciasPet(@PathVariable String cepUsuario,
+    public ResponseEntity<Object> getListaDistanciasPet(@PathVariable String cepUsuario,
                                                           @PathVariable Integer distanciaMax) {
         List<Pet> lista = repositoryPet.findAll();
 
@@ -458,7 +457,7 @@ public class PetsController implements GerenciadorArquivos {
 
     @GetMapping("/premios-instituicao/{idInstituicao}")
     @Operation(description = "Endpoint para retornar todos os todos os mimos de determinada instituição")
-    public ResponseEntity getByMimosInstituicao(@PathVariable int idInstituicao) {
+    public ResponseEntity<Object> getByMimosInstituicao(@PathVariable int idInstituicao) {
 
         List<Pet> listaPet = repositoryPet.findByFkInstituicaoId(idInstituicao);
 
@@ -482,7 +481,7 @@ public class PetsController implements GerenciadorArquivos {
 
     @GetMapping("/premios-especie/{especie}")
     @Operation(description = "Endpoint para retornar todos os mimos de determinada espécie")
-    public ResponseEntity getByMimosEspecie(@PathVariable String especie) {
+    public ResponseEntity<Object> getByMimosEspecie(@PathVariable String especie) {
         List<Pet> listaPet = repositoryPet.findByEspecieIgnoreCase(especie);
 
         for (int i = 0; i < listaPet.size(); i++) {
@@ -524,7 +523,7 @@ public class PetsController implements GerenciadorArquivos {
 
     @GetMapping("/caracteristicas/{idCaracteristica}")
     @Operation(description = "Endpoint para retornar uma lista de pets com determinada caracteristica")
-    public ResponseEntity getByCaracteristicasPet(@PathVariable int idCaracteristica) {
+    public ResponseEntity<Object> getByCaracteristicasPet(@PathVariable int idCaracteristica) {
         List<PetHasCaracteristica> lista = repositoryHasCaracteristica.findByFkCaracteriticaId(idCaracteristica);
 
         if (lista.isEmpty()) {
@@ -598,7 +597,7 @@ public class PetsController implements GerenciadorArquivos {
                     adotado = Boolean.valueOf(registro.substring(384,389));
                     contaRegCorpoLido++;
 
-                    Pet pet = new Pet(nome,dataNasc,especie,raca,porte,sexo,descricao,doente,adotado,instituicao);
+                    Pet pet = new Pet(nome,new Date(),especie,raca,porte,sexo,descricao,doente,adotado,instituicao);
 
                     repositoryPet.save(pet);
 

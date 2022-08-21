@@ -1,42 +1,37 @@
 package petfinder.petfinderapi.entidades;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Entity
 public class PetHasCaracteristica {
 
+    // attributes
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     @ManyToOne
-    private Caracteristica fkCaracteristica;
-
+    private Caracteristica caracteristica;
     @ManyToOne
-    private Pet fkPet;
+    private Pet pet;
 
+    // getters and setters
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }
-
-    public Caracteristica getFkCaracteristica() {
-        return fkCaracteristica;
+    public Caracteristica getCaracteristica() {
+        return caracteristica;
+    }
+    public void setCaracteristica(Caracteristica caracteristica) {
+        this.caracteristica = caracteristica;
+    }
+    public Pet getPet() {
+        return pet;
+    }
+    public void setPet(Pet pet) {
+        this.pet = pet;
     }
 
-    public void setFkCaracteristica(Caracteristica fkCaracteristica) {
-        this.fkCaracteristica = fkCaracteristica;
-    }
-
-    public Pet getFkPet() {
-        return fkPet;
-    }
-
-    public void setFkPet(Pet fkPet) {
-        this.fkPet = fkPet;
-    }
 }

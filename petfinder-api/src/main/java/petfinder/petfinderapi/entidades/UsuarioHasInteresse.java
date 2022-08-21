@@ -1,7 +1,6 @@
 package petfinder.petfinderapi.entidades;
 
 import javax.persistence.*;
-import java.util.Optional;
 
 @Entity
 public class UsuarioHasInteresse {
@@ -9,10 +8,8 @@ public class UsuarioHasInteresse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     @ManyToOne
     private Caracteristica fkCaracteristica;
-
     @ManyToOne
     private Usuario fkUsuario;
 

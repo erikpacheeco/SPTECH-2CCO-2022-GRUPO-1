@@ -1,9 +1,5 @@
 package petfinder.petfinderapi.entidades;
 
-// import petfinder.petfinderapi.enums.EnumCategoria;
-// import petfinder.petfinderapi.enums.EnumStatusDemanda;
-import petfinder.petfinderapi.requisicao.CriacaoDemanda;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -11,7 +7,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 @Entity
 public class Demanda {
@@ -65,78 +60,61 @@ public class Demanda {
         String strDate = dateFormat.format(date);
         this.dataAbertura = strDate;
     }
-
     public Demanda() {
     }
 
+    // getters and setters
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }
-
     public String getCategoria() {
         return categoria;
     }
-
     public void setCategoria(String categoria) {
         this.categoria = categoria.toUpperCase();
     }
-
     public String getDataAbertura() {
         return dataAbertura;
     }
-
     public void setDataAbertura(String dataAbertura) {
         this.dataAbertura = dataAbertura;
     }
-
     public String getDataFechamento() {
         return dataFechamento;
     }
-
     public void setDataFechamento(String dataFechamento) {
         this.dataFechamento = dataFechamento;
     }
-
     public String getStatus() {
         return status;
     }
-
     public void setStatus(String status) {
         this.status = status.toUpperCase();
     }
-
     public Usuario getUsuario() {
         return usuario;
     }
-
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-
     public Instituicao getInstituicao() {
         return instituicao;
     }
-
     public void setInstituicao(Instituicao instituicao) {
         this.instituicao = instituicao;
     }
-
     public Pet getPet() {
         return pet;
     }
-
     public void setPet(Pet pet) {
         this.pet = pet;
     }
-
     public Usuario getColaborador() {
         return colaborador;
     }
-
     public void setColaborador(Usuario colaborador) {
         this.colaborador = colaborador;
     }

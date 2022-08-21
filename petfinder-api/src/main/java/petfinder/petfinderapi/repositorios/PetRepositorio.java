@@ -3,7 +3,10 @@ package petfinder.petfinderapi.repositorios;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import petfinder.petfinderapi.entidades.Pet;
+import petfinder.petfinderapi.resposta.PetPerfil;
+
 import java.util.List;
+import java.util.Optional;
 
 public interface PetRepositorio extends JpaRepository<Pet, Integer> {
 
@@ -18,4 +21,8 @@ public interface PetRepositorio extends JpaRepository<Pet, Integer> {
 
     @Query("SELECT u FROM Pet u WHERE u.especie = ?1")
     List<Pet> findByEspecieIgnoreCase(String especie);
+
+    @Query("SELECT new petfinder.petfinderapi.resposta.PetPerfil(p) FROM Pet p WHERE p.id = ?1")
+    public Optional<PetPerfil> findPetPerfilById(int id);
+
 }

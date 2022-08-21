@@ -1,14 +1,8 @@
 package petfinder.petfinderapi.resposta;
 
-import java.util.Objects;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 import petfinder.petfinderapi.entidades.Endereco;
 import petfinder.petfinderapi.entidades.Instituicao;
 import petfinder.petfinderapi.entidades.Usuario;
-import petfinder.petfinderapi.repositorios.EnderecoRepositorio;
 
 public class UsuarioSemSenha {
     
