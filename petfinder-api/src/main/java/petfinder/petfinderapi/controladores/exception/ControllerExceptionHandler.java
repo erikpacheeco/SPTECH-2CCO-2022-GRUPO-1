@@ -38,7 +38,13 @@ public class ControllerExceptionHandler {
 
     // 204 no content
     @ExceptionHandler(NoContentException.class)
-    public ResponseEntity<String> noContent(NoContentException e) {
-        return status(204).body(e.getMessage());
+    public ResponseEntity<StandardError> noContent(NoContentException e, HttpServletRequest request) {
+        StandardError err = new StandardError(
+            204, 
+            "No Content", 
+            e.getMessage(), 
+            request.getRequestURI()
+        );
+        return status(204).body(err);
     }
 }

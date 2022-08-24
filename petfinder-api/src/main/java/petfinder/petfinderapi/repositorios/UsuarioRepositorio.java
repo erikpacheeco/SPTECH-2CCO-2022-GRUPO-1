@@ -1,9 +1,12 @@
 package petfinder.petfinderapi.repositorios;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import petfinder.petfinderapi.entidades.Usuario;
+import petfinder.petfinderapi.resposta.ColaboradorSimples;
 
 public interface UsuarioRepositorio extends JpaRepository<Usuario, Integer>{
 
@@ -21,5 +24,8 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, Integer>{
 
     @Query("SELECT u FROM Usuario u WHERE u.instituicao.id = ?1")
     Usuario findByInstituicaoId(int id);
+
+    @Query("SELECT new petfinder.petfinderapi.resposta.ColaboradorSimples(u) FROM Usuario u WHERE u.instituicao.id = ?1")
+    public List<ColaboradorSimples> findColaboradorById(int id);
 
 }
