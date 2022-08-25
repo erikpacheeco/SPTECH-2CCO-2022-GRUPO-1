@@ -1,12 +1,11 @@
-import CardPet from "../Components/CardPet";
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-import HeaderUser from "../Components/HeaderUser"
-import NavItem from "../Components/NavItem";
-import "../css/home-user.css"
-import "../css/style.css"
 import { useEffect, useState } from "react";
-import api from "../Api"
+import CardPet from "../../Components/CardPet";
+import HeaderApp from "../../Components/HeaderApp"
+import NavItem from "../../Components/NavItem";
+import "./home-user.css"
+import api from "../../Api"
 
 export default function HomeUser() {
 
@@ -46,24 +45,24 @@ export default function HomeUser() {
 
     return (
         <>
-            <HeaderUser itens={[
+            <HeaderApp itens={[
                 <NavItem isSelected={true} label="Página Inicial" />,
                 <NavItem label="Meus Prêmios" />,
                 <NavItem label="Mensagens" />
             ]}
             />
 
-            <main className="container-main">
+            <main className="home-user-container-main">
                 <div className="home-user-container">
-                    <section className="section-pet">
+                    <section className="home-user-section-pet">
                         <div className="home-user-container-center">
-                            <div className="titulo">
+                            <div className="home-user-title">
                                 <h1>Não pode nos adotar? Ajude nossos pets doentinhos!</h1>
                                 <h3>Ver Mais</h3>
                             </div>
                         </div>
                         <div className="home-user-container-center">
-                            <div className="lista-ajuda">
+                            <div className="home-user-lista-ajuda">
                                 <Carousel responsive={responsive}>
                                     {
                                         sickPets.map((p) => (
@@ -74,15 +73,15 @@ export default function HomeUser() {
                             </div>
                         </div>
                     </section>
-                    <section className="section-pet">
+                    <section className="home-user-section-pet">
                         <div className="home-user-container-center">
-                            <div className="titulo">
+                            <div className="home-user-title">
                                 <h1>Adote um desses animaizinhos</h1>
                                 <h3>Ver Mais</h3>
                             </div>
                         </div>
-                        <div className="lista-adotar">
-                            <div className="container-adotar">
+                        <div className="home-user-lista-adotar">
+                            <div className="home-user-container-adotar">
                                 {
                                     allPets.map((p) => (
                                         <CardPet nome={p.nome} isDoente={p.doente} backgroundImage={p.caminhoImagem} />

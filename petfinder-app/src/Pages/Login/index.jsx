@@ -1,19 +1,17 @@
-import HeaderBasic from "../Components/HeaderBasic";
-import "../css/form.css"
-import "../css/login.css"
-import api from "../Api";
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import FloatResgate from "../Components/FloatResgate";
-import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import FloatResgate from "../../Components/FloatResgate";
+import HeaderBasic from "../../Components/HeaderBasic";
+import "./login.css"
+import api from "../../Api"
 
 function resetValues() {
     return { email: "", senha: "" }
 }
 
 function Login() {
-    // FAZER AUTENTICAÇÃO E REDIRECIONAMENTO DO USER POR NIVEL ACESSO
     const [values, setValues] = useState(resetValues)
     const navigate = useNavigate()
     const swal = withReactContent(Swal);
@@ -25,7 +23,7 @@ function Login() {
 
     function handleClickRedirect(event) {
         event.preventDefault()
-        navigate("/cadastro")
+        navigate("/cadastro-user")
     }
 
 
@@ -63,13 +61,13 @@ function Login() {
     return (
         <>
             <HeaderBasic />
-            <div className="container">
-                <div className="form-container">
+            <div className="login-container">
+                <div className="login-form-container">
                     <form onSubmit={authLogin}>
-                        <h1>Login</h1>
+                        <h1>Entrar</h1>
 
                         {/* Inputs */}
-                        <div className="input-container">
+                        <div className="login-input-container">
                             <label htmlFor="email">E-mail</label>
                             <input
                                 id="email"
@@ -81,7 +79,7 @@ function Login() {
                             />
                         </div>
 
-                        <div className="input-container">
+                        <div className="login-input-container">
                             <label htmlFor="senha">Senha</label>
                             <input
                                 id="senha"
@@ -93,17 +91,17 @@ function Login() {
                             />
                         </div>
 
-                        <div className="label-container">
-                            <a className="link-senha link">Esqueci a senha</a>
+                        <div className="login-label-container">
+                            <a className="login-link-senha link">Esqueci a senha</a>
                         </div>
 
                         {/* Buttons */}
-                        <div className="button-container">
-                            <button type="submit" id="login" className="btn-form">Login</button>
+                        <div className="login-button-container">
+                            <button type="submit" id="login" className="login-btn-form">Login</button>
                             <button
                                 type="button"
                                 id="cadastro"
-                                className="btn-form"
+                                className="login-btn-form"
                                 onClick={handleClickRedirect}
                             >
                                 Cadastre-se

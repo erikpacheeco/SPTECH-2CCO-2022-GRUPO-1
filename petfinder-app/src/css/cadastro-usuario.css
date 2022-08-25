@@ -1,9 +1,3 @@
-.cad-user-container{
-    width: 90%;
-    display: flex;
-    justify-content: center;
-}
-
 h1{
     color: #7F2AB5;
     text-align: center;
@@ -15,57 +9,6 @@ h2{
     color: #7F2AB5;
     margin-top: 16px;
     font-size: 24px;
-}
-
-.cad-user-form-container{
-    width: 50%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 80px;
-    margin-bottom: 80px;
-}
-
-.cad-user-form-container .cad-user-form{
-    background-color: rgb(246 246 246);
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 10px;
-    border: 1px rgba(0, 0, 0, 0.11) solid;
-    box-shadow: -1px 1px 10px 0px black;
-    position: relative;
-    padding: 40px 80px;
-}
-
-.btn {
-    display: flex;
-    justify-content: center;
-}
-
-.btn-paginas {
-    width: 15px;
-    height: 15px;
-    border-radius: 100%;
-    background-color: darkgray;
-    border: none;
-    margin: 4px;
-}
-
-.btn-paginas-selected{
-    width: 15px;
-    height: 15px;
-    border-radius: 100%;
-    background-color: #ad54e5;
-    border: none;
-    margin: 4px;
-}
-
-.input-container{
-    margin-top: 16px;
-}
-
-.input-container label {
-    font-size: 18px;
 }
 
 .num-compl-container {
@@ -166,10 +109,3 @@ p{
 .button-container input{
     width: 140px;
 }
-
-.cad-user-hide{
-    display: none;
-}
-
-
-

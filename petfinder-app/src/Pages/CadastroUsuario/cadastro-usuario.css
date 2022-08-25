@@ -1,0 +1,139 @@
+.cadastro-usuario-container{
+    width: 90%;
+    display: flex;
+    justify-content: center;
+}
+
+.cadastro-usuario-form-container{
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 80px;
+    margin-bottom: 80px;
+}
+
+.cadastro-usuario-form-container .cadastro-usuario-form{
+    background-color: rgb(246 246 246);
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+    border: 1px rgba(0, 0, 0, 0.11) solid;
+    box-shadow: -1px 1px 10px 0px black;
+    position: relative;
+    padding: 40px 80px;
+}
+
+.cadastro-usuario-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cadastro-usuario-hide{
+    display: none;
+}
+
+.cadastro-usuario-btn-paginas {
+    width: 15px;
+    height: 15px;
+    border-radius: 100%;
+    background-color: darkgray;
+    border: none;
+    margin: 4px;
+}
+
+.cadastro-usuario-btn-paginas-selected{
+    width: 15px;
+    height: 15px;
+    border-radius: 100%;
+    background-color: #ad54e5;
+    border: none;
+    margin: 4px;
+}
+
+
+.cadastro-usuario-btn {
+    display: flex;
+    justify-content: center;
+}
+
+.cadastro-usuario-input-container{
+    display: flex;
+    flex-direction: column;
+    margin-top: 16px;
+    width:100%;
+}
+
+.cadastro-usuario-input-container input{
+    border-radius: 5px;
+    border: 1px solid #7F2AB5;
+    padding-left: 20px;
+    height: 37px;
+}
+
+.cadastro-usuario-input-container label {
+    font-family: 'Hind Madurai';
+    font-weight: 600;
+    font-size: 18px;
+    color: #7F2AB5;
+}
+
+.cadastro-usuario-separate-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.cadastro-usuario-20{
+    width: 20%;
+}
+
+.cadastro-usuario-70{
+    width: 70%;
+}
+
+.cadastro-usuario-button-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 40%;
+    margin-top: 40px;
+}
+
+h1{
+    color: #7F2AB5;
+    text-align: center;
+    margin-top: 16px;
+    font-size: 36px;
+}
+
+h2{
+    color: #7F2AB5;
+    margin-top: 16px;
+    font-size: 24px;
+}
+
+.cadastro-usuario-btn-form {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    cursor: pointer;
+    text-align: center;
+    border: 1px #7F2AB5 solid;
+    border-radius: 5px;
+    height: 40px;
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 22px;
+    color: #7F2AB5;
+}
+
+.cadastro-usuario-btn-form:hover {
+    background-color: #7F2AB5;
+    color: #ffe56f;
+}

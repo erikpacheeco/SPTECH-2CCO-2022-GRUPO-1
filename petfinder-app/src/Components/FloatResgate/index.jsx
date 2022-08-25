@@ -1,12 +1,11 @@
-import "../css/style.css"
-import "../css/cadastro-usuario.css"
-import icon_resgate from "../Images/icon_resgate.svg"
+import icon_resgate from "../../Images/icon_resgate.svg"
+import "./float-resgate.css"
 
 function FloatResgate() {
     return (
         <div
             id="idSolicitar"
-            className="container-resgate"
+            className="float-resgate-container"
             onMouseOver={()=>{
                 if(document.getElementById("textSolicitar").style.display == "none"){
                     document.getElementById("textSolicitar").style.display = "block"
@@ -20,7 +19,7 @@ function FloatResgate() {
         >
             <span
                 id="textSolicitar"
-                className="text-resgate"
+                className="float-resgate-text"
                 onMouseOver={() => {
                     document.getElementById("textSolicitar").style.display = "block";
                 }}
@@ -31,7 +30,7 @@ function FloatResgate() {
                 Solicitar Resgate
             </span>
             <img
-                className="icon-resgate"
+                className="float-resgate-icon"
                 src={icon_resgate}
                 alt="Telefone com pata de cachorro como símbolo"
                 onMouseOver={() => {

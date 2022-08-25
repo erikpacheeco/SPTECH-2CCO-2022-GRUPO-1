@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import "./nav-item.css"
 
 function NavItem(props) {
     NavItem.defaultProps = {
@@ -14,7 +15,7 @@ function NavItem(props) {
         <button
             id={props.id}
             name="nav-item"
-            className={props.isSelected ? ("nav-item text-green") : ("nav-item")}
+            className={props.isSelected ? ("nav-item nav-item-text-green") : ("nav-item")}
             onClick={() => {
                 navigate(props.navigateTo)
             }}

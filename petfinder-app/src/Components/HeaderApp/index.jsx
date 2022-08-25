@@ -1,19 +1,19 @@
-import app_menu from "../Images/application-menu.svg"
-import perfil from "../Images/perfil-header.svg"
-import NavItem from "../Components/NavItem"
-import "../css/style.css"
+import app_menu from "../../Images/application-menu.svg"
+import perfil from "../../Images/perfil-header.svg"
+import NavItem from"../NavItem"
+import "./header-app.css"
 
-function HeaderUser(props) {
-    HeaderUser.defaultProps = {
+function HeaderApp(props) {
+    HeaderApp.defaultProps = {
         itens : [<NavItem isSelected = {true}/>,<NavItem/>,<NavItem/>]
     }
     
     return (
     <header>
-        <nav className="nav">
-            <div className="container-nav">
-                <img className="application-menu" src={app_menu} alt="icone do menu"/>
-                <div className="container-btn-nav navbar-container-itens">
+        <nav className="header-app-nav">
+            <div className="header-app-container-nav">
+                <img className="header-app-application-menu" src={app_menu} alt="icone do menu"/>
+                <div className="header-app-container-btn-nav header-app-nav-container-itens">
                     {
                         props.itens.map((element)=> {
                             return (<NavItem 
@@ -26,11 +26,11 @@ function HeaderUser(props) {
                         })
                     }
                 </div>
-                <img className="perfil-nav" src={perfil} alt="botão para o perfil"/>
+                <img className="header-app-perfil-nav" src={perfil} alt="botão para o perfil"/>
             </div>
         </nav>
     </header>
     );
 }
 
-export default HeaderUser;
+export default HeaderApp;

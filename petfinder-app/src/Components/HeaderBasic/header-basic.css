@@ -1,0 +1,102 @@
+.header-basic-navbar {
+
+    /* tamanho, posição e cor */
+    background-image: linear-gradient(270deg, #50077E 0%, #7F2AB5 48.44%, #50077E 100%);
+    position: fixed;
+    width: 100%;
+    height: 100px;
+    top: 0px;
+    z-index: 2;
+
+    /* comportamento do conteúdo */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
+
+.header-basic-navbar-container {
+    /* background-color: red; */
+    height: 100%;
+    margin: 0px 40px 0px 40px;
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-basic-navbar-container a {
+    text-decoration: none;
+}
+
+.header-basic-navbar-container-logo {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.header-basic-navbar-container-logo .header-basic-logo {
+    width: 74px;
+}
+
+.header-basic-link, .header-basic-link:visited {
+    color: #7F2AB5;
+}
+
+.header-basic-navbar-logo-nome {
+    margin-left: 15px;
+    color: #ffffff;
+
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 35.2476px;
+    line-height: 49px;
+}
+
+.header-basic-logo-nome-verde {
+    color: #B4F12C;
+}
+
+.header-basic-navbar-container-itens {
+    display: flex;
+    font-size: 24px;
+    height: 100%;
+}
+
+.header-basic-navbar-container-itens button {
+    margin: 0px 20px;
+    background: none;
+    border: none;
+}
+
+.header-basic-bg-yellow {
+    padding: 12px 21px 12px 21px;
+    border: 2px solid #FFD92E;
+    border-radius: 50px;
+    color: #FFD92E;
+}
+
+.header-basic-bg-yellow:hover {
+    background-color: #FFD92E;
+    border: 2px solid #FFD92E;
+    color: #7F2AB5;
+    height: auto;
+}
+
+.header-basic-nav-item {
+    height: 100%;
+    margin-left: 30px;
+    color: white;
+    cursor: pointer;
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    background-color: transparent;
+    border: none;
+    display: flex;
+    align-items: center; 
+}
+

@@ -1,0 +1,74 @@
+.home-user-container-main {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 80px;
+}
+
+.home-user-container {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+}
+
+.home-user-section-pet {
+    width: 100%;
+    margin: 0px 0px 40px 0px;
+}
+
+.home-user-container-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.home-user-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 97%;
+    margin-bottom: 16px;
+}
+
+.home-user-title h1 {
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 32px;
+    color: #000000;
+    margin: 0;
+    text-align: none;
+}
+
+.home-user-title h3 {
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    color: #50077E;
+}
+
+.home-user-lista-ajuda {
+    width: 97%;
+}
+
+.home-user-lista-adotar {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.home-user-container-adotar {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
+    grid-template-rows: auto 1fr auto;
+    row-gap: 20px;
+    column-gap: 5px;
+}
+
