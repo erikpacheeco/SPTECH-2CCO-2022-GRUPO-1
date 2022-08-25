@@ -33,6 +33,8 @@ import java.util.Optional;
 @Tag(name = "Pet",description = "API para controlar os pets, os prêmios e as caracteristicas")
 public class PetsController implements GerenciadorArquivos {
 
+    // repositories
+    
     @Autowired
     private PetRepositorio repositoryPet;
 
@@ -55,6 +57,7 @@ public class PetsController implements GerenciadorArquivos {
     public static List<Premio> premios = new ArrayList<>();
     private FilaObj<Object> filaObj = new FilaObj<Object>(10);
 
+    // services
     @Autowired
     private ServicePet servicePet;
 
