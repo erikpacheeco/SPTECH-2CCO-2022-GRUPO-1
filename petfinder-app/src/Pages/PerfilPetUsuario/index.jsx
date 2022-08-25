@@ -2,8 +2,25 @@ import './PerfilPetUsuario.css';
 import '../../css/style.css';
 import HeaderUser from "../../Components/HeaderUser";
 import NavItem from "../../Components/NavItem";
+import { useEffect, useState } from "react";
+import api from "../../Api"
 
 function PerfilPetUsuario() {
+
+    const [valuesInteresse, setValuesInteresse] = useState([])
+    const [preferencias, setPreferencias] = useState([])
+
+    useEffect(() => {
+        api.get("/pets/caracteristicas").then((res) => {
+            try {
+                console.log(res.data)
+                setPreferencias(res.data)
+            } catch (error) {
+                console.log(error)
+            }
+        })
+    }, [])
+
     return(
         <>
             <HeaderUser itens={[
@@ -83,13 +100,42 @@ function PerfilPetUsuario() {
 
                                 <div className="perfil-pet-usuario-info-adocao-caracteristica">
                                     <p>Como eu sou/estou: </p>
-                                    <div className="perfil-pet-usuario-caracteristica">
-                                        <p className="perfil-pet-usuario-caracteristica-btn">Preguiçoso(a)</p>
-                                        <p className="perfil-pet-usuario-caracteristica-btn">Pequeno(a)</p>
-                                        <p className="perfil-pet-usuario-caracteristica-btn">Curioso(a)</p>
-                                        <p className="perfil-pet-usuario-caracteristica-btn">Gordo(a)</p>
-                                        <p className="perfil-pet-usuario-caracteristica-btn">Brincalhão(a)</p>
-                                        <p className="perfil-pet-usuario-caracteristica-btn">Doente</p>
+                                    <div className="perfil-pet-usuario-caracteristica-btn">
+                                        {
+                                            preferencias.map((pref) => (
+                                                <>
+                                                    <input
+                                                        className="cad-user-hide"
+                                                        value={pref.caracteristicas}
+                                                        type="checkbox"
+                                                        id={pref.id}
+                                                    />
+                                                    <button
+                                                        type="button"
+                                                        className="btn-preferencia"
+                                                        id={pref.id + "-btn"}
+                                                        onClick={() => {
+                                                            let input = document.getElementById(pref.id)
+                                                            let btn = document.getElementById(pref.id + "-btn")
+                                                            const { value } = input
+
+                                                            input.checked = !document.getElementById(pref.id).checked
+                                                            
+                                                            if (input.checked) {
+                                                                btn.classList.replace("btn-preferencia", "btn-preferencia-checked")
+                                                                setValuesInteresse([...valuesInteresse,{caracteristicas: value }])
+                                                            }
+                                                            else {
+                                                                btn.classList.replace("btn-preferencia-checked", "btn-preferencia")
+                                                                setValuesInteresse( valuesInteresse.filter((e) => e.caracteristicas !== value))
+                                                            }
+                                                        }}
+                                                    >
+                                                        {pref.caracteristicas}
+                                                    </button>
+                                                </>
+                                            ))
+                                        }
                                     </div>
                                 </div>
 

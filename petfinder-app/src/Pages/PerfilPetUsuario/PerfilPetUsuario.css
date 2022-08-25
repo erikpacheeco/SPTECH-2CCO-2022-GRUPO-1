@@ -209,7 +209,7 @@
     width: 100%;
 }
 
-.perfil-pet-usuario-caracteristica-btn {
+.perfil-pet-usuario-caracteristica-btn button{
     width: 110px;
     height: 30px;
     border-radius: 50px;
