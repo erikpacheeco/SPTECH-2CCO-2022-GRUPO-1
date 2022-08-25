@@ -6,12 +6,10 @@ import ListaPet from "./Pages/ListaPet";
 import CadastroPet from "./Pages/CadastroPet"
 import EditarColaborador from "./Pages/EditarColaborador";
 import CadastrarColaborador from "./Pages/CadastrarColaborador";
-<<<<<<< HEAD
 import ListaColaborador from "./Pages/ListaColaborador";
-=======
 import PerfilPetUsuario from "./Pages/PerfilPetUsuario";
 import PerfilPetInstituicao from "./Pages/PerfilPetInstituicao";
->>>>>>> 677c41dc245f2b5182182797e3e52f52bc087f44
+import MeusPremios from "./Pages/MeusPremios";
 
 function Rotas() {
     return (
@@ -23,14 +21,12 @@ function Rotas() {
                 <Route path="/lista-pet" element={<ListaPet/>} />
                 <Route path="/cadastro-pet" element={<CadastroPet/>} />
                 <Route path="/editar-colaborador" element={<EditarColaborador/>} />
-<<<<<<< HEAD
                 <Route path="/cadastrar-colaborador" element={<CadastrarColaborador/>} />
                 <Route path="/lista-colaborador" element={<ListaColaborador/>} /> 
-=======
                 <Route path="/cadastrar-colaborador" element={<CadastrarColaborador/>} /> 
                 <Route path="/perfil-pet-usuario" element={<PerfilPetUsuario/>} /> 
                 <Route path="/perfil-pet-instituicao" element={<PerfilPetInstituicao/>} /> 
->>>>>>> 677c41dc245f2b5182182797e3e52f52bc087f44
+                <Route path="/meus-premios" element={<MeusPremios/>} />
             </Routes>
         </BrowserRouter>
     );
