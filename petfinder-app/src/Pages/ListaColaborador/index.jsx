@@ -16,7 +16,7 @@ function ListaColaborador(){
 
     useEffect(() => {
         // corpo do useEffect. São as ações ou aquilo que eu quero que execute // ocorre quando a tela é renderizada 
-        api.get("usuarios").then((res) => {
+        api.get("/usuarios/colaborador/").then((res) => {
             setUser(res.data);
         })
       }, []);
@@ -40,12 +40,12 @@ function ListaColaborador(){
                             <div className="lista-colaborador-add-icon" onClick={handleAddItemList}>+</div>
                         </div>
                         <div className="lista-colaborador">
-                            {/* {
-                                setUser.map((user) => (
+                            {
+                                user.map((user) => (
                                     <ColaboradorListaItem  nome={user.nome} cargo={user.nivelAcesso}/>
                                 ))
-                            } */}
-                            <ColaboradorListaItem  nome="Erik" cargo="C1"/>
+                            }
+                            {/* <ColaboradorListaItem  nome="Erik" cargo="C1"/> */}
                         </div>
                     </div>
                 </div>
