@@ -2,9 +2,9 @@ import './styles.css';
 import HeaderUser from "../../Components/HeaderUser";
 import NavItem from "../../Components/NavItem";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
+//import { useNavigate } from "react-router-dom";
+//import Swal from "sweetalert2";
+//import withReactContent from "sweetalert2-react-content";
 
 function resetValues() {
     return { nome: "", cargo: "" }
@@ -50,9 +50,9 @@ function EditarColaborador() {
                             <div className="input-container">
                                 <label /*htmlFor="senha"*/>Cargo</label>
                                 <select  id="cargo" name="cargo" required>
-                                    <option value="volvo">C1</option>
-                                    <option value="saab">C2</option>
-                                    <option value="fiat">C3</option>
+                                    <option value="c1">C1</option>
+                                    <option value="c2">C2</option>
+                                    <option value="c3">C3</option>
                                 </select>
                             </div>
 

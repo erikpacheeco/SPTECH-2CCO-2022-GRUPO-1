@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import petfinder.petfinderapi.entidades.Pet;
 import petfinder.petfinderapi.entidades.PetHasCaracteristica;
 
@@ -11,7 +12,7 @@ public class PetPerfil {
     
     // attributes
     private String instituicao;
-    private Double distancia;
+    private Integer distancia;
     private String nome;
     private String idade;
     private String especie;
@@ -21,6 +22,8 @@ public class PetPerfil {
     private String descricao;
     private String caminhoImagem;
     private List<String> caracteristicas;
+    @JsonIgnore
+    private String cepInstituicao;
 
     // constructor
     public PetPerfil() {
@@ -36,9 +39,9 @@ public class PetPerfil {
         this.caminhoImagem = entity.getCaminhoImagem();
         this.caracteristicas = addCaracteristicas(entity.getPetHasCaracteristica(), null, 0);
         this.idade = getIdadeFromDataNasc(entity.getDataNasc());
-
+        this.cepInstituicao = entity.getFkInstituicao().getEndereco().getCep();
+        
         // não dinamico por enquanto
-        this.distancia = 14d;
         this.mimosPorMes = 10;
     }
 
@@ -102,10 +105,10 @@ public class PetPerfil {
     public void setInstituicao(String instituicao) {
         this.instituicao = instituicao;
     }
-    public Double getDistancia() {
+    public Integer getDistancia() {
         return distancia;
     }
-    public void setDistancia(Double distancia) {
+    public void setDistancia(Integer distancia) {
         this.distancia = distancia;
     }
     public String getNome() {
@@ -161,5 +164,11 @@ public class PetPerfil {
     }
     public void setCaracteristicas(List<String> caracteristicas) {
         this.caracteristicas = caracteristicas;
-    }    
+    }   
+    public String getCepInstituicao() {
+        return cepInstituicao;
+    }
+    public void setCepInstituicao(String cepInstituicao) {
+        this.cepInstituicao = cepInstituicao;
+    } 
 }

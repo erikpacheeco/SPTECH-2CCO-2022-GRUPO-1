@@ -33,6 +33,8 @@ import java.util.Optional;
 @Tag(name = "Pet",description = "API para controlar os pets, os prêmios e as caracteristicas")
 public class PetsController implements GerenciadorArquivos {
 
+    // repositories
+    
     @Autowired
     private PetRepositorio repositoryPet;
 
@@ -55,6 +57,7 @@ public class PetsController implements GerenciadorArquivos {
     public static List<Premio> premios = new ArrayList<>();
     private FilaObj<Object> filaObj = new FilaObj<Object>(10);
 
+    // services
     @Autowired
     private ServicePet servicePet;
 
@@ -62,8 +65,8 @@ public class PetsController implements GerenciadorArquivos {
     @Operation(description = "retorna dados do perfil do pet")
     @ApiResponse(responseCode = "200", description = "Ok")
     @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
-    public ResponseEntity<PetPerfil> getPetPerfil(@PathVariable Integer id) {
-        return ResponseEntity.ok(servicePet.getPetPerfil(id));
+    public ResponseEntity<PetPerfil> getPetPerfil(@PathVariable Integer id, @RequestParam(required = false) Integer userId) {
+        return ResponseEntity.ok(servicePet.getPetPerfil(id, userId));
     }
 
     @PatchMapping(value = "/foto/{id}", consumes = "image/jpeg")

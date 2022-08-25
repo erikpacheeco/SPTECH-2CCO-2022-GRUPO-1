@@ -1,6 +1,8 @@
 package petfinder.petfinderapi.controladores;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +18,10 @@ import petfinder.petfinderapi.requisicao.InteresseUsuario;
 import petfinder.petfinderapi.utilitarios.FilaObj;
 import petfinder.petfinderapi.utilitarios.ListaObj;
 import petfinder.petfinderapi.requisicao.UsuarioLogin;
+import petfinder.petfinderapi.resposta.ColaboradorSimples;
 import petfinder.petfinderapi.resposta.Message;
 import petfinder.petfinderapi.resposta.UsuarioSemSenha;
+import petfinder.petfinderapi.service.ServiceUsuario;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -50,6 +54,9 @@ public class UsuarioController {
     @Autowired
     private DemandaRepositorio demandaRepository;
 
+    @Autowired
+    private ServiceUsuario serviceUsuario;
+
     // enums
     ListaObj<String> nivelAcesso = new ListaObj<String>(
         new String[]{
@@ -58,6 +65,15 @@ public class UsuarioController {
     );
 
     // endpoints
+
+    @GetMapping("/por-instituicao/{id}")
+    @Operation(description = "retorna colaboradores de uma instituicao")
+    @ApiResponse(responseCode = "200", description = "Ok")
+    @ApiResponse(responseCode = "204", description = "No Content", content = @Content)
+    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
+    public ResponseEntity<List<ColaboradorSimples>> getColaboradorByInstituicao(@PathVariable int id) {
+        return ResponseEntity.ok(serviceUsuario.getColaboradorByInstituicaoId(id));
+    }
 
     // retorna todos os usuarios
     @GetMapping
