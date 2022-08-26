@@ -10,6 +10,7 @@ import ListaColaborador from "./Pages/ListaColaborador";
 import PerfilPetUsuario from "./Pages/PerfilPetUsuario";
 import PerfilPetInstituicao from "./Pages/PerfilPetInstituicao";
 import MeusPremios from "./Pages/MeusPremios";
+import VerMais from "./Pages/VerMais";
 
 function Rotas() {
     return (
@@ -26,6 +27,7 @@ function Rotas() {
                 <Route path="/perfil-pet-usuario" element={<PerfilPetUsuario/>} /> 
                 <Route path="/perfil-pet-instituicao" element={<PerfilPetInstituicao/>} /> 
                 <Route path="/meus-premios" element={<MeusPremios/>} />
+                <Route path="/ver-mais" element={<VerMais/>} />
             </Routes>
         </BrowserRouter>
     );
