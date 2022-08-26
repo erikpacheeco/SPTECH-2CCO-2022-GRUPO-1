@@ -1,12 +1,11 @@
 import './PerfilPetInstituicao.css';
-import '../../css/style.css';
-import HeaderUser from "../../Components/HeaderUser";
+import HeaderApp from "../../Components/HeaderApp";
 import NavItem from "../../Components/NavItem";
 
 function PerfilPetInstituicao() {
     return(
         <>
-            <HeaderUser itens={[
+            <HeaderApp itens={[
                 <NavItem label="Pets" />,
                 <NavItem label="Demandas" />
             ]}/>

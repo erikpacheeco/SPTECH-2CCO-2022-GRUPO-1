@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./meusPremios.css";
-import HeaderUser from "../../Components/HeaderUser";
+import HeaderApp from "../../Components/HeaderApp";
 import NavItem from "../../Components/NavItem";
 import img from "./img/erase.svg";
 import img2 from "./img/img roberto.png"
@@ -8,7 +8,7 @@ import img2 from "./img/img roberto.png"
 export default function meusPremios() {
   return (
     <>
-      <HeaderUser
+      <HeaderApp
         itens={[
           <NavItem label="Página Inicial" />,
           <NavItem isSelected={true} label="Meus Prêmios" />,

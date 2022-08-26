@@ -1,4 +1,5 @@
-import doente from "../Images/png_img/saude_2.png"
+import doente from "../../Images/png_img/saude_2.png"
+import "./card-pet.css"
 
 export default function CardPet(props) {
 
@@ -8,11 +9,11 @@ export default function CardPet(props) {
     }
 
     return (
-        <figure class="img-pet" style={{backgroundImage: `url("http://localhost:8080${props.backgroundImage}")`}}>
+        <figure class="card-pet-img-pet" style={{backgroundImage: `url("http://localhost:8080${props.backgroundImage}")`}}>
             <p>{props.nome}</p>
             <img
                 className={
-                    props.isDoente ? ("") : ("cad-user-hide")
+                    props.isDoente ? ("") : ("card-user-hide")
                 } src={doente} alt={props.tipo}
             />
         </figure>

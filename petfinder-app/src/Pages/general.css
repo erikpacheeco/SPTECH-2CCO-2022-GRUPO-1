@@ -1,0 +1,13 @@
+/* geral */
+@import url('https://fonts.googleapis.com/css2?family=Hind+Madurai:wght@300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+}
+
+body {
+    padding-top: 100px;
+    font-family: 'Hind Madurai', sans-serif;
+} 

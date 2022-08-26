@@ -1,5 +1,5 @@
 import './styles.css';
-import HeaderUser from "../../Components/HeaderUser";
+import HeaderApp from "../../Components/HeaderApp";
 import NavItem from "../../Components/NavItem";
 import React, { useState } from "react";
 //import { useNavigate } from "react-router-dom";
@@ -22,7 +22,7 @@ function EditarColaborador() {
 
     return(
         <>
-            <HeaderUser itens={[
+            <HeaderApp itens={[
                 <NavItem label="Dashboard" />,
                 <NavItem label="Padrinhos" />,
                 <NavItem label="Demandas" />

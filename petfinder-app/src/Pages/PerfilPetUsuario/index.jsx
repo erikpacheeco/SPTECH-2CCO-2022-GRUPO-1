@@ -1,6 +1,5 @@
 import './PerfilPetUsuario.css';
-import '../../css/style.css';
-import HeaderUser from "../../Components/HeaderUser";
+import HeaderApp from "../../Components/HeaderApp";
 import NavItem from "../../Components/NavItem";
 import { useEffect, useState } from "react";
 import api from "../../Api"
@@ -23,7 +22,7 @@ function PerfilPetUsuario() {
 
     return(
         <>
-            <HeaderUser itens={[
+            <HeaderApp itens={[
                 <NavItem label="Página Inicial" />,
                 <NavItem label="Meus Prêmios" />,
                 <NavItem label="Mensagens" />

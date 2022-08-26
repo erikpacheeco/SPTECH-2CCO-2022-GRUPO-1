@@ -1,0 +1,21 @@
+.nav-item {
+    height: 100%;
+    margin-left: 30px;
+    color: white;
+    cursor: pointer;
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    background-color: transparent;
+    border: none;
+}
+
+.nav-item:hover {
+    font-weight: 700;
+}
+
+.nav-item-text-green {
+    color: #B4F12C;
+    border-bottom: 3px solid #B4F12C;
+}

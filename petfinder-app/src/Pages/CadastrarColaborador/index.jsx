@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./style.css";
-import HeaderUser from "../../Components/HeaderUser";
+import HeaderApp from "../../Components/HeaderApp";
 import NavItem from "../../Components/NavItem";
 
 export default function CadastrarColaborador() {
@@ -10,7 +10,7 @@ export default function CadastrarColaborador() {
   const [senha, setSenha] = useState("");
   return (
     <>
-      <HeaderUser
+      <HeaderApp
         itens={[
           <NavItem label="Dashboard" />,
           <NavItem label="Padrinhos" />,

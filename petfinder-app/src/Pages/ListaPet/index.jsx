@@ -1,5 +1,5 @@
 import './styles.css';
-import HeaderUser from "../../Components/HeaderUser";
+import HeaderApp from "../../Components/HeaderApp";
 import NavItem from "../../Components/NavItem";
 import PetListItem from "../../Components/PetListItem";
 
@@ -11,7 +11,7 @@ function ListaPet() {
 
     return(
         <>
-            <HeaderUser itens={[
+            <HeaderApp itens={[
                 <NavItem label="Dashboard" />,
                 <NavItem label="Padrinhos" />,
                 <NavItem label="Demandas" />,

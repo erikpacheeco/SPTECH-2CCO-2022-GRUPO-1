@@ -1,0 +1,36 @@
+.header-app-nav {
+    background-image: linear-gradient(270deg, #50077E 0%, #7F2AB5 48.44%, #50077E 100%);
+    position: fixed;
+    width: 100%;
+    height: 100px;
+    top: 0px;
+    z-index: 1;
+}
+
+.header-app-container-nav {
+    margin: 0px 40px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.header-app-application-menu {
+    margin-right: 40px;
+}
+
+.header-app-container-btn-nav {
+    height: 100%;
+    width: 100%;
+    display: flex;
+}
+
+.header-app-perfil-nav {
+    margin-left: 40px;
+}
+
+.header-app-nav-container-itens {
+    display: flex;
+    font-size: 24px;
+    height: 100%;
+}
