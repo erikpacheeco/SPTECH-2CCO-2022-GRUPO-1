@@ -119,8 +119,8 @@ public class PetsController implements GerenciadorArquivos {
 
     @GetMapping
     @Operation(description = "Endpoint que retorna uma lista com todos os pets")
-    public ResponseEntity<List<Pet>> getPets() {
-        List<Pet> lista = repositoryPet.findAll();
+    public ResponseEntity<List<PetPerfil>> getPets() {
+        List<PetPerfil> lista = repositoryPet.findAllPetPerfil();
 
         if (lista.isEmpty()) {
             return ResponseEntity.status(204).body(lista);
@@ -131,9 +131,9 @@ public class PetsController implements GerenciadorArquivos {
 
     @GetMapping("/{id}")
     @Operation(description = "Endpoint que retorna um pet especifico pelo ID")
-    ResponseEntity<Pet> getPetById(@PathVariable int id) {
+    ResponseEntity<PetPerfil> getPetById(@PathVariable int id) {
 
-        Optional<Pet> pet = repositoryPet.findById(id);
+        Optional<PetPerfil> pet = repositoryPet.findPetPerfilById(id);
 
         if (pet.isPresent()) {
             return ResponseEntity.status(200).body(pet.get());

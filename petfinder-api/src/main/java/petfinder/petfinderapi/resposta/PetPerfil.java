@@ -11,6 +11,7 @@ import petfinder.petfinderapi.entidades.PetHasCaracteristica;
 public class PetPerfil {
     
     // attributes
+    private Integer id;
     private String instituicao;
     private Integer distancia;
     private String nome;
@@ -30,6 +31,7 @@ public class PetPerfil {
         this.caracteristicas = new ArrayList<String>();
     }
     public PetPerfil(Pet entity) {
+        this.id = entity.getId();
         this.instituicao = entity.getFkInstituicao().getNome();
         this.nome = entity.getNome();
         this.especie = entity.getEspecie();
@@ -170,5 +172,11 @@ public class PetPerfil {
     }
     public void setCepInstituicao(String cepInstituicao) {
         this.cepInstituicao = cepInstituicao;
+    }
+    public Integer getId() {
+        return id;
+    }
+    public void setId(Integer id) {
+        this.id = id;
     } 
 }

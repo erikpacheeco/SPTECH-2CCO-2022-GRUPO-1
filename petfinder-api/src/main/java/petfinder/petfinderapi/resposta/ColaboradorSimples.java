@@ -1,6 +1,5 @@
 package petfinder.petfinderapi.resposta;
 
-import petfinder.petfinderapi.entidades.Instituicao;
 import petfinder.petfinderapi.entidades.Usuario;
 
 public class ColaboradorSimples {
