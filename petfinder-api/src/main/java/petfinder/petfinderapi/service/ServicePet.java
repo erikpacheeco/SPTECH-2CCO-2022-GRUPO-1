@@ -1,15 +1,18 @@
 package petfinder.petfinderapi.service;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import petfinder.petfinderapi.entidades.Usuario;
+import petfinder.petfinderapi.repositorios.InstituicaoRepositorio;
 import petfinder.petfinderapi.repositorios.PetRepositorio;
 import petfinder.petfinderapi.repositorios.UsuarioRepositorio;
 import petfinder.petfinderapi.resposta.PetPerfil;
 import petfinder.petfinderapi.rest.DistanciaResposta;
 import petfinder.petfinderapi.service.exceptions.EntityNotFoundException;
+import petfinder.petfinderapi.service.exceptions.NoContentException;
 
 @Service
 public class ServicePet {
@@ -19,6 +22,9 @@ public class ServicePet {
 
     @Autowired
     private UsuarioRepositorio userRepository;
+
+    @Autowired
+    private InstituicaoRepositorio instituicaoRepository;
 
     @Autowired
     private ServiceCep serviceCep;
@@ -70,5 +76,25 @@ public class ServicePet {
         
         // case user is not found, return null
         return null;
+    }
+
+    public List<PetPerfil> getPetPerfilByInstituicaoId(int id) {
+
+        // instituicao exists
+        if (instituicaoRepository.existsById(id)) {
+
+            List<PetPerfil> list = petRepository.findPetPerfilByInstituicao(id);
+
+            // 200 ok
+            if (list.size() > 0) {
+                return list;
+            }
+
+            // 204 no content
+            throw new NoContentException("Pet");
+        }
+
+        // 404 not found
+        throw new EntityNotFoundException(id);
     }
 }

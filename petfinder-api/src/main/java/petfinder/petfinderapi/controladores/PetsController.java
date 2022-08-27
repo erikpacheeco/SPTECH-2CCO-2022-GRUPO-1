@@ -91,6 +91,12 @@ public class PetsController implements GerenciadorArquivos {
         return ResponseEntity.status(200).body(lista);
     }
 
+    @GetMapping("/instituicao/{id}")
+    @Operation(description = "Endpoint que retorna uma lista de pets de uma instituição especifica")
+    ResponseEntity<List<PetPerfil>> getByInstituicaoId(@PathVariable int id) {
+        return ResponseEntity.ok(servicePet.getPetPerfilByInstituicaoId(id));
+    }
+
     @PatchMapping(value = "/foto/{id}", consumes = "image/jpeg")
     @Operation(description = "EndPoint para cadastrar a foto de perfil do animal")
     public ResponseEntity<Void> patchFoto(@PathVariable int id, @RequestBody byte[] novaFoto) {
@@ -137,20 +143,6 @@ public class PetsController implements GerenciadorArquivos {
             return ResponseEntity.status(200).build();
         }
         return ResponseEntity.status(400).build();
-    }
-
-    @GetMapping("/instituicao/{id}")
-    @Operation(description = "Endpoint que retorna uma lista de pets de uma instituição especifica")
-    ResponseEntity<Object> getByInstiuicaoId(@PathVariable int id) {
-        if (repositoryPet.existsById(id)) {
-            List<Pet> lista = repositoryPet.findByFkInstituicaoId(id);
-
-            if (lista.isEmpty()) {
-                return ResponseEntity.status(404).body(new Message("Instituição ainda não possui pets"));
-            }
-            return ResponseEntity.status(200).body(lista);
-        }
-        return ResponseEntity.status(404).build();
     }
 
     @DeleteMapping("/{id}")
@@ -482,7 +474,7 @@ public class PetsController implements GerenciadorArquivos {
     @GetMapping("/premios-especie/{especie}")
     @Operation(description = "Endpoint para retornar todos os mimos de determinada espécie")
     public ResponseEntity<Object> getByMimosEspecie(@PathVariable String especie) {
-        List<Pet> listaPet = repositoryPet.findByEspecieIgnoreCase(especie);
+        List<PetPerfil> listaPet = repositoryPet.findByEspecieIgnoreCase(especie);
 
         for (int i = 0; i < listaPet.size(); i++) {
             Integer idPet = listaPet.get(i).getId();
