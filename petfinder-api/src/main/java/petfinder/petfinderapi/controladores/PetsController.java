@@ -69,6 +69,28 @@ public class PetsController implements GerenciadorArquivos {
         return ResponseEntity.ok(servicePet.getPetPerfil(id, userId));
     }
 
+    @GetMapping("/{id}")
+    @Operation(description = "Endpoint que retorna um pet especifico pelo ID")
+    @ApiResponse(responseCode = "200", description = "Ok")
+    @ApiResponse(responseCode = "404", description = "Not Found", content = @Content)
+    ResponseEntity<PetPerfil> getPetById(@PathVariable int id, @RequestParam(required = false) Integer userId) {
+        return ResponseEntity.ok(servicePet.getPetPerfil(id, userId));
+    }
+
+    @GetMapping
+    @Operation(description = "Endpoint que retorna uma lista com todos os pets")
+    @ApiResponse(responseCode = "200", description = "Ok")
+    @ApiResponse(responseCode = "204", description = "Not Content", content = @Content)
+    public ResponseEntity<List<PetPerfil>> getPets() {
+        List<PetPerfil> lista = repositoryPet.findAllPetPerfil();
+
+        if (lista.isEmpty()) {
+            return ResponseEntity.status(204).body(lista);
+        }
+
+        return ResponseEntity.status(200).body(lista);
+    }
+
     @PatchMapping(value = "/foto/{id}", consumes = "image/jpeg")
     @Operation(description = "EndPoint para cadastrar a foto de perfil do animal")
     public ResponseEntity<Void> patchFoto(@PathVariable int id, @RequestBody byte[] novaFoto) {
@@ -115,31 +137,6 @@ public class PetsController implements GerenciadorArquivos {
             return ResponseEntity.status(200).build();
         }
         return ResponseEntity.status(400).build();
-    }
-
-    @GetMapping
-    @Operation(description = "Endpoint que retorna uma lista com todos os pets")
-    public ResponseEntity<List<PetPerfil>> getPets() {
-        List<PetPerfil> lista = repositoryPet.findAllPetPerfil();
-
-        if (lista.isEmpty()) {
-            return ResponseEntity.status(204).body(lista);
-        }
-
-        return ResponseEntity.status(200).body(lista);
-    }
-
-    @GetMapping("/{id}")
-    @Operation(description = "Endpoint que retorna um pet especifico pelo ID")
-    ResponseEntity<PetPerfil> getPetById(@PathVariable int id) {
-
-        Optional<PetPerfil> pet = repositoryPet.findPetPerfilById(id);
-
-        if (pet.isPresent()) {
-            return ResponseEntity.status(200).body(pet.get());
-        }
-
-        return ResponseEntity.status(404).build();
     }
 
     @GetMapping("/instituicao/{id}")
@@ -661,14 +658,14 @@ public class PetsController implements GerenciadorArquivos {
     }
 
     @GetMapping("/doentes/{qtdPets}")
-    public ResponseEntity getPetsDoentes(@PathVariable int qtdPets) {
-        List<Pet> petsDoentes = repositoryPet.findByDoenteAndAdotado();
+    public ResponseEntity<List<PetPerfil>> getPetsDoentes(@PathVariable int qtdPets) {
+        List<PetPerfil> petsDoentes = repositoryPet.findByDoenteAndAdotado();
 
         if (petsDoentes.isEmpty()) {
             return ResponseEntity.status(204).build();
         }
 
-        List<Pet> listaPet = new ArrayList<>();
+        List<PetPerfil> listaPet = new ArrayList<>();
         for (int i = 0; i < qtdPets && i < petsDoentes.size(); i++) {
             listaPet.add(petsDoentes.get(i));
         }

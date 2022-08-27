@@ -23,6 +23,7 @@ public class PetPerfil {
     private String descricao;
     private String caminhoImagem;
     private List<String> caracteristicas;
+    private Boolean isDoente;
     @JsonIgnore
     private String cepInstituicao;
 
@@ -42,6 +43,7 @@ public class PetPerfil {
         this.caracteristicas = addCaracteristicas(entity.getPetHasCaracteristica(), null, 0);
         this.idade = getIdadeFromDataNasc(entity.getDataNasc());
         this.cepInstituicao = entity.getFkInstituicao().getEndereco().getCep();
+        this.isDoente = entity.getDoente();
         
         // não dinamico por enquanto
         this.mimosPorMes = 10;
@@ -178,5 +180,11 @@ public class PetPerfil {
     }
     public void setId(Integer id) {
         this.id = id;
+    }
+    public Boolean getIsDoente() {
+        return isDoente;
+    }
+    public void setIsDoente(Boolean isDoente) {
+        this.isDoente = isDoente;
     } 
 }
