@@ -12,13 +12,23 @@ function ListaColaborador(){
         console.log("click!");
     }
 
-    const [user, setUser] = useState([]);
+    const [colaborador, setColaborador] = useState([]);
+    const [user, setUser] = useState();
+
+    const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
+
+    console.log(objUser.fkInstituicao.id);
+ 
 
     useEffect(() => {
+
         // corpo do useEffect. São as ações ou aquilo que eu quero que execute // ocorre quando a tela é renderizada 
-        api.get("/usuarios/colaborador/").then((res) => {
-            setUser(res.data);
+        api.get(`/usuarios/por-instituicao/${objUser.fkInstituicao.id}`).then((res) => {
+            setColaborador(res.data);
+
+            console.log(res.data[0].cargo);
         })
+        
       }, []);
 
 
@@ -41,16 +51,14 @@ function ListaColaborador(){
                         </div>
                         <div className="lista-colaborador">
                             {
-                                user.map((user) => (
-                                    <ColaboradorListaItem  nome={user.nome} cargo={user.nivelAcesso}/>
+                                colaborador.map(c => (
+                                    <ColaboradorListaItem key={c.id} nome={c.nome} cargo={c.cargo}/>
                                 ))
                             }
-                            {/* <ColaboradorListaItem  nome="Erik" cargo="C1"/> */}
                         </div>
                     </div>
                 </div>
             </div>
-                
         </>
     )
 }
