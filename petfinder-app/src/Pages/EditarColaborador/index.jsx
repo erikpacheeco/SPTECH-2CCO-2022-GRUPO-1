@@ -1,10 +1,7 @@
-import './styles.css';
+import './EditarColaborador.css';
 import HeaderApp from "../../Components/HeaderApp";
 import NavItem from "../../Components/NavItem";
 import React, { useState } from "react";
-//import { useNavigate } from "react-router-dom";
-//import Swal from "sweetalert2";
-//import withReactContent from "sweetalert2-react-content";
 
 function resetValues() {
     return { nome: "", cargo: "" }
@@ -12,8 +9,6 @@ function resetValues() {
 
 function EditarColaborador() {
     const [values, setValues] = useState(resetValues)
-    //const navigate = useNavigate()
-    //const swal = withReactContent(Swal);
 
     function handleChange(event) {
         const { value, name } = event.target;
@@ -28,15 +23,16 @@ function EditarColaborador() {
                 <NavItem label="Demandas" />
             ]}
             />
-            <div className="container">
-                <div className="form-container">
-                    <div className="editar-colaborador-form">
-                        <form>
+            <div className="editar-colaborador-container">
+                <div className="editar-colaborador-form-container">
+                    <form>
+                        <div className="editar-colaborador-form-titulo">
                             <h1>Editar Colaborador</h1>
+                        </div>
 
-                            {/* Inputs */}
-                            <div className="input-container">
-                                <label /*htmlFor="email"*/>Nome Completo</label>
+                        <div className="editar-colaborador-input-container">
+                            <div className="editar-colaborador-input">
+                                <label htmlFor="text">Nome Completo</label>
                                 <input
                                     id="nome"
                                     type="text"
@@ -45,23 +41,22 @@ function EditarColaborador() {
                                     value={values.nome}
                                     onChange={handleChange}
                                 />
-                            </div>
 
-                            <div className="input-container">
-                                <label /*htmlFor="senha"*/>Cargo</label>
-                                <select  id="cargo" name="cargo" required>
-                                    <option value="c1">C1</option>
-                                    <option value="c2">C2</option>
-                                    <option value="c3">C3</option>
-                                </select>
-                            </div>
+                                <div className="editar-colaborador-input">
+                                    <label htmlFor="text">Cargo</label>
+                                    <select  id="cargo" name="cargo" required>
+                                        <option value="c1">C1</option>
+                                        <option value="c2">C2</option>
+                                        <option value="c3">C3</option>
+                                    </select>
+                                </div>
 
-                            {/* Buttons */}
-                            <div className="button-container">
-                                <button type="submit" id="salvar" className="btn-form">Salvar</button>
+                                <div className="editar-colaborador-button-container">
+                                    <button type="submit" id="salvar" className="editar-colaborador-btn-form">Salvar</button>
+                                </div>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
             
