@@ -112,6 +112,7 @@ VALUES
 ('RESGATE', '2020/01/01', null, 'RESGATE_VALIDO', 9, 1, null),
 ('ADOCAO', '2022/08/25', null, 'EM_ANDAMENTO', 9, 1, 5);
 
+
 -- mensagem
 INSERT INTO mensagem(conteudo, data_envio, tipo, demanda_id, usuario_id) VALUES
 ('Boa tarde, tudo certo? Eu gostaria de saber mais sobre o Fernandinho!', now(), 'texto', 14, 9),
