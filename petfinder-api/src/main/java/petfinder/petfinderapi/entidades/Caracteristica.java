@@ -13,14 +13,14 @@ public class Caracteristica {
 
     @NotNull
     @NotBlank
-    private String caracteristicas;
+    private String caracteristica;
 
 
     public Caracteristica() {
     }
 
     public Caracteristica(String caracteristicas) {
-        this.caracteristicas = caracteristicas;
+        this.caracteristica = caracteristicas;
     }
 
     public int getId() {
@@ -31,11 +31,11 @@ public class Caracteristica {
         this.id = id;
     }
 
-    public String getCaracteristicas() {
-        return caracteristicas;
+    public String getCaracteristica() {
+        return caracteristica;
     }
 
-    public void setCaracteristicas(String caracteristicas) {
-        this.caracteristicas = caracteristicas;
+    public void setCaracteristica(String caracteristicas) {
+        this.caracteristica = caracteristicas;
     }
 }

@@ -1,7 +1,6 @@
 package sptech.petfinderapimsg.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
@@ -11,6 +10,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class Pet {
 
+    // attributes
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -39,24 +39,17 @@ public class Pet {
     @JsonIgnore
     private byte[] fotoPerfil;
     private String caminhoImagem;
-    private Boolean doente = false;
-    private Boolean adotado = false;
+    private Boolean doente;
+    private Boolean adotado;
     @NotNull
     @ManyToOne
-    private Instituicao fkInstituicao;
+    private Instituicao instituicao;
     @OneToMany(mappedBy = "pet")
     private List<PetHasCaracteristica> petHasCaracteristica;
 
-    // methods
-    @Override
-    public String toString() {
-        return "Pet [adotado=" + adotado + ", dataNasc=" + dataNasc + ", descricao=" + descricao + ", especie="
-                + especie + ", fkInstituicao=" + fkInstituicao + ", id=" + id + ", nome=" + nome + ", porte=" + porte
-                + ", raca=" + raca + ", sexo=" + sexo + "]";
-            }
-    public Pet() {
-    }
-    public Pet(String nome, Date dataNasc, String especie, String raca, String porte, String sexo, String descricao, Boolean doente, Boolean adotado, Instituicao fkInstituicao) {
+    // constructors
+    public Pet() {}
+    public Pet(String nome, Date dataNasc, String especie, String raca, String porte, String sexo, String descricao, Boolean doente, Boolean adotado, Instituicao instituicao) {
         this.nome = nome;
         this.dataNasc = dataNasc;
         this.especie = especie;
@@ -66,11 +59,10 @@ public class Pet {
         this.descricao = descricao;
         this.doente = doente;
         this.adotado = adotado;
-        this.fkInstituicao = fkInstituicao;
+        this.instituicao = instituicao;
     }
 
     //    GETTERS E SETTERS
-
     public int getId() {
         return id;
     }
@@ -125,6 +117,9 @@ public class Pet {
     public void setFotoPerfil(byte[] fotoPerfil) {
         this.fotoPerfil = fotoPerfil;
     }
+    public void setFotoPerfil() {
+        this.fotoPerfil = null;
+    }
     public Boolean getDoente() {
         return doente;
     }
@@ -137,11 +132,11 @@ public class Pet {
     public void setAdotado(Boolean adotado) {
         this.adotado = adotado;
     }
-    public Instituicao getFkInstituicao() {
-        return fkInstituicao;
+    public Instituicao getInstituicao() {
+        return instituicao;
     }
-    public void setFkInstituicao(Instituicao fkInstituicao) {
-        this.fkInstituicao = fkInstituicao;
+    public void setInstituicao(Instituicao instituicao) {
+        this.instituicao = instituicao;
     }
     public String getCaminhoImagem() {
         return caminhoImagem;
@@ -155,4 +150,12 @@ public class Pet {
     public void setPetHasCaracteristica(List<PetHasCaracteristica> petHasCaracteristica) {
         this.petHasCaracteristica = petHasCaracteristica;
     }
+
+    // methods
+    @Override
+    public String toString() {
+        return "Pet [adotado=" + adotado + ", dataNasc=" + dataNasc + ", descricao=" + descricao + ", especie="
+                + especie + ", fkInstituicao=" + instituicao + ", id=" + id + ", nome=" + nome + ", porte=" + porte
+                + ", raca=" + raca + ", sexo=" + sexo + "]";
+            }
 }

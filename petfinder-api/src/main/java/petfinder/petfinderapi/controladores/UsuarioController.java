@@ -148,13 +148,13 @@ public class UsuarioController {
             
             while (fila.isNotEmpty()) {
                 // Validando interesses
-                Caracteristica caracteristica = caracteristicaRepository.findByCaracteristicas(fila.poll().getCaracteristicas());
+                Caracteristica caracteristica = caracteristicaRepository.findByCaracteristicas(fila.poll().getCaracteristica());
 
                 // relacionando interesse (Caracteristica) ao usuário
                 if (Objects.nonNull(caracteristica)) {
                     UsuarioHasInteresse relation = new UsuarioHasInteresse();
-                    relation.setFkCaracteristica(caracteristica);
-                    relation.setFkUsuario(novoUsuario);
+                    relation.setCaracteristica(caracteristica);
+                    relation.setUsuario(novoUsuario);
                     usuarioHasInteresseRepository.save(relation);
                 }
             }
@@ -386,8 +386,8 @@ public class UsuarioController {
 
         UsuarioHasInteresse usuarioHasInteresse = new UsuarioHasInteresse();
 
-        usuarioHasInteresse.setFkCaracteristica(caracteristicaRepository.getById(novoInteresse.getFkCaracteristica()));
-        usuarioHasInteresse.setFkUsuario(usuarioRepository.getById(novoInteresse.getFkUsuario()));
+        usuarioHasInteresse.setCaracteristica(caracteristicaRepository.getById(novoInteresse.getFkCaracteristica()));
+        usuarioHasInteresse.setUsuario(usuarioRepository.getById(novoInteresse.getFkUsuario()));
 
         usuarioHasInteresseRepository.save(usuarioHasInteresse);
 

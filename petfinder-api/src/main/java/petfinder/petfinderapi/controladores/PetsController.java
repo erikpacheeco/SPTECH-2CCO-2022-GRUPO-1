@@ -122,10 +122,10 @@ public class PetsController implements GerenciadorArquivos {
     @Operation(description = "Endpoint para cadastro de um novo pet em uma instituição especifica")
     public ResponseEntity<Pet> postPet(@RequestBody @Valid Pet novoPet) {
 
-        Optional<Instituicao> instituicao = repositoryInstituicao.findById(novoPet.getFkInstituicao().getId());
+        Optional<Instituicao> instituicao = repositoryInstituicao.findById(novoPet.getInstituicao().getId());
 
         if (instituicao.isPresent()) {
-            novoPet.setFkInstituicao(instituicao.get());
+            novoPet.setInstituicao(instituicao.get());
             novoPet.setAdotado(false);
             novoPet = repositoryPet.save(novoPet);
             return ResponseEntity.status(201).body(novoPet);
@@ -193,20 +193,20 @@ public class PetsController implements GerenciadorArquivos {
     // Premios
     // ================================================= //
 
-    @PatchMapping(value = "/premio/foto/{id}", consumes = "image/jpeg")
-    @Operation(description = "Inserir imagem no premio")
-    public ResponseEntity<Object> patchFotoPremio(@PathVariable int id, @RequestBody byte[] novaFoto) {
+    // @PatchMapping(value = "/premio/foto/{id}", consumes = "image/jpeg")
+    // @Operation(description = "Inserir imagem no premio")
+    // public ResponseEntity<Object> patchFotoPremio(@PathVariable int id, @RequestBody byte[] novaFoto) {
 
-        Premio premioEncontrado = repositoryPremio.getById(id);
-        premioEncontrado.setImg(novaFoto);
-        repositoryPremio.save(premioEncontrado);
+    //     Premio premioEncontrado = repositoryPremio.getById(id);
+    //     premioEncontrado.setImg(novaFoto);
+    //     repositoryPremio.save(premioEncontrado);
 
-        return ResponseEntity.status(200).build();
-    }
+    //     return ResponseEntity.status(200).build();
+    // }
 
     @GetMapping(value = "/premio/foto/{codigo}", produces = "image/jpeg")
     @Operation(description = "Endpoint pegar foto do premio por id do premio")
-    public ResponseEntity<byte[]> getFotoPremio(@PathVariable int codigo) {
+    public ResponseEntity<String> getFotoPremio(@PathVariable int codigo) {
         if (!repositoryPremio.existsById(codigo)){
             return ResponseEntity.status(404).build();
         }
@@ -436,7 +436,7 @@ public class PetsController implements GerenciadorArquivos {
         }
         for (int i = 0; i < lista.size(); i++) {
             DistanciaResposta resposta = clienteCep.getDistancia(cepUsuario,
-                    lista.get(i).getFkInstituicao().getEndereco().getCep());
+                    lista.get(i).getInstituicao().getEndereco().getCep());
             Integer distancia = resposta.getDistancia();
 
             if (distancia <= distanciaMax) {
@@ -451,7 +451,7 @@ public class PetsController implements GerenciadorArquivos {
     @Operation(description = "Endpoint para retornar todos os todos os mimos de determinada instituição")
     public ResponseEntity<Object> getByMimosInstituicao(@PathVariable int idInstituicao) {
 
-        List<Pet> listaPet = repositoryPet.findByFkInstituicaoId(idInstituicao);
+        List<Pet> listaPet = repositoryPet.findByInstituicaoId(idInstituicao);
 
         for (int i = 0; i < listaPet.size(); i++) {
             Integer idPet = listaPet.get(i).getId();

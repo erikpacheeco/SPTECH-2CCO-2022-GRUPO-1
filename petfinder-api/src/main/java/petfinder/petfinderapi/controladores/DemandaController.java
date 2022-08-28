@@ -289,7 +289,7 @@ public class DemandaController implements GerenciadorArquivos{
 
                 demanda.get().setStatus("EM_ANDAMENTO");
                 demanda.get().setColaborador(colaborador.get());
-                demanda.get().setDataAbertura(gerarDataAtual());
+                demanda.get().setDataAbertura(new Date());
                 demandaRepositorio.save(demanda.get());
 
                 gerarHistoricoDemanda(demanda.get());
@@ -318,7 +318,7 @@ public class DemandaController implements GerenciadorArquivos{
             // atualizando status da demanda
             Demanda demandaAtualizada = demanda.get();
             demandaAtualizada.setStatus(statusNovo.toUpperCase());
-            demandaAtualizada.setDataAbertura(gerarDataAtual());
+            demandaAtualizada.setDataAbertura(new Date());
             demandaRepositorio.save(demandaAtualizada);
 
             gerarHistoricoDemanda(demandaAtualizada);
@@ -370,7 +370,7 @@ public class DemandaController implements GerenciadorArquivos{
                 return ResponseEntity.status(400).build();
             }
             mensagem.setTipo(mensagem.getTipo().toUpperCase());
-            mensagem.setDataEnvio(gerarDataAtual());
+            mensagem.setDataEnvio(new Date());
             mensagemRepository.save(mensagem);
 
             return ResponseEntity.status(200).body(mensagem);

@@ -14,7 +14,7 @@ public interface PetRepositorio extends JpaRepository<Pet, Integer> {
     @Query("SELECT new petfinder.petfinderapi.resposta.PetPerfil(p) FROM Pet p WHERE p.doente = 'true' and p.adotado = 'false'")
     List<PetPerfil> findByDoenteAndAdotado();
   
-    List<Pet> findByFkInstituicaoId(int id);
+    List<Pet> findByInstituicaoId(int id);
 
     void deleteById(int id);
 
@@ -27,7 +27,7 @@ public interface PetRepositorio extends JpaRepository<Pet, Integer> {
     @Query("SELECT new petfinder.petfinderapi.resposta.PetPerfil(p) FROM Pet p")
     public List<PetPerfil> findAllPetPerfil();
 
-    @Query("SELECT new petfinder.petfinderapi.resposta.PetPerfil(p) FROM Pet p WHERE p.fkInstituicao.id = ?1")
+    @Query("SELECT new petfinder.petfinderapi.resposta.PetPerfil(p) FROM Pet p WHERE p.instituicao.id = ?1")
     List<PetPerfil> findPetPerfilByInstituicao(int id);
 
 }

@@ -36,7 +36,7 @@ VALUES
 
 -- Pet
 INSERT INTO
-pet(nome, data_nasc, especie, raca, porte, sexo, descricao, doente, adotado, caminho_imagem, fk_instituicao_id)
+pet(nome, data_nasc, especie, raca, porte, sexo, descricao, doente, adotado, caminho_imagem, instituicao_id)
 VALUES
 ('Antonio', '2021-05-21', 'Cachorro', 'SRD', 'Pequeno', 'Macho', 'Branquinho, brincalhao e estressado com criança chata', true, false, '/img/pets/antonio.png', 1),
 ('Antonio Gabriel', '2022-06-12', 'Gato', 'SRD', 'Pequeno', 'Fêmea', 'Nenem que ama, ficar no colo, fiel companheira', true, false, '/img/pets/antonio-gabriel.png', 2),
@@ -55,7 +55,7 @@ VALUES
 
 -- Premio
 INSERT INTO
-premio(fk_pet_id)
+premio(pet_id)
 VALUES
 (1),
 (2),
@@ -64,7 +64,7 @@ VALUES
 
 -- Caracteristca
 INSERT INTO
-caracteristica(caracteristicas)
+caracteristica(caracteristica)
 VALUES
 ('Fofo'),
 ('Cheiroso'),
@@ -83,7 +83,7 @@ VALUES
 
 -- UsuarioHasInteresse
 INSERT INTO
-usuario_has_interesse(fk_caracteristica_id, fk_usuario_id)
+usuario_has_interesse(caracteristica_id, usuario_id)
 VALUES
 (1, 9),
 (3, 9),
@@ -97,20 +97,20 @@ VALUES
 INSERT INTO
 demanda(categoria, data_abertura, data_fechamento, status, usuario_id, instituicao_id, pet_id)
 VALUES
-('PAGAMENTO', '2020/01/01', null, 'ABERTO', 9, 1, null),
-('PAGAMENTO', '2020/01/01', null, 'CONCLUIDO', 9, 1, null),
-('PAGAMENTO', '2020/01/01', null, 'ABERTO', 9, 1, 1),
-('PAGAMENTO', '2020/01/01', null, 'ABERTO', 9, 1, 2),
-('adocao', '2020/01/01', null, 'ABERTO', 9, 1, null),
-('PAGAMENTO', '2020/01/01', null, 'CANCELADO', 9, 1, null),
-('ADOCAO', '2020/01/01', null, 'CANCELADO', 9, 1, null),
-('PAGAMENTO', '2020/01/01', null, 'PGTO_REALIZADO_USER', 9, 1, null),
-('PAGAMENTO', '2020/01/01', null, 'PGTO_REALIZADO_USER', 9, 1, null),
-('ADOCAO', '2020/01/01', null, 'CANCELADO', 9, 1, null),
-('RESGATE', '2020/01/01', null, 'RESGATE_INVALIDO', 9, 1, null),
-('RESGATE', '2020/01/01', null, 'RESGATE_INVALIDO', 9, 1, null),
-('RESGATE', '2020/01/01', null, 'RESGATE_VALIDO', 9, 1, null),
-('ADOCAO', '2022/08/25', null, 'EM_ANDAMENTO', 9, 1, 5);
+('PAGAMENTO', '2020-01-01', null, 'ABERTO', 9, 1, null),
+('PAGAMENTO', '2020-01-01', null, 'CONCLUIDO', 9, 1, null),
+('PAGAMENTO', '2020-01-01', null, 'ABERTO', 9, 1, 1),
+('PAGAMENTO', '2020-01-01', null, 'ABERTO', 9, 1, 2),
+('adocao', '2020-01-01', null, 'ABERTO', 9, 1, null),
+('PAGAMENTO', '2020-01-01', null, 'CANCELADO', 9, 1, null),
+('ADOCAO', '2020-01-01', null, 'CANCELADO', 9, 1, null),
+('PAGAMENTO', '2020-01-01', null, 'PGTO_REALIZADO_USER', 9, 1, null),
+('PAGAMENTO', '2020-01-01', null, 'PGTO_REALIZADO_USER', 9, 1, null),
+('ADOCAO', '2020-01-01', null, 'CANCELADO', 9, 1, null),
+('RESGATE', '2020-01-01', null, 'RESGATE_INVALIDO', 9, 1, null),
+('RESGATE', '2020-01-01', null, 'RESGATE_INVALIDO', 9, 1, null),
+('RESGATE', '2020-01-01', null, 'RESGATE_VALIDO', 9, 1, null),
+('ADOCAO', '2022-08-25', null, 'EM_ANDAMENTO', 9, 1, 5);
 
 
 -- mensagem

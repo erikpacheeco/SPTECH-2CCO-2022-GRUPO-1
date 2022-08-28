@@ -9,9 +9,9 @@ public class UsuarioHasInteresse {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @ManyToOne
-    private Caracteristica fkCaracteristica;
+    private Caracteristica caracteristica;
     @ManyToOne
-    private Usuario fkUsuario;
+    private Usuario usuario;
 
     // método
     public int getId() {
@@ -20,16 +20,16 @@ public class UsuarioHasInteresse {
     public void setId(int id) {
         this.id = id;
     }
-    public Caracteristica getFkCaracteristica() {
-        return fkCaracteristica;
+    public Caracteristica getCaracteristica() {
+        return caracteristica;
     }
-    public void setFkCaracteristica(Caracteristica fkCaracteristica) {
-        this.fkCaracteristica = fkCaracteristica;
+    public void setCaracteristica(Caracteristica caracteristica) {
+        this.caracteristica = caracteristica;
     }
-    public Usuario getFkUsuario() {
-        return fkUsuario;
+    public Usuario getUsuario() {
+        return usuario;
     }
-    public void setFkUsuario(Usuario fkUsuario) {
-        this.fkUsuario = fkUsuario;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }

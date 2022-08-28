@@ -33,7 +33,7 @@ public class PetPerfil {
     }
     public PetPerfil(Pet entity) {
         this.id = entity.getId();
-        this.instituicao = entity.getFkInstituicao().getNome();
+        this.instituicao = entity.getInstituicao().getNome();
         this.nome = entity.getNome();
         this.especie = entity.getEspecie();
         this.porte = entity.getPorte();
@@ -42,7 +42,7 @@ public class PetPerfil {
         this.caminhoImagem = entity.getCaminhoImagem();
         this.caracteristicas = addCaracteristicas(entity.getPetHasCaracteristica(), null, 0);
         this.idade = getIdadeFromDataNasc(entity.getDataNasc());
-        this.cepInstituicao = entity.getFkInstituicao().getEndereco().getCep();
+        this.cepInstituicao = entity.getInstituicao().getEndereco().getCep();
         this.isDoente = entity.getDoente();
         
         // não dinamico por enquanto
@@ -57,7 +57,7 @@ public class PetPerfil {
         List<String> caracteristicas = new ArrayList<String>();
 
         for (PetHasCaracteristica phc : array) {
-            caracteristicas.add(phc.getCaracteristica().getCaracteristicas());
+            caracteristicas.add(phc.getCaracteristica().getCaracteristica());
         }
 
         return caracteristicas;
@@ -72,7 +72,7 @@ public class PetPerfil {
 
         // percorre lista de caracteristicas, adicionando cada caracteristica ao array de caracteristicas
         if(start < entity.size()) {
-            caracteristicas.add(entity.get(start).getCaracteristica().getCaracteristicas());
+            caracteristicas.add(entity.get(start).getCaracteristica().getCaracteristica());
             return addCaracteristicas(entity, caracteristicas, start + 1);
         }
 

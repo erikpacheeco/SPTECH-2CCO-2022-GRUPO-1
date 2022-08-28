@@ -7,10 +7,10 @@ import java.util.List;
 
 public interface UsuarioHasInteresseRepositorio extends JpaRepository<UsuarioHasInteresse, Integer> {
 
-    @Query("SELECT u FROM UsuarioHasInteresse u WHERE u.fkUsuario.id = ?1")
-    List<UsuarioHasInteresse> findByFkUsuario(Integer usuario);
+    @Query("SELECT u FROM UsuarioHasInteresse u WHERE u.usuario.id = ?1")
+    List<UsuarioHasInteresse> findByUsuario(Integer usuario);
 
-    @Query("SELECT u FROM UsuarioHasInteresse u WHERE u.fkCaracteristica.id = ?1 AND u.fkUsuario.id = ?2")
-    List<UsuarioHasInteresse> findByFkCaracteisticaAndFkUsuario(Integer caracteristica, Integer usuario);
+    @Query("SELECT u FROM UsuarioHasInteresse u WHERE u.caracteristica.id = ?1 AND u.usuario.id = ?2")
+    List<UsuarioHasInteresse> findByCaracteisticaAndUsuario(Integer caracteristica, Integer usuario);
 
 }

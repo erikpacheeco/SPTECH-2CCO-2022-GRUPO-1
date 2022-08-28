@@ -55,7 +55,7 @@ public class FastObjects {
         pet.setEspecie("especie " + value);
         pet.setId(value);
         pet.setNome("nome " + value);
-        pet.setFkInstituicao(fastInstituicao(value));
+        pet.setInstituicao(fastInstituicao(value));
         pet.setPetHasCaracteristica(List.of(
             fastPetHasCaracteristica(1), 
             fastPetHasCaracteristica(2), 
@@ -77,7 +77,7 @@ public class FastObjects {
         // caracteristica
         Caracteristica caracteristica = new Caracteristica();
         caracteristica.setId(value);
-        caracteristica.setCaracteristicas("caracteristica " + value);
+        caracteristica.setCaracteristica("caracteristica " + value);
 
         // relacionamento
         PetHasCaracteristica entity = new PetHasCaracteristica();
@@ -91,7 +91,7 @@ public class FastObjects {
     public static Caracteristica fastCaracteristica(int value) {
         Caracteristica entity = new Caracteristica();
         entity.setId(value);
-        entity.setCaracteristicas("caracteristica " + value);
+        entity.setCaracteristica("caracteristica " + value);
         return entity;
     }
     public static Caracteristica fastCaracteristica() {

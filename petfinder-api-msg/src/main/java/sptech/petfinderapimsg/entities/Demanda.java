@@ -3,9 +3,6 @@ package sptech.petfinderapimsg.entities;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 @Entity
@@ -18,8 +15,8 @@ public class Demanda {
     @NotBlank
     private String categoria;
     @NotNull
-    private String dataAbertura;
-    private String dataFechamento;
+    private Date dataAbertura;
+    private Date dataFechamento;
     @NotNull
     @NotBlank
     private String status;
@@ -34,8 +31,8 @@ public class Demanda {
     @ManyToOne
     private Usuario colaborador;
 
-    public Demanda(String categoria, String dataAbertura,
-                   String dataFechamento, String status,
+    public Demanda(String categoria, Date dataAbertura,
+                   Date dataFechamento, String status,
                    Usuario usuario, Instituicao instituicao,
                    Pet pet, Usuario colaborador) {
         this.categoria = categoria;
@@ -49,16 +46,10 @@ public class Demanda {
     }
 
     public Demanda(String categoria, Usuario usuario, Instituicao instituicao, Pet pet) {
-
         this(categoria.toUpperCase(), null,
                 null, "ABERTO",
                 usuario, instituicao,
                 pet, null);
-
-        Date date = Calendar.getInstance().getTime();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String strDate = dateFormat.format(date);
-        this.dataAbertura = strDate;
     }
     public Demanda() {
     }
@@ -76,16 +67,16 @@ public class Demanda {
     public void setCategoria(String categoria) {
         this.categoria = categoria.toUpperCase();
     }
-    public String getDataAbertura() {
+    public Date getDataAbertura() {
         return dataAbertura;
     }
-    public void setDataAbertura(String dataAbertura) {
+    public void setDataAbertura(Date dataAbertura) {
         this.dataAbertura = dataAbertura;
     }
-    public String getDataFechamento() {
+    public Date getDataFechamento() {
         return dataFechamento;
     }
-    public void setDataFechamento(String dataFechamento) {
+    public void setDataFechamento(Date dataFechamento) {
         this.dataFechamento = dataFechamento;
     }
     public String getStatus() {

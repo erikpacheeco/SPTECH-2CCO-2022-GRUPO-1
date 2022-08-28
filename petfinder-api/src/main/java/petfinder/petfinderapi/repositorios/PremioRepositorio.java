@@ -14,7 +14,7 @@ public interface PremioRepositorio extends JpaRepository<Premio, Integer> {
 
     List<Premio> findById(int id);
 
-    @Query("SELECT p FROM Premio p WHERE p.fkPet.id = ?1")
+    @Query("SELECT p FROM Premio p WHERE p.pet.id = ?1")
     List<Premio> findByPetId(int id);
 
     void deleteById(int id);

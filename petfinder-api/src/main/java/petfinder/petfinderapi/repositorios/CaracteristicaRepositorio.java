@@ -13,9 +13,9 @@ public interface CaracteristicaRepositorio extends JpaRepository<Caracteristica,
 
     void deleteById(int id);
 
-    @Query("SELECT c FROM Caracteristica c WHERE c.caracteristicas = ?1")
-    Caracteristica findByCaracteristicas(String caracteristicas);
+    @Query("SELECT c FROM Caracteristica c WHERE c.caracteristica = ?1")
+    Caracteristica findByCaracteristicas(String caracteristica);
 
-    @Query("SELECT u FROM UsuarioHasInteresse u WHERE u.fkUsuario.id = ?1")
+    @Query("SELECT u FROM UsuarioHasInteresse u WHERE u.usuario.id = ?1")
     List<UsuarioHasInteresse> findInteressesByUserId(Integer id);
 }

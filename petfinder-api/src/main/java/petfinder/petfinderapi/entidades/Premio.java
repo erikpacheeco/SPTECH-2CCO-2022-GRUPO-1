@@ -1,6 +1,6 @@
 package petfinder.petfinderapi.entidades;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.Date;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -8,32 +8,39 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class Premio {
 
+    // attributes
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(length = 50_000_000)
-    @JsonIgnore
-    private byte[] img;
+    private String img;
+    private Date dataEnvio;
     @NotNull
     @ManyToOne
-    private Pet fkPet;
+    private Pet pet;
 
+    // attributes
     public int getId() {
         return id;
     }
     public void setId(int id) {
         this.id = id;
     }
-    public byte[] getImg() {
+    public String getImg() {
         return img;
     }
-    public void setImg(byte[] img) {
+    public void setImg(String img) {
         this.img = img;
     }
-    public Pet getFkPet() {
-        return fkPet;
+    public Pet getPet() {
+        return pet;
     }
-    public void setFkPet(Pet fkPet) {
-        this.fkPet = fkPet;
+    public void setPet(Pet pet) {
+        this.pet = pet;
+    }
+    public Date getDataEnvio() {
+        return dataEnvio;
+    }
+    public void setDataEnvio(Date dataEnvio) {
+        this.dataEnvio = dataEnvio;
     }
 }

@@ -12,22 +12,14 @@ public class Instituicao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     @NotNull
     @NotEmpty
     private String nome;
-
     @NotNull
     @NotEmpty
     @Size(min = 8, max= 13)
     private String telefone;
-
     private String termoAdocao;
-
-    // @OneToOne
-    // @JoinColumn(name = "endereco", referencedColumnName = "id")
-    // private Endereco endereco;
-
     @NotNull
     @OneToOne
     private Endereco endereco;
