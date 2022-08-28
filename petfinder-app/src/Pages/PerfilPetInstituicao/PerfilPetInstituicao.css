@@ -24,7 +24,7 @@
     height: 10%;
     display: flex;
     margin-top: 0px;
-    /*background-color: beige;*/
+    color: #7F2AB5;
 }
 
 .perfil-pet-instituicao-foto img {
@@ -32,17 +32,15 @@
     height: 90%;
     border-radius: 10px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    /*background-color: bisque;*/
 }
 
 .perfil-pet-instituicao-informacao-container {
-    width: 60%;
+    width: 80%;
     height: 100%;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    /*background-color: aquamarine;*/
 }
 
 .perfil-pet-instituicao-informacao {
@@ -51,7 +49,6 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    /*background-color: red;*/
 }
 
 .perfil-pet-instituicao-info-pet-container {
@@ -60,15 +57,16 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    /*background-color: aqua;*/
     border-radius: 10px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .perfil-pet-instituicao-info-pet-container input {
-    width: 200px;
+    width: 350px;
     height: 30px;
     border-radius: 10px;
+    padding-left: 5px;
+    margin-top: 5px;
     border: 1px solid #7E29B4;
     background-color: #FFFFFF;
 }
@@ -79,11 +77,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /*background-color: blue;*/
 }
 
 .perfil-pet-instituicao-info p {
-    margin-top: 0px;
+    margin-top: 10px;
+    color: #7F2AB5;
 }
 
 .perfil-pet-instituicao-descricao-pet-container {
@@ -92,7 +90,6 @@
     align-items: center;
     width: 100%;
     height: 33%;
-    /*background-color: azure;*/
     border-radius: 10px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
@@ -106,10 +103,12 @@
     border: 1px solid #7E29B4;
     background: #FFFFFF;
     border-radius: 5px;
+    width: 100%;
 }
 
 .perfil-pet-instituicao-descricao-pet p {
     margin-top: 10px;
+    color: #7F2AB5;
 }
 
 .perfil-pet-instituicao-descricao-pet textarea::-webkit-scrollbar {
@@ -132,7 +131,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    /*background-color:aqua;*/
     border-radius: 10px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
@@ -144,17 +142,16 @@
 
 .perfil-pet-instituicao-caracteristica-pet p {
     margin-top: 10px;
+    color: #7F2AB5;
 }
 
 .perfil-pet-instituicao-caracteristica {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    /*background-color: azure;*/
 }
 
-.perfil-pet-instituicao-caracteristica p {
-    margin-top: 2px;
+.perfil-pet-instituicao-caracteristica button {
     width: 110px;
     height: 30px;
     border-radius: 50px;
@@ -165,6 +162,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 10px;
 }
 
 .perfil-pet-instituicao-btn {
@@ -182,4 +180,9 @@
     border-width: 0px;
     border-radius: 10px;
     color: #50077E;
+}
+
+.perfil-pet-instituicao-btn button:hover {
+    background: #50077E;
+    color: #F7CA00;
 }

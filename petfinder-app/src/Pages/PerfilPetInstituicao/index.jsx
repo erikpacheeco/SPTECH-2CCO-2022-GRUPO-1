@@ -1,8 +1,21 @@
 import './PerfilPetInstituicao.css';
 import HeaderApp from "../../Components/HeaderApp";
 import NavItem from "../../Components/NavItem";
+import { useEffect, useState } from "react";
+import api from "../../Api"
 
 function PerfilPetInstituicao() {
+
+    const [infoPet, setInfoPet] = useState([])
+    const [preferencias, setPreferencias] = useState([])
+
+    useEffect(() => {
+        api.get("/pets/1/perfil").then((res) => {
+            setInfoPet(res.data)
+            setPreferencias(res.data.caracteristicas)
+        })
+    })
+
     return(
         <>
             <HeaderApp itens={[
@@ -14,8 +27,8 @@ function PerfilPetInstituicao() {
                 <div className="perfil-pet-instituicao-container">
 
                     <div className="perfil-pet-instituicao-foto">
-                        <h1>Antônio</h1>
-                        <img src="https://img.freepik.com/fotos-gratis/o-gato-vermelho-ou-branco-eu-no-estudio-branco_155003-13189.jpg?w=2000" alt="" />
+                        <h1>{infoPet.nome}</h1>
+                        <img src="localhost:8080${infoPet.caminhoImagem}" alt="" />
                     </div>
 
                     <div className="perfil-pet-instituicao-informacao-container">
@@ -26,21 +39,21 @@ function PerfilPetInstituicao() {
                                     <div className="perfil-pet-instituicao-info">
                                         <div className="perfil-pet-instituicao-idade">
                                             <p>Idade: </p>
-                                            <input type="text" />
+                                            <input type="text" value={infoPet.idade}/>
                                         </div>
                                         <div className="perfil-pet-instituicao-especie">
                                             <p>Espécie: </p>
-                                            <input type="text" />
+                                            <input type="text" value={infoPet.especie}/>
                                         </div>
                                     </div>
                                     <div className="perfil-pet-instituicao-info">
-                                        <div className="perfil-pet-instituicao-peso">
-                                            <p>Peso: </p>
-                                            <input type="text" />
+                                        <div className="perfil-pet-instituicao-sexo">
+                                            <p>Porte: </p>
+                                            <input type="text" value={infoPet.porte}/>
                                         </div>
                                         <div className="perfil-pet-instituicao-raca">
                                             <p>Raça: </p>
-                                            <input type="text" />
+                                            <input type="text" value={infoPet.raca}/>
                                         </div>
                                     </div>
                                 </div>
@@ -49,7 +62,7 @@ function PerfilPetInstituicao() {
                             <div className="perfil-pet-instituicao-descricao-pet-container">
                                 <div className="perfil-pet-instituicao-descricao-pet">
                                     <p>Descrição: </p>
-                                    <textarea id="" cols="67" rows="8"></textarea>
+                                    <textarea id="" cols="67" rows="8" value={infoPet.descricao}></textarea>
                                 </div>
                             </div>
                         
@@ -57,18 +70,18 @@ function PerfilPetInstituicao() {
                                 <div className="perfil-pet-instituicao-caracteristica-pet">
                                     <p>Como eu sou/estou: </p>
                                     <div className="perfil-pet-instituicao-caracteristica">
-                                        <p>Preguiçoso(a)</p>
-                                        <p>Pequeno(a)</p>
-                                        <p>Curioso(a)</p>
-                                        <p>Gordo(a)</p>
-                                        <p>Brincalhão(a)</p>
-                                        <p>Doente</p>
-                                        <p>Preguiçoso(a)</p>
-                                        <p>Pequeno(a)</p>
-                                        <p>Curioso(a)</p>
-                                        <p>Gordo(a)</p>
-                                        <p>Brincalhão(a)</p>
-                                        <p>Doente</p>
+                                        {
+                                            preferencias.map((pref) => (
+                                                <>   
+                                                    <button
+                                                        type="button"
+                                                        className="btn-preferencia"
+                                                    >
+                                                        {pref}
+                                                    </button>
+                                                </>
+                                            ))
+                                        }
                                     </div>
                                 </div>                                                                        
                             </div>
