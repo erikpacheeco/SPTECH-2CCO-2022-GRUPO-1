@@ -22,7 +22,6 @@
    background-color: #7F2AB5;
    border-radius: 10px 0 0 10px;
    padding: 1%; 
-   box-shadow: 0 0 0.5em black;
 }
 
 .ver-mais-container-filtros-titulo{
@@ -64,12 +63,10 @@
 }
 
 .ver-mais-fotos-container {
-    margin-left: 0.5%;
     padding: 2% 0 1% 1%;
     width: 100%;
     background: linear-gradient(90deg, #7F2AB5 0%, #AF71D6 35%, #9449C3 100%);
     border-radius: 0 10px 10px 0;
-    box-shadow: 0 0 0.5em black;
 }
 
 .ver-mais-img-animais{

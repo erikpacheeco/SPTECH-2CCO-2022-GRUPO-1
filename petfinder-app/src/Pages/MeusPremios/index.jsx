@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./meusPremios.css";
 import HeaderApp from "../../Components/HeaderApp";
 import NavItem from "../../Components/NavItem";
-import img from "./img/erase.svg";
+import img from "../../Images/erase.svg";
 
 export default function meusPremios() {
   return (
@@ -20,7 +20,7 @@ export default function meusPremios() {
           <div className="premios-container-filtros">
             <div className="premios-container-filtros-titulo">
               <h2 className="premios-h2-filtros">Filtros</h2>
-              <img src={img} alt="icone de filtro"></img>
+              <img src={img} alt="meus-premios-icone-de-filtro"></img>
             </div>
             <h2 className="premios-h2-filtros-titulos">Instituições</h2>
 
@@ -30,7 +30,6 @@ export default function meusPremios() {
             </div>
 
             <h2 className="premios-h2-filtros-titulos">Pets</h2>
-            <h2 className="premios-h2-filtros-titulos">Características</h2>
           </div>
 
           <div className="premios-fotos-container">
