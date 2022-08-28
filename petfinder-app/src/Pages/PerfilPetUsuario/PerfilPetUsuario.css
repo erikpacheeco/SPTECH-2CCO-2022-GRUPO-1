@@ -97,6 +97,7 @@
     margin-top: 2px;
     font-size: 2.25em;
     font-weight: 500;
+    color: #7F2AB5;
 }
 
 .perfil-pet-usuario-info-pet-text {
@@ -107,6 +108,7 @@
     margin-top: 2px;
     font-size: 1em;
     font-weight: 500;
+    color: #7F2AB5;
 }
 
 .perfil-pet-usuario-info-pet-text span {
@@ -121,6 +123,10 @@
     /*background-color: antiquewhite;*/
     width: 60%;
     height: 100%;
+}
+
+.perfil-pet-usuario-info-descricao p {
+    color: #7F2AB5;
 }
 
 .perfil-pet-usuario-descricao-textarea {
@@ -167,13 +173,13 @@
     width: 40%;
     height: 100%;
     /*background-color: bisque;*/
-    display: flex;
+    display: grid;
     align-items: center;
-    flex-wrap: wrap;
 }
 
 .perfil-pet-usuario-info-adocao-caracteristica p {
     margin-top: 0px;
+    color: #7F2AB5;
 }
 
 .perfil-pet-usuario-info-adocao-adote{
@@ -199,8 +205,13 @@
     font-size: 1.625em;
     color: #50077E;
 }
-/*
-*/
+
+.perfil-pet-usuario-info-adocao-adote-btn button:hover {
+    background-color: #50077E;
+    font-size: 1.625em;
+    color: #FFFFFF;
+}
+
 .perfil-pet-usuario-caracteristica {
     display: flex;
     flex-wrap: wrap;
@@ -220,6 +231,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 10px;
+}
+
+.perfil-pet-usuario-caracteristica-btn {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 .perfil-pet-usuario-info-adocao-acao-container {
@@ -238,12 +256,14 @@
     display: flex;
     justify-content: center;
     margin-top: 0px;
+    color: #7F2AB5;
 }
 
 .perfil-pet-usuario-info-adocao-acao h2 {
     display: flex;
     justify-content: center;
     margin-top: 0px;
+    color: #7F2AB5;
 }
 
 .perfil-pet-usuario-info-adocao-acao-btn {
@@ -260,4 +280,9 @@
     border-width: 0px;
     border-radius: 10px;
     color: #50077E;
+}
+
+.perfil-pet-usuario-info-adocao-acao-btn button:hover {
+    background: #50077E;
+    color: #F7CA00;
 }
