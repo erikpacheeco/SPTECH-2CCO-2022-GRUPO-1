@@ -55,11 +55,11 @@ VALUES
 
 -- Premio
 INSERT INTO
-premio(pet_id)
+premio(pet_id, img)
 VALUES
-(1),
-(2),
-(1);
+(1, '/img/pets/antonio.png'),
+(2, '/img/pets/antonio-gabriel.png'),
+(1, '/img/pets/antonio.png');
 
 
 -- Caracteristca
@@ -111,7 +111,6 @@ VALUES
 ('RESGATE', '2020-01-01', null, 'RESGATE_INVALIDO', 9, 1, null),
 ('RESGATE', '2020-01-01', null, 'RESGATE_VALIDO', 9, 1, null),
 ('ADOCAO', '2022-08-25', null, 'EM_ANDAMENTO', 9, 1, 5);
-
 
 -- mensagem
 INSERT INTO mensagem(conteudo, data_envio, tipo, demanda_id, usuario_id) VALUES

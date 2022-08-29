@@ -77,8 +77,9 @@ CREATE TABLE usuario (
   email VARCHAR(40) NOT NULL,
   senha VARCHAR(16) NOT NULL,
   nivel_acesso ENUM("SYSADM", "ADM", "PETOPS", "CHATOPS", "USER", "UNSIGNED") NOT NULL,
-  instituicao_id INT NOT NULL,
-  endereco_id INT NOT NULL,
+  instituicao_id INT,
+  endereco_id INT,
+  logado TINYINT DEFAULT 0,
   FOREIGN KEY (instituicao_id) REFERENCES instituicao(id),
   FOREIGN KEY (endereco_id) REFERENCES endereco(id)
 );
@@ -95,9 +96,11 @@ CREATE TABLE demanda (
   usuario_id INT NOT NULL,
   instituicao_id INT NOT NULL,
   colaborador_id INT,
+  pet_id INT,
   FOREIGN KEY (usuario_id) REFERENCES usuario(id),
   FOREIGN KEY (instituicao_id) REFERENCES instituicao(id),
-  FOREIGN KEY (colaborador_id) REFERENCES usuario(id)
+  FOREIGN KEY (colaborador_id) REFERENCES usuario(id),
+  FOREIGN KEY (pet_id) REFERENCES pet(id)
 );
 
 -- -----------------------------------------------------

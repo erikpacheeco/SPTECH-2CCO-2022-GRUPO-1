@@ -97,26 +97,26 @@ public class PetsController implements GerenciadorArquivos {
         return ResponseEntity.ok(servicePet.getPetPerfilByInstituicaoId(id));
     }
 
-    @PatchMapping(value = "/foto/{id}", consumes = "image/jpeg")
-    @Operation(description = "EndPoint para cadastrar a foto de perfil do animal")
-    public ResponseEntity<Void> patchFoto(@PathVariable int id, @RequestBody byte[] novaFoto) {
+    // @PatchMapping(value = "/foto/{id}", consumes = "image/jpeg")
+    // @Operation(description = "EndPoint para cadastrar a foto de perfil do animal")
+    // public ResponseEntity<Void> patchFoto(@PathVariable int id, @RequestBody byte[] novaFoto) {
 
-        Pet petEncontrado = repositoryPet.getById(id);
-        petEncontrado.setFotoPerfil(novaFoto);
-        repositoryPet.save(petEncontrado);
+    //     Pet petEncontrado = repositoryPet.getById(id);
+    //     petEncontrado.setFotoPerfil(novaFoto);
+    //     repositoryPet.save(petEncontrado);
 
-        return ResponseEntity.status(200).build();
-    }
+    //     return ResponseEntity.status(200).build();
+    // }
 
-    @GetMapping(value = "/foto/{codigo}", produces = "image/jpeg")
-    @Operation(description = "EndPoint para ver as fotos dos animais")
-    public ResponseEntity<byte[]> getFoto(@PathVariable int codigo) {
-        if (!repositoryPet.existsById(codigo)){
-            return ResponseEntity.status(404).build();
-        }
-        Pet petEncontrado = repositoryPet.getById(codigo);
-        return ResponseEntity.status(200).body(petEncontrado.getFotoPerfil());
-    }
+    // @GetMapping(value = "/foto/{codigo}", produces = "image/jpeg")
+    // @Operation(description = "EndPoint para ver as fotos dos animais")
+    // public ResponseEntity<byte[]> getFoto(@PathVariable int codigo) {
+    //     if (!repositoryPet.existsById(codigo)){
+    //         return ResponseEntity.status(404).build();
+    //     }
+    //     Pet petEncontrado = repositoryPet.getById(codigo);
+    //     return ResponseEntity.status(200).body(petEncontrado.getFotoPerfil());
+    // }
 
     @PostMapping
     @Operation(description = "Endpoint para cadastro de um novo pet em uma instituição especifica")

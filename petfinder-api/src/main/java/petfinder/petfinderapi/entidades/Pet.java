@@ -37,7 +37,7 @@ public class Pet {
     private String descricao;
     @Column(length = 50_000_000)
     @JsonIgnore
-    private byte[] fotoPerfil;
+    // private byte[] fotoPerfil;
     private String caminhoImagem;
     private Boolean doente;
     private Boolean adotado;
@@ -111,15 +111,15 @@ public class Pet {
     public void setSexo(String sexo) {
         this.sexo = sexo;
     }
-    public byte[] getFotoPerfil() {
-        return fotoPerfil;
-    }
-    public void setFotoPerfil(byte[] fotoPerfil) {
-        this.fotoPerfil = fotoPerfil;
-    }
-    public void setFotoPerfil() {
-        this.fotoPerfil = null;
-    }
+    // public byte[] getFotoPerfil() {
+    //     return fotoPerfil;
+    // }
+    // public void setFotoPerfil(byte[] fotoPerfil) {
+    //     this.fotoPerfil = fotoPerfil;
+    // }
+    // public void setFotoPerfil() {
+    //     this.fotoPerfil = null;
+    // }
     public Boolean getDoente() {
         return doente;
     }

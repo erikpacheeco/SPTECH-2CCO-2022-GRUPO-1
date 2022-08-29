@@ -55,11 +55,11 @@ VALUES
 
 -- Premio
 INSERT INTO
-premio(pet_id)
+premio(pet_id, img)
 VALUES
-(1),
-(2),
-(1);
+(1, '/img/pets/antonio.png'),
+(2, '/img/pets/antonio-gabriel.png'),
+(1, '/img/pets/antonio.png');
 
 
 -- Caracteristca
