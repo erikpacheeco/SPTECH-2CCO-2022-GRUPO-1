@@ -28,7 +28,7 @@ function PerfilPetInstituicao() {
 
                     <div className="perfil-pet-instituicao-foto">
                         <h1>{infoPet.nome}</h1>
-                        <img src="localhost:8080${infoPet.caminhoImagem}" alt="" />
+                        <img src={"http://localhost:8080"+infoPet.caminhoImagem} alt="" />
                     </div>
 
                     <div className="perfil-pet-instituicao-informacao-container">
