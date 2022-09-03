@@ -1,5 +1,6 @@
 import icon_resgate from "../../Images/icon_resgate.svg"
 import "./float-resgate.css"
+import React from "react";
 
 function FloatResgate() {
     return (

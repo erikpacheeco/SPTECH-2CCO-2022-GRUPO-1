@@ -2,6 +2,7 @@ import app_menu from "../../Images/application-menu.svg"
 import perfil from "../../Images/perfil-header.svg"
 import NavItem from"../NavItem"
 import "./header-app.css"
+import React from "react";
 
 function HeaderApp(props) {
     HeaderApp.defaultProps = {

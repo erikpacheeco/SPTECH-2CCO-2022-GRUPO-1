@@ -1,5 +1,6 @@
 import doente from "../../Images/png_img/saude_2.png"
 import "./card-pet.css"
+import React from "react";
 
 export default function CardPet(props) {
 

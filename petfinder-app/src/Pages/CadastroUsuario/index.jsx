@@ -6,7 +6,7 @@ import FloatResgate from "../../Components/FloatResgate";
 import HeaderBasic from "../../Components/HeaderBasic"
 import "./cadastro-usuario.css"
 import api from "../../Api"
-
+import React from "react";
 
 function initialValuesUsuario() {
     return {

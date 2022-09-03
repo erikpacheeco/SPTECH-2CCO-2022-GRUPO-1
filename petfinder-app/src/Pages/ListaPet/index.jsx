@@ -2,6 +2,7 @@ import './styles.css';
 import HeaderApp from "../../Components/HeaderApp";
 import NavItem from "../../Components/NavItem";
 import PetListItem from "../../Components/PetListItem";
+import React from "react";
 
 function ListaPet() {
 

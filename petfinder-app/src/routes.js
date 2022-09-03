@@ -11,6 +11,11 @@ import PerfilPetUsuario from "./Pages/PerfilPetUsuario";
 import PerfilPetInstituicao from "./Pages/PerfilPetInstituicao";
 import MeusPremios from "./Pages/MeusPremios";
 import VerMais from "./Pages/VerMais";
+import DashboardSysAdmin from "./Pages/DashboardSysAdmin";
+import DashboardChatOps from "./Pages/DashboardChatOps";
+import DashboardAdmin from "./Pages/DashboardAdmin";
+import Teste from "./Pages/teste.jsx";
+import React from "react";
 
 function Rotas() {
     return (
@@ -28,6 +33,10 @@ function Rotas() {
                 <Route path="/perfil-pet-instituicao" element={<PerfilPetInstituicao/>} /> 
                 <Route path="/meus-premios" element={<MeusPremios/>} />
                 <Route path="/ver-mais" element={<VerMais/>} />
+                <Route path="/dashboard-sysadmin" element={<DashboardSysAdmin/>} />
+                <Route path="/dashboard-chatops" element={<DashboardChatOps/>} />
+                <Route path="/dashboard-admin" element={<DashboardAdmin/>} />
+                <Route path="/teste" element={<Teste/>} />
             </Routes>
         </BrowserRouter>
     );

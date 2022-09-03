@@ -2,6 +2,7 @@ import "./styles.css";
 import HeaderApp from "../../Components/HeaderApp";
 import NavItem from "../../Components/NavItem";
 import FormContainer from "../../Components/FormContainer";
+import React from "react";
 
 function CadastroPet() {
     return(

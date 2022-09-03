@@ -1,4 +1,5 @@
 import "./styles.css";
+import React from "react";
 
 function FormContainer({title}) {
     return(
