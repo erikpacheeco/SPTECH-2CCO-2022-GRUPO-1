@@ -2,18 +2,24 @@ import app_menu from "../../Images/application-menu.svg"
 import perfil from "../../Images/perfil-header.svg"
 import NavItem from"../NavItem"
 import "./header-app.css"
-import React from "react";
+import React, { useState } from "react";
+import SideBar from "../SideBar";
+import SideBarItem from "../SideBarItem";
 
 function HeaderApp(props) {
     HeaderApp.defaultProps = {
-        itens : [<NavItem isSelected = {true}/>,<NavItem/>,<NavItem/>]
+        itens : [<NavItem isSelected = {true}/>,<NavItem/>,<NavItem/>],
+        sideItens :  [<SideBarItem/>]
     }
+
+    const [hiddenSideBar, setHidenSideBar] = useState(true);
     
     return (
     <header>
         <nav className="header-app-nav">
+            <SideBar sideBar={hiddenSideBar} setSideBar={setHidenSideBar}  elementsSide={props.sideItens} />
             <div className="header-app-container-nav">
-                <img className="header-app-application-menu" src={app_menu} alt="icone do menu"/>
+                <img className="header-app-application-menu" src={app_menu} alt="icone do menu" onClick={()=>{setHidenSideBar(false)}}/>
                 <div className="header-app-container-btn-nav header-app-nav-container-itens">
                     {
                         props.itens.map((element)=> {
