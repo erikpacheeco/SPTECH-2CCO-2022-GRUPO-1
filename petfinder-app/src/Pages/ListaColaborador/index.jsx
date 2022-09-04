@@ -5,6 +5,15 @@ import plus from "../../Images/plus.svg";
 import ColaboradorListaItem from '../../Components/ColaboradorListaItem';
 import React, {useState, useEffect} from 'react';
 import api from "../../Api";
+import SideBarItem from "../../Components/SideBarItem";
+import Dashboard from "../../Images/data-graph.svg";
+import Pets from "../../Images/paw.svg";
+import Demandas from "../../Images/attention-icon.svg";
+import Padrinhos from "../../Images/padrinhos.svg";
+import MeuPerfil from "../../Images/people.svg";
+import PerfilInstituicao from "../../Images/user-business.svg";
+import Colaboradores from "../../Images/colaboradores.svg";
+import Duvida from "../../Images/duvida.svg";
 
 function ListaColaborador(){
 
@@ -17,7 +26,7 @@ function ListaColaborador(){
 
     const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
 
-    console.log(objUser.fkInstituicao.id);
+    // console.log(objUser.fkInstituicao.id);
  
 
     useEffect(() => {
@@ -35,12 +44,25 @@ function ListaColaborador(){
     return(
         <>
             <div className="lista-colaborador-root">
-                <HeaderApp itens={[
-                    <NavItem label="Dashboard" />,
-                    <NavItem label="Padrinhos" />,
-                    <NavItem label="Demandas" />,
-                    <NavItem isSelected={true} label="Colaboradores" />
-                ]}
+                <HeaderApp
+                
+                    sideItens={[
+                        <SideBarItem icon={Dashboard} label="Dashboard"/>,
+                        <SideBarItem icon={Pets} label="Pets"/>,
+                        <SideBarItem icon={Demandas} label="Demandas"/>,
+                        <SideBarItem icon={Padrinhos} label="Padrinhos"/>,
+                        <SideBarItem icon={MeuPerfil} label="Meu Perfil"/>,
+                        <SideBarItem icon={PerfilInstituicao} label="Perfil Instituição"/>,
+                        <SideBarItem icon={Colaboradores} label="Colaboradores Cadastrados"/>,
+                        <SideBarItem icon={Duvida} label="Dúvida"/>
+                    ]}
+                
+                    itens={[
+                        <NavItem label="Dashboard" />,
+                        <NavItem label="Padrinhos" />,
+                        <NavItem label="Demandas" />,
+                        <NavItem isSelected={true} label="Colaboradores" />
+                    ]}
                 />
 
                 <div className="lista-colaborador">
