@@ -46,11 +46,17 @@ export default function HomeUser() {
 
     return (
         <>
-            <HeaderApp itens={[
-                <NavItem isSelected={true} label="Página Inicial" />,
-                <NavItem label="Meus Prêmios" />,
-                <NavItem label="Mensagens" />
-            ]}
+            <HeaderApp 
+            
+                sideItens={[
+
+                ]}
+                
+                itens={[
+                    <NavItem isSelected={true} label="Página Inicial" />,
+                    <NavItem label="Meus Prêmios" />,
+                    <NavItem label="Mensagens" />
+                ]}
             />
 
             <main className="home-user-container-main">

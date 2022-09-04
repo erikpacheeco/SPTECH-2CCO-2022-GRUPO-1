@@ -1,0 +1,75 @@
+.side-bar {
+    height: 100%;
+    width: 100%;
+    max-width: 450px;
+    z-index: 2;
+
+    position: fixed;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background: linear-gradient(90deg, #7F2AB5 0%, #50077E 112.78%);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+    overflow: auto;
+
+}
+
+.side-bar-hidden{
+    display: none;
+}
+
+.side-bar-close{
+    height: 100px;
+    width: 90%;
+    display: flex;
+    align-items: center;
+}
+
+.side-bar-close img{
+    cursor: pointer;
+    /* cursor: url("../../Images/paw.svg"), auto !important; */
+}
+
+.side-bar-option{
+    height: 100%;
+    width: 100%;
+    
+    display: flex;
+    flex-direction: column;
+}
+
+.side-bar-logout {
+    height: 100px;
+    width: 100%;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-side-bar-logout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+
+
+.side-bar-logout p {
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 33px;
+    display: flex;
+    align-items: center;
+    margin-right: 6px;
+
+    color: #FFFFFF;
+}
