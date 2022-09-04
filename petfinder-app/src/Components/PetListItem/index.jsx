@@ -1,8 +1,11 @@
 import "./styles.css";
 import userIcon from "../../Images/png_img/user_icon.png"
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
-function PetListItem({nome, especie, raca, idade, peso}) {
+function PetListItem({nome, especie, raca, idade, peso, id}) {
+
+    const navigate = useNavigate()
 
     function PetKeyValueItem({chave, value}) {
         return (
@@ -13,10 +16,6 @@ function PetListItem({nome, especie, raca, idade, peso}) {
         );
     }
 
-    function handleEditItem() {
-        console.log("edit!");
-    }
-
     return(
         <div className="pet-item-list">
             <img src={userIcon} alt="" className="item-list-user-icon"/>
@@ -25,7 +24,12 @@ function PetListItem({nome, especie, raca, idade, peso}) {
             <PetKeyValueItem chave="raça" value={raca}/>
             <PetKeyValueItem chave="idade" value={idade}/>
             <PetKeyValueItem chave="peso" value={peso}/>
-            <button onClick={handleEditItem} className="pet-list-item-btn-editar-cadastro">EDITAR CADASTRO</button>
+            <PetKeyValueItem chave="id" value={id}/>
+            <button 
+                onClick={() => 
+                    navigate(`/perfil-pet-instituicao/${id}`)
+                } 
+                className="pet-list-item-btn-editar-cadastro">EDITAR CADASTRO</button>
         </div>
     )
 }

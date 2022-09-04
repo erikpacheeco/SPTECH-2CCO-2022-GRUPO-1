@@ -4,14 +4,16 @@ import NavItem from "../../Components/NavItem";
 import { useEffect, useState } from "react";
 import api from "../../Api"
 import React from "react";
+import { useParams } from 'react-router-dom'
 
 function PerfilPetInstituicao() {
 
     const [infoPet, setInfoPet] = useState([])
     const [preferencias, setPreferencias] = useState([])
-
+    const idPet = useParams()
+    console.log(idPet)
     useEffect(() => {
-        api.get("/pets/1/perfil").then((res) => {
+        api.get(`/pets/${idPet.id}/perfil`).then((res) => {
             setInfoPet(res.data)
             setPreferencias(res.data.caracteristicas)
         })
