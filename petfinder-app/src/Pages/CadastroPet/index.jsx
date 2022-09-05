@@ -3,6 +3,7 @@ import HeaderApp from "../../Components/HeaderApp";
 import NavItem from "../../Components/NavItem";
 import FormContainer from "../../Components/FormContainer";
 import React from "react";
+import VLibras from "@djpfs/react-vlibras"
 
 function CadastroPet() {
     return(
@@ -15,6 +16,7 @@ function CadastroPet() {
             ]} />
 
             <FormContainer title="Cadastro de Pet"/>
+            <VLibras forceOnload={true}></VLibras>
         </>
     )
 }

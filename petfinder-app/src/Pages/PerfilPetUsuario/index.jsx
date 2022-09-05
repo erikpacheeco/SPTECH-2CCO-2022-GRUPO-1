@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import api from "../../Api"
 import React from "react";
 import { useParams } from 'react-router-dom'
-
+import VLibras from "@djpfs/react-vlibras"
 
 function PerfilPetUsuario() {
 
@@ -158,6 +158,7 @@ function PerfilPetUsuario() {
                 </div>
             </div>
             
+            <VLibras forceOnload={true}></VLibras>
         </>
     )
 }

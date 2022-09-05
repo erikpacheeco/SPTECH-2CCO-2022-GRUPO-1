@@ -5,6 +5,7 @@ import PetListItem from "../../Components/PetListItem";
 import React from "react";
 import { useEffect, useState } from "react";
 import api from "../../Api"
+import VLibras from "@djpfs/react-vlibras"
 
 function ListaPet() {
 
@@ -44,6 +45,7 @@ function ListaPet() {
                 </div>
             </div>
                 
+            <VLibras forceOnload={true}></VLibras>
         </>
     )
 }

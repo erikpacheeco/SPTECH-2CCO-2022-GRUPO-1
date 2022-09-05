@@ -2,6 +2,7 @@ import './EditarColaborador.css';
 import HeaderApp from "../../Components/HeaderApp";
 import NavItem from "../../Components/NavItem";
 import React, { useState } from "react";
+import VLibras from "@djpfs/react-vlibras"
 
 function resetValues() {
     return { nome: "", cargo: "" }
@@ -64,7 +65,7 @@ function EditarColaborador() {
                     </form>
                 </div>
             </div>
-            
+            <VLibras forceOnload={true}></VLibras>
         </>
     )
 }

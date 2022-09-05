@@ -8,6 +8,7 @@ import "./home-user.css"
 import api from "../../Api"
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import VLibras from "@djpfs/react-vlibras"
 
 export default function HomeUser() {
 
@@ -109,6 +110,7 @@ export default function HomeUser() {
                     </section>
                 </div>
             </main>
+            <VLibras forceOnload={true}></VLibras>
         </>
     );
 }
