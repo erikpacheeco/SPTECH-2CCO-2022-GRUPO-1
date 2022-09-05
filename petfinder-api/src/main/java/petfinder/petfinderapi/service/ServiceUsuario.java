@@ -1,11 +1,9 @@
 package petfinder.petfinderapi.service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import petfinder.petfinderapi.entidades.Instituicao;
 import petfinder.petfinderapi.repositorios.InstituicaoRepositorio;
 import petfinder.petfinderapi.repositorios.UsuarioRepositorio;
 import petfinder.petfinderapi.resposta.ColaboradorSimples;
@@ -23,21 +21,34 @@ public class ServiceUsuario {
     private UsuarioRepositorio repositoryUser;
 
     // retorna colaborador baseado no id da instituicao
-    public List<ColaboradorSimples> getColaboradorByInstituicaoId(int id) {
-
-        List<ColaboradorSimples> colabList = repositoryUser.findColaboradorById(id);
-
-        // verificando se valor é nulo
-        if (colabList.size() > 0) {
-
-            // 200 ok
-            return colabList;
-        }
+    public List<ColaboradorSimples> getColaboradorByInstituicaoId(int id, String categoria) {
 
         // verificando se instituicao existe
         if (repositoryInstituicao.existsById(id)) {
+
+            // filter by access level
+            if (Objects.nonNull(categoria)) {
+                List<ColaboradorSimples> colabList = repositoryUser.findColaboradorByInstituicaoAndCategoria(id, categoria);
+
+                // verificando se valor é nulo
+                if (colabList.size() > 0) {
+                    // 200 ok
+                    return colabList;
+                }
+                // 204 no content
+                throw new NoContentException("usuario");
+            }
+
+            // not fultered by access level
+            List<ColaboradorSimples> colabList = repositoryUser.findColaboradorById(id);
+
+            // verificando se valor é nulo
+            if (colabList.size() > 0) {
+                // 200 ok
+                return colabList;
+            }
             // 204 no content
-            throw new NoContentException("Instituição");
+            throw new NoContentException("usuario");
         }
 
         // 404 not found
@@ -60,6 +71,20 @@ public class ServiceUsuario {
 
         // 404 not found
         throw new EntityNotFoundException(id);
+    }
+
+    // return list of users based on nivelAcesso
+    public List<UsuarioSemSenha> getUsuarioByNivelAcesso(String nivelAcesso) {
+
+        List<UsuarioSemSenha> users = repositoryUser.findUsuarioByNivelAcesso(nivelAcesso);
+
+        // 200 ok
+        if (users.size() > 0) {
+            return users;
+        }
+
+        // 204 no content
+        throw new NoContentException("usuario");
     }
     
 }
