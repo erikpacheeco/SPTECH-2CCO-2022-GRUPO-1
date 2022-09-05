@@ -21,10 +21,16 @@ function PerfilPetInstituicao() {
 
     return(
         <>
-            <HeaderApp itens={[
-                <NavItem label="Pets" />,
-                <NavItem label="Demandas" />
-            ]}/>
+            <HeaderApp 
+                sideItens={[
+                    
+                ]}
+
+                itens={[
+                    <NavItem label="Pets" />,
+                    <NavItem label="Demandas" />
+                ]}
+            />
 
             <div className="perfil-pet-instituicao">
                 <div className="perfil-pet-instituicao-container">

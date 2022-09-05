@@ -17,12 +17,18 @@ function DashboardSysAdmin() {
     
     return(
         <>
-            <HeaderApp itens={[
-                <NavItem label="Dashboard" />,
-                <NavItem label="Admin Cadastrados" />,
-                <NavItem label="Instituições Cadastrados" />,
-                <NavItem label="Dúvidas" />
-            ]}/>
+            <HeaderApp 
+                sideItens={[
+                
+                ]}
+                
+                itens={[
+                    <NavItem label="Dashboard" />,
+                    <NavItem label="Admin Cadastrados" />,
+                    <NavItem label="Instituições Cadastrados" />,
+                    <NavItem label="Dúvidas" />
+                ]}
+            />
 
             <div className="dashboard-sysadmin">
                 <div className="dashboard-sysadmin-container">

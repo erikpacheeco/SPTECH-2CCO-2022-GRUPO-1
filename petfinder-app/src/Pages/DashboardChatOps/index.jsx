@@ -22,12 +22,18 @@ function DashboardChatOps() {
 
     return(
         <>
-            <HeaderApp itens={[
-                <NavItem label="Dashboard" />,
-                <NavItem label="Admin Cadastrados" />,
-                <NavItem label="Instituições Cadastrados" />,
-                <NavItem label="Dúvidas" />
-            ]}/>
+            <HeaderApp 
+                sideItens={[
+                    
+                ]}
+                
+                itens={[
+                    <NavItem label="Dashboard" />,
+                    <NavItem label="Admin Cadastrados" />,
+                    <NavItem label="Instituições Cadastrados" />,
+                    <NavItem label="Dúvidas" />
+                ]}
+            />
 
             <div className="dashboard-chatops">
                 <div className="dashboard-chatops-container">

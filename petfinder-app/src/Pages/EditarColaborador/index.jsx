@@ -17,11 +17,16 @@ function EditarColaborador() {
 
     return(
         <>
-            <HeaderApp itens={[
-                <NavItem label="Dashboard" />,
-                <NavItem label="Padrinhos" />,
-                <NavItem label="Demandas" />
-            ]}
+            <HeaderApp 
+                sideItens={[
+                    
+                ]}
+                
+                itens={[
+                    <NavItem label="Dashboard" />,
+                    <NavItem label="Padrinhos" />,
+                    <NavItem label="Demandas" />
+                ]}
             />
             <div className="editar-colaborador-container">
                 <div className="editar-colaborador-form-container">

@@ -24,11 +24,23 @@ function PerfilPetUsuario() {
 
     return(
         <>
-            <HeaderApp itens={[
-                <NavItem label="Página Inicial" />,
-                <NavItem label="Meus Prêmios" />,
-                <NavItem label="Mensagens" />
-            ]}/>
+            <HeaderApp 
+                sideItens={[
+                    <NavItem label="Página Inicial" />,
+                    <NavItem label="Mensagens" />,
+                    <NavItem label="Meu Perfil" />,
+                    <NavItem label="Meus Prêmios" />,
+                    <NavItem label="Solicitação de Resgaste" />,
+                ]}
+
+                itens={[
+                    <NavItem label="Página Inicial" />,
+                    <NavItem label="Meus Prêmios" />,
+                    <NavItem label="Meus Prêmios" />,
+                    <NavItem label="Meus Prêmios" />,
+                    <NavItem label="Mensagens" />
+                ]}
+            />
 
             <div className="perfil-pet-usuario">
                 <div className="perfil-pet-usuario-container">
