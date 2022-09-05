@@ -9,6 +9,7 @@ import petfinder.petfinderapi.entidades.Instituicao;
 import petfinder.petfinderapi.repositorios.InstituicaoRepositorio;
 import petfinder.petfinderapi.repositorios.UsuarioRepositorio;
 import petfinder.petfinderapi.resposta.ColaboradorSimples;
+import petfinder.petfinderapi.resposta.UsuarioSemSenha;
 import petfinder.petfinderapi.service.exceptions.EntityNotFoundException;
 import petfinder.petfinderapi.service.exceptions.NoContentException;
 
@@ -37,6 +38,24 @@ public class ServiceUsuario {
         if (repositoryInstituicao.existsById(id)) {
             // 204 no content
             throw new NoContentException("Instituição");
+        }
+
+        // 404 not found
+        throw new EntityNotFoundException(id);
+    }
+
+    // return a list of users who are sub
+    public List<UsuarioSemSenha> getPadrinhos(Integer id) {
+
+        if(repositoryInstituicao.existsById(id)) {
+            List<UsuarioSemSenha> padrinhos = repositoryUser.getPadrinhos(id);
+
+            if (padrinhos.size() > 0) {
+                return padrinhos;
+            }
+
+            // 204 no content
+            throw new NoContentException("padrinhos");
         }
 
         // 404 not found

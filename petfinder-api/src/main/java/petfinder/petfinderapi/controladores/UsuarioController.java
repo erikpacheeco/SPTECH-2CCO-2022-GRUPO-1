@@ -75,6 +75,15 @@ public class UsuarioController {
         return ResponseEntity.ok(serviceUsuario.getColaboradorByInstituicaoId(id));
     }
 
+    @GetMapping("/padrinhos/{idInstituicao}")
+    @Operation(description = "retorna lista de padrinhos de uma instituicao")
+    @ApiResponse(responseCode = "200", description = "Ok")
+    @ApiResponse(responseCode = "204", description = "No Content", content = @Content)
+    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
+    public ResponseEntity<List<UsuarioSemSenha>> getPadrinhos(@PathVariable Integer idInstituicao) {
+        return ResponseEntity.ok(serviceUsuario.getPadrinhos(idInstituicao));
+    }
+
     // retorna todos os usuarios
     @GetMapping
     @Operation(description = "Endpoint que retorna uma lista com todos os usuários")
