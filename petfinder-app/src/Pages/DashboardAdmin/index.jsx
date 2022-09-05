@@ -3,6 +3,7 @@ import HeaderApp from "../../Components/HeaderApp";
 import NavItem from "../../Components/NavItem";
 import React from "react";
 import { Chart } from "react-google-charts";
+import VLibras from "@djpfs/react-vlibras"
 
 export const data = [
     ["Mês", "Padrinhos", "Prêmios Postados"],
@@ -17,12 +18,18 @@ function DashboardAdmin() {
 
     return(
         <>
-            <HeaderApp itens={[
-                <NavItem label="Dashboard" />,
-                <NavItem label="Admin Cadastrados" />,
-                <NavItem label="Instituições Cadastrados" />,
-                <NavItem label="Dúvidas" />
-            ]}/>
+            <HeaderApp 
+                sideItens={[
+                    
+                ]}
+                
+                itens={[
+                    <NavItem label="Dashboard" />,
+                    <NavItem label="Admin Cadastrados" />,
+                    <NavItem label="Instituições Cadastrados" />,
+                    <NavItem label="Dúvidas" />
+                ]}
+            />
 
             <div className="dashboard-admin">
                 <div className="dashboard-admin-container">
@@ -170,7 +177,7 @@ function DashboardAdmin() {
                 </div>
             </div>
             
-            
+            <VLibras forceOnload={true}></VLibras>
         </>
     )
 }

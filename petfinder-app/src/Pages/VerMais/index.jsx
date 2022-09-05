@@ -3,12 +3,16 @@ import "./VerMais.css";
 import HeaderApp from "../../Components/HeaderApp";
 import NavItem from "../../Components/NavItem";
 import img from "../../Images/erase.svg"
-import img2 from "./img.png"
+import VLibras from "@djpfs/react-vlibras"
 
 export default function verMais() {
     return (
         <>
             <HeaderApp
+
+            sideItens={[
+
+            ]}
                 itens={[
                     <NavItem label="Página Inicial" />,
                     <NavItem label="Meus Prêmios" />,
@@ -40,11 +44,13 @@ export default function verMais() {
 
                     <div className="ver-mais-fotos-container">
                         <div className="ver-mais-fotos-container-sub">
-                            <img src={img2} alt="" className="ver-mais-img-animais" />
+                            {/* <img src={} alt="" className="ver-mais-img-animais" /> */}
                         </div>
                     </div>
 
                 </div>
-            </div>        </>
+            </div>
+            <VLibras forceOnload={true}></VLibras>       
+             </>
     )
 }

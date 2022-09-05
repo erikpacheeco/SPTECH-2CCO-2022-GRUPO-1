@@ -4,14 +4,17 @@ import NavItem from "../../Components/NavItem";
 import { useEffect, useState } from "react";
 import api from "../../Api"
 import React from "react";
+import { useParams } from 'react-router-dom'
+import VLibras from "@djpfs/react-vlibras"
 
 function PerfilPetInstituicao() {
 
     const [infoPet, setInfoPet] = useState([])
     const [preferencias, setPreferencias] = useState([])
-
+    const idPet = useParams()
+    console.log(idPet)
     useEffect(() => {
-        api.get("/pets/1/perfil").then((res) => {
+        api.get(`/pets/${idPet.id}/perfil`).then((res) => {
             setInfoPet(res.data)
             setPreferencias(res.data.caracteristicas)
         })
@@ -19,10 +22,16 @@ function PerfilPetInstituicao() {
 
     return(
         <>
-            <HeaderApp itens={[
-                <NavItem label="Pets" />,
-                <NavItem label="Demandas" />
-            ]}/>
+            <HeaderApp 
+                sideItens={[
+                    
+                ]}
+
+                itens={[
+                    <NavItem label="Pets" />,
+                    <NavItem label="Demandas" />
+                ]}
+            />
 
             <div className="perfil-pet-instituicao">
                 <div className="perfil-pet-instituicao-container">
@@ -95,6 +104,7 @@ function PerfilPetInstituicao() {
                 </div>
             </div>
             
+            <VLibras forceOnload={true}></VLibras>
         </>
     )
 }

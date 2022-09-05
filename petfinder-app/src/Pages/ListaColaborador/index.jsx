@@ -14,6 +14,8 @@ import MeuPerfil from "../../Images/people.svg";
 import PerfilInstituicao from "../../Images/user-business.svg";
 import Colaboradores from "../../Images/colaboradores.svg";
 import Duvida from "../../Images/duvida.svg";
+import VLibras from "@djpfs/react-vlibras"
+
 
 function ListaColaborador(){
 
@@ -81,6 +83,8 @@ function ListaColaborador(){
                     </div>
                 </div>
             </div>
+
+            <VLibras forceOnload={true}></VLibras>
         </>
     )
 }

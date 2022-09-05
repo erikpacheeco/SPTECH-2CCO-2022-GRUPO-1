@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./style.css";
 import HeaderApp from "../../Components/HeaderApp";
 import NavItem from "../../Components/NavItem";
+import VLibras from "@djpfs/react-vlibras"
 
 export default function CadastrarColaborador() {
   const [nome, setNome] = useState("");
@@ -71,6 +72,8 @@ export default function CadastrarColaborador() {
           <input type="submit" class="btn-enviar" name="btn" value="Enviar" />
         </form>
       </div>
+
+      <VLibras forceOnload={true}></VLibras>
     </>
   );
 }

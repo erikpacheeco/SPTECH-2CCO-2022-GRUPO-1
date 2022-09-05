@@ -3,6 +3,7 @@ import HeaderApp from "../../Components/HeaderApp";
 import NavItem from "../../Components/NavItem";
 import React from "react";
 import { Chart } from "react-google-charts";
+import VLibras from "@djpfs/react-vlibras"
 
 export const dataDemadaMes = [
     ["", "Demanda"],
@@ -22,12 +23,18 @@ function DashboardChatOps() {
 
     return(
         <>
-            <HeaderApp itens={[
-                <NavItem label="Dashboard" />,
-                <NavItem label="Admin Cadastrados" />,
-                <NavItem label="Instituições Cadastrados" />,
-                <NavItem label="Dúvidas" />
-            ]}/>
+            <HeaderApp 
+                sideItens={[
+                    
+                ]}
+                
+                itens={[
+                    <NavItem label="Dashboard" />,
+                    <NavItem label="Admin Cadastrados" />,
+                    <NavItem label="Instituições Cadastrados" />,
+                    <NavItem label="Dúvidas" />
+                ]}
+            />
 
             <div className="dashboard-chatops">
                 <div className="dashboard-chatops-container">
@@ -108,7 +115,7 @@ function DashboardChatOps() {
                 </div>
             </div>
             
-            
+            <VLibras forceOnload={true}></VLibras>
         </>
     )
 }

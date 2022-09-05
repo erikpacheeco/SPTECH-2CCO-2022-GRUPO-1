@@ -7,6 +7,7 @@ import HeaderBasic from "../../Components/HeaderBasic"
 import "./cadastro-usuario.css"
 import api from "../../Api"
 import React from "react";
+import VLibras from "@djpfs/react-vlibras"
 
 function initialValuesUsuario() {
     return {
@@ -381,6 +382,8 @@ function CadastroUsuario() {
                 </form>
             </div>
             <FloatResgate />
+
+            <VLibras forceOnload={true}></VLibras>
         </>
     );
 }

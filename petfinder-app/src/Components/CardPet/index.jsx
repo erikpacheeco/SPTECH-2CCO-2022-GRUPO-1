@@ -6,11 +6,11 @@ export default function CardPet(props) {
 
     CardPet.defaultProps= {
         isDoente: false,
-        nome: "Label",
+        nome: "Label"
     }
 
     return (
-        <figure class="card-pet-img-pet" style={{backgroundImage: `url("http://localhost:8080${props.backgroundImage}")`}}>
+        <figure class="card-pet-img-pet" onClick={props.onClick} style={{backgroundImage: `url("http://localhost:8080${props.backgroundImage}")`}}>
             <p>{props.nome}</p>
             <img
                 className={

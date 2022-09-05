@@ -3,8 +3,19 @@ import HeaderApp from "../../Components/HeaderApp";
 import NavItem from "../../Components/NavItem";
 import PetListItem from "../../Components/PetListItem";
 import React from "react";
+import { useEffect, useState } from "react";
+import api from "../../Api"
+import VLibras from "@djpfs/react-vlibras"
 
 function ListaPet() {
+
+    const [infoPet, setInfoPet] = useState([])
+    
+    useEffect(() => {
+        api.get(`/pets/instituicao/1`).then((res) => {
+            setInfoPet(res.data)
+        })
+    })
 
     function handleAddItemList() {
         console.log("click!");
@@ -26,12 +37,15 @@ function ListaPet() {
                     <div className="cadastro-pet-add-icon" onClick={handleAddItemList}>+</div>
                 </div>
                 <div id="idCadstroPetList" className="cadastro-pet-list">
-                    <PetListItem nome="Rubens" especie="Cachorro" raca="SRD" idade="5" peso="34"/>
-                    <PetListItem nome="Rubens" especie="Cachorro" raca="SRD" idade="5" peso="34"/>
-                    <PetListItem nome="Rubens" especie="Cachorro" raca="SRD" idade="5" peso="34"/>
+                    {
+                        infoPet.map((info) => (
+                            <PetListItem id={info.id} nome={info.nome} especie={info.especie} raca={info.raca} idade={info.idade} peso={info.peso}/>
+                        ))
+                    }
                 </div>
             </div>
                 
+            <VLibras forceOnload={true}></VLibras>
         </>
     )
 }

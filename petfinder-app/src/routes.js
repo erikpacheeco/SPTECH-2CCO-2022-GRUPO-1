@@ -28,8 +28,8 @@ function Rotas() {
                 <Route path="/editar-colaborador" element={<EditarColaborador/>} />
                 <Route path="/cadastro-colaborador" element={<CadastrarColaborador/>} />
                 <Route path="/lista-colaborador" element={<ListaColaborador/>} /> 
-                <Route path="/perfil-pet-usuario" element={<PerfilPetUsuario/>} /> 
-                <Route path="/perfil-pet-instituicao" element={<PerfilPetInstituicao/>} /> 
+                <Route path="/perfil-pet-usuario/:id" element={<PerfilPetUsuario/>} /> 
+                <Route path="/perfil-pet-instituicao/:id" element={<PerfilPetInstituicao/>} /> 
                 <Route path="/meus-premios" element={<MeusPremios/>} />
                 <Route path="/ver-mais" element={<VerMais/>} />
                 <Route path="/dashboard-sysadmin" element={<DashboardSysAdmin/>} />

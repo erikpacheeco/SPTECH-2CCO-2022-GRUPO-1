@@ -2,6 +2,7 @@ import './EditarColaborador.css';
 import HeaderApp from "../../Components/HeaderApp";
 import NavItem from "../../Components/NavItem";
 import React, { useState } from "react";
+import VLibras from "@djpfs/react-vlibras"
 
 function resetValues() {
     return { nome: "", cargo: "" }
@@ -17,11 +18,16 @@ function EditarColaborador() {
 
     return(
         <>
-            <HeaderApp itens={[
-                <NavItem label="Dashboard" />,
-                <NavItem label="Padrinhos" />,
-                <NavItem label="Demandas" />
-            ]}
+            <HeaderApp 
+                sideItens={[
+                    
+                ]}
+                
+                itens={[
+                    <NavItem label="Dashboard" />,
+                    <NavItem label="Padrinhos" />,
+                    <NavItem label="Demandas" />
+                ]}
             />
             <div className="editar-colaborador-container">
                 <div className="editar-colaborador-form-container">
@@ -59,7 +65,7 @@ function EditarColaborador() {
                     </form>
                 </div>
             </div>
-            
+            <VLibras forceOnload={true}></VLibras>
         </>
     )
 }

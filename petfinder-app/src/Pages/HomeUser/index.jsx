@@ -7,14 +7,16 @@ import NavItem from "../../Components/NavItem";
 import "./home-user.css"
 import api from "../../Api"
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import VLibras from "@djpfs/react-vlibras"
 
 export default function HomeUser() {
 
     const [allPets, setAllPets] = useState([]);
     const [sickPets, setSickPets] = useState([]);
     const [cont, setCont] = useState(0);
-
-
+    const navigate = useNavigate()
+    
     const responsive = {
         superLargeDesktop: {
             // the naming can be any, depends on you.
@@ -36,7 +38,7 @@ export default function HomeUser() {
     };
 
     useEffect(() => {
-        api.get("pets").then((res) => {
+        api.get("/pets").then((res) => {
             setAllPets(res.data);
         })
         api.get(`/pets/doentes/${8}`).then((res) => {
@@ -91,7 +93,16 @@ export default function HomeUser() {
                             <div className="home-user-container-adotar">
                                 {
                                     allPets.map((p) => (
-                                        <CardPet nome={p.nome} isDoente={p.doente} backgroundImage={p.caminhoImagem} />
+                                        <CardPet 
+                                            id={p.id}
+                                            nome={p.nome} 
+                                            isDoente={p.doente} 
+                                            backgroundImage={p.caminhoImagem} 
+                                            onClick={() => 
+                                                navigate(`/perfil-pet-usuario/${p.id}`)
+                                            }
+                                        />
+                                        
                                     ))
                                 }
                             </div>
@@ -99,6 +110,7 @@ export default function HomeUser() {
                     </section>
                 </div>
             </main>
+            <VLibras forceOnload={true}></VLibras>
         </>
     );
 }
