@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import logo from '../../Images/img_logo.svg'
 import NavItem from '../NavItem';
 import "./header-basic.css"
+import React from "react";
 
 function HeaderBasic() {
 

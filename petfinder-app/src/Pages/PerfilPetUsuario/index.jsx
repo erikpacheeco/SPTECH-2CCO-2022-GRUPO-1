@@ -3,14 +3,19 @@ import HeaderApp from "../../Components/HeaderApp";
 import NavItem from "../../Components/NavItem";
 import { useEffect, useState } from "react";
 import api from "../../Api"
+import React from "react";
+import { useParams } from 'react-router-dom'
+import VLibras from "@djpfs/react-vlibras"
 
 function PerfilPetUsuario() {
 
     const [infoPet, setInfoPet] = useState([])
     const [preferencias, setPreferencias] = useState([])
-
+    const idPet = useParams()
+    
     useEffect(() => {
-        api.get("/pets/1/perfil").then((res) => {
+        
+        api.get(`/pets/${idPet.id}/perfil`).then((res) => {
             setInfoPet(res.data)
             setPreferencias(res.data.caracteristicas)
         })
@@ -19,11 +24,23 @@ function PerfilPetUsuario() {
 
     return(
         <>
-            <HeaderApp itens={[
-                <NavItem label="Página Inicial" />,
-                <NavItem label="Meus Prêmios" />,
-                <NavItem label="Mensagens" />
-            ]}/>
+            <HeaderApp 
+                sideItens={[
+                    <NavItem label="Página Inicial" />,
+                    <NavItem label="Mensagens" />,
+                    <NavItem label="Meu Perfil" />,
+                    <NavItem label="Meus Prêmios" />,
+                    <NavItem label="Solicitação de Resgaste" />,
+                ]}
+
+                itens={[
+                    <NavItem label="Página Inicial" />,
+                    <NavItem label="Meus Prêmios" />,
+                    <NavItem label="Meus Prêmios" />,
+                    <NavItem label="Meus Prêmios" />,
+                    <NavItem label="Mensagens" />
+                ]}
+            />
 
             <div className="perfil-pet-usuario">
                 <div className="perfil-pet-usuario-container">
@@ -141,6 +158,7 @@ function PerfilPetUsuario() {
                 </div>
             </div>
             
+            <VLibras forceOnload={true}></VLibras>
         </>
     )
 }

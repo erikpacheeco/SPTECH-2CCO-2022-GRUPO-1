@@ -25,7 +25,7 @@ h2{
     margin-bottom: 80px;
 }
 
-.cad-user-  form-container form {
+.cad-user-form-container form {
     background-color: rgb(246 246 246);
     width: 100%;
     margin-left: auto;
@@ -150,6 +150,3 @@ p{
 .cad-user-hide{
     display: none;
 }
-
-
-

@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import petfinder.petfinderapi.entidades.Usuario;
 import petfinder.petfinderapi.resposta.ColaboradorSimples;
+import petfinder.petfinderapi.resposta.UsuarioSemSenha;
 
 public interface UsuarioRepositorio extends JpaRepository<Usuario, Integer>{
 
@@ -24,6 +25,15 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, Integer>{
     Usuario findByInstituicaoId(int id);
 
     @Query("SELECT new petfinder.petfinderapi.resposta.ColaboradorSimples(u) FROM Usuario u WHERE u.instituicao.id = ?1")
-    public List<ColaboradorSimples> findColaboradorById(int id);
+    public List<ColaboradorSimples> findColaboradorById(Integer id);
+
+    @Query("SELECT DISTINCT new petfinder.petfinderapi.resposta.UsuarioSemSenha(d.usuario) FROM Demanda d WHERE d.instituicao.id = ?1 AND d.categoria = 'PAGAMENTO'")
+    public List<UsuarioSemSenha> getPadrinhos(Integer id);
+
+    @Query("SELECT new petfinder.petfinderapi.resposta.ColaboradorSimples(u) FROM Usuario u WHERE u.instituicao.id = ?1 AND u.nivelAcesso = ?2")
+    public List<ColaboradorSimples> findColaboradorByInstituicaoAndCategoria(int id, String categoria);
+
+    @Query("SELECT new petfinder.petfinderapi.resposta.UsuarioSemSenha(u) FROM Usuario u WHERE u.nivelAcesso = ?1")
+    public List<UsuarioSemSenha> findUsuarioByNivelAcesso(String nivelAcesso);
 
 }

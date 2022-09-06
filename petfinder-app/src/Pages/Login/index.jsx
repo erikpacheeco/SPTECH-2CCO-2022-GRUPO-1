@@ -6,6 +6,7 @@ import FloatResgate from "../../Components/FloatResgate";
 import HeaderBasic from "../../Components/HeaderBasic";
 import "./login.css"
 import api from "../../Api"
+import VLibras from "@djpfs/react-vlibras"
 
 function resetValues() {
     return { email: "", senha: "" }
@@ -111,6 +112,8 @@ function Login() {
                 </div>
             </div>
             <FloatResgate />
+
+            <VLibras forceOnload={true}></VLibras>
         </>
     );
 }

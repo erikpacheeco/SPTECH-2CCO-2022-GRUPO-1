@@ -1,5 +1,6 @@
 import './styles.css';
 import userIcon from "../../Images/png_img/user_icon.png";
+import React from "react";
 
 function ColaboradorListaItem(props){
 

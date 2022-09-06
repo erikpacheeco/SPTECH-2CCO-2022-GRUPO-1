@@ -1,3 +1,5 @@
+USE petfinder;
+
 -- endereco
 INSERT INTO 
 endereco(rua, num, complemento, bairro, cidade, uf, cep, latitude, longitude)

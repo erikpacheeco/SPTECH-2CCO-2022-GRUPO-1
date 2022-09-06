@@ -1,0 +1,122 @@
+.dashboard-chatops {
+    width: 100%;
+    height: 90vh;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.dashboard-chatops-container {
+    width: 92%;
+    height: 95%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.dashboard-chatops-metricas-container {
+    display: grid;
+    width: 100%;
+    height: 25%;
+}
+
+.dashboard-chatops-metricas-container h2,
+.dashboard-chatops-metricas-grafico h2 {
+    color: #7F2AB5;
+    font-size: 1.5rem;
+}
+
+.dashboard-chatops-metricas-card-container {
+    display: flex;
+}
+
+.dashboard-chatops-metricas-card {
+    width: 202px;
+    height: 100px;
+    background-color: #D1F77C;
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+}
+
+.dashboard-chatops-metricas-card p {
+    display: flex;
+    justify-content: center;
+    font-size: 1rem;
+}
+
+.dashboard-chatops-metricas-graficos-container {
+    width: 100%;
+    height: 70%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dashboard-chatops-metricas-graficos {
+    width: 100%;
+    height: 45%;
+    display: grid;
+}
+
+.dashboard-chatops-metricas-graficos {
+    display: flex;
+    justify-content: space-between;
+    height: 80%;
+}
+
+.dashboard-chatops-metricas-grafico {
+    width: 45%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+}
+
+.dashboard-chatops-metricas-grafico-container-1 {
+    width: 100%;
+    height: 80%;
+    background-color: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    margin-top: 52px;
+}
+
+.dashboard-chatops-metricas-grafico-container {
+    width: 100%;
+    height: 80%;
+    background-color: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+}
+
+.dashboard-chatops-metricas-grafico input{
+    display: none;
+}
+
+.dashboard-chatops-metricas-grafico-botoes {
+    display: flex;
+}
+
+.dashboard-chatops-metricas-grafico button{
+    width: 110px;
+    height: 30px;
+    border-radius: 50px;
+    border: 1px solid #7F2AB5;
+    background-color: #FFFFFF;
+    font-size: 1em;
+    color: #7F2AB5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+}
+
+.dashboard-chatops-metricas-grafico button:hover {
+    background-color: #7F2AB5;
+    color: #FFFFFF;
+}

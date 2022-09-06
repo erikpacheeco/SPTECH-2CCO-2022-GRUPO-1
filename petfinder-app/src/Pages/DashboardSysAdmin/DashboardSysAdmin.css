@@ -1,0 +1,84 @@
+.dashboard-sysadmin {
+    width: 100%;
+    height: 90vh;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.dashboard-sysadmin-container {
+    width: 92%;
+    height: 95%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.dashboard-sysadmin-metricas-container {
+    display: grid;
+    width: 100%;
+    height: 25%;
+}
+
+.dashboard-sysadmin-metricas-container h2,
+.dashboard-sysadmin-metricas-grafico h2 {
+    color: #7F2AB5;
+    font-size: 1.5rem;
+}
+
+.dashboard-sysadmin-metricas-card-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.dashboard-sysadmin-metricas-card {
+    width: 202px;
+    height: 100px;
+    background-color: #D1F77C;
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    display: grid;
+    justify-content: center;
+    align-items: center;
+}
+
+.dashboard-sysadmin-metricas-card p {
+    display: flex;
+    justify-content: center;
+    font-size: 1rem;
+}
+
+.dashboard-sysadmin-metricas-graficos-container {
+    width: 100%;
+    height: 70%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dashboard-sysadmin-metricas-graficos {
+    width: 100%;
+    height: 45%;
+    display: grid;
+}
+
+.dashboard-sysadmin-metricas-graficos {
+    display: flex;
+    justify-content: space-between;
+    height: 50%;
+}
+
+.dashboard-sysadmin-metricas-grafico {
+    width: 45%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.dashboard-sysadmin-metricas-grafico-container {
+    width: 100%;
+    height: 80%;
+    background-color: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+}

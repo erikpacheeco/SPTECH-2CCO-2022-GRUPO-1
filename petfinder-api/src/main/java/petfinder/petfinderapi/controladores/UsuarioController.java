@@ -71,8 +71,26 @@ public class UsuarioController {
     @ApiResponse(responseCode = "200", description = "Ok")
     @ApiResponse(responseCode = "204", description = "No Content", content = @Content)
     @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
-    public ResponseEntity<List<ColaboradorSimples>> getColaboradorByInstituicao(@PathVariable int id) {
-        return ResponseEntity.ok(serviceUsuario.getColaboradorByInstituicaoId(id));
+    public ResponseEntity<List<ColaboradorSimples>> getColaboradorByInstituicao(@PathVariable int id, @RequestParam(required = false) String categoria) {
+        return ResponseEntity.ok(serviceUsuario.getColaboradorByInstituicaoId(id, categoria));
+    }
+
+    @GetMapping("/nivel-acesso/{nivelAcesso}")
+    @Operation(description = "retorna usuario com um determinado nível de acesso")
+    @ApiResponse(responseCode = "200", description = "Ok")
+    @ApiResponse(responseCode = "204", description = "No Content", content = @Content)
+    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
+    public ResponseEntity<List<UsuarioSemSenha>> getUsuarioByNivelAcesso(@PathVariable String nivelAcesso) {
+        return ResponseEntity.ok(serviceUsuario.getUsuarioByNivelAcesso(nivelAcesso));
+    }
+
+    @GetMapping("/padrinhos/{idInstituicao}")
+    @Operation(description = "retorna lista de padrinhos de uma instituicao")
+    @ApiResponse(responseCode = "200", description = "Ok")
+    @ApiResponse(responseCode = "204", description = "No Content", content = @Content)
+    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
+    public ResponseEntity<List<UsuarioSemSenha>> getPadrinhos(@PathVariable Integer idInstituicao) {
+        return ResponseEntity.ok(serviceUsuario.getPadrinhos(idInstituicao));
     }
 
     // retorna todos os usuarios

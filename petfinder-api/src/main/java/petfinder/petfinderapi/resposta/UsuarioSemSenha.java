@@ -16,15 +16,8 @@ public class UsuarioSemSenha {
     private boolean logado;
 
     // construtores
-    public UsuarioSemSenha(int id, String nome, String email, String nivelAcesso, Endereco endereco,
-                           Instituicao fkInstituicao, boolean logado) {
-        this.id = id;
-        this.nome = nome;
-        this.email = email;
-        this.nivelAcesso = nivelAcesso;
-        this.endereco = endereco;
-        this.fkInstituicao = fkInstituicao;
-        this.logado = logado;
+    public UsuarioSemSenha(Usuario usuario) {
+        this(usuario, usuario.getEndereco());
     }
     public UsuarioSemSenha(Usuario usuario, Endereco endereco) {
         this(
@@ -36,6 +29,16 @@ public class UsuarioSemSenha {
             usuario.getInstituicao(),
             usuario.isLogado()
         );
+    }
+    public UsuarioSemSenha(int id, String nome, String email, String nivelAcesso, Endereco endereco,
+                           Instituicao fkInstituicao, boolean logado) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.nivelAcesso = nivelAcesso;
+        this.endereco = endereco;
+        this.fkInstituicao = fkInstituicao;
+        this.logado = logado;
     }
 
     // getters a setters

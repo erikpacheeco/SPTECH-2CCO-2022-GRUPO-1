@@ -18,7 +18,6 @@ public class Pet {
     @NotBlank
     private String nome;
     @NotNull
-    @NotBlank
     private Date dataNasc;
     @NotNull
     @NotBlank
@@ -35,8 +34,8 @@ public class Pet {
     @NotNull
     @NotBlank
     private String descricao;
-    @Column(length = 50_000_000)
-    @JsonIgnore
+    // @Column(length = 50_000_000)
+    // @JsonIgnore
     // private byte[] fotoPerfil;
     private String caminhoImagem;
     private Boolean doente;
@@ -151,11 +150,11 @@ public class Pet {
         this.petHasCaracteristica = petHasCaracteristica;
     }
 
-    // methods
     @Override
     public String toString() {
-        return "Pet [adotado=" + adotado + ", dataNasc=" + dataNasc + ", descricao=" + descricao + ", especie="
-                + especie + ", fkInstituicao=" + instituicao + ", id=" + id + ", nome=" + nome + ", porte=" + porte
-                + ", raca=" + raca + ", sexo=" + sexo + "]";
-            }
+        return "Pet [adotado=" + adotado + ", caminhoImagem=" + caminhoImagem + ", dataNasc=" + dataNasc
+                + ", descricao=" + descricao + ", doente=" + doente + ", especie=" + especie + ", id=" + id
+                + ", instituicao=" + instituicao + ", nome=" + nome + ", petHasCaracteristica=" + petHasCaracteristica
+                + ", porte=" + porte + ", raca=" + raca + ", sexo=" + sexo + "]";
+    }
 }

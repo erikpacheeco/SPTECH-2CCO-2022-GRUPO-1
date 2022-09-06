@@ -8,8 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import petfinder.petfinderapi.controladores.util.HeaderConfig;
 import petfinder.petfinderapi.entidades.*;
 import petfinder.petfinderapi.repositorios.*;
+import petfinder.petfinderapi.requisicao.PetRequest;
 import petfinder.petfinderapi.resposta.Message;
 import petfinder.petfinderapi.resposta.PetPerfil;
 import petfinder.petfinderapi.rest.ClienteCep;
@@ -97,6 +100,14 @@ public class PetsController implements GerenciadorArquivos {
         return ResponseEntity.ok(servicePet.getPetPerfilByInstituicaoId(id));
     }
 
+    @PostMapping
+    @Operation(description = "Endpoint para cadastro de um novo pet em uma instituição especifica")
+    public ResponseEntity<PetPerfil> postPet(@RequestBody @Valid PetRequest novoPet) {
+        PetPerfil petCriado = servicePet.createPet(novoPet);
+        // return ResponseEntity.ok(petCriado);
+        return ResponseEntity.created(HeaderConfig.getLocation(petCriado.getId())).body(petCriado);
+    }
+
     // @PatchMapping(value = "/foto/{id}", consumes = "image/jpeg")
     // @Operation(description = "EndPoint para cadastrar a foto de perfil do animal")
     // public ResponseEntity<Void> patchFoto(@PathVariable int id, @RequestBody byte[] novaFoto) {
@@ -117,22 +128,6 @@ public class PetsController implements GerenciadorArquivos {
     //     Pet petEncontrado = repositoryPet.getById(codigo);
     //     return ResponseEntity.status(200).body(petEncontrado.getFotoPerfil());
     // }
-
-    @PostMapping
-    @Operation(description = "Endpoint para cadastro de um novo pet em uma instituição especifica")
-    public ResponseEntity<Pet> postPet(@RequestBody @Valid Pet novoPet) {
-
-        Optional<Instituicao> instituicao = repositoryInstituicao.findById(novoPet.getInstituicao().getId());
-
-        if (instituicao.isPresent()) {
-            novoPet.setInstituicao(instituicao.get());
-            novoPet.setAdotado(false);
-            novoPet = repositoryPet.save(novoPet);
-            return ResponseEntity.status(201).body(novoPet);
-        }
-        
-        return ResponseEntity.status(400).build();
-    }
 
     @PutMapping("/{id}")
     @Operation(description = "Endpoint para atualizar informações de um pet especifico")

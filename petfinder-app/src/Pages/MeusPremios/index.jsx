@@ -3,11 +3,17 @@ import "./meusPremios.css";
 import HeaderApp from "../../Components/HeaderApp";
 import NavItem from "../../Components/NavItem";
 import img from "../../Images/erase.svg";
+import VLibras from "@djpfs/react-vlibras"
 
 export default function meusPremios() {
   return (
     <>
       <HeaderApp
+
+      sideItens={[
+
+      ]}
+
         itens={[
           <NavItem label="Página Inicial" />,
           <NavItem isSelected={true} label="Meus Prêmios" />,
@@ -38,6 +44,8 @@ export default function meusPremios() {
           
         </div>
       </div>
+
+      <VLibras forceOnload={true}></VLibras>
     </>
   );
 }

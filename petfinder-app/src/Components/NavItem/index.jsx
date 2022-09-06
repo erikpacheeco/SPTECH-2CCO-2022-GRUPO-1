@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import "./nav-item.css"
+import React from "react";
 
 function NavItem(props) {
     NavItem.defaultProps = {
