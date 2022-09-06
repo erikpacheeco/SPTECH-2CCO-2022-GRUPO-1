@@ -4,6 +4,11 @@ import NavItem from "../../Components/NavItem";
 import React from "react";
 import { Chart } from "react-google-charts";
 import VLibras from "@djpfs/react-vlibras"
+import { useEffect, useState } from "react";
+import api from "../../Api"
+import SideBarItem from '../../Components/SideBarItem';
+import perfil from "../../Images/people.svg"
+import demanda from "../../Images/attention-icon.svg"
 
 export const dataDemadaMes = [
     ["", "Demanda"],
@@ -21,11 +26,32 @@ export const dataDemadaSemana = [
 
 function DashboardChatOps() {
 
+    const [infoUsuario, setInfoUsuario] = useState([])
+
+    const [infoTotalEspera, setTotalEspera] = useState([])
+    const [infoTotalConcluida, setTotalConcluida] = useState([])
+
+    useEffect(() => {
+        const infoUsuario = JSON.parse(localStorage.getItem('petfinder_user'));
+        if (infoUsuario) {
+            setInfoUsuario(infoUsuario);
+        }
+
+        api.get(`/demandas/instituicao/${infoUsuario.fkInstituicao.id}/em_andamento`).then((res) => {
+            setTotalEspera(res.data)
+        })
+        api.get(`/demandas/instituicao/${infoUsuario.fkInstituicao.id}/aberto`).then((res) => {
+            setTotalConcluida(res.data)
+        })
+    })
+
     return(
         <>
             <HeaderApp 
                 sideItens={[
-                    
+                    <SideBarItem label="Página Inicial" icon={perfil} navigateTo={"/dashboard-chatops"}/>,
+                    <SideBarItem label="Demandas" icon={demanda} navigateTo={"/dashboard-chatops"}/>,
+                    <SideBarItem label="Nova Dúvida" icon={demanda} navigateTo={"/dashboard-chatops"}/>,
                 ]}
                 
                 itens={[

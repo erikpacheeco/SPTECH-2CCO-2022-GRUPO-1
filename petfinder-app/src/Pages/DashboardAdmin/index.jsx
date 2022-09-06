@@ -4,6 +4,16 @@ import NavItem from "../../Components/NavItem";
 import React from "react";
 import { Chart } from "react-google-charts";
 import VLibras from "@djpfs/react-vlibras"
+import { useEffect, useState } from "react";
+import api from "../../Api"
+import dash from "../../Images/data-graph.svg"
+import pet from "../../Images/paw.svg"
+import padrinho from "../../Images/padrinhos.svg"
+import perfil from "../../Images/people.svg"
+import perfilInstituicao from "../../Images/user-business.svg"
+import colaborador from "../../Images/colaboradores.svg"
+import duvida from "../../Images/duvida.svg"
+import SideBarItem from '../../Components/SideBarItem';
 
 export const data = [
     ["Mês", "Padrinhos", "Prêmios Postados"],
@@ -15,16 +25,59 @@ export const data = [
 ];
 
 function DashboardAdmin() {
+    const [infoUsuario, setInfoUsuario] = useState([])
+
+    const [infoTotalPadrinho, setTotalPadrinho] = useState([])
+    const [infoTotalResgate, setTotalResgate] = useState([])
+    //const [infoTotalUsuario, setTotalUsuario] = useState([])
+    //const [infoTotalPet, setTotalPet] = useState([])
+    //const [infoTotalInstituicao, setTotalInstituicao] = useState([])
+    const [infoTotalAdm, setTotalAdm] = useState([])
+
+    useEffect(() => {
+        const infoUsuario = JSON.parse(localStorage.getItem('petfinder_user'));
+        if (infoUsuario) {
+            setInfoUsuario(infoUsuario);
+        }
+
+        api.get(`/usuarios/padrinhos/${infoUsuario.fkInstituicao.id}`).then((res) => {
+            setTotalPadrinho(res.data)
+        })
+        
+        /*
+        api.get(`/pets/premios-instituicao/${infoUsuario.fkInstituicao.id}`).then((res) => {
+            setTotalResgate(res.data)
+        })
+        api.get(`/usuarios/por-instituicao/${infoUsuario.fkInstituicao.id}`).then((res) => {
+            setTotalUsuario(res.data)
+        })
+        api.get(`/pets/instituicao/${infoUsuario.fkInstituicao.id}`).then((res) => {
+            setTotalPet(res.data)
+        })
+        api.get(`/instituicoes`).then((res) => {
+            setTotalInstituicao(res.data)
+        })
+        */
+        api.get(`/usuarios/acesso/${infoUsuario.fkInstituicao.id}/${infoUsuario.nivelAcesso}`).then((res) => {
+            setTotalAdm(res.data)
+        })
+    })
 
     return(
         <>
             <HeaderApp 
                 sideItens={[
-                    
+                    <SideBarItem label="Página Inicial" icon={dash} navigateTo={"/dashboard-admin"}/>,
+                    <SideBarItem label="Pets" icon={pet} navigateTo={"/lista-pet"}/>,
+                    <SideBarItem label="Padrinhos" icon={padrinho} navigateTo={"/dashboard-admin"}/>,
+                    <SideBarItem label="Meu Perfil" icon={perfil} navigateTo={"/dashboard-admin"}/>,
+                    <SideBarItem label="Perfil Instituição" icon={perfilInstituicao} navigateTo={"/dashboard-admin"}/>,
+                    <SideBarItem label="Colaboradores Cadastrados" icon={colaborador} navigateTo={"/"}/>,
+                    <SideBarItem label="Dúvida" icon={duvida} navigateTo={"/"}/>
                 ]}
                 
                 itens={[
-                    <NavItem label="Dashboard" />,
+                    <NavItem isSelected={true} label="Dashboard" navigateTo="/meus-premios"/>,
                     <NavItem label="Admin Cadastrados" />,
                     <NavItem label="Instituições Cadastrados" />,
                     <NavItem label="Dúvidas" />

@@ -4,6 +4,14 @@ import NavItem from "../../Components/NavItem";
 import React from "react";
 import { Chart } from "react-google-charts";
 import VLibras from "@djpfs/react-vlibras"
+import { useEffect, useState } from "react";
+import api from "../../Api"
+import SideBarItem from '../../Components/SideBarItem';
+import inicial from "../../Images/home.svg"
+import dash from "../../Images/data-graph.svg"
+import adm from "../../Images/colaboradores.svg"
+import instituicoes from "../../Images/padrinhos.svg"
+import duvida from "../../Images/duvida.svg"
 
 export const data = [
     ["Mês", "Padrinhos", "Mimos Postados"],
@@ -15,16 +23,55 @@ export const data = [
 ];
 
 function DashboardSysAdmin() {
+      
+    const [infoUsuario, setInfoUsuario] = useState([])
+    
+    const [infoTotalInstituicao, setTotalInstituicao] = useState([])
+    const [infoTotalUsuario, setTotalUsuario] = useState([])
+    const [infoTotalPet, setTotalPet] = useState([])
+    const [infoTotalPadrinho, setTotalPadrinho] = useState([])
+    const [infoTotalAdm, setTotalAdm] = useState([])
+
+    
+    useEffect(() => {
+
+        const infoUsuario = JSON.parse(localStorage.getItem('petfinder_user'));
+        if (infoUsuario) {
+            setInfoUsuario(infoUsuario);
+        }
+        
+        api.get(`/instituicoes`).then((res) => {
+            setTotalInstituicao(res.data)
+        })
+        api.get(`/usuarios`).then((res) => {
+            setTotalUsuario(res.data)
+        })
+        api.get(`/pets`).then((res) => {
+            setTotalPet(res.data)
+        })
+        /*
+        api.get(`/usuarios/padrinhos`).then((res) => {
+            setTotalPet(res.data)
+        })
+        */
+        api.get(`/usuarios/nivel-acesso/${infoUsuario.nivelAcesso}`).then((res) => {
+            setTotalAdm(res.data)
+        })
+    })
     
     return(
         <>
             <HeaderApp 
                 sideItens={[
-                
+                    <SideBarItem label="Página Inicial" icon={inicial} navigateTo={"/dashboard-sysadmin"}/>,
+                    <SideBarItem label="Dashboard" icon={dash} navigateTo={"/dashboard-sysadmin"}/>,
+                    <SideBarItem label="Administradores Cadastrados" icon={adm} navigateTo={"/dashboard-sysadmin"}/>,
+                    <SideBarItem label="Instituições Cadastrados" icon={instituicoes} navigateTo={"/dashboard-sysadmin"}/>,
+                    <SideBarItem label="Dúvidas" icon={duvida} navigateTo={"/dashboard-sysadmin"}/>,
                 ]}
                 
                 itens={[
-                    <NavItem label="Dashboard" />,
+                    <NavItem isSelected={true} label="Dashboard" />,
                     <NavItem label="Admin Cadastrados" />,
                     <NavItem label="Instituições Cadastrados" />,
                     <NavItem label="Dúvidas" />

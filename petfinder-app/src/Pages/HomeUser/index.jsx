@@ -83,7 +83,14 @@ export default function HomeUser() {
                                 <Carousel responsive={responsive}>
                                     {
                                         sickPets.map((p) => (
-                                            <CardPet nome={p.nome} isDoente={false} backgroundImage={p.caminhoImagem} />
+                                            <CardPet 
+                                                nome={p.nome} 
+                                                isDoente={false} 
+                                                backgroundImage={p.caminhoImagem} 
+                                                onClick={() =>
+                                                    navigate(`/perfil-pet-usuario/${p.id}`)
+                                                }
+                                            />
                                         ))
                                     }
                                 </Carousel>

@@ -3,8 +3,11 @@ import SideBarItem from "../SideBarItem";
 import closeSmall from "../../Images/close-small.svg";
 import logout from "../../Images/logout.svg";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function SideBar(props) {
+
+    const navigate = useNavigate()
 
     return (
         
@@ -29,7 +32,13 @@ function SideBar(props) {
             <div className="side-bar-logout">
                 <button className="btn-side-bar-logout">
                     <p>Sair</p>
-                    <img src={logout} alt="Saída" /> 
+                    <img 
+                        src={logout} 
+                        alt="Saída" 
+                        onClick={() =>
+                            navigate(`/`)
+                        }
+                    /> 
                 </button>
             </div>
         </nav>
