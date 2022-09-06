@@ -48,8 +48,8 @@ function PerfilPetUsuario() {
             <div className="perfil-pet-usuario">
                 <div className="perfil-pet-usuario-container">
 
-                    <div className="perfil-pet-usuario-foto" >
-                        <img src={"http://localhost:8080" + infoPet.caminhoImagem} alt="" />
+                    <div className="perfil-pet-usuario-foto">
+                        <img src={api.defaults.baseURL+infoPet.caminhoImagem} alt="" />
                     </div>
 
                     <div className="perfil-pet-usuario-container-info">

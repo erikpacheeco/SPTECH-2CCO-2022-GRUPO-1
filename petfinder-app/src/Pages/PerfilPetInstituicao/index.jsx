@@ -38,7 +38,7 @@ function PerfilPetInstituicao() {
 
                     <div className="perfil-pet-instituicao-foto">
                         <h1>{infoPet.nome}</h1>
-                        <img src={"http://localhost:8080"+infoPet.caminhoImagem} alt="" />
+                        <img src={api.defaults.baseURL+infoPet.caminhoImagem} alt="" />
                     </div>
 
                     <div className="perfil-pet-instituicao-informacao-container">
@@ -72,7 +72,7 @@ function PerfilPetInstituicao() {
                             <div className="perfil-pet-instituicao-descricao-pet-container">
                                 <div className="perfil-pet-instituicao-descricao-pet">
                                     <p>Descrição: </p>
-                                    <textarea id="" cols="67" rows="8" value={infoPet.descricao}></textarea>
+                                    <textarea id="" cols="67" rows="6" value={infoPet.descricao}></textarea>
                                 </div>
                             </div>
                         

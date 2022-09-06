@@ -62,7 +62,7 @@
 }
 
 .perfil-pet-instituicao-info-pet-container input {
-    width: 350px;
+    width: 300px;
     height: 30px;
     border-radius: 10px;
     padding-left: 5px;
@@ -104,6 +104,7 @@
     background: #FFFFFF;
     border-radius: 5px;
     width: 100%;
+    font-family: 'Hind Madurai', sans-serif;
 }
 
 .perfil-pet-instituicao-descricao-pet p {
