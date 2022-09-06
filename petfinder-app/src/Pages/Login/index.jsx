@@ -27,7 +27,6 @@ function Login() {
         navigate("/cadastro-user")
     }
 
-
     function authLogin(event) {
         event.preventDefault();
         api.post("/usuarios/autenticacao", values,
@@ -38,8 +37,18 @@ function Login() {
             }
         ).then((res) => {
             localStorage.setItem("petfinder_user", JSON.stringify(res.data))
-            navigate("/home-user")
-        })
+
+            if(res.data.nivelAcesso == "sysadm") {
+                navigate("/dashboard-sysadmin")
+            } else if (res.data.nivelAcesso == "adm") {
+                navigate("/dashboard-admin")
+            } else if (res.data.nivelAcesso == "chatops") {
+                navigate("/dashboard-chatops")
+            } else if (res.data.nivelAcesso == "user") {
+                navigate("/home-user")
+            }
+            
+        }) 
             .catch(error => {
                 if (error.request.status == 401) {
                     console.log("success")
@@ -98,7 +107,13 @@ function Login() {
 
                         {/* Buttons */}
                         <div className="login-button-container">
-                            <button type="submit" id="login" className="login-btn-form">Login</button>
+                            <button 
+                                type="submit" 
+                                id="login" 
+                                className="login-btn-form"
+                            >
+                                Login
+                            </button>
                             <button
                                 type="button"
                                 id="cadastro"
