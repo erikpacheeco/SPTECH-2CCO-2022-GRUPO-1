@@ -23,7 +23,7 @@ function PetListItem({nome, especie, raca, idade, porte, id}) {
             <PetKeyValueItem chave="especie" value={especie}/>
             <PetKeyValueItem chave="raça" value={raca}/>
             <PetKeyValueItem chave="idade" value={idade}/>
-            <PetKeyValueItem chave="peso" value={peso}/>
+            <PetKeyValueItem chave="porte" value={porte}/>
             <PetKeyValueItem chave="id" value={id}/>
             <button 
                 onClick={() => 

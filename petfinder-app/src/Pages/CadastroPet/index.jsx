@@ -3,6 +3,7 @@ import HeaderApp from "../../Components/HeaderApp";
 import NavItem from "../../Components/NavItem";
 import { useEffect, useState } from "react";
 import api from "../../Api"
+import React from "react";
 
 let petJson = {
     nome: "",
