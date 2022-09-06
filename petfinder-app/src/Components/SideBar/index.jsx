@@ -20,6 +20,7 @@ function SideBar(props) {
                                 id={element.props.id}
                                 label={element.props.label}
                                 icon={element.props.icon}
+                                navigateTo={element.props.navigateTo}
                             />
                         )
                     })

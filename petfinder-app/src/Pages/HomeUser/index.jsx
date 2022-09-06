@@ -4,11 +4,16 @@ import { useEffect, useState } from "react";
 import CardPet from "../../Components/CardPet";
 import HeaderApp from "../../Components/HeaderApp"
 import NavItem from "../../Components/NavItem";
+import SideBarItem from '../../Components/SideBarItem';
+import perfil from "../../Images/people.svg"
+import home from "../../Images/home.svg"
+import message from "../../Images/message.svg"
+import premio from "../../Images/picture.svg"
 import "./home-user.css"
 import api from "../../Api"
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import VLibras from "@djpfs/react-vlibras"
+
 
 export default function HomeUser() {
 
@@ -16,7 +21,7 @@ export default function HomeUser() {
     const [sickPets, setSickPets] = useState([]);
     const [cont, setCont] = useState(0);
     const navigate = useNavigate()
-    
+
     const responsive = {
         superLargeDesktop: {
             // the naming can be any, depends on you.
@@ -48,16 +53,19 @@ export default function HomeUser() {
 
     return (
         <>
-            <HeaderApp 
-            
-                sideItens={[
+            <HeaderApp
 
+                sideItens={[
+                    <SideBarItem label="Página Inicial" icon={home} navigateTo={"/home-user"}/>,
+                    <SideBarItem label="Mensagens" icon={message} navigateTo="/chat-user"/>,
+                    <SideBarItem label="Meu Perfil" icon={perfil} navigateTo=""/>,
+                    <SideBarItem label="Meus Prêmios" icon={premio} navigateTo="/meus-premios"/>
                 ]}
-                
+
                 itens={[
-                    <NavItem isSelected={true} label="Página Inicial" />,
-                    <NavItem label="Meus Prêmios" />,
-                    <NavItem label="Mensagens" />
+                    <NavItem isSelected={true} label="Página Inicial" navigateTo="/home-user"/>,
+                    <NavItem label="Meus Prêmios" navigateTo="/meus-premios"/>,
+                    <NavItem label="Mensagens" navigateTo="/chat-user"/>
                 ]}
             />
 
@@ -93,16 +101,16 @@ export default function HomeUser() {
                             <div className="home-user-container-adotar">
                                 {
                                     allPets.map((p) => (
-                                        <CardPet 
+                                        <CardPet
                                             id={p.id}
-                                            nome={p.nome} 
-                                            isDoente={p.doente} 
-                                            backgroundImage={p.caminhoImagem} 
-                                            onClick={() => 
+                                            nome={p.nome}
+                                            isDoente={p.doente}
+                                            backgroundImage={p.caminhoImagem}
+                                            onClick={() =>
                                                 navigate(`/perfil-pet-usuario/${p.id}`)
                                             }
                                         />
-                                        
+
                                     ))
                                 }
                             </div>
@@ -110,7 +118,6 @@ export default function HomeUser() {
                     </section>
                 </div>
             </main>
-            <VLibras forceOnload={true}></VLibras>
         </>
     );
 }

@@ -5,7 +5,7 @@ import PetListItem from "../../Components/PetListItem";
 import add from "../../Images/plus.svg"
 import file from "../../Images/file-txt.svg"
 import api from "../../Api"
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { calculateNewValue } from '@testing-library/user-event/dist/utils';
 
 function ListaPet() {

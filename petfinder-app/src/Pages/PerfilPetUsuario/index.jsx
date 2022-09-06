@@ -1,6 +1,11 @@
 import './PerfilPetUsuario.css';
 import HeaderApp from "../../Components/HeaderApp";
 import NavItem from "../../Components/NavItem";
+import SideBarItem from '../../Components/SideBarItem';
+import perfil from "../../Images/people.svg"
+import home from "../../Images/home.svg"
+import message from "../../Images/message.svg"
+import premio from "../../Images/picture.svg"
 import { useEffect, useState } from "react";
 import api from "../../Api"
 import React from "react";
@@ -12,9 +17,9 @@ function PerfilPetUsuario() {
     const [infoPet, setInfoPet] = useState([])
     const [preferencias, setPreferencias] = useState([])
     const idPet = useParams()
-    
+
     useEffect(() => {
-        
+
         api.get(`/pets/${idPet.id}/perfil`).then((res) => {
             setInfoPet(res.data)
             setPreferencias(res.data.caracteristicas)
@@ -22,23 +27,21 @@ function PerfilPetUsuario() {
 
     })
 
-    return(
+    return (
         <>
-            <HeaderApp 
+            <HeaderApp
+
                 sideItens={[
-                    <NavItem label="Página Inicial" />,
-                    <NavItem label="Mensagens" />,
-                    <NavItem label="Meu Perfil" />,
-                    <NavItem label="Meus Prêmios" />,
-                    <NavItem label="Solicitação de Resgaste" />,
+                    <SideBarItem label="Página Inicial" icon={home} navigateTo={"/home-user"} />,
+                    <SideBarItem label="Mensagens" icon={message} navigateTo="/chat-user" />,
+                    <SideBarItem label="Meu Perfil" icon={perfil} navigateTo="" />,
+                    <SideBarItem label="Meus Prêmios" icon={premio} navigateTo="/meus-premios" />
                 ]}
 
                 itens={[
-                    <NavItem label="Página Inicial" />,
-                    <NavItem label="Meus Prêmios" />,
-                    <NavItem label="Meus Prêmios" />,
-                    <NavItem label="Meus Prêmios" />,
-                    <NavItem label="Mensagens" />
+                    <NavItem label="Página Inicial" navigateTo="/home-user" />,
+                    <NavItem label="Meus Prêmios" navigateTo="/meus-premios" />,
+                    <NavItem label="Mensagens" navigateTo="/chat-user" />
                 ]}
             />
 
@@ -46,13 +49,13 @@ function PerfilPetUsuario() {
                 <div className="perfil-pet-usuario-container">
 
                     <div className="perfil-pet-usuario-foto" >
-                        <img src={"http://localhost:8080"+infoPet.caminhoImagem} alt="" />
+                        <img src={"http://localhost:8080" + infoPet.caminhoImagem} alt="" />
                     </div>
 
                     <div className="perfil-pet-usuario-container-info">
 
                         <div className="perfil-pet-usuario-container-info-instituicao">
-                            
+
                             <div className="perfil-pet-usuario-info-instituicao-text">
                                 {
                                     <>
@@ -61,7 +64,7 @@ function PerfilPetUsuario() {
                                     </>
                                 }
                             </div>
-                        
+
                         </div>
 
                         <div className="perfil-pet-usuario-info">
@@ -73,7 +76,7 @@ function PerfilPetUsuario() {
                                         <div className="perfil-pet-usuario-info-nome">
                                             <h2>{infoPet.nome}</h2>
                                         </div>
-                                        
+
                                         <div className="perfil-pet-usuario-info-idade">
                                             <p>Idade: </p>
                                             <span>{infoPet.idade}</span>
@@ -104,13 +107,13 @@ function PerfilPetUsuario() {
                                 <div className="perfil-pet-usuario-info-descricao">
                                     <p>Descrição: </p>
                                     <textarea className="perfil-pet-usuario-descricao-textarea" id="" cols="30" rows="15" value={infoPet.descricao}></textarea>
-                                    
+
                                 </div>
 
                             </div>
-                    
+
                         </div>
-                    
+
                         <div className="perfil-pet-usuario-info-adocao-container">
 
                             <div className="perfil-pet-usuario-info-adocao">
@@ -120,7 +123,7 @@ function PerfilPetUsuario() {
                                     <div className="perfil-pet-usuario-caracteristica-btn">
                                         {
                                             preferencias.map((pref) => (
-                                                <>   
+                                                <>
                                                     <button
                                                         type="button"
                                                         className="btn-preferencia"
@@ -145,19 +148,19 @@ function PerfilPetUsuario() {
                                     </div>
                                 </div>
 
-                            </div>    
+                            </div>
 
                             <div className="perfil-pet-usuario-info-adocao-adote">
                                 <div className="perfil-pet-usuario-info-adocao-adote-btn">
                                     <button>Me Adote</button>
                                 </div>
-                            </div>                                                                           
-                        
+                            </div>
+
                         </div>
-                    </div>    
+                    </div>
                 </div>
             </div>
-            
+
             <VLibras forceOnload={true}></VLibras>
         </>
     )

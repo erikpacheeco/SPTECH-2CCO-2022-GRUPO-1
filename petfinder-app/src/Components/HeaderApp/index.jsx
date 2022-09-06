@@ -34,6 +34,7 @@ function HeaderApp(props) {
                     }
                 </div>
                 <img className="header-app-perfil-nav" src={perfil} alt="botão para o perfil"/>
+                <p className="header-app-p">Perfil</p>
             </div>
         </nav>
     </header>

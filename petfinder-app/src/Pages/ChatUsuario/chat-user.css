@@ -1,0 +1,29 @@
+.chat-user-centralizer{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.chat-user-container{
+    width: 90%;
+    margin-top: 80px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    justify-items: center;
+}
+
+.chat-user-container-demandas{
+    width: 25%;
+}
+
+.chat-user-container-chat{
+    width: 70%;
+}
+
+.chat-user-demandas-pending-header{
+    width: 100%;
+    display: flex;
+    flex-direction: row; 
+}

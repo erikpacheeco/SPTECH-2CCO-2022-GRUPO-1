@@ -1,7 +1,7 @@
 import "./cadastro-pet.css";
 import HeaderApp from "../../Components/HeaderApp";
 import NavItem from "../../Components/NavItem";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import api from "../../Api"
 
 let petJson = {

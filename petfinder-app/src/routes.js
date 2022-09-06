@@ -14,6 +14,7 @@ import VerMais from "./Pages/VerMais";
 import DashboardSysAdmin from "./Pages/DashboardSysAdmin";
 import DashboardChatOps from "./Pages/DashboardChatOps";
 import DashboardAdmin from "./Pages/DashboardAdmin";
+import ChatUsuario from "./Pages/ChatUsuario";
 import React from "react";
 
 function Rotas() {
@@ -35,6 +36,7 @@ function Rotas() {
                 <Route path="/dashboard-sysadmin" element={<DashboardSysAdmin/>} />
                 <Route path="/dashboard-chatops" element={<DashboardChatOps/>} />
                 <Route path="/dashboard-admin" element={<DashboardAdmin/>} />
+                <Route path="/chat-user" element={<ChatUsuario/>} />
             </Routes>
         </BrowserRouter>
     );
