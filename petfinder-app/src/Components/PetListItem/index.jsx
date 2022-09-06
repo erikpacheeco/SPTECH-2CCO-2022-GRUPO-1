@@ -1,7 +1,7 @@
 import "./styles.css";
 import userIcon from "../../Images/png_img/user_icon.png"
 
-function PetListItem({nome, especie, raca, idade, peso}) {
+function PetListItem({nome, especie, raca, idade, porte}) {
 
     function PetKeyValueItem({chave, value}) {
         return (
@@ -23,7 +23,7 @@ function PetListItem({nome, especie, raca, idade, peso}) {
             <PetKeyValueItem chave="especie" value={especie}/>
             <PetKeyValueItem chave="raça" value={raca}/>
             <PetKeyValueItem chave="idade" value={idade}/>
-            <PetKeyValueItem chave="peso" value={peso}/>
+            <PetKeyValueItem chave="porte" value={porte}/>
             <button onClick={handleEditItem} className="pet-list-item-btn-editar-cadastro">EDITAR CADASTRO</button>
         </div>
     )

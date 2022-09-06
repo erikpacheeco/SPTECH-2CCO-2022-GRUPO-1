@@ -1,22 +1,26 @@
-.cadastro-pet-container {
+.lista-pet-container {
     width: 60%;
     margin-left: auto;
     margin-right: auto;
 }
 
-.cadastro-pet-title {
-    /* background-color: aqua; */
+.lista-pet-title {
     width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    height:120px;
 }
 
-.cadastro-pet-add-icon {
+.lista-pet-title h2 {
+    font-size: 32px;
+}
+
+.lista-pet-add-icon {
     /* background-color: rgb(97, 34, 133); */
-    width: 30px;
-    height: 30px;
+    width: 50px;
+    height: 50px;
     border-radius: 5px;
     border: 2px rgb(97, 34, 133) solid;
     color: rgb(97, 34, 133);
@@ -24,4 +28,14 @@
     /* vertical-align: middle; */
     font-size: 20px;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.lista-pet-buttons {
+    display: flex;
+    flex-direction: row;
+    width: 15%;
+    justify-content: space-around;
 }

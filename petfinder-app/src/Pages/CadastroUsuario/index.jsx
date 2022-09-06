@@ -320,42 +320,43 @@ function CadastroUsuario() {
                         </div>
 
                         <h1 className="cadastro-usuario-title">O QUE BUSCA NO SEU PET IDEAL?</h1>
+                        <div className="cadastro-usuario-btn-preferencia-container">
+                            {
+                                preferencias.map((pref) => (
+                                    <>
+                                        <input
+                                            className="cadastro-usuario-hide"
+                                            value={pref.caracteristica}
+                                            type="checkbox"
+                                            id={pref.id}
+                                        />
+                                        <button
+                                            type="button"
+                                            className="cadastro-usuario-btn-preferencia"
+                                            id={pref.id + "-btn"}
+                                            onClick={() => {
+                                                let input = document.getElementById(pref.id)
+                                                let btn = document.getElementById(pref.id + "-btn")
+                                                const { value } = input
 
-                        {
-                            preferencias.map((pref) => (
-                                <>
-                                    <input
-                                        className="cadastro-usuario-hide"
-                                        value={pref.caracteristicas}
-                                        type="checkbox"
-                                        id={pref.id}
-                                    />
-                                    <button
-                                        type="button"
-                                        className="btn-preferencia"
-                                        id={pref.id + "-btn"}
-                                        onClick={() => {
-                                            let input = document.getElementById(pref.id)
-                                            let btn = document.getElementById(pref.id + "-btn")
-                                            const { value } = input
+                                                input.checked = !document.getElementById(pref.id).checked
 
-                                            input.checked = !document.getElementById(pref.id).checked
-
-                                            if (input.checked) {
-                                                btn.classList.replace("btn-preferencia", "btn-preferencia-checked")
-                                                setValuesInteresse([...valuesInteresse, { caracteristicas: value }])
-                                            }
-                                            else {
-                                                btn.classList.replace("btn-preferencia-checked", "btn-preferencia")
-                                                setValuesInteresse(valuesInteresse.filter((e) => e.caracteristicas !== value))
-                                            }
-                                        }}
-                                    >
-                                        {pref.caracteristicas}
-                                    </button>
-                                </>
-                            ))
-                        }
+                                                if (input.checked) {
+                                                    btn.classList.replace("cadastro-usuario-btn-preferencia", "cadastro-usuario-btn-preferencia-checked")
+                                                    setValuesInteresse([...valuesInteresse, { caracteristicas: value }])
+                                                }
+                                                else {
+                                                    btn.classList.replace("cadastro-usuario-btn-preferencia-checked", "cadastro-usuario-btn-preferencia")
+                                                    setValuesInteresse(valuesInteresse.filter((e) => e.caracteristicas !== value))
+                                                }
+                                            }}
+                                        >
+                                            {pref.caracteristica}
+                                        </button>
+                                    </>
+                                ))
+                            }
+                        </div>
 
                         <div className="cadastro-usuario-button-container">
 

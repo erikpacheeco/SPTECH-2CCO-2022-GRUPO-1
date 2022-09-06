@@ -8,7 +8,7 @@ function HeaderBasic() {
   return (
     <nav className="header-basic-navbar">
       <section className="header-basic-navbar-container">
-        <a className="header-basic-navbar-container-logo link" href="./index.html">
+        <a className="header-basic-navbar-container-logo link" href="/">
           <img className="header-basic-logo" src={logo} alt="" />
           <span className="header-basic-navbar-logo-nome">
             <span className="header-basic-logo-nome-verde">Pet</span>Finder

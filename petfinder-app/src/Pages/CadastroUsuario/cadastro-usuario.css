@@ -52,7 +52,6 @@
     margin: 4px;
 }
 
-
 .cadastro-usuario-btn {
     display: flex;
     justify-content: center;
@@ -130,4 +129,32 @@
 .cadastro-usuario-btn-form:hover {
     background-color: #7F2AB5;
     color: #ffe56f;
+}
+
+.cadastro-usuario-btn-preferencia{
+    padding: 10px;    
+    text-align: center;
+    background-color: transparent;
+    color: #7F2AB5;
+    border: 1px #7F2AB5 solid;
+    border-radius: 20px;
+    margin-top: 32px;
+}
+
+.cadastro-usuario-btn-preferencia-checked{
+    padding: 10px;    
+    text-align: center;
+    background-color: #7F2AB5;
+    color: white;
+    border: 1px #7F2AB5 solid;
+    border-radius: 20px;
+    margin-top: 32px;
+}
+
+.cadastro-usuario-btn-preferencia-container{
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
 }

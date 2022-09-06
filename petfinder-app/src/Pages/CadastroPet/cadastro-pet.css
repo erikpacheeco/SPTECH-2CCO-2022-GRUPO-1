@@ -1,0 +1,184 @@
+.cad-pet-form-container {
+    display: flex;
+    margin-top: 80px;
+    justify-content: center;
+}
+
+.cad-pet-form-geral {
+    width: 50%;
+    padding: 40px 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(246 246 246);
+    border: 1px rgba(0, 0, 0, 0.11) solid;
+    border-radius: 10px;
+    box-shadow: -1px 1px 10px 0px black;
+    color: #7F2AB5;
+}
+
+.cad-pet-form-btn-pg-container {
+    display: flex;
+    justify-content: center;
+}
+
+.cad-pet-btn-pg {
+    width: 15px;
+    height: 15px;
+    border-radius: 100%;
+    background-color: darkgray;
+    border: none;
+    margin: 4px;
+    cursor: pointer;
+}
+
+.cad-pet-btn-pg-selected {
+    width: 15px;
+    height: 15px;
+    border-radius: 100%;
+    background-color: #ad54e5;
+    border: none;
+    margin: 4px;
+    cursor: pointer;
+}
+
+.cad-pet-hidden {
+    display: none;
+}
+
+.cad-pet-input {
+    width: 100%;
+    height: 37px;
+    padding-left: 20px;
+    box-sizing: border-box;
+    border: 1px solid #7F2AB5;
+    border-radius: 5px;
+}
+
+.cad-pet-label {
+    font-family: 'Hind Madurai';
+    font-weight: 600;
+    font-size: 18px;
+    color: #7F2AB5;
+}
+
+.cad-pet-45 {
+    width: 45% !important;
+}
+
+.cad-pet-25 {
+    width: 30% !important;
+}
+
+.cad-pet-30-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.cad-pet-45-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.cad-pet-input-container {
+    width: 100%;
+    margin-top: 32px;
+}
+
+.cad-pet-textarea {
+    padding: 10px;
+    height: 25%;
+    resize: vertical;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'Hind Madurai'
+}
+
+.cad-pet-title {
+    text-align: center;
+}
+
+.cad-pet-upload-img {
+    width: 100%;
+    height: 37px;
+    padding: 10px;
+    margin-top: 20px;
+    box-sizing: border-box;
+    border: 1px solid #7F2AB5;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+}
+
+.cad-pet-img {
+    width: 25%;
+    border-radius: 5px;
+    border: 1px solid #7F2AB5;
+}
+
+.cad-pet-img-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cad-pet-date {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+}
+
+.cad-pet-form-btn-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.cad-pet-btn {
+    height: 40px;
+    padding: 0px 20px;
+    margin-top: 32px;
+    border-radius: 5px;
+    border: 1px #7F2AB5 solid;
+    color: #7F2AB5;
+    text-align: center;
+    font-family: 'Hind Madurai';
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.cad-pet-btn:hover {
+    background-color: #7F2AB5;
+    color: #ffe56f;
+}
+
+.cad-pet-btn-preferencia-container{
+    width: 75%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.cad-pet-btn-preferencia{
+    padding: 10px;    
+    text-align: center;
+    background-color: transparent;
+    color: #7F2AB5;
+    border: 1px #7F2AB5 solid;
+    border-radius: 20px;
+    margin-top: 32px;
+}
+
+.cad-pet-btn-preferencia-checked{
+    padding: 10px;    
+    text-align: center;
+    background-color: #7F2AB5;
+    color: white;
+    border: 1px #7F2AB5 solid;
+    border-radius: 20px;
+    margin-top: 32px;
+}

@@ -9,7 +9,6 @@ function NavItem(props) {
         isSelected: false,
     }
 
-
     const navigate = useNavigate()
     return (
         <button

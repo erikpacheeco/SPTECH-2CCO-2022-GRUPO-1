@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./style.css";
+import "./cadastro-colaborador.css";
 import HeaderApp from "../../Components/HeaderApp";
 import NavItem from "../../Components/NavItem";
 
@@ -18,26 +18,26 @@ export default function CadastrarColaborador() {
         ]}
       />
 
-      <div class="container">
-        <form action="" class="form-container-cad">
-          <h1 className="title">CADASTRAR COLABORADOR</h1>
-          <div className="container-label">
-            <label>Nome completo: </label>
+      <div className="cad-colab-container">
+        <form action="" className="cad-colab-form-container-cad">
+          <h1 className="cad-colab-title">CADASTRAR COLABORADOR</h1>
+          <div className="cad-colab-container-label">
+            <label className="cad-colab-">Nome completo: </label>
             <input
               type="text"
               name="nome_completo"
               value={nome}
-              class="input-text"
+              className="cad-colab-input-text"
               onChange={(e) => setNome(e.target.value)}
             />
           </div>
 
-          <div className="container-label">
+          <div className="cad-colab-container-label">
             <label>Cargo: </label>
             <select
               value={cargo}
               onChange={(e) => setCargo(e.target.value)}
-              class="input-select"
+              className="cad-colab-input-select"
             >
               <option value="">---</option>
               <option value="c1">C1</option>
@@ -46,29 +46,29 @@ export default function CadastrarColaborador() {
             </select>
           </div>
 
-          <div className="container-label">
+          <div className="cad-colab-container-label">
             <label>E-mail: </label>
             <input
               type="text"
               name="email"
               value={email}
-              class="input-text"
+              className="cad-colab-input-text"
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 
-          <div className="container-label">
+          <div className="cad-colab-container-label">
             <label>Senha: </label>
             <input
               type="text"
               name="senha"
               value={senha}
-              class="input-text"
+              className="cad-colab-input-text"
               onChange={(e) => setSenha(e.target.value)}
             />
           </div>
 
-          <input type="submit" class="btn-enviar" name="btn" value="Enviar" />
+          <input type="submit" className="cad-colab-btn-enviar" name="btn" value="Enviar" />
         </form>
       </div>
     </>
