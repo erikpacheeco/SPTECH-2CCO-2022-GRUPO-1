@@ -11,10 +11,12 @@ import petfinder.petfinderapi.utilitarios.GerenciadorArquivos;
 import petfinder.petfinderapi.utilitarios.ListaObj;
 import petfinder.petfinderapi.requisicao.CriacaoDemanda;
 import petfinder.petfinderapi.resposta.Message;
+import petfinder.petfinderapi.service.DemandaService;
 import petfinder.petfinderapi.resposta.DemandaUsuario;
+import petfinder.petfinderapi.resposta.DtoDemanda;
+import petfinder.petfinderapi.resposta.DtoDemandaChats;
+
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -47,6 +49,9 @@ public class DemandaController implements GerenciadorArquivos{
     @Autowired
     private MensagemRepository mensagemRepository;
 
+    @Autowired
+    private DemandaService service;
+
     // enums
     private ListaObj<String> categoriasPossiveis = new ListaObj<String>(new String[]{"ADOCAO", "PAGAMENTO", "RESGATE"});
     private ListaObj<String> statusPossiveis = new ListaObj<String>(new String[]{"ABERTO", "CONCLUIDO", "CANCELADO", "DOCUMENTO_VALIDO",
@@ -54,6 +59,23 @@ public class DemandaController implements GerenciadorArquivos{
 
     private ListaObj<String> tiposMenssagensPossiveis = new ListaObj<String>(new String[]{"MENSAGEM", "ARQ_DOCUMENTO", "ARQ_IMAGEM"});
 
+    @GetMapping
+    @Operation(description = "Endpoint que retorna uma lista de demandas sem filtro")
+    public ResponseEntity<List<DtoDemanda>> getDemanda(){
+        return ResponseEntity.ok(service.getDemandas());
+    }
+
+    @GetMapping("/{idDemanda}")
+    @Operation(description = "Endpoint que retorna uma demanda filtrada pelo ID")
+    public ResponseEntity<DtoDemanda> getDemandaById(@PathVariable int idDemanda){
+        return ResponseEntity.ok(service.getDemandaById(idDemanda));
+    }
+
+    @GetMapping("/chats/{userId}")
+    @Operation(description = "Lista demandas no formato de chats")
+    public ResponseEntity<DtoDemandaChats> getDemandaChats(@PathVariable Integer userId) {
+        return ResponseEntity.ok(service.getChats(userId));
+    }
 
     private void gerarHistoricoDemanda(Demanda demanda){
         DemandaHist demandaHist = new DemandaHist(demanda);
@@ -100,33 +122,6 @@ public class DemandaController implements GerenciadorArquivos{
         }
         // 404 instituição not found
         return ResponseEntity.status(404).build();
-
-    }
-
-    @GetMapping
-    @Operation(description = "Endpoint que retorna uma lista de demandas sem filtro")
-    public ResponseEntity<List<Demanda>> getDemanda(){
-        List<Demanda> lista = demandaRepositorio.findAll();
-        // 204, em caso de lista vazia
-        if (lista.isEmpty()) {
-            return ResponseEntity.status(204).build();
-        }
-        // 200
-        return ResponseEntity.status(200).body(lista);
-    }
-
-    @GetMapping("/{idDemanda}")
-    @Operation(description = "Endpoint que retorna uma demanda filtrada pelo ID")
-    public ResponseEntity<Demanda> getDemandaById(@PathVariable int idDemanda){
-        Optional<Demanda> demanda = demandaRepositorio.findById(idDemanda);
-        // verificando existencia da demanda
-        if (demanda.isPresent()){
-            // 200
-            return ResponseEntity.status(200).body(demanda.get());
-        }
-        // 404 demanda não encontrada
-        return ResponseEntity.status(404).build();
-
 
     }
 

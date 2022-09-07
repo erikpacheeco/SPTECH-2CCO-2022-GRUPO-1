@@ -3,8 +3,10 @@ package petfinder.petfinderapi.repositorios;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import petfinder.petfinderapi.entidades.Demanda;
+import petfinder.petfinderapi.resposta.DtoDemanda;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface DemandaRepositorio extends JpaRepository<Demanda, Integer> {
 
@@ -55,4 +57,16 @@ public interface DemandaRepositorio extends JpaRepository<Demanda, Integer> {
 
     Integer countByStatus(String status);
     Integer countByStatusAndCategoria(String status, String categoria);
+
+    @Query("SELECT new petfinder.petfinderapi.resposta.DtoDemanda(d) FROM Demanda d WHERE d.id = ?1")
+    public Optional<DtoDemanda> findDtoDemandaById(Integer id);
+
+    @Query("SELECT new petfinder.petfinderapi.resposta.DtoDemanda(d) FROM Demanda d")
+    public List<DtoDemanda> findDemandas();
+
+    @Query("SELECT new petfinder.petfinderapi.resposta.DtoDemanda(d) FROM Demanda d WHERE d.usuario.id = ?1")
+    public List<DtoDemanda> findUserDemandas(Integer id);
+
+    @Query("SELECT new petfinder.petfinderapi.resposta.DtoDemanda(d) FROM Demanda d WHERE d.colaborador.id = ?1 OR d.status = 'ABERTO'")
+    List<DtoDemanda> findColabDemandas(Integer id);
 }
