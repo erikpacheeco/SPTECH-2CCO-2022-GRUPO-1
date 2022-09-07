@@ -13,12 +13,13 @@ function ListaPet() {
     const [allPets, setAllPets] = useState([]);
 
     function handleAddItemList() {
-
+        console.log(allPets)
     }
 
-    function handleFileImport() {
-        console.log(allPets[0])
-    }
+    // function handleFileImport(event) {
+    //     event.preventDefault()
+    //     console.log(allPets)
+    // }
 
     useEffect(() => {
         api.get(`/pets/instituicao/${2}`).then(res => {
@@ -28,13 +29,13 @@ function ListaPet() {
 
     return (
         <>
-            <HeaderApp itens={[
+            {/* <HeaderApp itens={[
                 <NavItem label="Dashboard" />,
                 <NavItem label="Padrinhos" />,
                 <NavItem label="Demandas" />,
                 <NavItem isSelected={true} label="Pets" />
             ]}
-            />
+            /> */}
 
             <div className="lista-pet-container">
                 <div className="lista-pet-title">
@@ -43,7 +44,7 @@ function ListaPet() {
                         <label htmlFor="fileImport">
                             <div className="lista-pet-add-icon" onClick={handleAddItemList}>
                                 <img src={file} />
-                                <input type="file" accept=".txt" id="fileImport" onChange={handleFileImport()} style={{display: "none"}}/>
+                                <input type="file" accept=".txt" id="fileImport" style={{display: "none"}}/>
                             </div>
                         </label>
                         <div className="lista-pet-add-icon" onClick={handleAddItemList}>
