@@ -14,6 +14,7 @@ import petfinder.petfinderapi.resposta.Message;
 import petfinder.petfinderapi.service.DemandaService;
 import petfinder.petfinderapi.resposta.DemandaUsuario;
 import petfinder.petfinderapi.resposta.DtoDemanda;
+import petfinder.petfinderapi.resposta.DtoDemandaChats;
 
 import javax.validation.Valid;
 import java.io.*;
@@ -58,6 +59,23 @@ public class DemandaController implements GerenciadorArquivos{
 
     private ListaObj<String> tiposMenssagensPossiveis = new ListaObj<String>(new String[]{"MENSAGEM", "ARQ_DOCUMENTO", "ARQ_IMAGEM"});
 
+    @GetMapping
+    @Operation(description = "Endpoint que retorna uma lista de demandas sem filtro")
+    public ResponseEntity<List<DtoDemanda>> getDemanda(){
+        return ResponseEntity.ok(service.getDemandas());
+    }
+
+    @GetMapping("/{idDemanda}")
+    @Operation(description = "Endpoint que retorna uma demanda filtrada pelo ID")
+    public ResponseEntity<DtoDemanda> getDemandaById(@PathVariable int idDemanda){
+        return ResponseEntity.ok(service.getDemandaById(idDemanda));
+    }
+
+    @GetMapping("/chats/{userId}")
+    @Operation(description = "Lista demandas no formato de chats")
+    public ResponseEntity<DtoDemandaChats> getDemandaChats(@PathVariable Integer userId) {
+        return ResponseEntity.ok(service.getChats(userId));
+    }
 
     private void gerarHistoricoDemanda(Demanda demanda){
         DemandaHist demandaHist = new DemandaHist(demanda);
@@ -105,19 +123,6 @@ public class DemandaController implements GerenciadorArquivos{
         // 404 instituição not found
         return ResponseEntity.status(404).build();
 
-    }
-
-    @GetMapping
-    @Operation(description = "Endpoint que retorna uma lista de demandas sem filtro")
-    public ResponseEntity<List<DtoDemanda>> getDemanda(){
-        return ResponseEntity.ok(service.getDemandas());
-    }
-
-    @GetMapping("/{idDemanda}")
-    @Operation(description = "Endpoint que retorna uma demanda filtrada pelo ID")
-    public ResponseEntity<DtoDemanda> getDemandaById(@PathVariable int idDemanda){
-        // return ResponseEntity.ok(demandaRepositorio.findById(idDemanda).get());
-        return ResponseEntity.ok(service.getDemandaById(idDemanda));
     }
 
     @GetMapping("/user/{idUsuario}")
