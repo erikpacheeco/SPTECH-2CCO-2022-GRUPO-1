@@ -11,21 +11,75 @@ import api from "../../Api"
 import React from "react";
 import { useParams } from 'react-router-dom'
 import VLibras from "@djpfs/react-vlibras"
+import { useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2';
+import withReactContent from "sweetalert2-react-content";
+
+function initialValuesDemanda() {
+    return {
+        categoria: "",
+        fkUsuario: "",
+        fkIntituicao: "",
+        fkPet: ""
+    }
+}
 
 function PerfilPetUsuario() {
 
+    const [infoUsuario, setInfoUsuario] = useState([])
     const [infoPet, setInfoPet] = useState([])
     const [preferencias, setPreferencias] = useState([])
+    const [valuesDemandaPagamento, setValuesDemandaPagamento] = useState(initialValuesDemanda)
+    const [valuesDemandaAdocao, setValuesDemandaAdocao] = useState(initialValuesDemanda)
+
     const idPet = useParams()
+    const navigate = useNavigate()
+    const swal = withReactContent(Swal);
+
+    function handleSubmitPagamento(event) {
+        event.preventDefault()
+        let json = {
+            categoria: "PAGAMENTO",
+            fkUsuario: infoUsuario.id,
+            fkIntituicao: infoPet.id,
+            fkPet: infoPet.id
+        }
+        console.log(json)
+        api.post("/demandas", json, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then((res) => {
+                swal.fire({
+                    icon: "success",
+                    title: <h2>Agora mande uma mensagem para a instituição e tire as suas dúvidas</h2>,
+                }).then(() => {
+                    navigate("/chat-user")
+                })
+            }).catch((error) => {
+                swal.fire({
+                    icon: "error",
+                    title: <h2>Ops! Algo deu errado da nossa parte :(</h2>,
+                    text: "Por favor, tente novamente!"
+                });
+                console.log(error)
+            })
+    }
 
     useEffect(() => {
+
+        const infoUsuario = JSON.parse(localStorage.getItem('petfinder_user'));
+        if (infoUsuario) {
+            setInfoUsuario(infoUsuario);
+        }
 
         api.get(`/pets/${idPet.id}/perfil`).then((res) => {
             setInfoPet(res.data)
             setPreferencias(res.data.caracteristicas)
         })
 
-    })
+    }, [])
 
     return (
         <>
@@ -143,8 +197,12 @@ function PerfilPetUsuario() {
                                     </div>
 
                                     <div className="perfil-pet-usuario-info-adocao-acao-btn">
-                                        <button>Apadrinhar</button>
-                                        <button>Doar</button>
+                                        <button
+                                            onClick={handleSubmitPagamento}
+                                        >Apadrinhar</button>
+                                        <button
+                                            onClick={handleSubmitPagamento}
+                                        >Doar</button>
                                     </div>
                                 </div>
 
@@ -152,7 +210,9 @@ function PerfilPetUsuario() {
 
                             <div className="perfil-pet-usuario-info-adocao-adote">
                                 <div className="perfil-pet-usuario-info-adocao-adote-btn">
-                                    <button>Me Adote</button>
+                                    <button
+                                        //onClick={handleSubmitPagamento}
+                                    >Me Adote</button>
                                 </div>
                             </div>
 
