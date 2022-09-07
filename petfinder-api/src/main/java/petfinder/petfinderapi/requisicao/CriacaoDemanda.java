@@ -2,6 +2,8 @@ package petfinder.petfinderapi.requisicao;
 
 import javax.validation.constraints.NotNull;
 
+import petfinder.petfinderapi.entidades.Demanda;
+
 public class CriacaoDemanda {
 
     // atributos
@@ -51,5 +53,5 @@ public class CriacaoDemanda {
     }
     public void setFkPet(Integer fkPet) {
         this.fkPet = fkPet;
-    }    
+    }   
 }

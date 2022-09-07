@@ -15,7 +15,6 @@ import petfinder.petfinderapi.service.DemandaService;
 import petfinder.petfinderapi.resposta.DemandaUsuario;
 import petfinder.petfinderapi.resposta.DtoDemanda;
 import petfinder.petfinderapi.resposta.DtoDemandaChats;
-
 import javax.validation.Valid;
 import java.io.*;
 import java.text.DateFormat;
@@ -59,38 +58,7 @@ public class DemandaController implements GerenciadorArquivos{
 
     private ListaObj<String> tiposMenssagensPossiveis = new ListaObj<String>(new String[]{"MENSAGEM", "ARQ_DOCUMENTO", "ARQ_IMAGEM"});
 
-    @GetMapping
-    @Operation(description = "Endpoint que retorna uma lista de demandas sem filtro")
-    public ResponseEntity<List<DtoDemanda>> getDemanda(){
-        return ResponseEntity.ok(service.getDemandas());
-    }
-
-    @GetMapping("/{idDemanda}")
-    @Operation(description = "Endpoint que retorna uma demanda filtrada pelo ID")
-    public ResponseEntity<DtoDemanda> getDemandaById(@PathVariable int idDemanda){
-        return ResponseEntity.ok(service.getDemandaById(idDemanda));
-    }
-
-    @GetMapping("/chats/{userId}")
-    @Operation(description = "Lista demandas no formato de chats")
-    public ResponseEntity<DtoDemandaChats> getDemandaChats(@PathVariable Integer userId) {
-        return ResponseEntity.ok(service.getChats(userId));
-    }
-
-    private void gerarHistoricoDemanda(Demanda demanda){
-        DemandaHist demandaHist = new DemandaHist(demanda);
-        demandaHistRepository.save(demandaHist);
-    }
-
-    private String gerarDataAtual(){
-        Date date = Calendar.getInstance().getTime();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String strDate = dateFormat.format(date);
-        return strDate;
-    }
-
-    // endpoints
-    @PostMapping()
+    @PostMapping
     @Operation(description = "Endpoint de criação de novas demandas, utilizando de uma DTO")
     public ResponseEntity<Demanda> postDemanda(@RequestBody @Valid CriacaoDemanda novaDemanda){
 
@@ -124,6 +92,38 @@ public class DemandaController implements GerenciadorArquivos{
         return ResponseEntity.status(404).build();
 
     }
+
+    @GetMapping
+    @Operation(description = "Endpoint que retorna uma lista de demandas sem filtro")
+    public ResponseEntity<List<DtoDemanda>> getDemanda(){
+        return ResponseEntity.ok(service.getDemandas());
+    }
+
+    @GetMapping("/{idDemanda}")
+    @Operation(description = "Endpoint que retorna uma demanda filtrada pelo ID")
+    public ResponseEntity<DtoDemanda> getDemandaById(@PathVariable int idDemanda){
+        return ResponseEntity.ok(service.getDemandaById(idDemanda));
+    }
+
+    @GetMapping("/chats/{userId}")
+    @Operation(description = "Lista demandas no formato de chats")
+    public ResponseEntity<DtoDemandaChats> getDemandaChats(@PathVariable Integer userId) {
+        return ResponseEntity.ok(service.getChats(userId));
+    }
+
+    private void gerarHistoricoDemanda(Demanda demanda){
+        DemandaHist demandaHist = new DemandaHist(demanda);
+        demandaHistRepository.save(demandaHist);
+    }
+
+    private String gerarDataAtual(){
+        Date date = Calendar.getInstance().getTime();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String strDate = dateFormat.format(date);
+        return strDate;
+    }
+
+    // endpoints
 
     @GetMapping("/user/{idUsuario}")
     @Operation(description = "Endpoint que retorna uma lista de demandas filtradas pelo ID do Usuário")

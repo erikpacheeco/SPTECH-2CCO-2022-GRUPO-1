@@ -44,12 +44,11 @@ public class Demanda {
         this.pet = pet;
         this.colaborador = colaborador;
     }
-
     public Demanda(String categoria, Usuario usuario, Instituicao instituicao, Pet pet) {
-        this(categoria.toUpperCase(), null,
-                null, "ABERTO",
-                usuario, instituicao,
-                pet, null);
+        this(categoria.toUpperCase(), new Date(),
+        null, "ABERTO",
+        usuario, instituicao,
+        pet, null);
     }
     public Demanda() {
     }
