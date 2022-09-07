@@ -135,6 +135,7 @@
     background: #FFFFFF;
     border-radius: 5px;
     font-family: 'Hind Madurai', sans-serif;
+    padding: 10px;
 }
 
 .perfil-pet-usuario-descricao-textarea::-webkit-scrollbar {
@@ -212,6 +213,7 @@
     background-color: #50077E;
     font-size: 1.625em;
     color: #FFFFFF;
+    cursor: pointer;
 }
 
 .perfil-pet-usuario-caracteristica {
@@ -282,6 +284,7 @@
     border-width: 0px;
     border-radius: 10px;
     color: #50077E;
+    cursor: pointer;
 }
 
 .perfil-pet-usuario-info-adocao-acao-btn button:hover {

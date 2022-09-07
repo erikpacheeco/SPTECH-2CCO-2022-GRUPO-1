@@ -67,6 +67,37 @@ function PerfilPetUsuario() {
             })
     }
 
+    function handleSubmitAdocao(event) {
+        event.preventDefault()
+        let json = {
+            categoria: "ADOCAO",
+            fkUsuario: infoUsuario.id,
+            fkIntituicao: infoPet.id,
+            fkPet: infoPet.id
+        }
+        console.log(json)
+        api.post("/demandas", json, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then((res) => {
+                swal.fire({
+                    icon: "success",
+                    title: <h2>Agora mande uma mensagem para a instituição e tire as suas dúvidas</h2>,
+                }).then(() => {
+                    navigate("/chat-user")
+                })
+            }).catch((error) => {
+                swal.fire({
+                    icon: "error",
+                    title: <h2>Ops! Algo deu errado da nossa parte :(</h2>,
+                    text: "Por favor, tente novamente!"
+                });
+                console.log(error)
+            })
+    }
+
     useEffect(() => {
 
         const infoUsuario = JSON.parse(localStorage.getItem('petfinder_user'));
@@ -211,7 +242,7 @@ function PerfilPetUsuario() {
                             <div className="perfil-pet-usuario-info-adocao-adote">
                                 <div className="perfil-pet-usuario-info-adocao-adote-btn">
                                     <button
-                                        //onClick={handleSubmitPagamento}
+                                        onClick={handleSubmitAdocao}
                                     >Me Adote</button>
                                 </div>
                             </div>
