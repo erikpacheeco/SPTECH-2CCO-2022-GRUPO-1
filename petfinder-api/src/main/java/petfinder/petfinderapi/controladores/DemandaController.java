@@ -60,7 +60,7 @@ public class DemandaController implements GerenciadorArquivos{
 
     @PostMapping
     @Operation(description = "Endpoint de criação de novas demandas, utilizando de uma DTO")
-    public ResponseEntity<Demanda> postDemanda(@RequestBody @Valid CriacaoDemanda novaDemanda){
+    public ResponseEntity<DtoDemanda> postDemanda(@RequestBody @Valid CriacaoDemanda novaDemanda){
 
         Optional<Usuario> usuario = usuarioRepositorio.findById(novaDemanda.getFkUsuario());
         Optional<Instituicao> instituicao = instituicaoRepositorio.findById(novaDemanda.getFkIntituicao());
@@ -85,7 +85,7 @@ public class DemandaController implements GerenciadorArquivos{
 
             gerarHistoricoDemanda(demanda);
 
-            return ResponseEntity.ok(demanda);
+            return ResponseEntity.ok(new DtoDemanda(demanda));
 
         }
         // 404 instituição not found

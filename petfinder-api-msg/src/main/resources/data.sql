@@ -115,6 +115,6 @@ VALUES
 -- mensagem
 INSERT INTO mensagem(conteudo, data_envio, tipo, demanda_id, usuario_id) VALUES
 ('Boa tarde, tudo certo? Eu gostaria de saber mais sobre o Fernandinho!', now(), 'texto', 14, 9),
-('Boa tarde, que bom saber! O Fernandinho é um doce de pet', now(), 'texto', 14, 2),
-('Mas também é muito bagunceiro, ele está à procura de um cuidador paciente', now(), 'texto', 14, 2),
+('Boa tarde, que bom saber! O Fernandinho e um doce de pet', now(), 'texto', 14, 2),
+('Mas tambem e muito bagunceiro, ele esta a procura de um cuidador paciente', now(), 'texto', 14, 2),
 ('Bora dale', now(), 'texto', 14, 2);
