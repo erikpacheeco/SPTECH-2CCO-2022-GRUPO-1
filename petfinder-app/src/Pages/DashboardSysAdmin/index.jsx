@@ -67,14 +67,14 @@ function DashboardSysAdmin() {
                     <SideBarItem label="Dashboard" icon={dash} navigateTo={"/dashboard-sysadmin"}/>,
                     <SideBarItem label="Administradores Cadastrados" icon={adm} navigateTo={"/dashboard-sysadmin"}/>,
                     <SideBarItem label="Instituições Cadastrados" icon={instituicoes} navigateTo={"/dashboard-sysadmin"}/>,
-                    <SideBarItem label="Dúvidas" icon={duvida} navigateTo={"/dashboard-sysadmin"}/>,
+                    <SideBarItem label="Dúvidas" icon={duvida} navigateTo={"/chat"}/>,
                 ]}
                 
                 itens={[
-                    <NavItem isSelected={true} label="Dashboard" />,
-                    <NavItem label="Admin Cadastrados" />,
-                    <NavItem label="Instituições Cadastrados" />,
-                    <NavItem label="Dúvidas" />
+                    <NavItem isSelected={true} label="Dashboard" navigateTo={"/dashboard-sysadmin"}/>,
+                    <NavItem label="Admin Cadastrados" navigateTo={`/lista-colaborador/${infoUsuario.id}`}/>,
+                    <NavItem label="Instituições Cadastrados" navigateTo={"/dashboard-sysadmin"}/>,
+                    <NavItem label="Dúvidas" navigateTo={"/chat"}/>
                 ]}
             />
 
@@ -84,27 +84,27 @@ function DashboardSysAdmin() {
                         <h2>Métricas de cadastro</h2>
                         <div className="dashboard-sysadmin-metricas-card-container">
                             <div className="dashboard-sysadmin-metricas-card">
-                                <p>X</p>
+                                <p>{infoTotalInstituicao.length}</p>
                                 <p>Instituições</p>
                             </div>
 
                             <div className="dashboard-sysadmin-metricas-card">
-                                <p>X</p>
+                                <p>{infoTotalUsuario.length}</p>
                                 <p>Usuários</p>
                             </div>
 
                             <div className="dashboard-sysadmin-metricas-card">
-                                <p>X</p>
+                                <p>{infoTotalPet.length}</p>
                                 <p>Animais</p>
                             </div>
 
                             <div className="dashboard-sysadmin-metricas-card">
-                                <p>X</p>
+                                <p>{infoTotalPadrinho.length}</p>
                                 <p>Padrinhos</p>
                             </div>
 
                             <div className="dashboard-sysadmin-metricas-card">
-                                <p>X</p>
+                                <p>{infoTotalAdm.length}</p>
                                 <p>Administradores</p>
                             </div>
                         </div>

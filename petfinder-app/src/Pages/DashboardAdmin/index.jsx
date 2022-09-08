@@ -72,15 +72,15 @@ function DashboardAdmin() {
                     <SideBarItem label="Padrinhos" icon={padrinho} navigateTo={"/dashboard-admin"}/>,
                     <SideBarItem label="Meu Perfil" icon={perfil} navigateTo={"/dashboard-admin"}/>,
                     <SideBarItem label="Perfil Instituição" icon={perfilInstituicao} navigateTo={"/dashboard-admin"}/>,
-                    <SideBarItem label="Colaboradores Cadastrados" icon={colaborador} navigateTo={"/"}/>,
-                    <SideBarItem label="Dúvida" icon={duvida} navigateTo={"/"}/>
+                    <SideBarItem label="Colaboradores Cadastrados" icon={colaborador} navigateTo={`/lista-colaborador/${infoUsuario.id}`}/>,
+                    <SideBarItem label="Dúvida" icon={duvida} navigateTo={"/chat"}/>
                 ]}
                 
                 itens={[
-                    <NavItem isSelected={true} label="Dashboard" navigateTo="/meus-premios"/>,
-                    <NavItem label="Admin Cadastrados" />,
-                    <NavItem label="Instituições Cadastrados" />,
-                    <NavItem label="Dúvidas" />
+                    <NavItem isSelected={true} label="Dashboard" navigateTo="/dashboard-admin"/>,
+                    <NavItem label="Admin Cadastrados" navigateTo="/dashboard-admin"/>,
+                    <NavItem label="Instituições Cadastrados" navigateTo="/dashboard-admin"/>,
+                    <NavItem label="Dúvidas" navigateTo="/chat"/>
                 ]}
             />
 

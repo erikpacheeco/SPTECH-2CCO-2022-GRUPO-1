@@ -51,14 +51,14 @@ function DashboardChatOps() {
                 sideItens={[
                     <SideBarItem label="Página Inicial" icon={perfil} navigateTo={"/dashboard-chatops"}/>,
                     <SideBarItem label="Demandas" icon={demanda} navigateTo={"/dashboard-chatops"}/>,
-                    <SideBarItem label="Nova Dúvida" icon={demanda} navigateTo={"/dashboard-chatops"}/>,
+                    <SideBarItem label="Nova Dúvida" icon={demanda} navigateTo={"/chat"}/>,
                 ]}
                 
                 itens={[
-                    <NavItem label="Dashboard" />,
-                    <NavItem label="Admin Cadastrados" />,
-                    <NavItem label="Instituições Cadastrados" />,
-                    <NavItem label="Dúvidas" />
+                    <NavItem label="Dashboard" navigateTo={"/dashboard-chatops"}/>,
+                    <NavItem label="Admin Cadastrados" navigateTo={"/dashboard-chatops"}/>,
+                    <NavItem label="Instituições Cadastrados" navigateTo={"/dashboard-chatops"}/>,
+                    <NavItem label="Dúvidas" navigateTo={"/chat"}/>
                 ]}
             />
 
