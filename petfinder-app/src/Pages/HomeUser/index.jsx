@@ -57,7 +57,7 @@ export default function HomeUser() {
 
                 sideItens={[
                     <SideBarItem label="Página Inicial" icon={home} navigateTo={"/home-user"}/>,
-                    <SideBarItem label="Mensagens" icon={message} navigateTo="/chat-user"/>,
+                    <SideBarItem label="Mensagens" icon={message} navigateTo="/chat"/>,
                     <SideBarItem label="Meu Perfil" icon={perfil} navigateTo=""/>,
                     <SideBarItem label="Meus Prêmios" icon={premio} navigateTo="/meus-premios"/>
                 ]}
@@ -65,7 +65,7 @@ export default function HomeUser() {
                 itens={[
                     <NavItem isSelected={true} label="Página Inicial" navigateTo="/home-user"/>,
                     <NavItem label="Meus Prêmios" navigateTo="/meus-premios"/>,
-                    <NavItem label="Mensagens" navigateTo="/chat-user"/>
+                    <NavItem label="Mensagens" navigateTo="/chat"/>
                 ]}
             />
 

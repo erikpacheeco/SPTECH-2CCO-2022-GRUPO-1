@@ -26,9 +26,9 @@ function Rotas() {
                 <Route path="/home-user" element={<HomeUser/>} />
                 <Route path="/lista-pet" element={<ListaPet/>} />
                 <Route path="/cadastro-pet" element={<CadastroPet/>} />
-                <Route path="/editar-colaborador" element={<EditarColaborador/>} />
+                <Route path="/editar-colaborador/:id" element={<EditarColaborador/>} />
                 <Route path="/cadastro-colaborador" element={<CadastrarColaborador/>} />
-                <Route path="/lista-colaborador" element={<ListaColaborador/>} /> 
+                <Route path="/lista-colaborador/:id" element={<ListaColaborador/>} /> 
                 <Route path="/perfil-pet-usuario/:id" element={<PerfilPetUsuario/>} /> 
                 <Route path="/perfil-pet-instituicao/:id" element={<PerfilPetInstituicao/>} /> 
                 <Route path="/meus-premios" element={<MeusPremios/>} />
@@ -36,7 +36,7 @@ function Rotas() {
                 <Route path="/dashboard-sysadmin" element={<DashboardSysAdmin/>} />
                 <Route path="/dashboard-chatops" element={<DashboardChatOps/>} />
                 <Route path="/dashboard-admin" element={<DashboardAdmin/>} />
-                <Route path="/chat-user" element={<ChatUsuario/>} />
+                <Route path="/chat" element={<ChatUsuario/>} />
             </Routes>
         </BrowserRouter>
     );
