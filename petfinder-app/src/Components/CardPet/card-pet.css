@@ -11,6 +11,7 @@
     position: relative;
     align-self: center;
     justify-self: center;
+    cursor: pointer;
 }
 
 .card-pet-img-pet p {
