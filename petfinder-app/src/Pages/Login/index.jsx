@@ -39,13 +39,13 @@ function Login() {
             localStorage.setItem("petfinder_user", JSON.stringify(res.data))
             localStorage.setItem("petfinder_user_id", JSON.stringify(res.data.id))
 
-            if(res.data.nivelAcesso == "sysadm") {
+            if(res.data.nivelAcesso.toLowerCase() == "sysadm") {
                 navigate("/dashboard-sysadmin")
-            } else if (res.data.nivelAcesso == "adm") {
+            } else if (res.data.nivelAcesso.toLowerCase() == "adm") {
                 navigate("/dashboard-admin")
-            } else if (res.data.nivelAcesso == "chatops") {
+            } else if (res.data.nivelAcesso.toLowerCase() == "chatops") {
                 navigate("/dashboard-chatops")
-            } else if (res.data.nivelAcesso == "user") {
+            } else if (res.data.nivelAcesso.toLowerCase() == "user") {
                 navigate("/home-user")
             }
             
