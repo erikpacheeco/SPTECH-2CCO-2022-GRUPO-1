@@ -9,6 +9,12 @@ function SideBar(props) {
 
     const navigate = useNavigate()
 
+    function handleLogout() {
+        localStorage.clear()
+        navigate("/")
+        window.location.reload(true);
+    }
+
     return (
         
         <nav className={props.sideBar? "side-bar side-bar-hidden": "side-bar"}>
@@ -30,14 +36,14 @@ function SideBar(props) {
                 }
             </div>
             <div className="side-bar-logout">
-                <button className="btn-side-bar-logout">
+                <button 
+                    className="btn-side-bar-logout"
+                    onClick={handleLogout}
+                >
                     <p>Sair</p>
                     <img 
                         src={logout} 
                         alt="Saída" 
-                        onClick={() =>
-                            navigate(`/`)
-                        }
                     /> 
                 </button>
             </div>
