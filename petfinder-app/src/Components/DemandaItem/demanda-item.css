@@ -1,0 +1,28 @@
+.demanda-item-container{
+    display: flex;
+    flex-direction: row;
+    border-radius: 5px;
+    border: 1px solid #7F2AB5;
+    padding: 10px;
+    align-items: center;
+    gap: 10px;
+    color: #7F2AB5;
+}
+
+.demanda-item-categoria{
+    padding: 8px;
+    border-radius: 5px;
+    text-transform: capitalize;
+}
+
+.demanda-item-adocao{
+    background-color: #FAB6DE;
+}
+
+.demanda-item-resgate{
+    background-color: #FFE8A8;
+}
+
+.demanda-item-pagamento{
+    background-color: #B1FF8A;
+}

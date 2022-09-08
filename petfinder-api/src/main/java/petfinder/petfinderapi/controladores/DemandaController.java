@@ -409,7 +409,6 @@ public class DemandaController implements GerenciadorArquivos{
                 .body(relatorio);
     }
 
-
     @Override
     public void gravaArquivoCSV(ListaObj lista, String nomeArquivo) {
         FileWriter arq = null;
