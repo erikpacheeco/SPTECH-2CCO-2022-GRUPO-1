@@ -41,19 +41,19 @@ INSERT INTO
 pet(nome, data_nasc, especie, raca, porte, sexo, descricao, doente, adotado, caminho_imagem, instituicao_id)
 VALUES
 ('Antonio', '2021-05-21', 'Cachorro', 'SRD', 'Pequeno', 'Macho', 'Branquinho, brincalhao e estressado com criança chata', true, false, '/img/pets/antonio.png', 1),
-('Antonio Gabriel', '2022-06-12', 'Gato', 'SRD', 'Pequeno', 'Fêmea', 'Nenem que ama, ficar no colo, fiel companheira', true, false, '/img/pets/antonio-gabriel.png', 2),
+('Antonio Gabriel', '2022-06-12', 'Gato', 'SRD', 'Pequeno', 'Femea', 'Nenem que ama, ficar no colo, fiel companheira', true, false, '/img/pets/antonio-gabriel.png', 2),
 ('Batatinha', '2019-04-20', 'Cachorro', 'SRD', 'Medio', 'Macho', 'Brincalhao e gosta de passear', false, false, '/img/pets/batatinha.png', 3),
 ('Bingus', '2022-03-20', 'Gato', 'Sphynx', 'Medio', 'Macho', 'Brincalhao e gosta de passear', false, false, '/img/pets/bingus.png', 4),
 ('Ferdinando', '2019-06-20', 'Gato', 'SRD', 'Pequeno', 'Macho', 'Brincalhao e gosta de passear', true, false, '/img/pets/ferdinando.png', 1),
 ('Jonas', '2014-08-20', 'Gato', 'SRD', 'Pequeno', 'Macho', 'Brincalhao e gosta de passear', true, false, '/img/pets/jonas.png', 2),
 ('Juninho', '2020-06-20', 'Cachorro', 'SRD', 'Pequeno', 'Macho', 'Brincalhao e gosta de passear', false, false, '/img/pets/juninho.png', 3),
-('Leila', '2020-06-20', 'Gato', 'SRD', 'Pequeno', 'Fêmea', 'Brincalhao e gosta de passear', true, false, '/img/pets/leila.png', 4),
-('Minhoca', '2022-02-20', 'Gato', 'SRD', 'Pequeno', 'Fêmea', 'Brincalhao e gosta de passear', false, false, '/img/pets/minhoca.png', 1),
+('Leila', '2020-06-20', 'Gato', 'SRD', 'Pequeno', 'Femea', 'Brincalhao e gosta de passear', true, false, '/img/pets/leila.png', 4),
+('Minhoca', '2022-02-20', 'Gato', 'SRD', 'Pequeno', 'Femea', 'Brincalhao e gosta de passear', false, false, '/img/pets/minhoca.png', 1),
 ('Patinha', '2020-06-20', 'Gato', 'SRD', 'Pequeno', 'Macho', 'Brincalhao e gosta de passear', false, false, '/img/pets/patinha.png', 1),
 ('Peteca', '2019-06-20', 'Gato', 'SRD', 'Pequeno', 'Macho', 'Brincalhao e gosta de passear', false, false, '/img/pets/peteca.png', 3),
 ('Piui', '2022-01-20', 'Cachorro', 'SRD', 'Pequeno', 'Macho', 'Brincalhao e gosta de passear', false, false, '/img/pets/piui.png', 1),
 ('Roberto', '2019-06-20', 'Gato', 'SRD', 'Pequeno', 'Macho', 'Brincalhao e gosta de passear', true, false, '/img/pets/roberto.png', 1),
-('Vanessa', '2019-06-20', 'Gato', 'SRD', 'Pequeno', 'Fêmea', 'Brincalhao e gosta de passear', true, false, '/img/pets/vanessa.png', 2);
+('Vanessa', '2019-06-20', 'Gato', 'SRD', 'Pequeno', 'Femea', 'Brincalhao e gosta de passear', true, false, '/img/pets/vanessa.png', 2);
 
 -- Premio
 INSERT INTO
@@ -81,7 +81,26 @@ VALUES
 (2, 1),
 (3, 1),
 (4, 1),
-(4, 2);
+(1, 2),
+(2, 2),
+(3, 3),
+(4, 3),
+(1, 3),
+(2, 4),
+(3, 4),
+(4, 4),
+(1, 4),
+(2, 5),
+(3, 6),
+(4, 6),
+(4, 7),
+(4, 8),
+(4, 9),
+(4, 10),
+(4, 11),
+(4, 12),
+(4, 13),
+(4, 14);
 
 -- UsuarioHasInteresse
 INSERT INTO
@@ -103,7 +122,7 @@ VALUES
 ('PAGAMENTO', '2020-01-01', null, 'CONCLUIDO', 9, 1, null),
 ('PAGAMENTO', '2020-01-01', null, 'ABERTO', 9, 1, 1),
 ('PAGAMENTO', '2020-01-01', null, 'ABERTO', 9, 1, 2),
-('adocao', '2020-01-01', null, 'ABERTO', 9, 1, null),
+('ADOCAO', '2020-01-01', null, 'ABERTO', 9, 1, null),
 ('PAGAMENTO', '2020-01-01', null, 'CANCELADO', 9, 1, null),
 ('ADOCAO', '2020-01-01', null, 'CANCELADO', 9, 1, null),
 ('PAGAMENTO', '2020-01-01', null, 'PGTO_REALIZADO_USER', 9, 1, null),
