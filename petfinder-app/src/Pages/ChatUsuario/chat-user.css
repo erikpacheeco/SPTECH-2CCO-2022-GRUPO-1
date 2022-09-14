@@ -19,7 +19,7 @@
     width: 25%;
     height: 100%;
     background-color: #F3F2F2;
-    border-radius: 10px;
+    border-radius: 10px 5px 5px 10px;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     gap: 10px;
     display: flex;
@@ -107,7 +107,6 @@
     height: 90%;
     width: 100%;
     overflow-x: hidden;
-    overflow-y: scroll;
     display: flex;
     flex-direction: column-reverse;
 }
@@ -174,14 +173,14 @@
 }
 
 .chat-user-message-section::-webkit-scrollbar-track {
-    background: #DADADA;
+    background-color: rgba(218, 218, 218, 0.5);
     border-radius: 5px;
 }
 
 .chat-user-message-section::-webkit-scrollbar-thumb {
-    background-color: #7E29B4;
+    background-color: rgba(127, 41, 180, 1);
     border-radius: 20px;
-    border: 3px solid #7E29B4;
+    border: 3px solid rgba(218, 218, 218);
 }
 
 .chat-user-demandas-header-actions {
@@ -212,7 +211,20 @@
 }
 
 .chat-user-container-demandas::-webkit-scrollbar{
-    display: none;
+    width: 12px;
+    
+}
+
+.chat-user-container-demandas::-webkit-scrollbar-track{
+    background-color: rgba(218, 218, 218, 0.5);
+    border-radius: 5px;
+}
+
+.chat-user-container-demandas::-webkit-scrollbar-thumb{
+    
+    background-color: rgba(127, 41, 180, 1);
+    border-radius: 20px;
+    border: 3px solid rgba(218, 218, 218);
 }
 
 .chat-user-adocao{

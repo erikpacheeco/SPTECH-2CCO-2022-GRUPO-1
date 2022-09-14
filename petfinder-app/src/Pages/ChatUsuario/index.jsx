@@ -70,7 +70,7 @@ export default function ChatUsuario() {
             } else if (demandaAtual.categoria.toLowerCase() == "resgate") {
                 return "chat-user-message-type chat-user-resgate"
             }
-        }else{
+        } else {
             return "chat-user-hidden"
         }
     }
@@ -131,6 +131,7 @@ export default function ChatUsuario() {
                                 <img className="chat-user-demandas-btn-icon" id='icon_andamento' src={demandasStatus[0] ? standby : chat_down} alt="seta para minimizar demandas em aberto" onClick={handleChangeAndamento} />
                             </div>
                         </div>
+
                         <div className={demandasStatus[0] ? "chat-user-demandas-list" : " chat-user-hidden"}>
                             {
                                 listaDemandaAndamento.map((demanda) => {
@@ -149,6 +150,7 @@ export default function ChatUsuario() {
                                 })
                             }
                         </div>
+
                         <div className="chat-user-demandas-header">
                             <p className="chat-user-demandas-header-title">Abertas</p>
                             <div className="chat-user-demandas-header-actions">

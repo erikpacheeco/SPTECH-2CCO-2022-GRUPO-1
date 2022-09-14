@@ -1,5 +1,5 @@
 .side-bar {
-    height: 100%;
+    height: 100vh;
     width: 100%;
     max-width: 450px;
     z-index: 2;
@@ -13,8 +13,6 @@
     background: linear-gradient(90deg, #7F2AB5 0%, #50077E 112.78%);
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
-    overflow: auto;
-
 }
 
 .side-bar-hidden{
@@ -22,7 +20,7 @@
 }
 
 .side-bar-close{
-    height: 100px;
+    height: 13%;
     width: 90%;
     display: flex;
     align-items: center;
@@ -34,15 +32,29 @@
 }
 
 .side-bar-option{
-    height: 100%;
+    height: 84%;
     width: 100%;
-    
-    display: flex;
+    overflow-y: scroll;
     flex-direction: column;
 }
 
+.side-bar-option::-webkit-scrollbar {
+    width: 12px;
+}
+.side-bar-option::-webkit-scrollbar-track{
+    background-color: rgba(126, 41, 180, 0.5);
+    border-radius: 5px 0px 0px 5px;
+}
+
+.side-bar-option::-webkit-scrollbar-thumb{
+    background-color: rgba(218, 218, 218, 0.5);
+    
+    border-radius: 20px;
+    border: 3px solid #7E29B4;
+}
+
 .side-bar-logout {
-    height: 100px;
+    height: 13%;
     width: 100%;
     
     display: flex;
