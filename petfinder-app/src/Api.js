@@ -1,9 +1,8 @@
 import axios from "axios";
-
-const dns = "localhost"
+import host from "./Host.js";
 
 const api = axios.create({
-    baseURL:`http://${dns}:8080`
-}) 
+    baseURL:`${host}:8080`
+});
 
 export default api;

@@ -1,9 +1,8 @@
 import axios from "axios";
-
-const dns = "localhost";
+import host from "./Host.js";
 
 const api_msg = axios.create({
-    baseURL:`http://${dns}:8081/api-msg`
+    baseURL:`${host}:8081/api-msg`
 }) 
 
 export default api_msg;
