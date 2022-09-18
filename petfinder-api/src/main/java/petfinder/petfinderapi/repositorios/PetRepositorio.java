@@ -30,4 +30,13 @@ public interface PetRepositorio extends JpaRepository<Pet, Integer> {
     @Query("SELECT new petfinder.petfinderapi.resposta.PetPerfil(p) FROM Pet p WHERE p.instituicao.id = ?1")
     List<PetPerfil> findPetPerfilByInstituicao(int id);
 
+    @Query("SELECT count(p) FROM Pet p WHERE p.adotado <> 'true'")
+    public Integer findAllPet();
+
+    @Query("SELECT count(p) FROM Pet p WHERE p.adotado = 'true' AND p.instituicao.id = ?1")
+    public Integer findAllAdotadoInstituicao(int idInstituicao);
+
+    @Query("SELECT COUNT(p) FROM Pet p WHERE p.instituicao.id = ?1")
+    public Integer findAllPetInstituicao(int idInstituicao);
+
 }
