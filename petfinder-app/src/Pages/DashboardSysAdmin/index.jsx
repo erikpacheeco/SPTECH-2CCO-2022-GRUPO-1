@@ -26,13 +26,8 @@ function DashboardSysAdmin() {
       
     const [infoUsuario, setInfoUsuario] = useState([])
     
-    const [infoTotalInstituicao, setTotalInstituicao] = useState([])
-    const [infoTotalUsuario, setTotalUsuario] = useState([])
-    const [infoTotalPet, setTotalPet] = useState([])
-    const [infoTotalPadrinho, setTotalPadrinho] = useState([])
-    const [infoTotalAdm, setTotalAdm] = useState([])
+    const [infoDashboard, setInfoDashboard] = useState([])
 
-    
     useEffect(() => {
 
         const infoUsuario = JSON.parse(localStorage.getItem('petfinder_user'));
@@ -40,22 +35,8 @@ function DashboardSysAdmin() {
             setInfoUsuario(infoUsuario);
         }
         
-        api.get(`/instituicoes`).then((res) => {
-            setTotalInstituicao(res.data)
-        })
-        api.get(`/usuarios`).then((res) => {
-            setTotalUsuario(res.data)
-        })
-        api.get(`/pets`).then((res) => {
-            setTotalPet(res.data)
-        })
-        /*
-        api.get(`/usuarios/padrinhos`).then((res) => {
-            setTotalPet(res.data)
-        })
-        */
-        api.get(`/usuarios/nivel-acesso/${infoUsuario.nivelAcesso}`).then((res) => {
-            setTotalAdm(res.data)
+        api.get(`/demandas/dashboard/${infoUsuario.id}`).then((res) => {
+            setInfoDashboard(res.data)
         })
     })
     
@@ -84,27 +65,27 @@ function DashboardSysAdmin() {
                         <h2>Métricas de cadastro</h2>
                         <div className="dashboard-sysadmin-metricas-card-container">
                             <div className="dashboard-sysadmin-metricas-card">
-                                <p>{infoTotalInstituicao.length}</p>
+                                <p>{infoDashboard.qtdInstituicao}</p>
                                 <p>Instituições</p>
                             </div>
 
                             <div className="dashboard-sysadmin-metricas-card">
-                                <p>{infoTotalUsuario.length}</p>
+                                <p>{infoDashboard.qtdUsuario}</p>
                                 <p>Usuários</p>
                             </div>
 
                             <div className="dashboard-sysadmin-metricas-card">
-                                <p>{infoTotalPet.length}</p>
+                                <p>{infoDashboard.qtdAnimal}</p>
                                 <p>Animais</p>
                             </div>
 
                             <div className="dashboard-sysadmin-metricas-card">
-                                <p>{infoTotalPadrinho.length}</p>
+                                <p>{infoDashboard.qtdPadrinho}</p>
                                 <p>Padrinhos</p>
                             </div>
 
                             <div className="dashboard-sysadmin-metricas-card">
-                                <p>{infoTotalAdm.length}</p>
+                                <p>{infoDashboard.qtdAdmin}</p>
                                 <p>Administradores</p>
                             </div>
                         </div>

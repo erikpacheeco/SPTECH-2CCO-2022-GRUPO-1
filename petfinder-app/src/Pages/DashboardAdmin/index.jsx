@@ -27,12 +27,7 @@ export const data = [
 function DashboardAdmin() {
     const [infoUsuario, setInfoUsuario] = useState([])
 
-    const [infoTotalPadrinho, setTotalPadrinho] = useState([])
-    const [infoTotalResgate, setTotalResgate] = useState([])
-    //const [infoTotalUsuario, setTotalUsuario] = useState([])
-    //const [infoTotalPet, setTotalPet] = useState([])
-    //const [infoTotalInstituicao, setTotalInstituicao] = useState([])
-    const [infoTotalAdm, setTotalAdm] = useState([])
+    const [infoDashboard, setInfoDashboard] = useState([])
 
     useEffect(() => {
         const infoUsuario = JSON.parse(localStorage.getItem('petfinder_user'));
@@ -40,26 +35,8 @@ function DashboardAdmin() {
             setInfoUsuario(infoUsuario);
         }
 
-        api.get(`/usuarios/padrinhos/${infoUsuario.fkInstituicao.id}`).then((res) => {
-            setTotalPadrinho(res.data)
-        })
-        
-        /*
-        api.get(`/pets/premios-instituicao/${infoUsuario.fkInstituicao.id}`).then((res) => {
-            setTotalResgate(res.data)
-        })
-        api.get(`/usuarios/por-instituicao/${infoUsuario.fkInstituicao.id}`).then((res) => {
-            setTotalUsuario(res.data)
-        })
-        api.get(`/pets/instituicao/${infoUsuario.fkInstituicao.id}`).then((res) => {
-            setTotalPet(res.data)
-        })
-        api.get(`/instituicoes`).then((res) => {
-            setTotalInstituicao(res.data)
-        })
-        */
-        api.get(`/usuarios/acesso/${infoUsuario.fkInstituicao.id}/${infoUsuario.nivelAcesso}`).then((res) => {
-            setTotalAdm(res.data)
+        api.get(`/demandas/dashboard/${infoUsuario.id}`).then((res) => {
+            setInfoDashboard(res.data)
         })
     })
 
@@ -90,28 +67,28 @@ function DashboardAdmin() {
                         <h2>Métricas de cadastro</h2>
                         <div className="dashboard-admin-metricas-card-container">
                             <div className="dashboard-admin-metricas-card">
-                                <p>X</p>
-                                <p>Instituições</p>
-                            </div>
-
-                            <div className="dashboard-admin-metricas-card">
-                                <p>X</p>
-                                <p>Usuários</p>
-                            </div>
-
-                            <div className="dashboard-admin-metricas-card">
-                                <p>X</p>
-                                <p>Animais</p>
-                            </div>
-
-                            <div className="dashboard-admin-metricas-card">
-                                <p>X</p>
+                                <p>{infoDashboard.qtdPadrinhoInstituicao}</p>
                                 <p>Padrinhos</p>
                             </div>
 
                             <div className="dashboard-admin-metricas-card">
-                                <p>X</p>
-                                <p>Administradores</p>
+                                <p>{infoDashboard.qtdResgatePendenteInstituicao}</p>
+                                <p>Resgates Pendentes</p>
+                            </div>
+
+                            <div className="dashboard-admin-metricas-card">
+                                <p>{infoDashboard.qtdPetAdotado}</p>
+                                <p>Pet's Adotados</p>
+                            </div>
+
+                            <div className="dashboard-admin-metricas-card">
+                                <p>{infoDashboard.qtdPremioPorPetInstituicao}</p>
+                                <p>Prêmios por Pet</p>
+                            </div>
+
+                            <div className="dashboard-admin-metricas-card">
+                                <p>{infoDashboard.qtdPetSemPremioInstiuicao}</p>
+                                <p>Pet's sem Prêmio</p>
                             </div>
                         </div>
                     </div>

@@ -28,8 +28,7 @@ function DashboardChatOps() {
 
     const [infoUsuario, setInfoUsuario] = useState([])
 
-    const [infoTotalEspera, setTotalEspera] = useState([])
-    const [infoTotalConcluida, setTotalConcluida] = useState([])
+    const [infoDashboard, setInfoDashboard] = useState([])
 
     useEffect(() => {
         const infoUsuario = JSON.parse(localStorage.getItem('petfinder_user'));
@@ -37,11 +36,8 @@ function DashboardChatOps() {
             setInfoUsuario(infoUsuario);
         }
 
-        api.get(`/demandas/instituicao/${infoUsuario.fkInstituicao.id}/em_andamento`).then((res) => {
-            setTotalEspera(res.data)
-        })
-        api.get(`/demandas/instituicao/${infoUsuario.fkInstituicao.id}/aberto`).then((res) => {
-            setTotalConcluida(res.data)
+        api.get(`/demandas/dashboard/${infoUsuario.id}`).then((res) => {
+            setInfoDashboard(res.data)
         })
     })
 
@@ -68,12 +64,12 @@ function DashboardChatOps() {
                         <h2>Métricas de cadastro</h2>
                         <div className="dashboard-chatops-metricas-card-container">
                             <div className="dashboard-chatops-metricas-card">
-                                <p>X</p>
+                                <p>{infoDashboard.qtdDemandaAbertaInstituicao}</p>
                                 <p>Em espera</p>
                             </div>
 
                             <div className="dashboard-chatops-metricas-card">
-                                <p>X</p>
+                                <p>{infoDashboard.qtdDemandaConcluidaColaboradorInstiuicao}</p>
                                 <p>Concluídas hoje</p>
                             </div>
 
