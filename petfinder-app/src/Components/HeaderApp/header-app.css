@@ -17,6 +17,7 @@
 
 .header-app-application-menu {
     margin-right: 40px;
+    cursor: pointer;
 }
 
 .header-app-container-btn-nav {

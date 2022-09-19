@@ -18,18 +18,25 @@ function PetListItem({nome, especie, raca, idade, porte, id}) {
 
     return(
         <div className="pet-item-list">
-            <img src={userIcon} alt="" className="item-list-user-icon"/>
-            <PetKeyValueItem chave="nome" value={nome}/>
-            <PetKeyValueItem chave="especie" value={especie}/>
-            <PetKeyValueItem chave="raça" value={raca}/>
-            <PetKeyValueItem chave="idade" value={idade}/>
-            <PetKeyValueItem chave="porte" value={porte}/>
-            <PetKeyValueItem chave="id" value={id}/>
-            <button 
-                onClick={() => 
-                    navigate(`/perfil-pet-instituicao/${id}`)
-                } 
-                className="pet-list-item-btn-editar-cadastro">EDITAR CADASTRO</button>
+            <div className="pet-item-list-container">
+                <div className="pet-item-userIcon">
+                    <img src={userIcon} alt="" className="item-list-user-icon"/>
+                </div>
+                <div className="pet-item-value">
+                    <PetKeyValueItem chave="nome" value={nome}/>
+                    <PetKeyValueItem chave="especie" value={especie}/>
+                    {/* <PetKeyValueItem chave="raça" value={raca}/>
+                    <PetKeyValueItem chave="idade" value={idade}/>
+                    <PetKeyValueItem chave="porte" value={porte}/>
+                    <PetKeyValueItem chave="id" value={id}/> */}
+                </div>
+                <button 
+                    onClick={() => 
+                        navigate(`/perfil-pet-instituicao/${id}`)
+                    } 
+                    className="pet-list-item-btn-editar-cadastro">EDITAR</button>
+            </div>
+            
         </div>
     )
 }

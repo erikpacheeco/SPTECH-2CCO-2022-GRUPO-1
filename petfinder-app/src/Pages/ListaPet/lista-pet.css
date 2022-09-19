@@ -1,7 +1,20 @@
+.lista-pet-root{
+    width: 100%;
+    height: 100%;
+}
+
+.lista-pet{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
 .lista-pet-container {
-    width: 60%;
-    margin-left: auto;
-    margin-right: auto;
+    width: 95%;
+    height: 100%;
 }
 
 .lista-pet-title {
@@ -14,7 +27,14 @@
 }
 
 .lista-pet-title h2 {
+    margin-top: 40px;
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 700;
     font-size: 32px;
+    line-height: 44px;
+
+    color: #7F2AB5;
 }
 
 .lista-pet-add-icon {
@@ -38,4 +58,12 @@
     flex-direction: row;
     width: 15%;
     justify-content: space-around;
+}
+
+.lista-pet-list{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
