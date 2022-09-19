@@ -23,9 +23,15 @@ export default function ChatUsuario() {
 
     const [messages, setMessages] = useState([]);
     const [demandaAtual, setDemandaAtual] = useState({
-        id: '',
+        id: "",
         categoria: "--",
         colaborador: "--",
+        proximaAcao: {
+            texto: null,
+            tipoBotao: null,
+            acao: null,
+        },
+        status: null
     });
 
     const [listaDemandaAberta, setListaDemandaAberta] = useState([]);
@@ -62,12 +68,12 @@ export default function ChatUsuario() {
     }
 
     function chooseColor() {
-        if (demandaAtual.id != '') {
-            if (demandaAtual.categoria.toLowerCase() == "adocao") {
+        if (demandaAtual.id !== '') {
+            if (demandaAtual.categoria.toLowerCase() === "adocao") {
                 return "chat-user-message-type chat-user-adocao"
-            } else if (demandaAtual.categoria.toLowerCase() == "pagamento") {
+            } else if (demandaAtual.categoria.toLowerCase() === "pagamento") {
                 return "chat-user-message-type chat-user-pagamento"
-            } else if (demandaAtual.categoria.toLowerCase() == "resgate") {
+            } else if (demandaAtual.categoria.toLowerCase() === "resgate") {
                 return "chat-user-message-type chat-user-resgate"
             }
         } else {
@@ -76,19 +82,21 @@ export default function ChatUsuario() {
     }
 
     useEffect(() => {
-        api_msg.get(`/message/${demandaAtual.id}`).then((res) => {
-            if (res.status === 200) {
-                setMessages(res.data)
-            } else if (res.status === 204) {
-                setMessages([]);
-            }
-        });
+        if (demandaAtual.id !== "") {
+            api_msg.get(`/message/${demandaAtual.id}`).then((res) => {
+                if (res.status === 200) {
+                    setMessages(res.data)
+                } else if (res.status === 204) {
+                    setMessages([]);
+                }
+            });
+        }
         api.get(`/demandas/chats/${localStorage.getItem('petfinder_user_id')}`).then((res) => {
             setListaDemandaAberta(res.data.abertas)
             setListaDemandaAndamento(res.data.emAndamento)
             setListaDemandaConcluida(res.data.fechadas)
-        })
-    })
+        });
+    });
 
     function handleSubmitMessageText(event) {
         event.preventDefault();
@@ -144,8 +152,11 @@ export default function ChatUsuario() {
                                                 id: demanda.id,
                                                 categoria: demanda.categoria,
                                                 colaborador: demanda.colaborador === null ? "--" : demanda.colaborador.nome,
+                                                proximaAcao: JSON.parse(localStorage.getItem("petfinder_user")).nivelAcesso === "user" ? demanda.proximaAcaoUsuario : demanda.proximaAcaoColaborador,
+                                                status: demanda.status,
                                             })
                                         }}
+                                        key={demanda.id}
                                     />);
                                 })
                             }
@@ -169,6 +180,8 @@ export default function ChatUsuario() {
                                                 id: demanda.id,
                                                 categoria: demanda.categoria,
                                                 colaborador: demanda.colaborador === null ? "--" : demanda.colaborador.nome,
+                                                proximaAcao: JSON.parse(localStorage.getItem("petfinder_user")).nivelAcesso === "user" ? demanda.proximaAcaoUsuario : demanda.proximaAcaoColaborador,
+                                                status: demanda.status,
                                             })
                                         }}
                                     />);
@@ -193,6 +206,8 @@ export default function ChatUsuario() {
                                                 id: demanda.id,
                                                 categoria: demanda.categoria,
                                                 colaborador: demanda.colaborador === null ? "--" : demanda.colaborador.nome,
+                                                proximaAcao: JSON.parse(localStorage.getItem("petfinder_user")).nivelAcesso === "user" ? demanda.proximaAcaoUsuario : demanda.proximaAcaoColaborador,
+                                                status: demanda.status,
                                             })
                                         }}
                                     />);
@@ -204,12 +219,18 @@ export default function ChatUsuario() {
                     <div className="chat-user-container-chat">
                         <div className="chat-user-message-header">
                             <p className={chooseColor()}>{demandaAtual.categoria.toLowerCase()}</p>
-                            <p className={demandaAtual.id == '' ? "chat-user-hidden" : "chat-user-message-receiver"}>{demandaAtual.colaborador}</p>
-                            <div className={demandaAtual.id == '' ? "chat-user-hidden" : "chat-user-demanda-action"}>
-                                <p className="chat-user-action-description">Cancelar demanda</p>
-                                <img className="chat-user-hidden" src={check} />
-                                <img src={close_chat} />
-                                <img src={ask} />
+                            <p>#{demandaAtual.id}</p>
+                            <p className={demandaAtual.id === '' ? "chat-user-hidden" : "chat-user-message-receiver"}>{demandaAtual.colaborador}</p>
+                            <div className={demandaAtual.id === '' ? "chat-user-hidden" : "chat-user-demanda-action"}>
+                                <p className="chat-user-action-description">{demandaAtual.proximaAcao.texto}</p>
+                                <img className="chat-user-hidden" src={check} alt="" />
+                                {demandaAtual.proximaAcao.tipoBotao === "accept" ? <img src={check} alt="check button" /> : ""}
+                                {demandaAtual.proximaAcao.tipoBotao === "accept/decline" ? <>
+                                    <img src={check} alt="check button" />
+                                    <img src={close_chat} alt="cancel button" />
+                                </> : ""}
+                                {demandaAtual.proximaAcao.tipoBotao === "decline" ? <img src={close_chat} alt="cancel button" /> : ""}
+                                <img src={ask} alt="" />
                             </div>
                         </div>
 

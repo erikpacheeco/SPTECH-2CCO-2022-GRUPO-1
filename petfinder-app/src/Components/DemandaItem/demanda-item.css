@@ -7,12 +7,27 @@
     align-items: center;
     gap: 10px;
     color: #7F2AB5;
+    cursor: pointer;
+}
+
+.demanda-item-container:hover {
+    background-color: #ac58e0;
+    color: white;
+    
+}
+
+.demanda-active {
+    background-color: #7F2AB5;
+    color: white;
 }
 
 .demanda-item-categoria{
+    min-width: 76px;
     padding: 8px;
     border-radius: 5px;
     text-transform: capitalize;
+    color: #7F2AB5;
+    text-align: center;
 }
 
 .demanda-item-adocao{

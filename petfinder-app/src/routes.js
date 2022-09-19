@@ -16,6 +16,7 @@ import DashboardChatOps from "./Pages/DashboardChatOps";
 import DashboardAdmin from "./Pages/DashboardAdmin";
 import ChatUsuario from "./Pages/ChatUsuario";
 import React from "react";
+import './global.css';
 
 function Rotas() {
     return (

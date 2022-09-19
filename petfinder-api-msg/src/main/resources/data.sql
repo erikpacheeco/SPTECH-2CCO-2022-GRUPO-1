@@ -98,19 +98,31 @@ INSERT INTO
 demanda(categoria, data_abertura, data_fechamento, status, usuario_id, instituicao_id, pet_id, colaborador_id)
 VALUES
 ('PAGAMENTO', '2020-01-01', null, 'ABERTO', 9, 1, null, null),
-('PAGAMENTO', '2020-01-01', null, 'PGTO_REALIZADO_USER', 9, 1, null, 2),
 ('PAGAMENTO', '2020-01-01', null, 'ABERTO', 10, 1, 1, null),
+('PAGAMENTO', '2020-01-01', null, 'EM_ANDAMENTO', 9, 1, null, 2),
+('PAGAMENTO', '2020-01-01', null, 'PGTO_REALIZADO_USER', 9, 1, null, 2),
 ('PAGAMENTO', '2020-01-01', null, 'PGTO_REALIZADO_USER', 10, 1, 2, 2),
-('adocao', '2020-01-01', null, 'ABERTO', 9, 1, null, null),
-('PAGAMENTO', '2020-01-01', null, 'CANCELADO', 9, 1, null, 2),
-('ADOCAO', '2020-01-01', null, 'CANCELADO', 9, 1, null, 2),
 ('PAGAMENTO', '2020-01-01', null, 'PGTO_REALIZADO_USER', 11, 1, null, 2),
-('PAGAMENTO', '2020-01-01', null, 'PGTO_REALIZADO_USER', 11, 1, null, 2),
-('ADOCAO', '2020-01-01', null, 'CANCELADO', 9, 1, null, 2),
+('PAGAMENTO', '2020-01-01', null, 'PGTO_REALIZADO_INST', 11, 1, null, 2),
+('PAGAMENTO', '2020-01-01', '2020-01-01', 'CANCELADO', 9, 1, null, 2),
+('ADOCAO', '2020-01-01', null, 'ABERTO', 9, 1, null, null),
+('ADOCAO', '2022-08-25', null, 'EM_ANDAMENTO', 9, 1, 5, 2),
+('ADOCAO', '2022-08-25', null, 'AGUARDANDO_VALIDACAO_DOCUMENTO', 9, 1, 5, 2),
+('ADOCAO', '2022-08-25', null, 'DOCUMENTO_INVALIDO', 9, 1, 5, 2),
+('ADOCAO', '2022-08-25', null, 'DOCUMENTO_VALIDO', 9, 1, 5, 2),
+('ADOCAO', '2020-01-01', '2020-01-01', 'CANCELADO', 9, 1, null, 2),
+('ADOCAO', '2020-01-01', '2020-01-01', 'CANCELADO', 9, 1, null, 2),
+('ADOCAO', '2022-08-25', '2022-08-25', 'CONCLUIDO', 9, 1, 5, 2),
 ('RESGATE', '2020-01-01', null, 'RESGATE_INVALIDO', 9, 1, null, 2),
 ('RESGATE', '2020-01-01', null, 'RESGATE_INVALIDO', 9, 1, null, 2),
-('RESGATE', '2020-01-01', null, 'RESGATE_VALIDO', 9, 1, null, 2),
-('ADOCAO', '2022-08-25', null, 'EM_ANDAMENTO', 9, 1, 5, 2);
+('RESGATE', '2020-01-01', null, 'RESGATE_VALIDO', 9, 1, null, 2);
+
+-- mensagem
+INSERT INTO mensagem(conteudo, data_envio, tipo, demanda_id, usuario_id) VALUES
+('Boa tarde, tudo certo? Eu gostaria de saber mais sobre o Fernandinho!', now(), 'texto', 14, 9),
+('Boa tarde, que bom saber! O Fernandinho é um doce de pet', now(), 'texto', 14, 2),
+('Mas também é muito bagunceiro, ele está à procura de um cuidador paciente', now(), 'texto', 14, 2),
+('Bora dale', now(), 'texto', 14, 2);
 
 -- mensagem
 INSERT INTO mensagem(conteudo, data_envio, tipo, demanda_id, usuario_id) VALUES

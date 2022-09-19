@@ -14,6 +14,8 @@ public class DtoDemanda {
     private DtoUsuarioSimples usuario;
     private DtoUsuarioSimples colaborador;
     private DtoPetSimples pet;
+    private ProximaAcao proximaAcaoUsuario;
+    private ProximaAcao proximaAcaoColaborador;
     
     // constructors
     public DtoDemanda() {}
@@ -25,6 +27,8 @@ public class DtoDemanda {
         this.usuario = new DtoUsuarioSimples(d.getUsuario());
         this.colaborador = Objects.nonNull(d.getColaborador()) ? new DtoUsuarioSimples(d.getColaborador()) : null;
         this.pet = Objects.nonNull(d.getPet()) ? new DtoPetSimples(d.getPet()) : null;
+        this.proximaAcaoUsuario = new ProximaAcao(this, "usuario");
+        this.proximaAcaoColaborador = new ProximaAcao(this, "colaborador");
     }
 
     // getters and setters
@@ -69,5 +73,17 @@ public class DtoDemanda {
     }
     public void setPet(DtoPetSimples pet) {
         this.pet = pet;
+    }
+    public ProximaAcao getProximaAcaoUsuario() {
+        return proximaAcaoUsuario;
+    }
+    public void setProximaAcaoUsuario(ProximaAcao proximaAcaoUsuario) {
+        this.proximaAcaoUsuario = proximaAcaoUsuario;
+    }
+    public ProximaAcao getProximaAcaoColaborador() {
+        return proximaAcaoColaborador;
+    }
+    public void setProximaAcaoColaborador(ProximaAcao proximaAcaoColaborador) {
+        this.proximaAcaoColaborador = proximaAcaoColaborador;
     }
 }
