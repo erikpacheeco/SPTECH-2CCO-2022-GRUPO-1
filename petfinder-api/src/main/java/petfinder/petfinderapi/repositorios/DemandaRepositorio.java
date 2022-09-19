@@ -69,4 +69,20 @@ public interface DemandaRepositorio extends JpaRepository<Demanda, Integer> {
 
     @Query("SELECT new petfinder.petfinderapi.resposta.DtoDemanda(d) FROM Demanda d WHERE d.colaborador.id = ?1 OR d.status = 'ABERTO'")
     List<DtoDemanda> findColabDemandas(Integer id);
+
+    @Query("SELECT COUNT(d) FROM Demanda d WHERE d.categoria = 'PAGAMENTO' AND d.status  = 'ABERTO'")
+    public Integer findAllPadrinho();
+
+    @Query("SELECT COUNT(d) FROM Demanda d WHERE d.categoria = 'PAGAMENTO' AND d.status  = 'ABERTO' AND d.instituicao.id = ?1")
+    public Integer findAllPadrinhoInstituicao(int idIntituicao);
+
+    @Query("SELECT COUNT(d) FROM Demanda d WHERE d.categoria = 'RESGATE' AND d.status  = 'ABERTO' AND d.instituicao.id = ?1")
+    public Integer findAllResgatePendentes(int idInstituicao);
+
+    @Query("SELECT COUNT(d) FROM Demanda d WHERE d.status  = 'ABERTO' AND d.instituicao.id = ?1")
+    public Integer findAllDemandaAbertaInstiuicao(int idInstituicao);
+
+    @Query("SELECT COUNT(d) FROM Demanda d WHERE d.status  = 'CONCLUIDO' AND d.colaborador.id = ?1")
+    public Integer countAllDemandaConcluidaColaborador(int idUsuario);
+
 }

@@ -18,4 +18,11 @@ public interface PremioRepositorio extends JpaRepository<Premio, Integer> {
     List<Premio> findByPetId(int id);
 
     void deleteById(int id);
+
+    @Query("SELECT count(p) FROM Premio p WHERE p.pet.instituicao.id = ?1")
+    public Integer findPremioPorPetInstituicao(int idInstuicao);
+
+    @Query("SELECT count(distinct p.pet.id) FROM Premio p WHERE p.pet.instituicao.id = ?1")
+    public Integer countPetSemPremioInstituicao(int idInstituicao);
+
 }

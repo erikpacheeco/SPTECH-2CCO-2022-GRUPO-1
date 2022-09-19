@@ -36,4 +36,10 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, Integer>{
     @Query("SELECT new petfinder.petfinderapi.resposta.UsuarioSemSenha(u) FROM Usuario u WHERE u.nivelAcesso = ?1")
     public List<UsuarioSemSenha> findUsuarioByNivelAcesso(String nivelAcesso);
 
+    @Query("SELECT COUNT(u) FROM Usuario u WHERE u.nivelAcesso <> 'sysadm'")
+    public Integer findAllUsuario();
+
+    @Query("SELECT COUNT(u) FROM Usuario u WHERE u.nivelAcesso = 'adm'")
+    public Integer findAllUsuarioAdmin();
+
 }

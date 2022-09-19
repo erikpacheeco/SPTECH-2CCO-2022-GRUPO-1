@@ -7,14 +7,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import petfinder.petfinderapi.entidades.*;
 import petfinder.petfinderapi.repositorios.*;
+import petfinder.petfinderapi.resposta.*;
+import petfinder.petfinderapi.service.ServiceDashboardAdmBI;
+import petfinder.petfinderapi.service.ServiceDashboardChatOpsBI;
+import petfinder.petfinderapi.service.ServiceDashboardSysadmBI;
 import petfinder.petfinderapi.utilitarios.GerenciadorArquivos;
 import petfinder.petfinderapi.utilitarios.ListaObj;
 import petfinder.petfinderapi.requisicao.CriacaoDemanda;
-import petfinder.petfinderapi.resposta.Message;
 import petfinder.petfinderapi.service.DemandaService;
-import petfinder.petfinderapi.resposta.DemandaUsuario;
-import petfinder.petfinderapi.resposta.DtoDemanda;
-import petfinder.petfinderapi.resposta.DtoDemandaChats;
+
 import javax.validation.Valid;
 import java.io.*;
 import java.text.DateFormat;
@@ -51,11 +52,63 @@ public class DemandaController implements GerenciadorArquivos{
     @Autowired
     private DemandaService service;
 
+    @Autowired
+    private ServiceDashboardSysadmBI serviceDashboardSysadmBI;
+
+    @Autowired
+    private ServiceDashboardAdmBI serviceDashboardAdmBI;
+
+    @Autowired
+    private ServiceDashboardChatOpsBI serviceDashboardChatOpsBI;
+
+
     // enums
     private ListaObj<String> categoriasPossiveis = new ListaObj<String>(new String[]{"ADOCAO", "PAGAMENTO", "RESGATE"});
     private ListaObj<String> statusPossiveis = new ListaObj<String>(new String[]{"ABERTO", "CONCLUIDO", "AGUARDANDO_VALIDACAO_DOCUMENTO", "DOCUMENTO_VALIDO", "PGTO_REALIZADO_USER", "PGTO_REALIZADO_INST", "RESGATE_INVALIDO", "RESGATE_VALIDO", "EM_ANDAMENTO", "CANCELADO"});
 
     private ListaObj<String> tiposMenssagensPossiveis = new ListaObj<String>(new String[]{"MENSAGEM", "ARQ_DOCUMENTO", "ARQ_IMAGEM"});
+
+    @GetMapping("/dashboard/{idUsuario}")
+    @Operation(description = "Endpoint que retorna dados BI para as dashboard, utilizando de uma DTO")
+    public ResponseEntity<Object> getDashboardBI(@PathVariable int idUsuario){
+
+        Optional<Usuario> usuario = usuarioRepositorio.findById(idUsuario);
+
+        if(usuario.isPresent()){
+
+            if (usuario.get().getNivelAcesso().equalsIgnoreCase("sysadm")){
+
+                if(Objects.isNull(serviceDashboardSysadmBI.getDashboardSysadminBI(idUsuario))){
+                    return ResponseEntity.status(204).build();
+                }
+
+                return ResponseEntity.status(200).body(serviceDashboardSysadmBI.getDashboardSysadminBI(idUsuario));
+
+            } else if (usuario.get().getNivelAcesso().equalsIgnoreCase("adm")){
+
+                if(Objects.isNull(serviceDashboardAdmBI.getDashboardAdminBI(idUsuario))){
+                    return ResponseEntity.status(204).build();
+                }
+
+                return ResponseEntity.status(200).body(serviceDashboardAdmBI.getDashboardAdminBI(idUsuario));
+
+            } else if (usuario.get().getNivelAcesso().equalsIgnoreCase("chatops")){
+
+                if(Objects.isNull(serviceDashboardChatOpsBI.getDashboardChatOpsBI(idUsuario))){
+                    return ResponseEntity.status(204).build();
+                }
+
+                return ResponseEntity.status(200).body(serviceDashboardChatOpsBI.getDashboardChatOpsBI(idUsuario));
+
+            } else {
+                return ResponseEntity.status(404).build();
+            }
+
+        }
+
+        // 404 usuario not found
+        return ResponseEntity.status(404).build();
+    }
 
     @PostMapping
     @Operation(description = "Endpoint de criação de novas demandas, utilizando de uma DTO")

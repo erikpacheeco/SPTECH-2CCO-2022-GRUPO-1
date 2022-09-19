@@ -12,13 +12,13 @@ function PerfilPetInstituicao() {
     const [infoPet, setInfoPet] = useState([])
     const [preferencias, setPreferencias] = useState([])
     const idPet = useParams()
-    console.log(idPet)
     useEffect(() => {
         api.get(`/pets/${idPet.id}/perfil`).then((res) => {
             setInfoPet(res.data)
             setPreferencias(res.data.caracteristicas)
+            console.log(infoPet)
         })
-    })
+    }, [])
 
     return(
         <>
@@ -64,6 +64,15 @@ function PerfilPetInstituicao() {
                                         <div className="perfil-pet-instituicao-raca">
                                             <p>Raça: </p>
                                             <input type="text" value={infoPet.raca}/>
+                                        </div>
+                                    </div>
+                                    <div className="perfil-pet-instituicao-info">
+                                        <div className="perfil-pet-instituicao-doente">
+                                            <p>Doente: </p>
+                                            <select name="isDoente" id="isDoente" value={infoPet.isDoente}>
+                                                <option value="true">Sim</option>
+                                                <option value="false">Não</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
