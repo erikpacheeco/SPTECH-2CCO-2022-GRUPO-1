@@ -94,6 +94,18 @@ public class PetsController implements GerenciadorArquivos {
         return ResponseEntity.status(200).body(lista);
     }
 
+    @GetMapping("/distinct")
+    @Operation(description = "Endpoint que retorna uma lista de pets onde a especie tem que ser diferente")
+    public ResponseEntity<List<String>> getPetsEspecie() {
+        List<String> lista = repositoryPet.findDistinctByEspecie();
+
+        if (lista.isEmpty()) {
+            return ResponseEntity.status(204).body(lista);
+        }
+
+        return ResponseEntity.status(200).body(lista);
+    }
+
     @GetMapping("/instituicao/{id}")
     @Operation(description = "Endpoint que retorna uma lista de pets de uma instituição especifica")
     ResponseEntity<List<PetPerfil>> getByInstituicaoId(@PathVariable int id) {

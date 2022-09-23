@@ -14,7 +14,6 @@
 .ver-mais-container-conteudo{
     display: flex;
     border-radius: 10px;
-    height: 75vh;
 }
 
 .ver-mais-container-filtros{
@@ -46,16 +45,13 @@
 .ver-mais-p-filtro{
     color: white;
     margin-top: 2%;
+    font-size: 16px;
 }
 
 .ver-mais-container-filtro-backend{
-    display: flex;
+    display:inline-block;
     margin-left: 10%;
     justify-content: space-between;
-}
-
-.ver-mais-p-filtro{
-    font-size: 16px;
 }
 
 .ver-mais-check-box-filtro{
@@ -75,4 +71,15 @@
     width: 206px;
     height: 206px;
     border-radius: 20px;    
+}
+
+.ver-mais-fotos-container-sub{
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
+    grid-template-rows: auto 1fr auto;
+    grid-row-gap: 20px;
+    row-gap: 20px;
+    grid-column-gap: 5px;
+    column-gap: 5px;
 }

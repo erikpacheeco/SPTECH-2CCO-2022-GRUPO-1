@@ -11,10 +11,10 @@ VALUES
 INSERT INTO 
 instituicao(nome, telefone, termo_adocao, endereco_id)
 VALUES 
-('instituicao A', '11 91111-1111', null, 1),
-('instituicao B', '11 92222-2222', null, 2),
-('instituicao C', '11 93333-3333', null, 3),
-('instituicao D', '11 93333-3333', null, 4);
+('Delivery de gatinhos', '11 91111-1111', null, 1),
+('Petz', '11 92222-2222', null, 2),
+('Cat & Dog', '11 93333-3333', null, 3),
+('Instituto Luísa Mell', '11 93333-3333', null, 4);
 
 -- usuario 
 INSERT INTO 
@@ -69,7 +69,14 @@ VALUES
 ('Fofo'),
 ('Cheiroso'),
 ('Branco'),
-('Calmo');
+('Calmo'),
+('Amigável'),
+('Companheiro'),
+('Preto'),
+('Tranquilo com crianças'),
+('Pequeno'),
+('Grande'),
+('Castrado');
 
 -- PetHasCaracteristica
 INSERT INTO
