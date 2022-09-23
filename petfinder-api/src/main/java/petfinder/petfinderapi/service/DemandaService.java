@@ -3,12 +3,14 @@ package petfinder.petfinderapi.service;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import petfinder.petfinderapi.entidades.Demanda;
 import petfinder.petfinderapi.entidades.Usuario;
 import petfinder.petfinderapi.repositorios.DemandaRepositorio;
 import petfinder.petfinderapi.repositorios.UsuarioRepositorio;
+import petfinder.petfinderapi.requisicao.DtoPatchDemanda;
 import petfinder.petfinderapi.resposta.DtoDemanda;
 import petfinder.petfinderapi.resposta.DtoDemandaChats;
 import petfinder.petfinderapi.service.exceptions.EntityNotFoundException;
@@ -22,6 +24,18 @@ public class DemandaService {
 
     @Autowired
     private UsuarioRepositorio usuarioRepository;
+
+    public DtoDemanda patchDemandaStatus(int id, DtoPatchDemanda dto) {
+
+        Optional<Demanda> demanda = demandaRepository.findById(id);
+
+        if (demanda.isPresent()) {
+            return new DtoDemanda(demanda.get());
+        }
+
+        // 404 not found
+        throw new EntityNotFoundException(id);
+    }
 
     public DtoDemanda getDemandaById(Integer id) {
         Optional<DtoDemanda> demanda = demandaRepository.findDtoDemandaById(id); 

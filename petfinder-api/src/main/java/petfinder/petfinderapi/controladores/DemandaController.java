@@ -14,8 +14,8 @@ import petfinder.petfinderapi.service.ServiceDashboardSysadmBI;
 import petfinder.petfinderapi.utilitarios.GerenciadorArquivos;
 import petfinder.petfinderapi.utilitarios.ListaObj;
 import petfinder.petfinderapi.requisicao.CriacaoDemanda;
+import petfinder.petfinderapi.requisicao.DtoPatchDemanda;
 import petfinder.petfinderapi.service.DemandaService;
-
 import javax.validation.Valid;
 import java.io.*;
 import java.text.DateFormat;
@@ -67,6 +67,13 @@ public class DemandaController implements GerenciadorArquivos{
     private ListaObj<String> statusPossiveis = new ListaObj<String>(new String[]{"ABERTO", "CONCLUIDO", "AGUARDANDO_VALIDACAO_DOCUMENTO", "DOCUMENTO_VALIDO", "PGTO_REALIZADO_USER", "PGTO_REALIZADO_INST", "RESGATE_INVALIDO", "RESGATE_VALIDO", "EM_ANDAMENTO", "CANCELADO"});
 
     private ListaObj<String> tiposMenssagensPossiveis = new ListaObj<String>(new String[]{"MENSAGEM", "ARQ_DOCUMENTO", "ARQ_IMAGEM"});
+
+    // endpoints
+    @PatchMapping("/status/{idDemanda}")
+    @Operation(description = "Endpoint para atualizar o status de uma demanda especifica pelo ID")
+    public ResponseEntity<DtoDemanda> patchDemandaStatus(@PathVariable int idDemanda, @RequestBody DtoPatchDemanda dto) {
+        return ResponseEntity.ok(service.patchDemandaStatus(idDemanda, dto));
+    }
 
     @GetMapping("/dashboard/{idUsuario}")
     @Operation(description = "Endpoint que retorna dados BI para as dashboard, utilizando de uma DTO")
@@ -293,7 +300,7 @@ public class DemandaController implements GerenciadorArquivos{
 
     @PutMapping("/{idDemanda}")
     @Operation(description = "Endpoint para atualizar por completo uma demanda")
-    public ResponseEntity<Demanda> patchDemanda(@PathVariable int idDemanda, @RequestBody @Valid Demanda demandaAtualizar){
+    public ResponseEntity<Demanda> putDemanda(@PathVariable int idDemanda, @RequestBody @Valid Demanda demandaAtualizar){
         // verificando se demanda existe
         if (demandaRepositorio.existsById(idDemanda)){
 
@@ -348,33 +355,6 @@ public class DemandaController implements GerenciadorArquivos{
         }
         // 404 - demanda não encontrada
         return ResponseEntity.status(404).body(new Message("Demanda não encontrada"));
-    }
-
-    @PatchMapping("/status/{idDemanda}/{statusNovo}")
-    @Operation(description = "Endpoint para atualizar o status de uma demanda especifica filtrada pelo ID")
-    public ResponseEntity<Demanda> patchDemandaStatus(@PathVariable int idDemanda, @PathVariable String statusNovo){
-        Optional<Demanda> demanda = demandaRepositorio.findById(idDemanda);
-        // verificando existencia da demanda
-        if (demanda.isPresent()){
-            // verificando validade do status
-            if (!statusPossiveis.elementoExiste(statusNovo)){
-                // 400 - status inválido
-                return ResponseEntity.status(400).build();
-            }
-
-            // atualizando status da demanda
-            Demanda demandaAtualizada = demanda.get();
-            demandaAtualizada.setStatus(statusNovo.toUpperCase());
-            demandaAtualizada.setDataAbertura(new Date());
-            demandaRepositorio.save(demandaAtualizada);
-
-            gerarHistoricoDemanda(demandaAtualizada);
-            // 200 - empty response
-            return ResponseEntity.status(200).body(demandaAtualizada);
-        }
-
-        // 404 - demanda não encontrada
-        return ResponseEntity.status(404).build();
     }
 
     @DeleteMapping("/{idDemanda}")
