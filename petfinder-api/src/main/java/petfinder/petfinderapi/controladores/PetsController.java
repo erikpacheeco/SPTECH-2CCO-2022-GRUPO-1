@@ -15,6 +15,7 @@ import petfinder.petfinderapi.repositorios.*;
 import petfinder.petfinderapi.requisicao.PetRequest;
 import petfinder.petfinderapi.resposta.Message;
 import petfinder.petfinderapi.resposta.PetPerfil;
+import petfinder.petfinderapi.resposta.PetPerfilEdicao;
 import petfinder.petfinderapi.rest.ClienteCep;
 import petfinder.petfinderapi.rest.DistanciaResposta;
 import petfinder.petfinderapi.service.ServicePet;
@@ -143,10 +144,18 @@ public class PetsController implements GerenciadorArquivos {
 
     @PutMapping("/{id}")
     @Operation(description = "Endpoint para atualizar informações de um pet especifico")
-    public ResponseEntity<Void> putPet(@RequestBody Pet petAtualizado, @PathVariable int id) {
+    public ResponseEntity<Void> putPet(@RequestBody PetPerfilEdicao petAtualizado, @PathVariable int id) {
+        Pet petAtual = repositoryPet.getById(id);
+
         if (repositoryPet.existsById(id)) {
-            petAtualizado.setId(id);
-            repositoryPet.save(petAtualizado);
+            petAtual.setDescricao(petAtualizado.getDescricao());
+            petAtual.setEspecie(petAtualizado.getEspecie());
+            petAtual.setDoente(petAtualizado.getIsDoente());
+            petAtual.setNome(petAtualizado.getNome());
+            petAtual.setPorte(petAtualizado.getPorte());
+            petAtual.setRaca(petAtualizado.getRaca());
+
+            repositoryPet.save(petAtual);
             return ResponseEntity.status(200).build();
         }
         return ResponseEntity.status(400).build();

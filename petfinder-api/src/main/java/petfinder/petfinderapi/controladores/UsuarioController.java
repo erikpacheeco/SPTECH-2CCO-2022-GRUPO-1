@@ -188,7 +188,7 @@ public class UsuarioController {
     // atualizando informações do usuário
     @PutMapping("/{id}")
     @Operation(description = "Endpoint que atualiza as informações de um usuario especifico filtrado pelo ID")
-    public ResponseEntity<UsuarioSemSenha> updateUsuario(@PathVariable int id, @RequestBody @Valid Usuario novoUsuario) {
+    public ResponseEntity<UsuarioSemSenha> updateUsuario(@PathVariable int id, @RequestBody @Valid UsuarioSemSenha novoUsuario) {
 
         // verificando se usuário existe
         if (usuarioRepository.existsById(id)) {
@@ -203,12 +203,13 @@ public class UsuarioController {
                 if (nivelAcesso.elementoExiste(novoUsuario.getNivelAcesso())) {
 
                     // atualizando informações do novo usuário
-                    novoUsuario.setId(id);
-                    novoUsuario.setLogado(usuarioAtual.isLogado());
-                    novoUsuario = usuarioRepository.save(novoUsuario);
+                    usuarioAtual.setNome(novoUsuario.getNome());
+                    usuarioAtual.setNivelAcesso(novoUsuario.getNivelAcesso());
+
+                    usuarioRepository.save(usuarioAtual);
 
                     // 200
-                    return ResponseEntity.status(200).body(new UsuarioSemSenha(novoUsuario, novoUsuario.getEndereco()));
+                    return ResponseEntity.status(200).body(new UsuarioSemSenha(novoUsuario, usuarioAtual.getEndereco()));
                 }
 
                 // 400 bad request - nível de acesso inválido

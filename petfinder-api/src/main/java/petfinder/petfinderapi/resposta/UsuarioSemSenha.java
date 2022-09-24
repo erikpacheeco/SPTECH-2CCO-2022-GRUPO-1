@@ -5,7 +5,7 @@ import petfinder.petfinderapi.entidades.Instituicao;
 import petfinder.petfinderapi.entidades.Usuario;
 
 public class UsuarioSemSenha {
-    
+
     // atributos
     private int id;
     private String nome;
@@ -16,6 +16,9 @@ public class UsuarioSemSenha {
     private boolean logado;
 
     // construtores
+    public UsuarioSemSenha() {
+
+    }
     public UsuarioSemSenha(Usuario usuario) {
         this(usuario, usuario.getEndereco());
     }
@@ -39,6 +42,18 @@ public class UsuarioSemSenha {
         this.endereco = endereco;
         this.fkInstituicao = fkInstituicao;
         this.logado = logado;
+    }
+
+    public UsuarioSemSenha(UsuarioSemSenha usuario, Endereco endereco) {
+        this(
+                usuario.getId(),
+                usuario.getNome(),
+                usuario.getEmail(),
+                usuario.getNivelAcesso(),
+                endereco,
+                usuario.getFkInstituicao(),
+                usuario.isLogado()
+        );
     }
 
     // getters a setters
