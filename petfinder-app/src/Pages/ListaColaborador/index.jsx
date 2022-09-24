@@ -76,7 +76,7 @@ function ListaColaborador(){
                         <div className="lista-colaborador">
                             {
                                 colaborador.map(c => (
-                                    <ColaboradorListaItem key={c.id} nome={c.nome} cargo={c.cargo}/>
+                                    <ColaboradorListaItem key={c.id} nome={c.nome} cargo={c.cargo}  id={c.id}/>
                                 ))
                             }
                         </div>

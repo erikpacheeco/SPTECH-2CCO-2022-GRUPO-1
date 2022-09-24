@@ -1,12 +1,17 @@
 import './styles.css';
 import userIcon from "../../Images/png_img/user_icon.png";
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useParams } from 'react-router-dom';
 
 function ColaboradorListaItem(props){
 
     function handleEditItem() {
         console.log("edit!");
     }
+
+    const navigate  = useNavigate()
+    const idColaborador = useParams()
 
     return(
         <>
@@ -26,7 +31,18 @@ function ColaboradorListaItem(props){
                                 <strong>{props.cargo}</strong>
                             </div>
                         </div>
-                        <button onClick={handleEditItem} className="colaborador-lista-item-editar">EDITAR</button>
+                        <button 
+                        onClick={() => 
+                            {
+                            try {
+                                navigate(`/editar-colaborador/${props.id}`)
+                                
+                            } catch (error) {
+                                console.log(error)
+                            }
+                            }
+                        } 
+                        className="colaborador-lista-item-editar">EDITAR</button>
                     </div>
                 </div>
             </div>
