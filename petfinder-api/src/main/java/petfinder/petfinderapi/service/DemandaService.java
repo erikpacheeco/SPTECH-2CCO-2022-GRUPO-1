@@ -60,6 +60,8 @@ public class DemandaService {
             // pagamento
             if(demanda.getStatus().equalsIgnoreCase("EM_ANDAMENTO")) {
                 demanda.setStatus("PGTO_REALIZADO_USER");
+            } else if (demanda.getStatus().equalsIgnoreCase("PGTO_REALIZADO_INST")) {
+                demanda.setStatus("CONCLUIDO");
             } else {
                 // 400 bad request
                 throw new InvalidFieldException("action", "de acordo com o status atual, usuário ainda não pode realizar uma ação");

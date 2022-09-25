@@ -18,14 +18,20 @@ import send from "../../Images/send-one.svg"
 import api from '../../Api.js'
 import api_msg from '../../ApiMsg.js'
 import DemandaItem from "../../Components/DemandaItem";
+import ActionButton from "../../Components/ActionButton";
 
 export default function ChatUsuario() {
 
+    const usuarioLogado = JSON.parse(localStorage.getItem("petfinder_user"));
     const [messages, setMessages] = useState([]);
+    const [listaDemandaAberta, setListaDemandaAberta] = useState([]);
+    const [listaDemandaAndamento, setListaDemandaAndamento] = useState([]);
+    const [listaDemandaConcluida, setListaDemandaConcluida] = useState([]);
+    const [demandasStatus, setDemandasStatus] = useState([true, false, false]);
     const [demandaAtual, setDemandaAtual] = useState({
         id: "",
-        categoria: "--",
-        colaborador: "--",
+        categoria: "",
+        nome: "",
         proximaAcao: {
             texto: null,
             tipoBotao: null,
@@ -33,12 +39,6 @@ export default function ChatUsuario() {
         },
         status: null
     });
-
-    const [listaDemandaAberta, setListaDemandaAberta] = useState([]);
-    const [listaDemandaAndamento, setListaDemandaAndamento] = useState([]);
-    const [listaDemandaConcluida, setListaDemandaConcluida] = useState([]);
-
-    const [demandasStatus, setDemandasStatus] = useState([true, false, false]);
 
     function handleChangeAndamento() {
         if (demandasStatus[0]) setDemandasStatus([false, demandasStatus[1], demandasStatus[2]]);
@@ -53,6 +53,26 @@ export default function ChatUsuario() {
     function handleChangeConcluidas() {
         if (demandasStatus[2]) setDemandasStatus([demandasStatus[0], demandasStatus[1], false]);
         else setDemandasStatus([demandasStatus[0], demandasStatus[1], true]);
+    }
+
+    function handleChangeDemandaAtual(demanda) {
+        setDemandaAtual({
+            id: demanda.id,
+            categoria: demanda.categoria,
+            nome: usuarioLogado.nivelAcesso === "user" ? (demanda.colaborador === null ? "" : demanda.colaborador.nome) : demanda.usuario.nome,
+            proximaAcao: JSON.parse(localStorage.getItem("petfinder_user")).nivelAcesso === "user" ? demanda.proximaAcaoUsuario : demanda.proximaAcaoColaborador,
+            status: demanda.status,
+        })
+    }
+
+    function newDemandaItem(demanda) {
+        return (<DemandaItem
+            categoria={demanda.categoria}
+            nome={usuarioLogado.nivelAcesso === "user" ? (demanda.colaborador === null ? "" : demanda.colaborador.nome) : demanda.usuario.nome}
+            id={demanda.id}
+            onClick={() => handleChangeDemandaAtual(demanda)}
+            key={demanda.id}
+        />);
     }
 
     function formatData(data) {
@@ -142,23 +162,7 @@ export default function ChatUsuario() {
 
                         <div className={demandasStatus[0] ? "chat-user-demandas-list" : " chat-user-hidden"}>
                             {
-                                listaDemandaAndamento.map((demanda) => {
-                                    return (<DemandaItem
-                                        categoria={demanda.categoria}
-                                        nome={demanda.colaborador === null ? "--" : demanda.colaborador.nome}
-                                        id={demanda.id}
-                                        onClick={() => {
-                                            setDemandaAtual({
-                                                id: demanda.id,
-                                                categoria: demanda.categoria,
-                                                colaborador: demanda.colaborador === null ? "--" : demanda.colaborador.nome,
-                                                proximaAcao: JSON.parse(localStorage.getItem("petfinder_user")).nivelAcesso === "user" ? demanda.proximaAcaoUsuario : demanda.proximaAcaoColaborador,
-                                                status: demanda.status,
-                                            })
-                                        }}
-                                        key={demanda.id}
-                                    />);
-                                })
+                                listaDemandaAndamento.map((demanda) => newDemandaItem(demanda))
                             }
                         </div>
 
@@ -170,22 +174,7 @@ export default function ChatUsuario() {
                         </div>
                         <div className={demandasStatus[1] ? "chat-user-demandas-list" : " chat-user-hidden"}>
                             {
-                                listaDemandaAberta.map((demanda) => {
-                                    return (<DemandaItem
-                                        categoria={demanda.categoria}
-                                        nome={demanda.colaborador === null ? "--" : demanda.colaborador.nome}
-                                        id={demanda.id}
-                                        onClick={() => {
-                                            setDemandaAtual({
-                                                id: demanda.id,
-                                                categoria: demanda.categoria,
-                                                colaborador: demanda.colaborador === null ? "--" : demanda.colaborador.nome,
-                                                proximaAcao: JSON.parse(localStorage.getItem("petfinder_user")).nivelAcesso === "user" ? demanda.proximaAcaoUsuario : demanda.proximaAcaoColaborador,
-                                                status: demanda.status,
-                                            })
-                                        }}
-                                    />);
-                                })
+                                listaDemandaAberta.map((demanda) => newDemandaItem(demanda))
                             }
                         </div>
                         <div className="chat-user-demandas-header">
@@ -196,22 +185,7 @@ export default function ChatUsuario() {
                         </div>
                         <div className={demandasStatus[2] ? "chat-user-demandas-list" : " chat-user-hidden"}>
                             {
-                                listaDemandaConcluida.map((demanda) => {
-                                    return (<DemandaItem
-                                        categoria={demanda.categoria}
-                                        nome={demanda.colaborador === null ? "--" : demanda.colaborador.nome}
-                                        id={demanda.id}
-                                        onClick={() => {
-                                            setDemandaAtual({
-                                                id: demanda.id,
-                                                categoria: demanda.categoria,
-                                                colaborador: demanda.colaborador === null ? "--" : demanda.colaborador.nome,
-                                                proximaAcao: JSON.parse(localStorage.getItem("petfinder_user")).nivelAcesso === "user" ? demanda.proximaAcaoUsuario : demanda.proximaAcaoColaborador,
-                                                status: demanda.status,
-                                            })
-                                        }}
-                                    />);
-                                })
+                                listaDemandaConcluida.map((demanda) => newDemandaItem(demanda))
                             }
                         </div>
                     </div>
@@ -220,16 +194,16 @@ export default function ChatUsuario() {
                         <div className="chat-user-message-header">
                             <p className={chooseColor()}>{demandaAtual.categoria.toLowerCase()}</p>
                             <p>#{demandaAtual.id}</p>
-                            <p className={demandaAtual.id === '' ? "chat-user-hidden" : "chat-user-message-receiver"}>{demandaAtual.colaborador}</p>
+                            <p className={demandaAtual.id === '' ? "chat-user-hidden" : "chat-user-message-receiver"}>{demandaAtual.nome}</p>
                             <div className={demandaAtual.id === '' ? "chat-user-hidden" : "chat-user-demanda-action"}>
                                 <p className="chat-user-action-description">{demandaAtual.proximaAcao.texto}</p>
                                 <img className="chat-user-hidden" src={check} alt="" />
-                                {demandaAtual.proximaAcao.tipoBotao === "accept" ? <img src={check} alt="check button" /> : ""}
+                                {demandaAtual.proximaAcao.tipoBotao === "accept" ? <ActionButton type="accept" demandaId={demandaAtual.id} userId={usuarioLogado.id} handleChangeDemandaAtual={handleChangeDemandaAtual}/> : ""}
                                 {demandaAtual.proximaAcao.tipoBotao === "accept/decline" ? <>
-                                    <img src={check} alt="check button" />
-                                    <img src={close_chat} alt="cancel button" />
+                                    <ActionButton type="accept" demandaId={demandaAtual.id} userId={usuarioLogado.id} handleChangeDemandaAtual={handleChangeDemandaAtual}/>
+                                    <ActionButton type="decline" demandaId={demandaAtual.id} userId={usuarioLogado.id} handleChangeDemandaAtual={handleChangeDemandaAtual}/>
                                 </> : ""}
-                                {demandaAtual.proximaAcao.tipoBotao === "decline" ? <img src={close_chat} alt="cancel button" /> : ""}
+                                {demandaAtual.proximaAcao.tipoBotao === "decline" ? <ActionButton type="decline" demandaId={demandaAtual.id} userId={usuarioLogado.id} handleChangeDemandaAtual={handleChangeDemandaAtual}/> : ""}
                                 <img src={ask} alt="" />
                             </div>
                         </div>
@@ -237,8 +211,8 @@ export default function ChatUsuario() {
                         <div className="chat-user-message-container">
                             <div className="chat-user-message-section" id='chatSection'>
                                 {
-                                    messages.map((msg) => {
-                                        return (<Mensagem content={msg.conteudo} idUsuario={msg.remetente.id} date={formatData(msg.dataEnvio)} id='' />)
+                                    messages.map((msg, index) => {
+                                        return (<Mensagem key={index} content={msg.conteudo} idUsuario={msg.remetente.id} date={formatData(msg.dataEnvio)} id='' />)
                                     }).reverse()
                                 }
                             </div>
