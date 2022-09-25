@@ -2,10 +2,14 @@ package petfinder.petfinderapi.requisicao;
 
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 public class DtoPatchDemanda {
     
     // attributes
+    @NotNull
     private Integer userId;
+    @NotNull
     private String action;
 
     // constructors

@@ -71,7 +71,7 @@ public class DemandaController implements GerenciadorArquivos{
     // endpoints
     @PatchMapping("/status/{idDemanda}")
     @Operation(description = "Endpoint para atualizar o status de uma demanda especifica pelo ID")
-    public ResponseEntity<DtoDemanda> patchDemandaStatus(@PathVariable int idDemanda, @RequestBody DtoPatchDemanda dto) {
+    public ResponseEntity<DtoDemanda> patchDemandaStatus(@PathVariable int idDemanda, @RequestBody @Valid DtoPatchDemanda dto) {
         return ResponseEntity.ok(service.patchDemandaStatus(idDemanda, dto));
     }
 

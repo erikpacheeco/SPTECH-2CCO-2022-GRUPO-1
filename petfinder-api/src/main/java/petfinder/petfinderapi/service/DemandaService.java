@@ -3,9 +3,7 @@ package petfinder.petfinderapi.service;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import petfinder.petfinderapi.entidades.Demanda;
 import petfinder.petfinderapi.entidades.Usuario;
 import petfinder.petfinderapi.repositorios.DemandaRepositorio;
@@ -14,6 +12,7 @@ import petfinder.petfinderapi.requisicao.DtoPatchDemanda;
 import petfinder.petfinderapi.resposta.DtoDemanda;
 import petfinder.petfinderapi.resposta.DtoDemandaChats;
 import petfinder.petfinderapi.service.exceptions.EntityNotFoundException;
+import petfinder.petfinderapi.service.exceptions.InvalidFieldException;
 import petfinder.petfinderapi.service.exceptions.NoContentException;
 
 @Service
@@ -27,14 +26,102 @@ public class DemandaService {
 
     public DtoDemanda patchDemandaStatus(int id, DtoPatchDemanda dto) {
 
-        Optional<Demanda> demanda = demandaRepository.findById(id);
+        Demanda demanda = demandaRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id)); // 404 not found
+        Usuario usuario = usuarioRepository.findById(dto.getUserId()).orElseThrow(() -> new EntityNotFoundException(dto.getUserId())); // 404 not found
 
-        if (demanda.isPresent()) {
-            return new DtoDemanda(demanda.get());
+        if (dto.getAction().equalsIgnoreCase("accept") || dto.getAction().equalsIgnoreCase("decline")) {
+            // user
+            if (usuario.getNivelAcesso().equalsIgnoreCase("user")) {
+                // nivelAcesso: user
+                return patchDemandaUser(dto.getAction(), demanda, usuario);
+            } else if (usuario.getNivelAcesso().equalsIgnoreCase("sysadm")) {
+                // nivelAcesso: sysadm
+                return patchDemandaSysadm(dto.getAction(), demanda, usuario);
+            } 
+
+            // nivelAcesso: colaborador
+            return patchDemandaColab(dto.getAction(), demanda, usuario);
         }
 
-        // 404 not found
-        throw new EntityNotFoundException(id);
+        // 400 bad request
+        throw new InvalidFieldException("action", "o campo 'action' deve ser preenchido com 'accept' ou 'decline'");
+
+    }
+
+    // user
+    private DtoDemanda patchDemandaUser(String action, Demanda demanda, Usuario usuario) {
+
+        if(demanda.getUsuario().getId() != usuario.getId()) {
+            // 400 bad request
+            throw new InvalidFieldException("userId", "O usuário " + usuario.getId() + " não está associado à demanda.");
+        } else if(action.equalsIgnoreCase("decline") && !demanda.getStatus().equalsIgnoreCase("CANCELADO")) {
+            demanda.setStatus("CANCELADO");
+        } else if(demanda.getCategoria().equalsIgnoreCase("PAGAMENTO")) {
+            // pagamento
+            if(demanda.getStatus().equalsIgnoreCase("EM_ANDAMENTO")) {
+                demanda.setStatus("PGTO_REALIZADO_USER");
+            } else {
+                // 400 bad request
+                throw new InvalidFieldException("action", "de acordo com o status atual, usuário ainda não pode realizar uma ação");
+            }
+        } else if(demanda.getCategoria().equalsIgnoreCase("ADOCAO")) {
+            // adocao
+            if(demanda.getStatus().equalsIgnoreCase("EM_ANDAMENTO") || demanda.getStatus().equalsIgnoreCase("DOCUMENTO_INVALIDO")) {
+                demanda.setStatus("AGUARDANDO_VALIDACAO_DOCUMENTO");
+            } else {
+                // 400 bad request
+                throw new InvalidFieldException("action", "de acordo com o status atual, usuário ainda não pode realizar uma ação");
+            }
+        } else {
+            // 400 bad request
+            throw new InvalidFieldException("action", "de acordo com o status atual, usuário ainda não pode realizar uma ação");
+        }
+
+        // returning updated demanda
+        return new DtoDemanda(demandaRepository.save(demanda));
+    }
+
+    // colab
+    private DtoDemanda patchDemandaColab(String action, Demanda demanda, Usuario usuario) {
+
+        if (demanda.getStatus().equalsIgnoreCase("ABERTO") && action.equalsIgnoreCase("accept")) {
+            demanda.setStatus("EM_ANDAMENTO");
+            demanda.setColaborador(usuario);
+        } else if (demanda.getColaborador().getId() != usuario.getId()) {
+
+            // 400 bad request
+            throw new InvalidFieldException("userId", "O colaborador " + usuario.getId() + " não está associado à essa demanda.");
+        }else if(demanda.getCategoria().equalsIgnoreCase("PAGAMENTO")) {
+            // pagamento
+            if (demanda.getStatus().equalsIgnoreCase("PGTO_REALIZADO_USER")) {
+                demanda.setStatus(action.equalsIgnoreCase("accept") ? "PGTO_REALIZADO_INST" : "EM_ANDAMENTO");
+            } else {
+
+                // 400 bad request
+                throw new InvalidFieldException("action", "de acordo com o status atual, usuário ainda não pode realizar uma ação");
+            }
+        } else if(demanda.getCategoria().equalsIgnoreCase("ADOCAO")) {
+            // adocao
+            if (demanda.getStatus().equalsIgnoreCase("AGUARDANDO_VALIDACAO_DOCUMENTO")) {
+                demanda.setStatus(action.equalsIgnoreCase("accept") ? "DOCUMENTO_VALIDO" : "DOCUMENTO_INVALIDO");
+            } else {
+
+                // 400 bad request
+                throw new InvalidFieldException("action", "de acordo com o status atual, usuário ainda não pode realizar uma ação");
+            }
+        } else {
+
+            // 400 bad request
+            throw new InvalidFieldException("action", "ação inválida para o status atual, usuário solicitador ou categoria da demanda");
+        }
+
+        // returning updated demanda
+        return new DtoDemanda(demandaRepository.save(demanda));
+    }
+
+    // sysadm
+    private DtoDemanda patchDemandaSysadm(String action, Demanda demanda, Usuario usuario) {
+        throw new InvalidFieldException("action", "ação inválida para o status atual, usuário solicitador ou categoria da demanda");
     }
 
     public DtoDemanda getDemandaById(Integer id) {
