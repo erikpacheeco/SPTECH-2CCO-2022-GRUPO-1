@@ -7,11 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import petfinder.petfinderapi.entidades.Caracteristica;
-import petfinder.petfinderapi.entidades.Demanda;
-import petfinder.petfinderapi.entidades.Endereco;
-import petfinder.petfinderapi.entidades.Usuario;
-import petfinder.petfinderapi.entidades.UsuarioHasInteresse;
+import petfinder.petfinderapi.entidades.*;
 import petfinder.petfinderapi.repositorios.*;
 import petfinder.petfinderapi.requisicao.CriacaoUsuario;
 import petfinder.petfinderapi.requisicao.InteresseUsuario;
@@ -22,10 +18,8 @@ import petfinder.petfinderapi.resposta.ColaboradorSimples;
 import petfinder.petfinderapi.resposta.Message;
 import petfinder.petfinderapi.resposta.UsuarioSemSenha;
 import petfinder.petfinderapi.service.ServiceUsuario;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+
+import java.util.*;
 
 import javax.validation.Valid;
 
@@ -53,6 +47,12 @@ public class UsuarioController {
 
     @Autowired
     private DemandaRepositorio demandaRepository;
+
+    @Autowired
+    private VisitantesRepositorio visitantesRepository;
+
+    @Autowired
+    private LeadsRepositorio leadsRepository;
 
     @Autowired
     private ServiceUsuario serviceUsuario;
@@ -504,5 +504,58 @@ public class UsuarioController {
         usuarioRepository.save(usuario);
 
         return ResponseEntity.status(200).body(usuario);
+    }
+
+    @GetMapping("/ultimo-visitante")
+    @Operation(description = "Endpoint para pegar ultimo id visitante")
+    public ResponseEntity getUltimoUsuarioVisitante() {
+
+        long ultimoId = visitantesRepository.count();
+
+        return ResponseEntity.status(201).body(ultimoId);
+    }
+
+    @PostMapping("/visitante")
+    @Operation(description = "Endpoint para inserir novo visitante")
+    public ResponseEntity postUsuarioVisitante(@RequestBody Visitantes novoVisitante) {
+
+        if (novoVisitante.getDataVisita() == null) {
+            return ResponseEntity.status(404).build();
+        }
+
+        visitantesRepository.save(novoVisitante);
+
+        return ResponseEntity.status(201).build();
+    }
+
+    @GetMapping("/ultimo-lead")
+    @Operation(description = "Endpoint para pegar ultimo id lead")
+    public ResponseEntity getUltimoUsuarioLead() {
+
+        long ultimoId = leadsRepository.count();
+
+        return ResponseEntity.status(201).body(ultimoId);
+    }
+
+    @PostMapping("/lead")
+    @Operation(description = "Endpoint para inserir novo lead")
+    public ResponseEntity postUsuarioLead(@RequestBody Leads novoLead) {
+
+        if (novoLead.getDataCadastro() == null) {
+            return ResponseEntity.status(404).build();
+        }
+
+        leadsRepository.save(novoLead);
+
+        return ResponseEntity.status(201).build();
+    }
+
+    @GetMapping("/ultimo-usuario-cadastrado")
+    @Operation(description = "Endpoint para pegar ultimo id usuario cadastrado")
+    public ResponseEntity getUltimoUsuarioCadastrado() {
+
+        long ultimoId = usuarioRepository.count();
+
+        return ResponseEntity.status(201).body(ultimoId);
     }
 }

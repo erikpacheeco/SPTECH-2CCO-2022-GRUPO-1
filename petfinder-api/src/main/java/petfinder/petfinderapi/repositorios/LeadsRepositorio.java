@@ -1,7 +1,7 @@
 package petfinder.petfinderapi.repositorios;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import petfinder.petfinderapi.entidades.Lead;
+import petfinder.petfinderapi.entidades.Leads;
 
-public interface LeadRepositorio extends JpaRepository<Lead, Integer> {
+public interface LeadsRepositorio extends JpaRepository<Leads, Integer> {
 }

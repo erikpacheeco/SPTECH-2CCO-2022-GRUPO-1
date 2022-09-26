@@ -1,7 +1,7 @@
 package petfinder.petfinderapi.repositorios;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import petfinder.petfinderapi.entidades.QtdVisitantes;
+import petfinder.petfinderapi.entidades.Visitantes;
 
-public interface QtdVisitantesRepositorio extends JpaRepository<QtdVisitantes, Integer> {
+public interface VisitantesRepositorio extends JpaRepository<Visitantes, Integer> {
 }

@@ -8,13 +8,14 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
-public class Lead {
+public class Leads {
 
     // attributes
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private int usuario_id;
+    @NotNull
     private Date dataCadastro;
 
     // getters and setters
