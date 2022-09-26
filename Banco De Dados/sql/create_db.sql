@@ -159,4 +159,22 @@ CREATE TABLE premio (
   data_envio DATE,
   pet_id INT NOT NULL,
   FOREIGN KEY (pet_id) REFERENCES pet(id)
+);
+
+-- -----------------------------------------------------
+-- Table visitantes
+-- -----------------------------------------------------
+CREATE TABLE visitantes (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  data_visita DATE
+);
+
+-- -----------------------------------------------------
+-- Table leads
+-- -----------------------------------------------------
+CREATE TABLE leads (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  usuario_id INT NOT NULL,
+  data_cadastro DATE
 )
+
