@@ -18,10 +18,13 @@ import api from '../../Api.js'
 import api_msg from '../../ApiMsg.js'
 import DemandaItem from "../../Components/DemandaItem";
 import ActionButton from "../../Components/ActionButton";
+import headerFunctions from "../../functions/headerFunctions";
 
 export default function ChatUsuario() {
 
     const usuarioLogado = JSON.parse(localStorage.getItem("petfinder_user"));
+    const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
+
     const [messages, setMessages] = useState([]);
     const [listaDemandaAberta, setListaDemandaAberta] = useState([]);
     const [listaDemandaAndamento, setListaDemandaAndamento] = useState([]);
@@ -119,7 +122,7 @@ export default function ChatUsuario() {
             });
         }, 1000);
         return () => clearInterval(interval);
-      }, [demandaAtual]);
+    }, [demandaAtual]);
 
     // setTimeout(() => {
     //     console.log("ei")
@@ -151,18 +154,9 @@ export default function ChatUsuario() {
     return (
         <>
             <HeaderApp
-                sideItens={[
-                    <SideBarItem label="Página Inicial" icon={home} navigateTo={"/home-user"} />,
-                    <SideBarItem label="Mensagens" icon={message} navigateTo="/chat" />,
-                    <SideBarItem label="Meu Perfil" icon={perfil} navigateTo="" />,
-                    <SideBarItem label="Meus Prêmios" icon={premio} navigateTo="/meus-premios" />
-                ]}
+                sideItens={headerFunctions.sideBarNivelAcesso(objUser.nivelAcesso)}
+                itens={headerFunctions.headerNivelAcesso(objUser.nivelnivelAcesso)}
 
-                itens={[
-                    <NavItem label="Página Inicial" navigateTo="/home-user" />,
-                    <NavItem label="Meus Prêmios" navigateTo="/meus-premios" />,
-                    <NavItem isSelected={true} label="Mensagens" navigateTo="/chat" />
-                ]}
             />
             <div className="chat-user-centralizer">
                 <div className="chat-user-container">
@@ -215,12 +209,12 @@ export default function ChatUsuario() {
                             <div className={demandaAtual.id === '' ? "chat-user-hidden" : "chat-user-demanda-action"}>
                                 <p className="chat-user-action-description">{demandaAtual.proximaAcao.texto}</p>
                                 <img className="chat-user-hidden" src={check} alt="" />
-                                {demandaAtual.proximaAcao.tipoBotao === "accept" ? <ActionButton type="accept" demandaId={demandaAtual.id} userId={usuarioLogado.id} handleChangeDemandaAtual={handleChangeDemandaAtual}/> : ""}
+                                {demandaAtual.proximaAcao.tipoBotao === "accept" ? <ActionButton type="accept" demandaId={demandaAtual.id} userId={usuarioLogado.id} handleChangeDemandaAtual={handleChangeDemandaAtual} /> : ""}
                                 {demandaAtual.proximaAcao.tipoBotao === "accept/decline" ? <>
-                                    <ActionButton type="accept" demandaId={demandaAtual.id} userId={usuarioLogado.id} handleChangeDemandaAtual={handleChangeDemandaAtual}/>
-                                    <ActionButton type="decline" demandaId={demandaAtual.id} userId={usuarioLogado.id} handleChangeDemandaAtual={handleChangeDemandaAtual}/>
+                                    <ActionButton type="accept" demandaId={demandaAtual.id} userId={usuarioLogado.id} handleChangeDemandaAtual={handleChangeDemandaAtual} />
+                                    <ActionButton type="decline" demandaId={demandaAtual.id} userId={usuarioLogado.id} handleChangeDemandaAtual={handleChangeDemandaAtual} />
                                 </> : ""}
-                                {demandaAtual.proximaAcao.tipoBotao === "decline" ? <ActionButton type="decline" demandaId={demandaAtual.id} userId={usuarioLogado.id} handleChangeDemandaAtual={handleChangeDemandaAtual}/> : ""}
+                                {demandaAtual.proximaAcao.tipoBotao === "decline" ? <ActionButton type="decline" demandaId={demandaAtual.id} userId={usuarioLogado.id} handleChangeDemandaAtual={handleChangeDemandaAtual} /> : ""}
                                 <img src={ask} alt="" />
                             </div>
                         </div>

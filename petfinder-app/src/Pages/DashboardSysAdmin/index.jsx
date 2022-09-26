@@ -12,6 +12,7 @@ import dash from "../../Images/data-graph.svg"
 import adm from "../../Images/colaboradores.svg"
 import instituicoes from "../../Images/padrinhos.svg"
 import duvida from "../../Images/duvida.svg"
+import headerFunctions from "../../functions/headerFunctions";
 
 export const data = [
     ["Mês", "Padrinhos", "Mimos Postados"],
@@ -23,10 +24,12 @@ export const data = [
 ];
 
 function DashboardSysAdmin() {
-      
+
     const [infoUsuario, setInfoUsuario] = useState([])
-    
+
     const [infoDashboard, setInfoDashboard] = useState([])
+
+    const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
 
     useEffect(() => {
 
@@ -34,29 +37,17 @@ function DashboardSysAdmin() {
         if (infoUsuario) {
             setInfoUsuario(infoUsuario);
         }
-        
+
         api.get(`/demandas/dashboard/${infoUsuario.id}`).then((res) => {
             setInfoDashboard(res.data)
         })
     })
-    
-    return(
+
+    return (
         <>
-            <HeaderApp 
-                sideItens={[
-                    <SideBarItem label="Página Inicial" icon={inicial} navigateTo={"/dashboard-sysadmin"}/>,
-                    <SideBarItem label="Dashboard" icon={dash} navigateTo={"/dashboard-sysadmin"}/>,
-                    <SideBarItem label="Administradores Cadastrados" icon={adm} navigateTo={"/dashboard-sysadmin"}/>,
-                    <SideBarItem label="Instituições Cadastrados" icon={instituicoes} navigateTo={"/dashboard-sysadmin"}/>,
-                    <SideBarItem label="Dúvidas" icon={duvida} navigateTo={"/chat"}/>,
-                ]}
-                
-                itens={[
-                    <NavItem isSelected={true} label="Dashboard" navigateTo={"/dashboard-sysadmin"}/>,
-                    <NavItem label="Admin Cadastrados" navigateTo={`/lista-colaborador/${infoUsuario.id}`}/>,
-                    <NavItem label="Instituições Cadastrados" navigateTo={"/dashboard-sysadmin"}/>,
-                    <NavItem label="Dúvidas" navigateTo={"/chat"}/>
-                ]}
+            <HeaderApp
+                sideItens={headerFunctions.sideBarNivelAcesso(objUser.nivelAcesso)}
+                itens={headerFunctions.headerNivelAcesso(objUser.nivelnivelAcesso)}
             />
 
             <div className="dashboard-sysadmin">
@@ -92,7 +83,7 @@ function DashboardSysAdmin() {
                     </div>
 
                     <div className="dashboard-sysadmin-metricas-graficos-container">
-                        
+
                         <div className="dashboard-sysadmin-metricas-graficos">
                             <div className="dashboard-sysadmin-metricas-grafico">
                                 <h2>Apadrinhamento por semana</h2>
@@ -122,7 +113,7 @@ function DashboardSysAdmin() {
                         </div>
 
                         <div className="dashboard-sysadmin-metricas-graficos">
-                            
+
                             <div className="dashboard-sysadmin-metricas-grafico">
                                 <h2>Adoções por mês</h2>
                                 <div className="dashboard-sysadmin-metricas-grafico-container">
@@ -154,7 +145,7 @@ function DashboardSysAdmin() {
 
                 </div>
             </div>
-            
+
             <VLibras forceOnload={true}></VLibras>
         </>
     )

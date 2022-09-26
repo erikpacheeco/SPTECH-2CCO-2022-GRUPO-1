@@ -9,6 +9,7 @@ import api from "../../Api"
 import SideBarItem from '../../Components/SideBarItem';
 import perfil from "../../Images/people.svg"
 import demanda from "../../Images/attention-icon.svg"
+import headerFunctions from "../../functions/headerFunctions";
 
 export const dataDemadaMes = [
     ["", "Demanda"],
@@ -30,6 +31,8 @@ function DashboardChatOps() {
 
     const [infoDashboard, setInfoDashboard] = useState([])
 
+    const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
+
     useEffect(() => {
         const infoUsuario = JSON.parse(localStorage.getItem('petfinder_user'));
         if (infoUsuario) {
@@ -43,20 +46,10 @@ function DashboardChatOps() {
 
     return(
         <>
-            <HeaderApp 
-                sideItens={[
-                    <SideBarItem label="Página Inicial" icon={perfil} navigateTo={"/dashboard-chatops"}/>,
-                    <SideBarItem label="Demandas" icon={demanda} navigateTo={"/dashboard-chatops"}/>,
-                    <SideBarItem label="Nova Dúvida" icon={demanda} navigateTo={"/chat"}/>,
-                ]}
-                
-                itens={[
-                    <NavItem label="Dashboard" navigateTo={"/dashboard-chatops"}/>,
-                    <NavItem label="Admin Cadastrados" navigateTo={"/dashboard-chatops"}/>,
-                    <NavItem label="Instituições Cadastrados" navigateTo={"/dashboard-chatops"}/>,
-                    <NavItem label="Dúvidas" navigateTo={"/chat"}/>
-                ]}
-            />
+            <HeaderApp
+                    sideItens={headerFunctions.sideBarNivelAcesso(objUser.nivelAcesso)}
+                    itens={headerFunctions.headerNivelAcesso(objUser.nivelnivelAcesso)}
+                />
 
             <div className="dashboard-chatops">
                 <div className="dashboard-chatops-container">

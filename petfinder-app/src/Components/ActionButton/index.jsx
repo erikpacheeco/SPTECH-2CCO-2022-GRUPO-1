@@ -1,6 +1,7 @@
 import check from "../../Images/check.svg"
 import close_chat from "../../Images/close-chat.svg"
 import api from "../../Api";
+import React from "react";
 
 function ActionButton({type, demandaId, userId, handleChangeDemandaAtual}) {
 

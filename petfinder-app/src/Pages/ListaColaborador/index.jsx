@@ -15,6 +15,7 @@ import PerfilInstituicao from "../../Images/user-business.svg";
 import Colaboradores from "../../Images/colaboradores.svg";
 import Duvida from "../../Images/duvida.svg";
 import VLibras from "@djpfs/react-vlibras"
+import headerFunctions from "../../functions/headerFunctions";
 
 
 function ListaColaborador(){
@@ -46,25 +47,9 @@ function ListaColaborador(){
     return(
         <>
             <div className="lista-colaborador-root">
-                <HeaderApp
-                
-                    sideItens={[
-                        <SideBarItem icon={Dashboard} label="Dashboard"/>,
-                        <SideBarItem icon={Pets} label="Pets"/>,
-                        <SideBarItem icon={Demandas} label="Demandas"/>,
-                        <SideBarItem icon={Padrinhos} label="Padrinhos"/>,
-                        <SideBarItem icon={MeuPerfil} label="Meu Perfil"/>,
-                        <SideBarItem icon={PerfilInstituicao} label="Perfil Instituição"/>,
-                        <SideBarItem icon={Colaboradores} label="Colaboradores Cadastrados"/>,
-                        <SideBarItem icon={Duvida} label="Dúvida"/>
-                    ]}
-                
-                    itens={[
-                        <NavItem label="Dashboard" />,
-                        <NavItem label="Padrinhos" />,
-                        <NavItem label="Demandas" />,
-                        <NavItem isSelected={true} label="Colaboradores" />
-                    ]}
+            <HeaderApp
+                    sideItens={headerFunctions.sideBarNivelAcesso(objUser.nivelAcesso)}
+                    itens={headerFunctions.headerNivelAcesso(objUser.nivelnivelAcesso)}
                 />
 
                 <div className="lista-colaborador">

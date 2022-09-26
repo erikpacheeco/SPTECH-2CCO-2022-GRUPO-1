@@ -13,7 +13,7 @@ import "./home-user.css"
 import api from "../../Api"
 import React from "react";
 import { useNavigate } from "react-router-dom";
-
+import headerFunctions from "../../functions/headerFunctions";
 
 export default function HomeUser() {
 
@@ -21,6 +21,8 @@ export default function HomeUser() {
     const [sickPets, setSickPets] = useState([]);
     const [cont, setCont] = useState(0);
     const navigate = useNavigate()
+
+    const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
 
     const responsive = {
         superLargeDesktop: {
@@ -53,21 +55,10 @@ export default function HomeUser() {
 
     return (
         <>
-            <HeaderApp
-
-                sideItens={[
-                    <SideBarItem label="Página Inicial" icon={home} navigateTo={"/home-user"} />,
-                    <SideBarItem label="Mensagens" icon={message} navigateTo="/chat" />,
-                    <SideBarItem label="Meu Perfil" icon={perfil} navigateTo="" />,
-                    <SideBarItem label="Meus Prêmios" icon={premio} navigateTo="/meus-premios" />
-                ]}
-
-                itens={[
-                    <NavItem isSelected={true} label="Página Inicial" navigateTo="/home-user" />,
-                    <NavItem label="Meus Prêmios" navigateTo="/meus-premios" />,
-                    <NavItem label="Mensagens" navigateTo="/chat" />
-                ]}
-            />
+             <HeaderApp
+                    sideItens={headerFunctions.sideBarNivelAcesso(objUser.nivelAcesso)}
+                    itens={headerFunctions.headerNivelAcesso(objUser.nivelnivelAcesso)}
+                />
 
             <main className="home-user-container-main">
                 <div className="home-user-container">
