@@ -1,32 +1,17 @@
 import React, { useState } from "react";
 import "./meusPremios.css";
 import HeaderApp from "../../Components/HeaderApp";
-import NavItem from "../../Components/NavItem";
-import SideBarItem from '../../Components/SideBarItem';
-import perfil from "../../Images/people.svg"
-import home from "../../Images/home.svg"
-import message from "../../Images/message.svg"
-import premio from "../../Images/picture.svg"
 import img from "../../Images/erase.svg";
 import VLibras from "@djpfs/react-vlibras"
+import headerFunctions from "../../functions/headerFunctions";
 
 export default function meusPremios() {
+  const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
   return (
     <>
       <HeaderApp
-
-        sideItens={[
-          <SideBarItem label="Página Inicial" icon={home} navigateTo="/home-user"/>,
-          <SideBarItem label="Mensagens" icon={message} navigateTo="/chat" />,
-          <SideBarItem label="Meu Perfil" icon={perfil} navigateTo="" />,
-          <SideBarItem label="Meus Prêmios" icon={premio} navigateTo="/meus-premios" />
-        ]}
-
-        itens={[
-          <NavItem label="Página Inicial" navigateTo="/home-user" />,
-          <NavItem isSelected={true} label="Meus Prêmios" navigateTo="/meus-premios" />,
-          <NavItem label="Mensagens" navigateTo="/chat" />
-        ]}
+        sideItens={headerFunctions.sideBarNivelAcesso(objUser.nivelAcesso)}
+        itens={headerFunctions.headerNivelAcesso(objUser.nivelnivelAcesso)}
       />
 
       <div class="premios-container-geral">

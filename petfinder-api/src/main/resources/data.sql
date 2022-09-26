@@ -119,10 +119,7 @@ VALUES
 ('ADOCAO', '2022-08-25', null, 'DOCUMENTO_VALIDO', 9, 1, 5, 2),
 ('ADOCAO', '2020-01-01', '2020-01-01', 'CANCELADO', 9, 1, null, 2),
 ('ADOCAO', '2020-01-01', '2020-01-01', 'CANCELADO', 9, 1, null, 2),
-('ADOCAO', '2022-08-25', '2022-08-25', 'CONCLUIDO', 9, 1, 5, 2),
-('RESGATE', '2020-01-01', null, 'RESGATE_INVALIDO', 9, 1, null, 2),
-('RESGATE', '2020-01-01', null, 'RESGATE_INVALIDO', 9, 1, null, 2),
-('RESGATE', '2020-01-01', null, 'RESGATE_VALIDO', 9, 1, null, 2);
+('ADOCAO', '2022-08-25', '2022-08-25', 'CONCLUIDO', 9, 1, 5, 2);
 
 -- mensagem
 INSERT INTO mensagem(conteudo, data_envio, tipo, demanda_id, usuario_id) VALUES

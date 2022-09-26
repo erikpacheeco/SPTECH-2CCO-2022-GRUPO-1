@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 import withReactContent from "sweetalert2-react-content";
 import VLibras from "@djpfs/react-vlibras"
+import headerFunctions from "../../functions/headerFunctions";
 
 function resetValues() {
     return { 
@@ -33,6 +34,8 @@ function PerfilPetInstituicao() {
     const idPet = useParams()
     const navigate = useNavigate()
     const swal = withReactContent(Swal);
+
+    const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
 
     console.log(values)
 
@@ -104,16 +107,10 @@ function PerfilPetInstituicao() {
 
     return(
         <>
-            <HeaderApp 
-                sideItens={[
-                    
-                ]}
-
-                itens={[
-                    <NavItem label="Pets" />,
-                    <NavItem label="Demandas" />
-                ]}
-            />
+            <HeaderApp
+                    sideItens={headerFunctions.sideBarNivelAcesso(objUser.nivelAcesso)}
+                    itens={headerFunctions.headerNivelAcesso(objUser.nivelnivelAcesso)}
+                />
 
             <div className="perfil-pet-instituicao">
                 <div className="perfil-pet-instituicao-container">

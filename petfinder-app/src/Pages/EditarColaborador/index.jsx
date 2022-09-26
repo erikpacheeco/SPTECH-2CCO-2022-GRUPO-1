@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 import withReactContent from "sweetalert2-react-content";
 import api from '../../Api';
+import headerFunctions from "../../functions/headerFunctions";
 
 function resetValues() {
     return { nome: "", cargo: "" }
@@ -17,6 +18,8 @@ function EditarColaborador() {
     const [infoColaborador, setInfoColaborador] = useState([])
     const [values, setValues] = useState(resetValues)
     
+    const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
+
     const idColaborador = useParams()
     const navigate = useNavigate()
     const swal = withReactContent(Swal);
@@ -98,17 +101,10 @@ function EditarColaborador() {
 
     return(
         <>
-            <HeaderApp 
-                sideItens={[
-                    
-                ]}
-                
-                itens={[
-                    <NavItem label="Dashboard" />,
-                    <NavItem label="Padrinhos" />,
-                    <NavItem label="Demandas" />
-                ]}
-            />
+            <HeaderApp
+                    sideItens={headerFunctions.sideBarNivelAcesso(objUser.nivelAcesso)}
+                    itens={headerFunctions.headerNivelAcesso(objUser.nivelnivelAcesso)}
+                />
             <div className="editar-colaborador-container">
                 <div className="editar-colaborador-form-container">
                     <form>

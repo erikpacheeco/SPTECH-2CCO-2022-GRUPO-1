@@ -7,6 +7,8 @@ import HeaderBasic from "../../Components/HeaderBasic";
 import "./login.css"
 import api from "../../Api"
 import VLibras from "@djpfs/react-vlibras"
+import headerFunctions from "../../functions/headerFunctions";
+import HeaderApp from "../../Components/HeaderApp";
 
 function resetValues() {
     return { email: "", senha: "" }
@@ -16,6 +18,8 @@ function Login() {
     const [values, setValues] = useState(resetValues)
     const navigate = useNavigate()
     const swal = withReactContent(Swal);
+    const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
+
 
     function handleChange(event) {
         const { value, name } = event.target;
@@ -71,7 +75,10 @@ function Login() {
 
     return (
         <>
-            <HeaderBasic />
+            <HeaderApp
+                    sideItens={headerFunctions.sideBarNivelAcesso(objUser.nivelAcesso)}
+                    itens={headerFunctions.headerNivelAcesso(objUser.nivelnivelAcesso)}
+                />
             <div className="login-container">
                 <div className="login-form-container">
                     <form onSubmit={authLogin}>

@@ -1,19 +1,20 @@
-import React, { useState } from "react";
 import "./VerMais.css";
 import HeaderApp from "../../Components/HeaderApp";
-import NavItem from "../../Components/NavItem";
 import img from "../../Images/erase.svg";
 import VLibras from "@djpfs/react-vlibras";
-import { useEffect } from "react";
 import api from "../../Api";
 import CardPet from "../../Components/CardPet";
 import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import headerFunctions from "../../functions/headerFunctions";
 
 export default function VerMais() {
   const [instituicao, setInstituicao] = useState([]);
   const [caracteristicas, setCaracteristicas] = useState([]);
 
   const navigate = useNavigate();
+
+  const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
 
   const [distinctPets, setAllDistinctPets] = useState([]);
 
@@ -41,12 +42,8 @@ export default function VerMais() {
   return (
     <>
       <HeaderApp
-        sideItens={[]}
-        itens={[
-          <NavItem label="Página Inicial" />,
-          <NavItem label="Meus Prêmios" />,
-          <NavItem label="Mensagens" />,
-        ]}
+        sideItens={headerFunctions.sideBarNivelAcesso(objUser.nivelAcesso)}
+        itens={headerFunctions.headerNivelAcesso(objUser.nivelnivelAcesso)}
       />
       <div class="ver-mais-container-geral">
         <h1 className="ver-mais-h1-titulo">Todos os Pet´s</h1>
@@ -70,7 +67,7 @@ export default function VerMais() {
                 <p className="ver-mais-p-filtro">{p}</p>
               ))}
             </div>
-            
+
             <h2 className="ver-mais-h2-filtros-titulos">Características</h2>
             <div className="ver-mais-container-filtro-backend">
               {caracteristicas.map((c) => (

@@ -72,3 +72,6 @@
     column-gap: 5px;
 }
 
+h3{
+    cursor: pointer;
+}
