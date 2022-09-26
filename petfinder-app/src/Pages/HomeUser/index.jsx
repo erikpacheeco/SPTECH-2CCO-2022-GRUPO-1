@@ -56,16 +56,16 @@ export default function HomeUser() {
             <HeaderApp
 
                 sideItens={[
-                    <SideBarItem label="Página Inicial" icon={home} navigateTo={"/home-user"}/>,
-                    <SideBarItem label="Mensagens" icon={message} navigateTo="/chat"/>,
-                    <SideBarItem label="Meu Perfil" icon={perfil} navigateTo=""/>,
-                    <SideBarItem label="Meus Prêmios" icon={premio} navigateTo="/meus-premios"/>
+                    <SideBarItem label="Página Inicial" icon={home} navigateTo={"/home-user"} />,
+                    <SideBarItem label="Mensagens" icon={message} navigateTo="/chat" />,
+                    <SideBarItem label="Meu Perfil" icon={perfil} navigateTo="" />,
+                    <SideBarItem label="Meus Prêmios" icon={premio} navigateTo="/meus-premios" />
                 ]}
 
                 itens={[
-                    <NavItem isSelected={true} label="Página Inicial" navigateTo="/home-user"/>,
-                    <NavItem label="Meus Prêmios" navigateTo="/meus-premios"/>,
-                    <NavItem label="Mensagens" navigateTo="/chat"/>
+                    <NavItem isSelected={true} label="Página Inicial" navigateTo="/home-user" />,
+                    <NavItem label="Meus Prêmios" navigateTo="/meus-premios" />,
+                    <NavItem label="Mensagens" navigateTo="/chat" />
                 ]}
             />
 
@@ -75,7 +75,9 @@ export default function HomeUser() {
                         <div className="home-user-container-center">
                             <div className="home-user-title">
                                 <h1>Não pode nos adotar? Ajude nossos pets doentinhos!</h1>
-                                <h3>Ver Mais</h3>
+                                <h3 onClick={() =>
+                                    navigate(`/ver-mais`)
+                                }>Ver Mais</h3>
                             </div>
                         </div>
                         <div className="home-user-container-center">
@@ -83,10 +85,10 @@ export default function HomeUser() {
                                 <Carousel responsive={responsive}>
                                     {
                                         sickPets.map((p) => (
-                                            <CardPet 
-                                                nome={p.nome} 
-                                                isDoente={false} 
-                                                backgroundImage={p.caminhoImagem} 
+                                            <CardPet
+                                                nome={p.nome}
+                                                isDoente={false}
+                                                backgroundImage={p.caminhoImagem}
                                                 onClick={() =>
                                                     navigate(`/perfil-pet-usuario/${p.id}`)
                                                 }
@@ -101,7 +103,9 @@ export default function HomeUser() {
                         <div className="home-user-container-center">
                             <div className="home-user-title">
                                 <h1>Adote um desses animaizinhos</h1>
-                                <h3>Ver Mais</h3>
+                                <h3 onClick={() =>
+                                    navigate(`/ver-mais`)
+                                }>Ver Mais</h3>
                             </div>
                         </div>
                         <div className="home-user-lista-adotar">

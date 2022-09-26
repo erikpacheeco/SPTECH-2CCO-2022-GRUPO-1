@@ -26,7 +26,7 @@ function ListaPet() {
 
     // function handleFileImport(event) {
     //     event.preventDefault()
-    //     console.log(allPets)
+    //     console.log(allPets)io
     // }
 
     useEffect(() => {

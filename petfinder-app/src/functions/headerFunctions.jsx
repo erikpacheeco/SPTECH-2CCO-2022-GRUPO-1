@@ -15,6 +15,7 @@ import PerfilInstituicao from "../Images/user-business.svg";
 import Mensagem from "../Images/message.svg";
 import MeusPremios from "../Images/picture.svg";
 import Resgate from "../Images/icon_resgate.svg";
+import React from "react";
 
 const infoUsuario = JSON.parse(localStorage.getItem('petfinder_user'));
 
@@ -54,7 +55,7 @@ const infoUsuario = JSON.parse(localStorage.getItem('petfinder_user'));
                 <SideBarItem icon={Home} label="Página Inicial" navigateTo={"/home-user"}/>,
                 <SideBarItem icon={Mensagem} label="Mensagens" navigateTo={"/chat"}/>,
                 <SideBarItem icon={MeuPerfil} label="Meu Perfil" navigateTo={"/"}/>,
-                <SideBarItem icon={MeusPremios} label="Meus Prêmios" navigateTo={"/"}/>,
+                <SideBarItem icon={MeusPremios} label="Meus Prêmios" navigateTo={"/meus-premios"}/>,
                 <SideBarItem icon={Resgate} label="Solicitação de Resgate" navigateTo={"/"}/>,
             ]
         }
@@ -85,7 +86,7 @@ const infoUsuario = JSON.parse(localStorage.getItem('petfinder_user'));
         } else {
             listaHeader = [
                 <NavItem label="Página Inicial" navigateTo={"/home-user"}/>,
-                <NavItem label="Meus Prêmios" navigateTo={"/"}/>,
+                <NavItem label="Meus Prêmios" navigateTo={"/meus-premios"}/>,
                 <NavItem label="Mensagens" navigateTo={"/chat"}/>
             ]
         }
