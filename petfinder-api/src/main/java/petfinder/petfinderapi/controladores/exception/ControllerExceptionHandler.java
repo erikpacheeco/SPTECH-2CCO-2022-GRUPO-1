@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import petfinder.petfinderapi.service.exceptions.EntityNotFoundException;
 import petfinder.petfinderapi.service.exceptions.IdNotFoundException;
+import petfinder.petfinderapi.service.exceptions.InvalidFieldException;
 import petfinder.petfinderapi.service.exceptions.NoContentException;
 
 @ControllerAdvice
@@ -23,6 +24,18 @@ public class ControllerExceptionHandler {
             request.getRequestURI()
         );
         return status(404).body(err);
+    }
+
+    // 400 bad request - invalid field value
+    @ExceptionHandler(InvalidFieldException.class)
+    public ResponseEntity<StandardError> invalidFieldException(InvalidFieldException e, HttpServletRequest request) {
+        StandardError err = new StandardError(
+            HttpStatus.BAD_REQUEST.value(), 
+            "Campo inválido", 
+            e.getMessage(), 
+            request.getRequestURI()
+        );
+        return status(400).body(err);
     }
 
     // 400 bad request - foreign key not found

@@ -241,3 +241,23 @@
 .chat-user-pagamento{
     background-color: #B1FF8A;
 }
+
+.qtd-status {
+    width: 23px;
+    height: 20px;
+    padding: 1px;
+    text-align: center;
+    border-radius: 50%;
+}
+
+.qtd-status-green {
+    background-color: rgb(98, 253, 98);
+}
+
+.qtd-status-blue {
+    background-color: rgb(52, 33, 231);
+}
+
+.qtd-status-gray {
+    background-color: rgb(63, 63, 63);
+}

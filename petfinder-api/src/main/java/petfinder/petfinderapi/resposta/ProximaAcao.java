@@ -51,8 +51,6 @@ public class ProximaAcao {
                     this.texto = tipoUsuario == "usuario" ? "Concluir Demanda" : "Aguardando conclusão";
                     this.tipoBotao = tipoUsuario == "usuario" ? "accept/decline" : null;
                 }
-            } else if(dto.getCategoria().equalsIgnoreCase("resgate")) {
-                // RESGATE
             }
         }
     }
