@@ -42,6 +42,9 @@ function CadastroUsuario() {
     const [formEndereco, setFormEndereco] = useState(false)
     const [formPreferencias, setFormPreferencias] = useState(false)
 
+    const [idLead, setIdLead] = useState()
+    const [idUltimoUsuario, setIdUltimoUsuario] = useState()
+
     const swal = withReactContent(Swal);
     const navigate = useNavigate();
 
@@ -106,6 +109,17 @@ function CadastroUsuario() {
                 console.log(error)
             }
         })
+
+        api.get("/usuarios/ultimo-usuario-cadastrado").then((res) => {
+            setIdUltimoUsuario(res.data)
+            console.log("ultimo cadastro"+res.data)
+        })
+
+        api.get("/usuarios/ultimo-lead").then((res) => {
+            setIdLead(res.data)
+            console.log(res.data)
+        })
+
     }, [])
 
 
@@ -127,6 +141,16 @@ function CadastroUsuario() {
     function handleChangePreferenciaEndereco() {
         setFormEndereco(true);
         setFormPreferencias(false);
+    }
+
+    function addingNewLead() {
+        let lead = {
+            id: idLead+1,
+            usuario_id: idUltimoUsuario+1,
+            dataCadastro: new Date().toISOString()
+        }
+
+        api.post('/usuarios/lead', lead, { headers: { 'Content-Type': 'application/json' } })
     }
 
     return (
@@ -374,6 +398,7 @@ function CadastroUsuario() {
                                 type="submit"
                                 className="cadastro-usuario-btn-form"
                                 name="btnCadastro"
+                                onClick={addingNewLead}
                             >
                                 Finalizar
                             </button>
