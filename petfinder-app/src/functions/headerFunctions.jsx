@@ -48,7 +48,7 @@ const infoUsuario = JSON.parse(localStorage.getItem('petfinder_user'));
                 <SideBarItem icon={MeuPerfil} label="Meu Perfil" navigateTo={"/"}/>,
                 <SideBarItem icon={Dashboard} label="Dashboard" navigateTo={"/dashboard-chatops"}/>,
                 <SideBarItem icon={Demandas} label="Demandas" navigateTo={"/chat"}/>,
-                <SideBarItem icon={Duvida} label="Nova Dúvida" navigateTo={"/"}/>
+                <SideBarItem icon={Duvida} label="Nova Dúvida" navigateTo={"/chat"}/>
             ]
         } else {
             listaSideBar = [
@@ -71,7 +71,7 @@ const infoUsuario = JSON.parse(localStorage.getItem('petfinder_user'));
                 <NavItem label="Dashboard" navigateTo={"/dashboard-sysadmin"}/>,
                 <NavItem label="Admin Cadastrados" navigateTo={`/lista-colaborador/${infoUsuario.id}`}/>,
                 <NavItem label="Instituições Cadastradas" navigateTo={"/"}/>,
-                <NavItem label="Dúvidas" navigateTo={"/"}/>
+                <NavItem label="Dúvidas" navigateTo={"/chat"}/>
             ]
         } else if(nivelAcesso == "adm"){
             listaHeader = [
