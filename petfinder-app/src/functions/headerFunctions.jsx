@@ -30,7 +30,7 @@ const infoUsuario = JSON.parse(localStorage.getItem('petfinder_user'));
                 <SideBarItem icon={Dashboard} label="Dashboard" navigateTo={"/dashboard-sysadmin"}/>,
                 <SideBarItem icon={UsuariosCadastrados} label="Administradores Cadastrados" navigateTo={`/lista-colaborador/${infoUsuario.id}`}/>,
                 <SideBarItem icon={InstituicaoCadastrada} label="Instituições Cadastradas" navigateTo={"/"}/>,
-                <SideBarItem icon={Duvida} label="Dúvidas" navigateTo={"/"}/>,
+                <SideBarItem icon={Duvida} label="Dúvidas" navigateTo={"/chat"}/>,
             ]
         } else if(nivelAcesso == "adm"){
             listaSideBar = [
@@ -41,7 +41,7 @@ const infoUsuario = JSON.parse(localStorage.getItem('petfinder_user'));
                 <SideBarItem icon={MeuPerfil} label="Meu Perfil" navigateTo={"/"}/>,
                 <SideBarItem icon={PerfilInstituicao} label="Perfil Instituição" navigateTo={"/"}/>,
                 <SideBarItem icon={UsuariosCadastrados} label="Colaboradores Cadastrados" navigateTo={`/lista-colaborador/${infoUsuario.id}`}/>,
-                <SideBarItem icon={Duvida} label="Dúvida" navigateTo={"/"}/>
+                <SideBarItem icon={Duvida} label="Dúvida" navigateTo={"/chat"}/>
             ]
         } else if (nivelAcesso == "chatops"){
             listaSideBar = [

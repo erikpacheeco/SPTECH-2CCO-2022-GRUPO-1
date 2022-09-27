@@ -161,10 +161,7 @@ function CadastroUsuario() {
 
     return (
         <>
-             <HeaderApp
-                    sideItens={headerFunctions.sideBarNivelAcesso(objUser.nivelAcesso)}
-                    itens={headerFunctions.headerNivelAcesso(objUser.nivelnivelAcesso)}
-                />
+            <HeaderBasic />
             <div className="cadastro-usuario-container">
                 <form className="cadastro-usuario-form-container" onSubmit={handleSubmit}>
 

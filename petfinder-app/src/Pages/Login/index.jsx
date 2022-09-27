@@ -75,10 +75,7 @@ function Login() {
 
     return (
         <>
-            <HeaderApp
-                    sideItens={headerFunctions.sideBarNivelAcesso(objUser.nivelAcesso)}
-                    itens={headerFunctions.headerNivelAcesso(objUser.nivelnivelAcesso)}
-                />
+            <HeaderBasic />
             <div className="login-container">
                 <div className="login-form-container">
                     <form onSubmit={authLogin}>
