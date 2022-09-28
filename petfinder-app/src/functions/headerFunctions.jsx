@@ -54,7 +54,7 @@ const infoUsuario = JSON.parse(localStorage.getItem('petfinder_user'));
             listaSideBar = [
                 <SideBarItem icon={Home} label="Página Inicial" navigateTo={"/home-user"}/>,
                 <SideBarItem icon={Mensagem} label="Mensagens" navigateTo={"/chat"}/>,
-                <SideBarItem icon={MeuPerfil} label="Meu Perfil" navigateTo={"/"}/>,
+                <SideBarItem icon={MeuPerfil} label="Meu Perfil" navigateTo={"/perfil-usuario"}/>,
                 <SideBarItem icon={MeusPremios} label="Meus Prêmios" navigateTo={"/meus-premios"}/>,
                 <SideBarItem icon={Resgate} label="Solicitação de Resgate" navigateTo={"/"}/>,
             ]
