@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./Pages/Login";
 import CadastroUsuario from "./Pages/CadastroUsuario";
+import CadastroInstituicao from "./Pages/CadastroInstituicao";
 import HomeUser from "./Pages/HomeUser";
 import ListaPet from "./Pages/ListaPet";
 import CadastroPet from "./Pages/CadastroPet"
@@ -24,6 +25,7 @@ function Rotas() {
         <BrowserRouter>
             <Routes>
                 <Route path="/cadastro-user" element={<CadastroUsuario/>} />
+                <Route path="/cadastro-instituicao" element={<CadastroInstituicao/>} />
                 <Route path="/" element={<Login/>}/>
                 <Route path="/home-user" element={<HomeUser/>} />
                 <Route path="/lista-pet" element={<ListaPet/>} />

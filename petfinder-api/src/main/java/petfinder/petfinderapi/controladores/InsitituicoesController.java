@@ -5,17 +5,18 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import petfinder.petfinderapi.controladores.util.HeaderConfig;
 import petfinder.petfinderapi.entidades.Endereco;
 import petfinder.petfinderapi.entidades.Instituicao;
 import petfinder.petfinderapi.entidades.Usuario;
 import petfinder.petfinderapi.repositorios.EnderecoRepositorio;
 import petfinder.petfinderapi.repositorios.InstituicaoRepositorio;
 import petfinder.petfinderapi.repositorios.UsuarioRepositorio;
+import petfinder.petfinderapi.requisicao.DtoAdmRequest;
 import petfinder.petfinderapi.rest.ClienteCep;
 import petfinder.petfinderapi.rest.Distancep;
 import petfinder.petfinderapi.rest.DistanciaResposta;
-import petfinder.petfinderapi.utilitarios.FilaObj;
-
+import petfinder.petfinderapi.service.ServiceInstituicao;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -39,6 +40,9 @@ public class InsitituicoesController {
 
     @Autowired
     private ClienteCep clienteCep;
+
+    @Autowired
+    private ServiceInstituicao service;
 
     // endpoints
 
@@ -81,28 +85,9 @@ public class InsitituicoesController {
     // cadastra instituicao
     @PostMapping
     @Operation(description = "Endpoint para cadastro de instituição, juntamente com seu endereço e primeiro usuário admin")
-    public ResponseEntity<Instituicao> postInstituicao(@RequestBody @Valid Usuario usuario){
-
-        
-        // 400 nivel acesso do usuário inválido
-        if (!usuario.getNivelAcesso().equalsIgnoreCase("admin")) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        // 400 email já em uso
-        if (!usuarioRepositorio.findByEmail(usuario.getEmail()).isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        // saving values
-        Endereco endereco = enderecoRepositorio.save(usuario.getInstituicao().getEndereco());
-        usuario.getInstituicao().getEndereco().setId(endereco.getId());
-        Instituicao instituicao = instituicaoRepositorio.save(usuario.getInstituicao());
-        usuario.getInstituicao().setId(instituicao.getId());
-        usuario = usuarioRepositorio.save(usuario);
-        
-        // 201
-        return ResponseEntity.status(201).body(usuario.getInstituicao());
+    public ResponseEntity<Usuario> postInstituicao(@RequestBody @Valid DtoAdmRequest req){
+        Usuario body = service.createInstituicao(req);
+        return ResponseEntity.created(HeaderConfig.getLocation(body.getId())).body(body);
     }
 
     // edita dados da instituicao

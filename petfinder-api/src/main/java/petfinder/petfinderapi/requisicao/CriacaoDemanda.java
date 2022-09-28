@@ -2,8 +2,6 @@ package petfinder.petfinderapi.requisicao;
 
 import javax.validation.constraints.NotNull;
 
-import petfinder.petfinderapi.entidades.Demanda;
-
 public class CriacaoDemanda {
 
     // atributos

@@ -21,9 +21,9 @@ public class Usuario {
     @NotBlank
     private String senha;
     private String nivelAcesso;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Endereco endereco;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Instituicao instituicao;
 
     // atributo temporario até definirmos o processo de logoff
@@ -58,7 +58,7 @@ public class Usuario {
         return nivelAcesso;
     }
     public void setNivelAcesso(String nivelAcesso) {
-        this.nivelAcesso = nivelAcesso.toUpperCase();
+        this.nivelAcesso = nivelAcesso.toLowerCase();
     }
     public Endereco getEndereco() {
         return endereco;
