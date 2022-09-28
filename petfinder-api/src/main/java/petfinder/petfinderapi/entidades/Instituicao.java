@@ -21,7 +21,7 @@ public class Instituicao {
     private String telefone;
     private String termoAdocao;
     @NotNull
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Endereco endereco;
 
     // GETTERS E SETTERS

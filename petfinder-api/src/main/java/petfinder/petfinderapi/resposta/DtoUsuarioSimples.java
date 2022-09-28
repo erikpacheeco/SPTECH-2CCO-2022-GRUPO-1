@@ -1,7 +1,5 @@
 package petfinder.petfinderapi.resposta;
 
-import java.util.Objects;
-
 import petfinder.petfinderapi.entidades.Usuario;
 
 public class DtoUsuarioSimples {

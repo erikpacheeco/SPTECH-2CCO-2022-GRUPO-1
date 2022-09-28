@@ -18,9 +18,7 @@ import petfinder.petfinderapi.resposta.ColaboradorSimples;
 import petfinder.petfinderapi.resposta.Message;
 import petfinder.petfinderapi.resposta.UsuarioSemSenha;
 import petfinder.petfinderapi.service.ServiceUsuario;
-
 import java.util.*;
-
 import javax.validation.Valid;
 
 @RestController
