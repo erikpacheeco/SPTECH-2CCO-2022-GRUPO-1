@@ -176,5 +176,16 @@ CREATE TABLE leads (
   id INT PRIMARY KEY AUTO_INCREMENT,
   usuario_id INT NOT NULL,
   data_cadastro DATE
+);
+
+-- -----------------------------------------------------
+-- Table clientes
+-- -----------------------------------------------------
+CREATE TABLE clientes (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  usuario_id INT NOT NULL,
+  tipo VARCHAR(45) NOT NULL,
+  data_cliente DATE
 )
+
 
