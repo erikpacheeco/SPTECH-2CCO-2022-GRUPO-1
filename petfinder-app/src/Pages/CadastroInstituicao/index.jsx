@@ -406,7 +406,7 @@ function CadastroInstituicao() {
                                 type="submit"
                                 className="cadastro-instituicao-btn-form"
                                 name="btnCadastro"
-                                //onClick={[handleSubmit,addingNewCliente]}
+                                onClick={addingNewCliente}
                             >
                                 Finalizar
                             </button>

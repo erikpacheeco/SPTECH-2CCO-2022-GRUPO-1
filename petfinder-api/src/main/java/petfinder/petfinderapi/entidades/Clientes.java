@@ -14,7 +14,7 @@ public class Clientes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private int usuario_id;
+    private int usuarioId;
     private String tipo;
     @NotNull
     private Date dataCliente;
@@ -27,11 +27,11 @@ public class Clientes {
     public void setId(int id) {
         this.id = id;
     }
-    public int getUsuario_id() {
-        return usuario_id;
+    public int getUsuarioId() {
+        return usuarioId;
     }
-    public void setUsuario_id(int usuario_id) {
-        this.usuario_id = usuario_id;
+    public void setUsuarioId(int usuarioId) {
+        this.usuarioId = usuarioId;
     }
     public String getTipo() {
         return tipo;
