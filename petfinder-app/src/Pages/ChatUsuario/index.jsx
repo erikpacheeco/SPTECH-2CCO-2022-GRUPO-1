@@ -42,6 +42,9 @@ export default function ChatUsuario() {
         status: null
     });
 
+    const [idUltimoUsuario, setIdUltimoUsuario] = useState()
+    const [idUltimoCliente, setIdUltimoCliente] = useState()
+
     function handleChangeAndamento() {
         if (demandasStatus[0]) setDemandasStatus([false, demandasStatus[1], demandasStatus[2]]);
         else setDemandasStatus([true, demandasStatus[1], demandasStatus[2]]);
@@ -64,6 +67,7 @@ export default function ChatUsuario() {
             nome: usuarioLogado.nivelAcesso === "user" ? (demanda.colaborador === null ? "" : demanda.colaborador.nome) : demanda.usuario.nome,
             proximaAcao: JSON.parse(localStorage.getItem("petfinder_user")).nivelAcesso === "user" ? demanda.proximaAcaoUsuario : demanda.proximaAcaoColaborador,
             status: demanda.status,
+            idUsuario: demanda.idUsuario
         })
     }
 
@@ -124,6 +128,13 @@ export default function ChatUsuario() {
         return () => clearInterval(interval);
     }, [demandaAtual]);
 
+    useEffect(() => {
+        api.get("/usuarios/ultimo-cliente").then((res) => {
+            setIdUltimoCliente("ultimo cadastro cliente "+res.data)
+            console.log(res.data)
+        })
+    }, [])
+
     // setTimeout(() => {
     //     console.log("ei")
     // }, 1000);
@@ -149,6 +160,19 @@ export default function ChatUsuario() {
         input.value = '';
 
         api_msg.post('/message', messageJson, { headers: { 'Content-Type': 'application/json' } })
+    }
+
+    function addingNewCliente() {
+        if ("concluir demada".localeCompare(demandaAtual.proximaAcao.acao) && usuarioLogado.nivelAcesso == "adm" || usuarioLogado.nivelAcesso == "chatops") {
+            let cliente = {
+                id: idUltimoCliente+1,
+                usuario_id: demandaAtual.idUsuario,
+                tipo: "adm",
+                dataCliente: new Date().toISOString()
+            }
+    
+            api.post('/usuarios/cliente', cliente, { headers: { 'Content-Type': 'application/json' } })
+        }
     }
 
     return (
@@ -211,7 +235,7 @@ export default function ChatUsuario() {
                                 <img className="chat-user-hidden" src={check} alt="" />
                                 {demandaAtual.proximaAcao.tipoBotao === "accept" ? <ActionButton type="accept" demandaId={demandaAtual.id} userId={usuarioLogado.id} handleChangeDemandaAtual={handleChangeDemandaAtual} /> : ""}
                                 {demandaAtual.proximaAcao.tipoBotao === "accept/decline" ? <>
-                                    <ActionButton type="accept" demandaId={demandaAtual.id} userId={usuarioLogado.id} handleChangeDemandaAtual={handleChangeDemandaAtual} />
+                                    <ActionButton type="accept" demandaId={demandaAtual.id} userId={usuarioLogado.id} handleChangeDemandaAtual={handleChangeDemandaAtual} onClick={addingNewCliente}/>
                                     <ActionButton type="decline" demandaId={demandaAtual.id} userId={usuarioLogado.id} handleChangeDemandaAtual={handleChangeDemandaAtual} />
                                 </> : ""}
                                 {demandaAtual.proximaAcao.tipoBotao === "decline" ? <ActionButton type="decline" demandaId={demandaAtual.id} userId={usuarioLogado.id} handleChangeDemandaAtual={handleChangeDemandaAtual} /> : ""}
