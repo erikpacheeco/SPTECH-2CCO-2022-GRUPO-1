@@ -53,6 +53,9 @@ public class UsuarioController {
     private LeadsRepositorio leadsRepository;
 
     @Autowired
+    private ClientesRepositorio clientesRepository;
+
+    @Autowired
     private ServiceUsuario serviceUsuario;
 
     // enums
@@ -555,5 +558,27 @@ public class UsuarioController {
         long ultimoId = usuarioRepository.count();
 
         return ResponseEntity.status(201).body(ultimoId);
+    }
+
+    @GetMapping("/ultimo-cliente")
+    @Operation(description = "Endpoint para pegar ultimo id cliente")
+    public ResponseEntity getUltimoUsuarioCliente() {
+
+        long ultimoId = clientesRepository.count();
+
+        return ResponseEntity.status(201).body(ultimoId);
+    }
+
+    @PostMapping("/cliente")
+    @Operation(description = "Endpoint para inserir novo cliente")
+    public ResponseEntity postUsuarioCliente(@RequestBody Clientes novoCliente) {
+
+        if (novoCliente.getDataCliente() == null) {
+            return ResponseEntity.status(404).build();
+        }
+
+        clientesRepository.save(novoCliente);
+
+        return ResponseEntity.status(201).build();
     }
 }
