@@ -58,7 +58,7 @@ public class Usuario {
         return nivelAcesso;
     }
     public void setNivelAcesso(String nivelAcesso) {
-        this.nivelAcesso = nivelAcesso.toUpperCase();
+        this.nivelAcesso = nivelAcesso.toLowerCase();
     }
     public Endereco getEndereco() {
         return endereco;
