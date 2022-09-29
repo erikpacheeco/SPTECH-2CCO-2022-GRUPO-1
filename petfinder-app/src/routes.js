@@ -7,7 +7,6 @@ import HomeUser from "./Pages/HomeUser";
 import ListaPet from "./Pages/ListaPet";
 import CadastroPet from "./Pages/CadastroPet"
 import EditarColaborador from "./Pages/EditarColaborador";
-import CadastrarColaborador from "./Pages/CadastrarColaborador";
 import ListaColaborador from "./Pages/ListaColaborador";
 import PerfilPetUsuario from "./Pages/PerfilPetUsuario";
 import PerfilPetInstituicao from "./Pages/PerfilPetInstituicao";
@@ -33,7 +32,6 @@ function Rotas() {
                 <Route path="/lista-pet" element={<ListaPet/>} />
                 <Route path="/cadastro-pet" element={<CadastroPet/>} />
                 <Route path="/editar-colaborador/:id" element={<EditarColaborador/>} />
-                <Route path="/cadastro-colaborador" element={<CadastrarColaborador/>} />
                 <Route path="/lista-colaborador/:id" element={<ListaColaborador/>} /> 
                 <Route path="/perfil-pet-usuario/:id" element={<PerfilPetUsuario/>} /> 
                 <Route path="/perfil-pet-instituicao/:id" element={<PerfilPetInstituicao/>} /> 
