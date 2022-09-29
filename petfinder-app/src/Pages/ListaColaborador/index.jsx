@@ -16,29 +16,29 @@ import Colaboradores from "../../Images/colaboradores.svg";
 import Duvida from "../../Images/duvida.svg";
 import VLibras from "@djpfs/react-vlibras"
 import headerFunctions from "../../functions/headerFunctions";
+import { useNavigate } from "react-router-dom";
 
 
 function ListaColaborador(){
-
-    function handleAddItemList() {
-        console.log("click!");
-    }
-
+    
     const [colaborador, setColaborador] = useState([]);
     const [user, setUser] = useState();
-
+    
+    const navigate = useNavigate();
+    
     const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
-
-    // console.log(objUser.fkInstituicao.id);
+    
+    function handleAddItemList() {
+        navigate(`/cadastro-colaborador/${objUser.id}`)
+    }
  
-
     useEffect(() => {
 
         // corpo do useEffect. São as ações ou aquilo que eu quero que execute // ocorre quando a tela é renderizada 
         api.get(`/usuarios/por-instituicao/${objUser.fkInstituicao.id}`).then((res) => {
             setColaborador(res.data);
 
-            console.log(res.data[0].cargo);
+            console.log(res.data);
         })
         
       }, []);
