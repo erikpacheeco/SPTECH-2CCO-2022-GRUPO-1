@@ -11,10 +11,10 @@ VALUES
 INSERT INTO 
 instituicao(nome, telefone, termo_adocao, endereco_id)
 VALUES 
-('instituicao A', '11 91111-1111', null, 1),
-('instituicao B', '11 92222-2222', null, 2),
-('instituicao C', '11 93333-3333', null, 3),
-('instituicao D', '11 93333-3333', null, 4);
+('Delivery de gatinhos', '11 91111-1111', null, 1),
+('Petz', '11 92222-2222', null, 2),
+('Cat & Dog', '11 93333-3333', null, 3),
+('Instituto Luísa Mell', '11 93333-3333', null, 4);
 
 -- usuario 
 INSERT INTO 
@@ -69,7 +69,14 @@ VALUES
 ('Fofo'),
 ('Cheiroso'),
 ('Branco'),
-('Calmo');
+('Calmo'),
+('Amigável'),
+('Companheiro'),
+('Preto'),
+('Tranquilo com crianças'),
+('Pequeno'),
+('Grande'),
+('Castrado');
 
 -- PetHasCaracteristica
 INSERT INTO
@@ -112,21 +119,11 @@ VALUES
 ('ADOCAO', '2022-08-25', null, 'DOCUMENTO_VALIDO', 9, 1, 5, 2),
 ('ADOCAO', '2020-01-01', '2020-01-01', 'CANCELADO', 9, 1, null, 2),
 ('ADOCAO', '2020-01-01', '2020-01-01', 'CANCELADO', 9, 1, null, 2),
-('ADOCAO', '2022-08-25', '2022-08-25', 'CONCLUIDO', 9, 1, 5, 2),
-('RESGATE', '2020-01-01', null, 'RESGATE_INVALIDO', 9, 1, null, 2),
-('RESGATE', '2020-01-01', null, 'RESGATE_INVALIDO', 9, 1, null, 2),
-('RESGATE', '2020-01-01', null, 'RESGATE_VALIDO', 9, 1, null, 2);
+('ADOCAO', '2022-08-25', '2022-08-25', 'CONCLUIDO', 9, 1, 5, 2);
 
 -- mensagem
 INSERT INTO mensagem(conteudo, data_envio, tipo, demanda_id, usuario_id) VALUES
 ('Boa tarde, tudo certo? Eu gostaria de saber mais sobre o Fernandinho!', now(), 'texto', 14, 9),
 ('Boa tarde, que bom saber! O Fernandinho é um doce de pet', now(), 'texto', 14, 2),
 ('Mas também é muito bagunceiro, ele está à procura de um cuidador paciente', now(), 'texto', 14, 2),
-('Bora dale', now(), 'texto', 14, 2);
-
--- mensagem
-INSERT INTO mensagem(conteudo, data_envio, tipo, demanda_id, usuario_id) VALUES
-('Boa tarde, tudo certo? Eu gostaria de saber mais sobre o Fernandinho!', now(), 'texto', 14, 9),
-('Boa tarde, que bom saber! O Fernandinho e um doce de pet', now(), 'texto', 14, 2),
-('Mas tambem e muito bagunceiro, ele esta a procura de um cuidador paciente', now(), 'texto', 14, 2),
 ('Bora dale', now(), 'texto', 14, 2);

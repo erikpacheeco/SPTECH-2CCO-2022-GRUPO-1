@@ -47,7 +47,7 @@ function DashboardAdmin() {
         <>
             <HeaderApp
                 sideItens={headerFunctions.sideBarNivelAcesso(objUser.nivelAcesso)}
-                itens={headerFunctions.headerNivelAcesso(objUser.nivelnivelAcesso)}
+                itens={headerFunctions.headerNivelAcesso(objUser.nivelAcesso)}
 
             />
 

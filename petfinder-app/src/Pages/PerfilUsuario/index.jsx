@@ -4,6 +4,7 @@ import HeaderApp from "../../Components/HeaderApp";
 import headerFunctions from "../../functions/headerFunctions";
 import SideBarItem from "../../Components/SideBarItem";
 import NavItem from "../../Components/NavItem";
+import React from "react";
 
 function PerfilUsuario(){
     

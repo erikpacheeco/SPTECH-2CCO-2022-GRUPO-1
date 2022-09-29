@@ -16,12 +16,11 @@ import Mensagem from "../Images/message.svg";
 import MeusPremios from "../Images/picture.svg";
 import Resgate from "../Images/icon_resgate.svg";
 import React from "react";
+import { useState } from "react";
 
-const infoUsuario = JSON.parse(localStorage.getItem('petfinder_user'));
-
- const headerFunction = {
-    
+const headerFunction = {
     sideBarNivelAcesso: function (nivelAcesso) {
+        const [infoUsuario, setInfoUsuario] = useState(JSON.parse(localStorage.getItem('petfinder_user')));
         let listaSideBar = []
     
         if(nivelAcesso == "sysadm"){
@@ -64,6 +63,7 @@ const infoUsuario = JSON.parse(localStorage.getItem('petfinder_user'));
     },
     
     headerNivelAcesso: function (nivelAcesso){
+        const [infoUsuario, setInfoUsuario] = useState(JSON.parse(localStorage.getItem('petfinder_user')));
         let listaHeader = []
     
         if(nivelAcesso == "sysadm"){
