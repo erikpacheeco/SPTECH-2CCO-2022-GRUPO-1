@@ -6,8 +6,7 @@ import FloatResgate from "../../Components/FloatResgate";
 import "./cadastro-colaborador.css";
 import api from "../../Api"
 import React from "react";
-import VLibras from "@djpfs/react-vlibras"
-import headerFunctions from "../../functions/headerFunctions";
+import VLibras from "@djpfs/react-vlibras";
 import HeaderApp from "../../Components/HeaderApp";
 
 function initialValuesUsuario() {
@@ -20,8 +19,6 @@ function initialValuesUsuario() {
 }
 
 function CadastroColaborador() {
-
-    const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
 
     const [valuesUsuario, setValuesUsuario] = useState(initialValuesUsuario)
     const [idUltimoUsuario, setIdUltimoUsuario] = useState()
@@ -136,10 +133,7 @@ function CadastroColaborador() {
 
     return (
         <>
-            <HeaderApp
-                    sideItens={headerFunctions.sideBarNivelAcesso(objUser.nivelAcesso)}
-                    itens={headerFunctions.headerNivelAcesso(objUser.nivelnivelAcesso)}
-            />
+            <HeaderApp/>
             
             <div className="cadastro-colaborador-container">
                 <form className="cadastro-colaborador-form-container" onSubmit={handleSubmit}>

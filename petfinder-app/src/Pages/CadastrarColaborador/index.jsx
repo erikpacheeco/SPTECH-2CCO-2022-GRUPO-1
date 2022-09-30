@@ -2,13 +2,8 @@ import React, { useState } from "react";
 import "./cadastro-colaborador.css";
 import HeaderApp from "../../Components/HeaderApp";
 import VLibras from "@djpfs/react-vlibras"
-import headerFunctions from "../../functions/headerFunctions";
-import SideBarItem from "../../Components/SideBarItem";
-import NavItem from "../../Components/NavItem";
 
 export default function CadastrarColaborador() {
-
-  const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
 
   const [nome, setNome] = useState("");
   const [cargo, setCargo] = useState("---");
@@ -16,10 +11,7 @@ export default function CadastrarColaborador() {
   const [senha, setSenha] = useState("");
   return (
     <>
-      <HeaderApp
-        sideItens={headerFunctions.sideBarNivelAcesso(objUser.nivelAcesso)}
-        itens={headerFunctions.headerNivelAcesso(objUser.nivelnivelAcesso)}
-      />
+      <HeaderApp/>
 
       <div className="cad-colab-container">
         <form action="" className="cad-colab-form-container-cad">

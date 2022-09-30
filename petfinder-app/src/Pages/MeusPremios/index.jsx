@@ -6,13 +6,9 @@ import VLibras from "@djpfs/react-vlibras"
 import headerFunctions from "../../functions/headerFunctions";
 
 export default function meusPremios() {
-  const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
   return (
     <>
-      <HeaderApp
-        sideItens={headerFunctions.sideBarNivelAcesso(objUser.nivelAcesso)}
-        itens={headerFunctions.headerNivelAcesso(objUser.nivelnivelAcesso)}
-      />
+      <HeaderApp/>
 
       <div class="premios-container-geral">
         <h1 className="premios-h1-titulo">Meus Prêmios</h1>

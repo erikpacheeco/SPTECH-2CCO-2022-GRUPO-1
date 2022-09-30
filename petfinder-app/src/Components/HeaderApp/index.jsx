@@ -5,8 +5,14 @@ import "./header-app.css"
 import React, { useState } from "react";
 import SideBar from "../SideBar";
 import SideBarItem from "../SideBarItem";
+import headerFunctions from "../../functions/headerFunctions";
 
 function HeaderApp(props) {
+
+    const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
+    const objUserNome = objUser.nome;
+    const nomeUsuario = objUserNome.split(" ");
+
     HeaderApp.defaultProps = {
         itens : [<NavItem isSelected = {true}/>,<NavItem/>,<NavItem/>],
         sideItens :  [<SideBarItem/>]
@@ -17,12 +23,12 @@ function HeaderApp(props) {
     return (
     <header>
         <nav className="header-app-nav">
-            <SideBar sideBar={hiddenSideBar} setSideBar={setHidenSideBar}  elementsSide={props.sideItens} />
+            <SideBar sideBar={hiddenSideBar} setSideBar={setHidenSideBar}  elementsSide={headerFunctions.sideBarNivelAcesso(objUser.nivelAcesso)} />
             <div className="header-app-container-nav">
                 <img className="header-app-application-menu" src={app_menu} alt="icone do menu" onClick={()=>{setHidenSideBar(false)}}/>
                 <div className="header-app-container-btn-nav header-app-nav-container-itens">
                     {
-                        props.itens.map((element)=> {
+                        headerFunctions.headerNivelAcesso(objUser.nivelAcesso).map((element)=> {
                             return (<NavItem 
                             isSelected={element.props.isSelected} 
                             navigateTo={element.props.navigateTo}
@@ -33,8 +39,8 @@ function HeaderApp(props) {
                         })
                     }
                 </div>
-                <img className="header-app-perfil-nav" src={perfil} alt="botão para o perfil"/>
-                <p className="header-app-p">Perfil</p>
+                <p className="header-app-p">{nomeUsuario[0]}</p>
+                <img className="header-app-perfil-nav" src={perfil} alt="botão para o perfil"/>  
             </div>
         </nav>
     </header>

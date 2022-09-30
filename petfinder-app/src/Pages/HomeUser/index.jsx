@@ -2,18 +2,11 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { useEffect, useState } from "react";
 import CardPet from "../../Components/CardPet";
-import HeaderApp from "../../Components/HeaderApp"
-import NavItem from "../../Components/NavItem";
-import SideBarItem from '../../Components/SideBarItem';
-import perfil from "../../Images/people.svg"
-import home from "../../Images/home.svg"
-import message from "../../Images/message.svg"
-import premio from "../../Images/picture.svg"
+import HeaderApp from "../../Components/HeaderApp";
 import "./home-user.css"
 import api from "../../Api"
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import headerFunctions from "../../functions/headerFunctions";
 
 export default function HomeUser() {
 
@@ -21,8 +14,6 @@ export default function HomeUser() {
     const [sickPets, setSickPets] = useState([]);
     const [cont, setCont] = useState(0);
     const navigate = useNavigate()
-
-    const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
 
     const responsive = {
         superLargeDesktop: {
@@ -55,10 +46,7 @@ export default function HomeUser() {
 
     return (
         <>
-             <HeaderApp
-                    sideItens={headerFunctions.sideBarNivelAcesso(objUser.nivelAcesso)}
-                    itens={headerFunctions.headerNivelAcesso(objUser.nivelnivelAcesso)}
-                />
+             <HeaderApp/>
 
             <main className="home-user-container-main">
                 <div className="home-user-container">
