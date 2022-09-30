@@ -68,12 +68,12 @@ const headerFunction = {
         if(nivelAcesso == "sysadm"){
             listaHeader = [
                 <NavItem isSelected={paginaAtual == "/dashboard-sysadmin" ? true : false} label="Dashboard" navigateTo={"/dashboard-sysadmin"}/>,
-                <NavItem isSelected={paginaAtual == "" ? true : false} label="Admin Cadastrados" navigateTo={`/dashboard-sysadmin`}/>,
-                <NavItem isSelected={paginaAtual == "" ? true : false} label="Instituições Cadastradas" navigateTo={"/dashboard-sysadmi"}/>
+                <NavItem isSelected={paginaAtual == "" ? true : false} label="Admin Cadastrados" navigateTo={"/dashboard-sysadmin"}/>,
+                <NavItem isSelected={paginaAtual == "" ? true : false} label="Instituições Cadastradas" navigateTo={"/dashboard-sysadmin"}/>
             ]
         } else if(nivelAcesso == "adm"){
             listaHeader = [
-                <NavItem isSelected={paginaAtual == "/dashboard-sysadmin" ? true : false} label="Dashboard" navigateTo={"/dashboard-admin"}/>,
+                <NavItem isSelected={paginaAtual == "/dashboard-admin" ? true : false} label="Dashboard" navigateTo={"/dashboard-admin"}/>,
                 <NavItem isSelected={paginaAtual == "" ? true : false} label="Padrinhos" navigateTo={"/dashboard-admin"}/>,
                 <NavItem isSelected={paginaAtual == "/chat" ? true : false}label="Demandas" navigateTo={"/chat"}/>
             ]

@@ -7,16 +7,11 @@ import SideBar from "../SideBar";
 import SideBarItem from "../SideBarItem";
 import headerFunctions from "../../functions/headerFunctions";
 
-function HeaderApp(props) {
+function HeaderApp() {
 
     const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
-    const objUserNome = objUser.nome;
-    const nomeUsuario = objUserNome.split(" ");
 
-    HeaderApp.defaultProps = {
-        itens : [<NavItem isSelected = {true}/>,<NavItem/>,<NavItem/>],
-        sideItens :  [<SideBarItem/>]
-    }
+    const objUserNome = objUser.nome.split(" ");
 
     const [hiddenSideBar, setHidenSideBar] = useState(true);
     
@@ -30,16 +25,15 @@ function HeaderApp(props) {
                     {
                         headerFunctions.headerNivelAcesso(objUser.nivelAcesso).map((element)=> {
                             return (<NavItem 
-                            isSelected={element.props.isSelected} 
-                            navigateTo={element.props.navigateTo}
-                            id={element.props.id}
-                            label={element.props.label}
-                            key={props.itens.indexOf(element)}
+                                isSelected={element.props.isSelected} 
+                                navigateTo={element.props.navigateTo}
+                                id={element.props.id}
+                                label={element.props.label}
                             />)
                         })
                     }
                 </div>
-                <p className="header-app-p">{nomeUsuario[0]}</p>
+                <p className="header-app-p">{objUserNome[0]}</p>
                 <img className="header-app-perfil-nav" src={perfil} alt="botão para o perfil"/>  
             </div>
         </nav>
