@@ -33,51 +33,38 @@ function CadastroColaborador() {
         const { value, name } = event.target
         setValuesUsuario({ ...valuesUsuario, [name]: value, })
     }
+    
+    useEffect(() => {
+        if(valuesUsuario.nome == "" &&
+        valuesUsuario.email == "" && valuesUsuario.senha == ""){
+            api.get(`/usuarios/${idColaborador.id}`).then((res) => {
+                setValuesUsuarioInstituicao(res.data)
+            })   
+        }
+        
+        api.get("/usuarios/ultimo-usuario-cadastrado").then((res) => {
+            setIdUltimoUsuario(res.data)
+            console.log("ultimo cadastro "+res.data)
+        })
+
+        api.get("/usuarios/ultimo-cliente").then((res) => {
+            setIdUltimoCliente(res.data)
+            console.log("ultimo cliente "+res.data)
+        })
+        
+    }, [])
 
     function handleSubmit(event) {
         event.preventDefault()
         let json = {
-            usuario: {
-                nome: valuesUsuario.nome,
-                email: valuesUsuario.email,
-                senha: valuesUsuario.senha,
-                nivelAcesso: valuesUsuario.nivelAcesso,
-                endereco: {
-                    cep: valuesUsuarioInstituicao.endereco.cep,
-                    rua: valuesUsuarioInstituicao.endereco.rua,
-                    numero: valuesUsuarioInstituicao.endereco.num,
-                    complemento: valuesUsuarioInstituicao.endereco.complemento,
-                    bairro: valuesUsuarioInstituicao.endereco.bairro,
-                    cidade: valuesUsuarioInstituicao.endereco.cidade,
-                    uf: valuesUsuarioInstituicao.endereco.uf
-                },
-                instituicao: {
-                    nome: valuesUsuarioInstituicao.fkInstituicao.nome,
-                    telefone: valuesUsuarioInstituicao.fkInstituicao.telefone,
-                    termoAdocao: null,
-                    endereco: {
-                        cep: valuesUsuarioInstituicao.fkInstituicao.endereco.cep,
-                        rua: valuesUsuarioInstituicao.fkInstituicao.endereco.rua,
-                        numero: valuesUsuarioInstituicao.fkInstituicao.endereco.num,
-                        complemento: valuesUsuarioInstituicao.fkInstituicao.endereco.complemento,
-                        bairro: valuesUsuarioInstituicao.fkInstituicao.endereco.bairro,
-                        cidade: valuesUsuarioInstituicao.fkInstituicao.endereco.cidade,
-                        uf: valuesUsuarioInstituicao.fkInstituicao.endereco.uf
-                    }
-                },
-                logado: false
-            },
-            interesses: []
+            nome: valuesUsuario.nome,
+            email: valuesUsuario.email,
+            senha: valuesUsuario.senha,
+            cargo: valuesUsuario.nivelAcesso,
+            instituicaoId: valuesUsuarioInstituicao.fkInstituicao.id
         }
-        
-        /*
-        usuario: {
-        },
-    },
-}
-*/
         console.log(json)
-        api.post("/usuarios", json, {
+        api.post("/usuarios/colaborador", json, {
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -98,27 +85,6 @@ function CadastroColaborador() {
                 console.log(error)
             })
     }
-
-    useEffect(() => {
-        if(valuesUsuario.nome == "" &&
-            valuesUsuario.email == "" && valuesUsuario.senha == ""){
-            api.get(`/usuarios/${idColaborador.id}`).then((res) => {
-                setValuesUsuarioInstituicao(res.data)
-                console.log(res.data)
-            })   
-        }
-        
-        api.get("/usuarios/ultimo-usuario-cadastrado").then((res) => {
-            setIdUltimoUsuario(res.data)
-            console.log("ultimo cadastro "+res.data)
-        })
-
-        api.get("/usuarios/ultimo-cliente").then((res) => {
-            setIdUltimoCliente(res.data)
-            console.log("ultimo cliente "+res.data)
-        })
-
-    }, [])
 
     function addingNewCliente() {
         let cliente = {
