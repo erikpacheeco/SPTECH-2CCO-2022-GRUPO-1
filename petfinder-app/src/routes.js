@@ -10,7 +10,7 @@ import EditarColaborador from "./Pages/EditarColaborador";
 import ListaColaborador from "./Pages/ListaColaborador";
 import ListaAdm from "./Pages/ListaAdm";
 import EditarAdm from "./Pages/EditarAdm";
-import CadastroAdm from "./Pages/CadastroAdm";
+// import CadastroAdm from "./Pages/CadastroAdm";
 import PerfilPetUsuario from "./Pages/PerfilPetUsuario";
 import PerfilPetInstituicao from "./Pages/PerfilPetInstituicao";
 import MeusPremios from "./Pages/MeusPremios";
@@ -38,7 +38,7 @@ function Rotas() {
                 <Route path="/lista-colaborador/:id" element={<ListaColaborador/>} /> 
                 <Route path="/lista-adm/:id" element={<ListaAdm/>} /> 
                 <Route path="/editar-adm/:id" element={<EditarAdm/>} /> 
-                <Route path="/cadastro-adm/:id" element={<CadastroAdm/>} />
+                {/* <Route path="/cadastro-adm/:id" element={<CadastroAdm/>} /> */}
                 <Route path="/perfil-pet-usuario/:id" element={<PerfilPetUsuario/>} /> 
                 <Route path="/perfil-pet-instituicao/:id" element={<PerfilPetInstituicao/>} /> 
                 <Route path="/meus-premios" element={<MeusPremios/>} />
