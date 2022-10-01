@@ -6,8 +6,7 @@ import FloatResgate from "../../Components/FloatResgate";
 import "./cadastro-instituicao.css";
 import api from "../../Api"
 import React from "react";
-import VLibras from "@djpfs/react-vlibras"
-import headerFunctions from "../../functions/headerFunctions";
+import VLibras from "@djpfs/react-vlibras";
 import HeaderApp from "../../Components/HeaderApp";
 
 function initialValuesInstituicao() {
@@ -39,7 +38,6 @@ function initialValuesUsuario() {
 }
 
 function CadastroInstituicao() {
-    const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
 
     const [valuesInstituicao, setValuesInstituicao] = useState(initialValuesInstituicao)
     const [valuesEndereco, setValuesEndereco] = useState(initialValuesEndereco)
@@ -173,10 +171,7 @@ function CadastroInstituicao() {
 
     return (
         <>
-            <HeaderApp
-                    sideItens={headerFunctions.sideBarNivelAcesso(objUser.nivelAcesso)}
-                    itens={headerFunctions.headerNivelAcesso(objUser.nivelnivelAcesso)}
-            />
+            <HeaderApp/>
             
             <div className="cadastro-instituicao-container">
                 <form className="cadastro-instituicao-form-container" onSubmit={handleSubmit}>

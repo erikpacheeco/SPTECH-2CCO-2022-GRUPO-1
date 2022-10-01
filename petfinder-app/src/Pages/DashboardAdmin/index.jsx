@@ -1,20 +1,10 @@
 import './DashboardAdmin.css';
 import HeaderApp from "../../Components/HeaderApp";
-import NavItem from "../../Components/NavItem";
 import React from "react";
 import { Chart } from "react-google-charts";
 import VLibras from "@djpfs/react-vlibras"
 import { useEffect, useState } from "react";
-import api from "../../Api"
-import dash from "../../Images/data-graph.svg"
-import pet from "../../Images/paw.svg"
-import padrinho from "../../Images/padrinhos.svg"
-import perfil from "../../Images/people.svg"
-import perfilInstituicao from "../../Images/user-business.svg"
-import colaborador from "../../Images/colaboradores.svg"
-import duvida from "../../Images/duvida.svg"
-import SideBarItem from '../../Components/SideBarItem';
-import headerFunctions from "../../functions/headerFunctions";
+import api from "../../Api";
 
 export const data = [
     ["Mês", "Padrinhos", "Prêmios Postados"],
@@ -26,10 +16,9 @@ export const data = [
 ];
 
 function DashboardAdmin() {
-    const [infoUsuario, setInfoUsuario] = useState([])
+    const [infoUsuario, setInfoUsuario] = useState([]);
 
-    const [infoDashboard, setInfoDashboard] = useState([])
-    const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
+    const [infoDashboard, setInfoDashboard] = useState([]);
 
 
     useEffect(() => {
@@ -45,11 +34,7 @@ function DashboardAdmin() {
 
     return (
         <>
-            <HeaderApp
-                sideItens={headerFunctions.sideBarNivelAcesso(objUser.nivelAcesso)}
-                itens={headerFunctions.headerNivelAcesso(objUser.nivelAcesso)}
-
-            />
+            <HeaderApp/>
 
             <div className="dashboard-admin">
                 <div className="dashboard-admin-container">

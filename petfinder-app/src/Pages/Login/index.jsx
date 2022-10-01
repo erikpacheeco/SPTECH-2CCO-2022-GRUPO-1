@@ -7,8 +7,6 @@ import HeaderBasic from "../../Components/HeaderBasic";
 import "./login.css"
 import api from "../../Api"
 import VLibras from "@djpfs/react-vlibras"
-import headerFunctions from "../../functions/headerFunctions";
-import HeaderApp from "../../Components/HeaderApp";
 
 function resetValues() {
     return { email: "", senha: "" }

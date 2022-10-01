@@ -6,15 +6,12 @@ import api from "../../Api";
 import CardPet from "../../Components/CardPet";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from 'react';
-import headerFunctions from "../../functions/headerFunctions";
 
 export default function VerMais() {
   const [instituicao, setInstituicao] = useState([]);
   const [caracteristicas, setCaracteristicas] = useState([]);
 
   const navigate = useNavigate();
-
-  const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
 
   const [distinctPets, setAllDistinctPets] = useState([]);
 
@@ -41,10 +38,7 @@ export default function VerMais() {
 
   return (
     <>
-      <HeaderApp
-        sideItens={headerFunctions.sideBarNivelAcesso(objUser.nivelAcesso)}
-        itens={headerFunctions.headerNivelAcesso(objUser.nivelnivelAcesso)}
-      />
+      <HeaderApp/>
       <div class="ver-mais-container-geral">
         <h1 className="ver-mais-h1-titulo">Todos os Pet´s</h1>
         <div className="ver-mais-container-conteudo">
