@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import petfinder.petfinderapi.service.exceptions.ConflictValueException;
 import petfinder.petfinderapi.service.exceptions.EntityNotFoundException;
 import petfinder.petfinderapi.service.exceptions.IdNotFoundException;
 import petfinder.petfinderapi.service.exceptions.InvalidFieldException;
@@ -36,6 +38,18 @@ public class ControllerExceptionHandler {
             request.getRequestURI()
         );
         return status(400).body(err);
+    }
+
+    // 400 bad request - invalid field value
+    @ExceptionHandler(ConflictValueException.class)
+    public ResponseEntity<StandardError> ConflictValueException(ConflictValueException e, HttpServletRequest request) {
+        StandardError err = new StandardError(
+            HttpStatus.CONFLICT.value(), 
+            "Valor já existente", 
+            e.getMessage(), 
+            request.getRequestURI()
+        );
+        return status(409).body(err);
     }
 
     // 400 bad request - foreign key not found

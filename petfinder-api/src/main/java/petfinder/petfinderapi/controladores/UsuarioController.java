@@ -7,9 +7,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import petfinder.petfinderapi.controladores.util.HeaderConfig;
 import petfinder.petfinderapi.entidades.*;
 import petfinder.petfinderapi.repositorios.*;
 import petfinder.petfinderapi.requisicao.CriacaoUsuario;
+import petfinder.petfinderapi.requisicao.DtoColaboradorRequest;
 import petfinder.petfinderapi.requisicao.InteresseUsuario;
 import petfinder.petfinderapi.utilitarios.FilaObj;
 import petfinder.petfinderapi.utilitarios.ListaObj;
@@ -66,6 +69,16 @@ public class UsuarioController {
     );
 
     // endpoints
+
+    @PostMapping("/colaborador")
+    @Operation(description = "retorna colaboradores de uma instituicao")
+    @ApiResponse(responseCode = "201", description = "Ok")
+    @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content)
+    @ApiResponse(responseCode = "409", description = "Conflict", content = @Content)
+    public ResponseEntity<ColaboradorSimples> postColaborador(@RequestBody @Valid DtoColaboradorRequest dto) {
+        ColaboradorSimples body = serviceUsuario.postColaborador(dto);
+        return ResponseEntity.created(HeaderConfig.getLocation(body.getId())).body(body);
+    }
 
     @GetMapping("/por-instituicao/{id}")
     @Operation(description = "retorna colaboradores de uma instituicao")

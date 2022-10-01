@@ -4,11 +4,16 @@ import java.util.List;
 import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import petfinder.petfinderapi.entidades.Instituicao;
+import petfinder.petfinderapi.entidades.Usuario;
 import petfinder.petfinderapi.repositorios.InstituicaoRepositorio;
 import petfinder.petfinderapi.repositorios.UsuarioRepositorio;
+import petfinder.petfinderapi.requisicao.DtoColaboradorRequest;
 import petfinder.petfinderapi.resposta.ColaboradorSimples;
 import petfinder.petfinderapi.resposta.UsuarioSemSenha;
+import petfinder.petfinderapi.service.exceptions.ConflictValueException;
 import petfinder.petfinderapi.service.exceptions.EntityNotFoundException;
+import petfinder.petfinderapi.service.exceptions.InvalidFieldException;
 import petfinder.petfinderapi.service.exceptions.NoContentException;
 
 @Service
@@ -19,6 +24,33 @@ public class ServiceUsuario {
 
     @Autowired
     private UsuarioRepositorio repositoryUser;
+
+    private final List<String> nivelAcesso = List.of("adm", "chatops"); 
+
+    public ColaboradorSimples postColaborador(DtoColaboradorRequest dto) {
+
+        // 400 bad request
+        if (!nivelAcesso.contains(dto.getCargo())) {
+            throw new InvalidFieldException("cargo", "Cargo inválido para o valor '" + dto.getCargo() + "'.");
+        }
+
+        // 409 conflict
+        if(repositoryUser.findByEmail(dto.getEmail()).size() > 0) {
+            throw new ConflictValueException("email", dto.getEmail());
+        }
+
+        // 404 not found
+        Instituicao instituicao = repositoryInstituicao.findById(dto.getInstituicaoId()).orElseThrow(
+            () -> {
+                throw new EntityNotFoundException(dto.getInstituicaoId());
+            }
+        );
+
+        // 201
+        Usuario usuario = dto.convert();
+        usuario.setInstituicao(instituicao);
+        return new ColaboradorSimples(repositoryUser.save(usuario));
+    }
 
     // retorna colaborador baseado no id da instituicao
     public List<ColaboradorSimples> getColaboradorByInstituicaoId(int id, String categoria) {

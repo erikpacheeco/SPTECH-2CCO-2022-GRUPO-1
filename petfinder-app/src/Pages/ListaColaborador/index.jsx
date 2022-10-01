@@ -62,6 +62,7 @@ function ListaColaborador(){
                             {
                                 colaborador.map(c => (
                                     <ColaboradorListaItem key={c.id} nome={c.nome} cargo={c.cargo}  id={c.id}/>
+                                    // <div>{c.nome}</div>
                                 ))
                             }
                         </div>
