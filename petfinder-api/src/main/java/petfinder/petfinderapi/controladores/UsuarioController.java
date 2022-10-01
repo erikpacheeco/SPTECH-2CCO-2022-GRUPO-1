@@ -7,18 +7,19 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import petfinder.petfinderapi.controladores.util.HeaderConfig;
 import petfinder.petfinderapi.entidades.*;
 import petfinder.petfinderapi.repositorios.*;
 import petfinder.petfinderapi.requisicao.CriacaoUsuario;
 import petfinder.petfinderapi.requisicao.DtoColaboradorRequest;
+import petfinder.petfinderapi.requisicao.DtoSysadmRequest;
 import petfinder.petfinderapi.requisicao.InteresseUsuario;
 import petfinder.petfinderapi.utilitarios.FilaObj;
 import petfinder.petfinderapi.utilitarios.ListaObj;
 import petfinder.petfinderapi.requisicao.UsuarioLogin;
 import petfinder.petfinderapi.resposta.ColaboradorSimples;
 import petfinder.petfinderapi.resposta.Message;
+import petfinder.petfinderapi.resposta.SysadmSimples;
 import petfinder.petfinderapi.resposta.UsuarioSemSenha;
 import petfinder.petfinderapi.service.ServiceUsuario;
 import java.util.*;
@@ -70,9 +71,17 @@ public class UsuarioController {
 
     // endpoints
 
+    @PostMapping("/sysadm")
+    @Operation(description = "retorna colaboradores de uma instituicao")
+    @ApiResponse(responseCode = "201", description = "Created")
+    public ResponseEntity<SysadmSimples> postSysadm(@RequestBody @Valid DtoSysadmRequest dto) {
+        SysadmSimples body = serviceUsuario.postSysadm(dto);
+        return ResponseEntity.created(HeaderConfig.getLocation(body.getId())).body(body);
+    }
+
     @PostMapping("/colaborador")
     @Operation(description = "retorna colaboradores de uma instituicao")
-    @ApiResponse(responseCode = "201", description = "Ok")
+    @ApiResponse(responseCode = "201", description = "Created")
     @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content)
     @ApiResponse(responseCode = "409", description = "Conflict", content = @Content)
     public ResponseEntity<ColaboradorSimples> postColaborador(@RequestBody @Valid DtoColaboradorRequest dto) {
