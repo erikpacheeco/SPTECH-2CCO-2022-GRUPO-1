@@ -191,7 +191,7 @@ function CadastroColaborador() {
                                 name="btnCadastro"
                                 onClick={addingNewCliente}
                             >
-                                Finalizar
+                                Cadastrar
                             </button>
                         </div>
                     </div>
