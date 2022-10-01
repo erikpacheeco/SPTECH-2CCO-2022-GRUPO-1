@@ -29,7 +29,7 @@ const headerFunction = {
             listaSideBar = [
                 // <SideBarItem icon={Home} label="Página Inicial" navigateTo={"/dashboard-sysadmin"}/>,
                 <SideBarItem icon={Dashboard} label="Dashboard" navigateTo={"/dashboard-sysadmin"}/>,
-                <SideBarItem icon={UsuariosCadastrados} label="Administradores Cadastrados" navigateTo={`/`}/>,
+                <SideBarItem icon={UsuariosCadastrados} label="Administradores Cadastrados" navigateTo={`/lista-adm/${infoUsuario.id}`}/>,
                 <SideBarItem icon={InstituicaoCadastrada} label="Instituições Cadastradas" navigateTo={"/"}/>
             ]
         } else if(nivelAcesso == "adm"){
@@ -68,7 +68,7 @@ const headerFunction = {
         if(nivelAcesso == "sysadm"){
             listaHeader = [
                 <NavItem isSelected={paginaAtual == "/dashboard-sysadmin" ? true : false} label="Dashboard" navigateTo={"/dashboard-sysadmin"}/>,
-                <NavItem isSelected={paginaAtual == "" ? true : false} label="Admin Cadastrados" navigateTo={"/dashboard-sysadmin"}/>,
+                <NavItem isSelected={paginaAtual == "" ? true : false} label="Admin Cadastrados" navigateTo={`/lista-adm/${infoUsuario.id}`}/>,
                 <NavItem isSelected={paginaAtual == "" ? true : false} label="Instituições Cadastradas" navigateTo={"/dashboard-sysadmin"}/>
             ]
         } else if(nivelAcesso == "adm"){
