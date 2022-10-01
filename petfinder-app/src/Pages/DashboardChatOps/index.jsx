@@ -27,11 +27,9 @@ export const dataDemadaSemana = [
 
 function DashboardChatOps() {
 
-    const [infoUsuario, setInfoUsuario] = useState([])
+    const [infoUsuario, setInfoUsuario] = useState([]);
 
-    const [infoDashboard, setInfoDashboard] = useState([])
-
-    const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
+    const [infoDashboard, setInfoDashboard] = useState([]);
 
     useEffect(() => {
         const infoUsuario = JSON.parse(localStorage.getItem('petfinder_user'));
@@ -46,10 +44,7 @@ function DashboardChatOps() {
 
     return(
         <>
-            <HeaderApp
-                    sideItens={headerFunctions.sideBarNivelAcesso(objUser.nivelAcesso)}
-                    itens={headerFunctions.headerNivelAcesso(objUser.nivelnivelAcesso)}
-                />
+            <HeaderApp/>
 
             <div className="dashboard-chatops">
                 <div className="dashboard-chatops-container">

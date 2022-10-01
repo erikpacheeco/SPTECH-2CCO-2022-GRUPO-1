@@ -5,14 +5,7 @@ import React from "react";
 import { Chart } from "react-google-charts";
 import VLibras from "@djpfs/react-vlibras"
 import { useEffect, useState } from "react";
-import api from "../../Api"
-import SideBarItem from '../../Components/SideBarItem';
-import inicial from "../../Images/home.svg"
-import dash from "../../Images/data-graph.svg"
-import adm from "../../Images/colaboradores.svg"
-import instituicoes from "../../Images/padrinhos.svg"
-import duvida from "../../Images/duvida.svg"
-import headerFunctions from "../../functions/headerFunctions";
+import api from "../../Api";
 
 export const data = [
     ["Mês", "Padrinhos", "Mimos Postados"],
@@ -25,11 +18,9 @@ export const data = [
 
 function DashboardSysAdmin() {
 
-    const [infoUsuario, setInfoUsuario] = useState([])
+    const [infoUsuario, setInfoUsuario] = useState([]);
 
-    const [infoDashboard, setInfoDashboard] = useState([])
-
-    const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
+    const [infoDashboard, setInfoDashboard] = useState([]);
 
     useEffect(() => {
 
@@ -45,10 +36,7 @@ function DashboardSysAdmin() {
 
     return (
         <>
-            <HeaderApp
-                sideItens={headerFunctions.sideBarNivelAcesso(objUser.nivelAcesso)}
-                itens={headerFunctions.headerNivelAcesso(objUser.nivelnivelAcesso)}
-            />
+            <HeaderApp/>
 
             <div className="dashboard-sysadmin">
                 <div className="dashboard-sysadmin-container">

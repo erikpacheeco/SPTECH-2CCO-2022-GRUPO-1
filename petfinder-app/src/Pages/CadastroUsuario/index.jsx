@@ -7,11 +7,7 @@ import HeaderBasic from "../../Components/HeaderBasic"
 import "./cadastro-usuario.css"
 import api from "../../Api"
 import React from "react";
-import VLibras from "@djpfs/react-vlibras"
-import headerFunctions from "../../functions/headerFunctions";
-import SideBarItem from "../../Components/SideBarItem";
-import NavItem from "../../Components/NavItem";
-import HeaderApp from "../../Components/HeaderApp";
+import VLibras from "@djpfs/react-vlibras";
 
 function initialValuesUsuario() {
     return {
@@ -36,8 +32,6 @@ function initialValuesEndereco() {
 }
 
 function CadastroUsuario() {
-    const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
-
 
     const [valuesUsuario, setValuesUsuario] = useState(initialValuesUsuario)
     const [valuesEndereco, setValuesEndereco] = useState(initialValuesEndereco)
@@ -161,7 +155,7 @@ function CadastroUsuario() {
 
     return (
         <>
-            <HeaderBasic />
+            <HeaderBasic/>
             <div className="cadastro-usuario-container">
                 <form className="cadastro-usuario-form-container" onSubmit={handleSubmit}>
 

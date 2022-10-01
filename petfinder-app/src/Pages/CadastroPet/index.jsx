@@ -1,10 +1,7 @@
 import "./cadastro-pet.css";
-import NavItem from "../../Components/NavItem";
 import React, { useEffect, useState } from "react";
 import api from "../../Api"
 import HeaderApp from "../../Components/HeaderApp";
-import headerFunctions from "../../functions/headerFunctions";
-import SideBarItem from "../../Components/SideBarItem";
 
 
 let petJson = {
@@ -21,8 +18,6 @@ let petJson = {
 }
 
 function CadastroPet() {
-
-    const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
 
     const [activePage, setActivePage] = useState([false, true, true]);
     const [preferencias, setPreferencias] = useState([]);
@@ -55,10 +50,7 @@ function CadastroPet() {
 
     return (
         <>
-            <HeaderApp
-                sideItens={headerFunctions.sideBarNivelAcesso(objUser.nivelAcesso)}
-                itens={headerFunctions.headerNivelAcesso(objUser.nivelnivelAcesso)}
-            />
+            <HeaderApp/>
             <div className="cad-pet-form-container">
                 <div className="cad-pet-form-geral">
                     <div className="cad-pet-form-btn-pg-container">

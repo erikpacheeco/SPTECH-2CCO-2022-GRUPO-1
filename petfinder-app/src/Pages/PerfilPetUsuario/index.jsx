@@ -1,11 +1,5 @@
 import './PerfilPetUsuario.css';
 import HeaderApp from "../../Components/HeaderApp";
-import NavItem from "../../Components/NavItem";
-import SideBarItem from '../../Components/SideBarItem';
-import perfil from "../../Images/people.svg"
-import home from "../../Images/home.svg"
-import message from "../../Images/message.svg"
-import premio from "../../Images/picture.svg"
 import { useEffect, useState } from "react";
 import api from "../../Api"
 import React from "react";
@@ -14,7 +8,6 @@ import VLibras from "@djpfs/react-vlibras"
 import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 import withReactContent from "sweetalert2-react-content";
-import headerFunctions from "../../functions/headerFunctions";
 
 function initialValuesDemanda() {
     return {
@@ -32,8 +25,6 @@ function PerfilPetUsuario() {
     const [preferencias, setPreferencias] = useState([])
     const [valuesDemandaPagamento, setValuesDemandaPagamento] = useState(initialValuesDemanda)
     const [valuesDemandaAdocao, setValuesDemandaAdocao] = useState(initialValuesDemanda)
-
-    const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
 
     const idPet = useParams()
     const navigate = useNavigate()
@@ -117,10 +108,7 @@ function PerfilPetUsuario() {
 
     return (
         <>
-            <HeaderApp
-                    sideItens={headerFunctions.sideBarNivelAcesso(objUser.nivelAcesso)}
-                    itens={headerFunctions.headerNivelAcesso(objUser.nivelnivelAcesso)}
-                />
+            <HeaderApp/>
 
             <div className="perfil-pet-usuario">
                 <div className="perfil-pet-usuario-container">
@@ -227,16 +215,14 @@ function PerfilPetUsuario() {
                                             onClick={handleSubmitPagamento}
                                         >Doar</button>
                                     </div>
+                                    
+                                    <div className="perfil-pet-usuario-info-adocao-adote-btn">
+                                        <button
+                                            onClick={handleSubmitAdocao}
+                                        >Me Adote</button>
+                                    </div>
                                 </div>
 
-                            </div>
-
-                            <div className="perfil-pet-usuario-info-adocao-adote">
-                                <div className="perfil-pet-usuario-info-adocao-adote-btn">
-                                    <button
-                                        onClick={handleSubmitAdocao}
-                                    >Me Adote</button>
-                                </div>
                             </div>
 
                         </div>

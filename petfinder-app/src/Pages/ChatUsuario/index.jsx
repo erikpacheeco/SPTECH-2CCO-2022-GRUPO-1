@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./chat-user.css"
 import HeaderApp from "../../Components/HeaderApp";
-import NavItem from "../../Components/NavItem";
-import SideBarItem from "../../Components/SideBarItem";
 import Mensagem from "../../Components/Mensagem";
-import perfil from "../../Images/people.svg"
-import home from "../../Images/home.svg"
-import message from "../../Images/message.svg"
-import premio from "../../Images/picture.svg"
 import standby from "../../Images/chat-standby.svg"
 import chat_down from "../../Images/chat-down.svg"
 import check from "../../Images/check.svg"
@@ -18,12 +12,10 @@ import api from '../../Api.js'
 import api_msg from '../../ApiMsg.js'
 import DemandaItem from "../../Components/DemandaItem";
 import ActionButton from "../../Components/ActionButton";
-import headerFunctions from "../../functions/headerFunctions";
 
 export default function ChatUsuario() {
 
     const usuarioLogado = JSON.parse(localStorage.getItem("petfinder_user"));
-    const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
 
     const [messages, setMessages] = useState([]);
     const [listaDemandaAberta, setListaDemandaAberta] = useState([]);
@@ -177,11 +169,7 @@ export default function ChatUsuario() {
 
     return (
         <>
-            <HeaderApp
-                sideItens={headerFunctions.sideBarNivelAcesso(objUser.nivelAcesso)}
-                itens={headerFunctions.headerNivelAcesso(objUser.nivelnivelAcesso)}
-
-            />
+            <HeaderApp/>
             <div className="chat-user-centralizer">
                 <div className="chat-user-container">
 

@@ -39,10 +39,7 @@ function ListaPet() {
         <>
 
             <div className="lista-pet-root">
-                <HeaderApp
-                    sideItens={headerFunctions.sideBarNivelAcesso(objUser.nivelAcesso)}
-                    itens={headerFunctions.headerNivelAcesso(objUser.nivelnivelAcesso)}
-                />
+                <HeaderApp/>
 
                 <div className="lista-pet">
                     <div className="lista-pet-container">
