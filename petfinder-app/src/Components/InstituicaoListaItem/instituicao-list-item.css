@@ -39,6 +39,7 @@
     width: 100%;
     height: 100%;
     display: flex;
+    justify-content: space-between;
     align-items: center;
 }
 
@@ -48,6 +49,7 @@
     flex-direction: column;
     justify-content: space-evenly;
     margin-left: 40px;
+    width: 15%;
 
     font-family: 'Hind Madurai';
     font-style: normal;
