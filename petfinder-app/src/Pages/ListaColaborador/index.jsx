@@ -6,6 +6,7 @@ import api from "../../Api";
 import VLibras from "@djpfs/react-vlibras"
 import headerFunctions from "../../functions/headerFunctions";
 import { useNavigate } from "react-router-dom";
+import plus from "../../Images/plus.svg";
 
 
 function ListaColaborador(){
@@ -42,7 +43,9 @@ function ListaColaborador(){
                     <div className="lista-colaborador-container">
                         <div className="lista-colaborador-tittle">
                             <h2>Colaboradores Cadastrados</h2>
-                            <div className="lista-colaborador-add-icon" onClick={handleAddItemList}>+</div>
+                            <div className="lista-colaborador-add-icon" onClick={handleAddItemList}>
+                                <img src={plus} />
+                            </div>
                         </div>
                         <div className="lista-colaborador">
                             {
