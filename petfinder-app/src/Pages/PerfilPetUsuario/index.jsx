@@ -215,16 +215,14 @@ function PerfilPetUsuario() {
                                             onClick={handleSubmitPagamento}
                                         >Doar</button>
                                     </div>
+                                    
+                                    <div className="perfil-pet-usuario-info-adocao-adote-btn">
+                                        <button
+                                            onClick={handleSubmitAdocao}
+                                        >Me Adote</button>
+                                    </div>
                                 </div>
 
-                            </div>
-
-                            <div className="perfil-pet-usuario-info-adocao-adote">
-                                <div className="perfil-pet-usuario-info-adocao-adote-btn">
-                                    <button
-                                        onClick={handleSubmitAdocao}
-                                    >Me Adote</button>
-                                </div>
                             </div>
 
                         </div>
