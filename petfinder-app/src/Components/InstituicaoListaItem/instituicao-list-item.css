@@ -1,0 +1,75 @@
+.instituicao-item-lista {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    margin-bottom: 16px;
+}
+
+.instituicao-item-lista-container {
+    width: 93%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.instituicao-item-userIcon {
+    width: 47px;
+    height: 47px;
+}
+
+.instituicao-item-userIcon img {
+    height: 100%;
+    width: 100%;
+}
+
+.instituicao-item-box {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.instituicao-item-valor {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.instituicao-item-valor-box {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    margin-left: 40px;
+
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    color: #000000;
+}
+
+.instituicao-lista-item-editar {
+    padding: 10px;
+    border: 2px solid #FFD92E;
+    color: #FFD92E;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #FFF;
+    width: 230px;
+    height: 60px;
+
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+
+   
+}

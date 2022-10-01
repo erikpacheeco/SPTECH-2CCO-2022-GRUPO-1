@@ -17,6 +17,7 @@ import DashboardChatOps from "./Pages/DashboardChatOps";
 import DashboardAdmin from "./Pages/DashboardAdmin";
 import ChatUsuario from "./Pages/ChatUsuario";
 import PerfilUsuario from "./Pages/PerfilUsuario";
+import ListaInstituicao from "./Pages/ListaInstituicao";
 import React from "react";
 import './global.css';
 
@@ -42,6 +43,7 @@ function Rotas() {
                 <Route path="/dashboard-admin" element={<DashboardAdmin/>} />
                 <Route path="/chat" element={<ChatUsuario/>} />
                 <Route path="/perfil-usuario" element={<PerfilUsuario/>} />
+                <Route path="/lista-instituicao" element={<ListaInstituicao/>} />
             </Routes>
         </BrowserRouter>
     );

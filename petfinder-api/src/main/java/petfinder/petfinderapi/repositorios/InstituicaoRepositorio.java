@@ -10,5 +10,8 @@ public interface InstituicaoRepositorio extends JpaRepository<Instituicao, Integ
 
     @Query("SELECT count(i) FROM Instituicao i")
     public Integer findQtdInstituicao();
+
+    @Query("SELECT COUNT(u) FROM Usuario u WHERE u.instituicao.id = ?1")
+    public Integer findAllColaboradoresInstituicao(int idInstituicao);
     
 }
