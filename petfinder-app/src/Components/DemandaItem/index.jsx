@@ -8,7 +8,7 @@ export default function DemandaItem(props) {
     }
 
     return(
-        <div className="demanda-item-container" id={props.id} onClick={props.onClick}>
+        <div className={`demanda-item-container ${props.isSelected ? 'demanda-item-selected' : ''}`} id={props.id} onClick={props.onClick}>
             <p className={chooseColor()}>{props.categoria.toLowerCase()}</p>
             <p>#{props.id}</p>
             <p className="demanda-item-colab">{props.nome}</p>

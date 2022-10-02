@@ -52,7 +52,7 @@ export default function ChatUsuario() {
         else setDemandasStatus([demandasStatus[0], demandasStatus[1], true]);
     }
 
-    function handleChangeDemandaAtual(demanda) {
+    function handleChangeDemandaAtual(demanda, evt) {
         setDemandaAtual({
             id: demanda.id,
             categoria: demanda.categoria,
@@ -68,8 +68,9 @@ export default function ChatUsuario() {
             categoria={demanda.categoria}
             nome={usuarioLogado.nivelAcesso === "user" ? (demanda.colaborador === null ? "" : demanda.colaborador.nome) : demanda.usuario.nome}
             id={demanda.id}
-            onClick={() => handleChangeDemandaAtual(demanda)}
+            onClick={(evt) => handleChangeDemandaAtual(demanda, evt)}
             key={demanda.id}
+            isSelected={demanda.id === demandaAtual.id}
         />);
     }
 
@@ -101,7 +102,6 @@ export default function ChatUsuario() {
 
     useEffect(() => {
         const interval = setInterval(() => {
-            console.log("useEffect!!!")
             if (demandaAtual.id !== "") {
                 api_msg.get(`/message/${demandaAtual.id}`).then((res) => {
                     if (res.status === 200) {
@@ -126,18 +126,6 @@ export default function ChatUsuario() {
             console.log(res.data)
         })
     }, [])
-
-    // setTimeout(() => {
-    //     console.log("ei")
-    // }, 1000);
-
-    // useEffect(() => {
-    //     // api.get(`/demandas/${demandaAtual.id}`)
-    //     // .then(res => {
-    //     //     setDemandaAtual(res.data);
-    //     // });
-    //     console.log("ei");
-    // }, [demandaAtual, listaDemandaAberta, listaDemandaAndamento, listaDemandaConcluida]);
 
     function handleSubmitMessageText(event) {
         event.preventDefault();
@@ -215,8 +203,7 @@ export default function ChatUsuario() {
 
                     <div className="chat-user-container-chat">
                         <div className="chat-user-message-header">
-                            <p className={chooseColor()}>{demandaAtual.categoria.toLowerCase()}</p>
-                            <p>{demandaAtual.id !== '' ? `#${demandaAtual.id}` : ""}</p>
+                            <p className={chooseColor()}>{`#${demandaAtual.id}`}</p>
                             <p className={demandaAtual.id === '' ? "chat-user-hidden" : "chat-user-message-receiver"}>{demandaAtual.nome}</p>
                             <div className={demandaAtual.id === '' ? "chat-user-hidden" : "chat-user-demanda-action"}>
                                 <p className="chat-user-action-description">{demandaAtual.proximaAcao.texto}</p>
