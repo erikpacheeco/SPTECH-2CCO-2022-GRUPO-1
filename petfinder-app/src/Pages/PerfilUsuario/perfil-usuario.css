@@ -1,0 +1,131 @@
+.perfil-usuario-root{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.perfil-usuario-root-container{
+    width: 95%;
+}
+
+.perfil-usuario-box-titulo{
+    margin-top: 35px;
+}
+
+.perfil-usuario-box-titulo span {
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 66px;
+    color: #7F2AB5;
+}
+
+.perfil-usuario-box{
+    height: 90vh;
+    margin-bottom: 35px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.perfil-usuario-box form{
+    width: 49%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.perfil-usuario-informacoes-container{
+    width: 90%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.perfil-usuario-informacoes-pessoal{
+    width: 100%;
+    height: 32%;
+
+    display: flex;
+    justify-content: center;
+
+    background: #FFFFFF;
+    border: 1px solid rgba(175, 113, 214, 0.5);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+}
+
+.perfil-usuario-informacoes-endereco{
+    width: 100%;
+    height: 32%;
+
+    display: flex;
+    justify-content: center;
+
+    background: #FFFFFF;
+    border: 1px solid rgba(175, 113, 214, 0.5);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+}
+
+.perfil-usuario-informacoes-pontuacao{
+    width: 100%;
+    height: 32%;
+
+    display: flex;
+    justify-content: center;
+
+    background: #FFFFFF;
+    border: 1px solid rgba(175, 113, 214, 0.5);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+}
+
+.perfil-usuario-pets-apadrinhado{
+    width: 49%;
+    height: 100%;
+    background: #FFFFFF;
+    border: 1px solid rgba(175, 113, 214, 0.5);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+}
+
+.perfil-usuario-titulo{
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 55px;
+
+    color: #000000;
+}
+
+.perfil-usuario-texto{
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 39px;
+    color: #000000;
+}
+
+.perfil-usuario-input{
+    /* border: transparent; */
+}
+
+.perfil-usuario-informacoes-edit{
+    display: flex;
+    justify-content: space-between;
+}
+
+.perfil-usuario-informacoes-edit button{
+    background-color: transparent;
+    border: none;
+}
+
+.perfil-usuario-input85 {
+    border: none;
+}
+
