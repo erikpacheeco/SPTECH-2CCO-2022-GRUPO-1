@@ -5,12 +5,15 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import petfinder.petfinderapi.entidades.Demanda;
+import petfinder.petfinderapi.entidades.DemandaHist;
 import petfinder.petfinderapi.entidades.Usuario;
+import petfinder.petfinderapi.repositorios.DemandaHistRepository;
 import petfinder.petfinderapi.repositorios.DemandaRepositorio;
 import petfinder.petfinderapi.repositorios.UsuarioRepositorio;
 import petfinder.petfinderapi.requisicao.DtoPatchDemanda;
 import petfinder.petfinderapi.resposta.DtoDemanda;
 import petfinder.petfinderapi.resposta.DtoDemandaChats;
+import petfinder.petfinderapi.resposta.DtoDemandaHist;
 import petfinder.petfinderapi.service.exceptions.EntityNotFoundException;
 import petfinder.petfinderapi.service.exceptions.InvalidFieldException;
 import petfinder.petfinderapi.service.exceptions.NoContentException;
@@ -24,6 +27,9 @@ public class DemandaService {
     @Autowired
     private UsuarioRepositorio usuarioRepository;
 
+    @Autowired
+    private DemandaHistRepository histRepository;
+
     public DtoDemanda patchDemandaStatus(int id, DtoPatchDemanda dto) {
 
         Demanda demanda = demandaRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id)); // 404 not found
@@ -33,23 +39,26 @@ public class DemandaService {
             // user
             if (usuario.getNivelAcesso().equalsIgnoreCase("user")) {
                 // nivelAcesso: user
-                return patchDemandaUser(dto.getAction(), demanda, usuario);
+                demanda = patchDemandaUser(dto.getAction(), demanda, usuario);
             } else if (usuario.getNivelAcesso().equalsIgnoreCase("sysadm")) {
                 // nivelAcesso: sysadm
-                return patchDemandaSysadm(dto.getAction(), demanda, usuario);
-            } 
+                demanda = patchDemandaSysadm(dto.getAction(), demanda, usuario);
+            } else {   
+                // nivelAcesso: colaborador
+                demanda = patchDemandaColab(dto.getAction(), demanda, usuario);
+            }
 
-            // nivelAcesso: colaborador
-            return patchDemandaColab(dto.getAction(), demanda, usuario);
+            // saving demand history 
+            histRepository.save(new DemandaHist(demanda));
+            return new DtoDemanda(demanda);
         }
 
         // 400 bad request
         throw new InvalidFieldException("action", "o campo 'action' deve ser preenchido com 'accept' ou 'decline'");
-
     }
 
     // user
-    private DtoDemanda patchDemandaUser(String action, Demanda demanda, Usuario usuario) {
+    private Demanda patchDemandaUser(String action, Demanda demanda, Usuario usuario) {
 
         if(demanda.getUsuario().getId() != usuario.getId()) {
             // 400 bad request
@@ -80,11 +89,11 @@ public class DemandaService {
         }
 
         // returning updated demanda
-        return new DtoDemanda(demandaRepository.save(demanda));
+        return demandaRepository.save(demanda);
     }
 
     // colab
-    private DtoDemanda patchDemandaColab(String action, Demanda demanda, Usuario usuario) {
+    private Demanda patchDemandaColab(String action, Demanda demanda, Usuario usuario) {
 
         if (demanda.getStatus().equalsIgnoreCase("ABERTO") && action.equalsIgnoreCase("accept")) {
             demanda.setStatus("EM_ANDAMENTO");
@@ -118,11 +127,11 @@ public class DemandaService {
         }
 
         // returning updated demanda
-        return new DtoDemanda(demandaRepository.save(demanda));
+        return demandaRepository.save(demanda);
     }
 
     // sysadm
-    private DtoDemanda patchDemandaSysadm(String action, Demanda demanda, Usuario usuario) {
+    private Demanda patchDemandaSysadm(String action, Demanda demanda, Usuario usuario) {
         throw new InvalidFieldException("action", "ação inválida para o status atual, usuário solicitador ou categoria da demanda");
     }
 
@@ -187,5 +196,17 @@ public class DemandaService {
     // return list of colab chats
     private List<DtoDemanda> getColabChats(Integer id) {
         return demandaRepository.findColabDemandas(id);
+    }
+
+    public List<DtoDemandaHist> getHistDemandas(int id) {
+        List<DtoDemandaHist> demandas = histRepository.findAllHist(id);
+
+        // 204
+        if(demandas.isEmpty()) {
+            throw new NoContentException("histórico de demanda");
+        }
+
+        // 200
+        return demandas;
     }
 }
