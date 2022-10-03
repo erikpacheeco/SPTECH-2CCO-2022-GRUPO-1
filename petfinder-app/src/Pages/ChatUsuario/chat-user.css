@@ -47,6 +47,7 @@
     box-sizing: border-box;
     align-items: center;
     justify-content: space-evenly;
+    cursor: pointer;
 }
 
 .chat-user-message-header {
@@ -197,6 +198,8 @@
     width: 85%;
     display: flex;
     justify-content: center;
+    align-content: center;
+    /* border: 1px solid black; */
 }
 
 .chat-user-demandas-btn-icon {
@@ -251,13 +254,25 @@
 }
 
 .qtd-status-green {
-    background-color: rgb(98, 253, 98);
+    background-color: #A0E800;
+    color: #6909A6;
 }
 
-.qtd-status-blue {
-    background-color: rgb(52, 33, 231);
+.qtd-status-yellow {
+    background-color: #F7CA00;
+    color: #6909A6;
 }
 
-.qtd-status-gray {
-    background-color: rgb(63, 63, 63);
+.qtd-status-purple {
+    background-color: #AF71D6;
+    /* border: 1px white solid; */
+    color: #6909A6;
+}
+
+.chat-user-demanda-action img[title]:hover::after {
+    background-color: white;
+    content: attr(title);
+    position: absolute;
+    top: -100%;
+    left: 0;
 }
