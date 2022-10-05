@@ -67,18 +67,18 @@ function PerfilPetInstituicao() {
     function handleSubmitPet(event) {
         event.preventDefault()
         let json = {
-            id: infoPet.id,
-            nome: infoPet.nome,
-            especie: infoPet.especie,
-            raca: infoPet.raca,
-            porte: infoPet.porte,
-            sexo: infoPet.sexo,
-            descricao: infoPet.descricao,
-            caminhoImagem: infoPet.caminhoImagem,
-            doente: infoPet.isDoente,
-            adotado: infoPet.adotado,
-            instituicao: infoPet.instituicao,
-            caracteristicas: infoPet.caracteristicas
+            id: values.id,
+            nome: values.nome,
+            especie: values.especie,
+            raca: values.raca,
+            porte: values.porte,
+            sexo: values.sexo,
+            descricao: values.descricao,
+            caminhoImagem: values.caminhoImagem,
+            doente: values.isDoente,
+            adotado: values.adotado,
+            instituicao: values.instituicao,
+            caracteristicas: values.caracteristicas
         }
         api.put(`/pets/${infoPet.id}`, json, {
             headers: {
@@ -90,7 +90,7 @@ function PerfilPetInstituicao() {
                     icon: "success",
                     title: <h2>Pet atualizado com sucesso!</h2>,
                 }).then(() => {
-                    navigate(`/perfil-pet-instituicao/${infoPet.id}`)
+                    navigate(`/lista-pet`)
                 })
             }).catch((error) => {
                 swal.fire({

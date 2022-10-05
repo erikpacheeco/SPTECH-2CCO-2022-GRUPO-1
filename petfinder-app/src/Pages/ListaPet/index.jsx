@@ -61,6 +61,7 @@ function ListaPet() {
                             {
                                 allPets.map((pet) => (
                                     <PetListItem
+                                        id={pet.id}
                                         nome={pet.nome}
                                         especie={pet.especie}
                                         raca={pet.raca}
