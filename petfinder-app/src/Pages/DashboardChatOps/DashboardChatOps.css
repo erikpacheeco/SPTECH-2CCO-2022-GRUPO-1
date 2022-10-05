@@ -105,9 +105,9 @@
     height: 30px;
     border-radius: 50px;
     border: 1px solid #7F2AB5;
-    background-color: #FFFFFF;
+    /* background-color: #FFFFFF; */
     font-size: 1em;
-    color: #7F2AB5;
+    /* color: #7F2AB5; */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -117,4 +117,10 @@
 .dashboard-chatops-metricas-grafico button:hover {
     background-color: #7F2AB5;
     color: #FFFFFF;
+}
+
+.btn-mes-premio,
+.btn-mes-demanda {
+    background-color: #FFFFFF;
+    color: #7F2AB5;
 }
