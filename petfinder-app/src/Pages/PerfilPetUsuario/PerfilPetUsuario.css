@@ -275,12 +275,12 @@
     border-width: 0px;
     border-radius: 10px;
     cursor: pointer;
-    background-color: #FFFFFF;
-    color: #50077E;
-    border: 1px solid #7F2AB5;
+    background-color: #7F2AB5;
+    color: #FFFFFF;
+    border: 1px solid #FFFFFF;
 }
 
 .perfil-pet-usuario-info-adocao-acao-btn button:hover {
     background: #50077E;
-    color: #FFFFFF;
+    color: #F7CA00;
 }

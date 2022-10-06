@@ -2,17 +2,26 @@ import app_menu from "../../Images/application-menu.svg"
 import perfil from "../../Images/people.svg"
 import NavItem from "../NavItem"
 import "./header-app.css"
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import SideBar from "../SideBar";
 import SideBarItem from "../SideBarItem";
 import headerFunctions from "../../functions/headerFunctions";
 
+function logoff(){
+    if(localStorage.getItem("petfinder_user") == null){
+        window.location.href = "/";
+    }
+}
+
 function HeaderApp() {
 
-    const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
+    logoff();
 
-    const objUserNome = objUser.nome.split(" ");
+    const [objUser, setObjUser] = useState(JSON.parse(localStorage.getItem("petfinder_user")));
 
+    const [objUserNome, setObjUserNome] = useState(objUser.nome.split(" "));
+    
     const [hiddenSideBar, setHidenSideBar] = useState(true);
     
     return (

@@ -11,14 +11,14 @@ import perfil from "../../Images/people.svg"
 import demanda from "../../Images/attention-icon.svg"
 import headerFunctions from "../../functions/headerFunctions";
 
-export const dataDemadaMes = [
+export const dataDemandaMes = [
     ["", "Demanda"],
     ["Pagamento", 102], 
     ["Adoção", 127], 
     ["Resgate", 92]
 ];
 
-export const dataDemadaSemana = [
+export const dataDemandaSemana = [
     ["", "Demanda"],
     ["Pagamento", 38], 
     ["Adoção", 43], 
@@ -27,20 +27,20 @@ export const dataDemadaSemana = [
 
 function DashboardChatOps() {
 
-    const [infoUsuario, setInfoUsuario] = useState([]);
+    const infoUsuario = JSON.parse(localStorage.getItem('petfinder_user'));
 
     const [infoDashboard, setInfoDashboard] = useState([]);
+    
+    const [valorDataDemanda, setValorDataDemanda] = useState(dataDemandaSemana);
+    var trocaBtnDemanda = true;
 
     useEffect(() => {
-        const infoUsuario = JSON.parse(localStorage.getItem('petfinder_user'));
-        if (infoUsuario) {
-            setInfoUsuario(infoUsuario);
-        }
-
+    
         api.get(`/demandas/dashboard/${infoUsuario.id}`).then((res) => {
             setInfoDashboard(res.data)
         })
-    })
+        
+    }, [])
 
     return(
         <>
@@ -85,23 +85,41 @@ function DashboardChatOps() {
 
                                 <div className="dashboard-chatops-metricas-grafico-botoes">
 
-                                    <input
-                                        type="checkbox"
-                                    />
                                     <button
                                         type="button"
+                                        className="btn-semana-demanda"
+                                        id='btn-semana-demanda'
                                         onClick={() => {
+                                            if(trocaBtnDemanda){
+                                                let btnSemanaDemanda = document.getElementById("btn-semana-demanda");
+                                                btnSemanaDemanda.style.backgroundColor = "#7F2AB5";
+                                                btnSemanaDemanda.style.color = "white";
+
+                                                let btnMesDemanda = document.getElementById("btn-mes-demanda");
+                                                btnMesDemanda.style.backgroundColor = "white";
+                                                btnMesDemanda.style.color = "#7F2AB5";
+                                            }
+                                            setValorDataDemanda(dataDemandaSemana);
                                         }}
                                     >
                                         Semana
                                     </button>
 
-                                    <input
-                                        type="checkbox"
-                                    />
                                     <button
                                         type="button"
+                                        className="btn-mes-demanda"
+                                        id='btn-mes-demanda'
                                         onClick={() => {
+                                            if(trocaBtnDemanda){
+                                                let btnSemanaDemanda = document.getElementById("btn-semana-demanda");
+                                                btnSemanaDemanda.style.backgroundColor = "white";
+                                                btnSemanaDemanda.style.color = "#7F2AB5";
+
+                                                let btnMesDemanda = document.getElementById("btn-mes-demanda");
+                                                btnMesDemanda.style.backgroundColor = "#7F2AB5";
+                                                btnMesDemanda.style.color = "white";
+                                            }
+                                            setValorDataDemanda(dataDemandaMes);
                                         }}
                                     >
                                         Mês
@@ -111,7 +129,7 @@ function DashboardChatOps() {
                                 <div className="dashboard-chatops-metricas-grafico-container">
                                     <Chart
                                         chartType="Bar"
-                                        data={dataDemadaSemana}
+                                        data={valorDataDemanda}
                                         width="100%"
                                         height="100%"
                                         legendToggle

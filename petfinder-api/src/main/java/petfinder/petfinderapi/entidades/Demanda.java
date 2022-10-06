@@ -3,6 +3,9 @@ package petfinder.petfinderapi.entidades;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
+import petfinder.petfinderapi.resposta.DtoDemanda;
+
 import java.util.Date;
 
 @Entity

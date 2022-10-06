@@ -31,7 +31,8 @@ export default function ChatUsuario() {
             tipoBotao: null,
             acao: null,
         },
-        status: null
+        status: null,
+        descricao: "undefined"
     });
 
     const [idUltimoUsuario, setIdUltimoUsuario] = useState()
@@ -52,7 +53,7 @@ export default function ChatUsuario() {
         else setDemandasStatus([demandasStatus[0], demandasStatus[1], true]);
     }
 
-    function handleChangeDemandaAtual(demanda) {
+    function handleChangeDemandaAtual(demanda, evt) {
         setDemandaAtual({
             id: demanda.id,
             categoria: demanda.categoria,
@@ -68,8 +69,9 @@ export default function ChatUsuario() {
             categoria={demanda.categoria}
             nome={usuarioLogado.nivelAcesso === "user" ? (demanda.colaborador === null ? "" : demanda.colaborador.nome) : demanda.usuario.nome}
             id={demanda.id}
-            onClick={() => handleChangeDemandaAtual(demanda)}
+            onClick={(evt) => handleChangeDemandaAtual(demanda, evt)}
             key={demanda.id}
+            isSelected={demanda.id === demandaAtual.id}
         />);
     }
 
@@ -101,7 +103,6 @@ export default function ChatUsuario() {
 
     useEffect(() => {
         const interval = setInterval(() => {
-            console.log("useEffect!!!")
             if (demandaAtual.id !== "") {
                 api_msg.get(`/message/${demandaAtual.id}`).then((res) => {
                     if (res.status === 200) {
@@ -126,18 +127,6 @@ export default function ChatUsuario() {
             console.log(res.data)
         })
     }, [])
-
-    // setTimeout(() => {
-    //     console.log("ei")
-    // }, 1000);
-
-    // useEffect(() => {
-    //     // api.get(`/demandas/${demandaAtual.id}`)
-    //     // .then(res => {
-    //     //     setDemandaAtual(res.data);
-    //     // });
-    //     console.log("ei");
-    // }, [demandaAtual, listaDemandaAberta, listaDemandaAndamento, listaDemandaConcluida]);
 
     function handleSubmitMessageText(event) {
         event.preventDefault();
@@ -174,11 +163,11 @@ export default function ChatUsuario() {
                 <div className="chat-user-container">
 
                     <div className="chat-user-container-demandas">
-                        <div className="chat-user-demandas-header">
-                            <div className={`qtd-status qtd-status-${listaDemandaAndamento.length === 0 ? "gray" : "blue"}`}>{listaDemandaAndamento.length}</div>
+                        <div className="chat-user-demandas-header" onClick={handleChangeAndamento}>
+                            <div className={`qtd-status qtd-status-${listaDemandaAndamento.length === 0 ? "purple" : "yellow"}`}>{listaDemandaAndamento.length}</div>
                             <p className="chat-user-demandas-header-title">Em Andamento</p>
                             <div className="chat-user-demandas-header-actions">
-                                <img className="chat-user-demandas-btn-icon" id='icon_andamento' src={demandasStatus[0] ? standby : chat_down} alt="seta para minimizar demandas em aberto" onClick={handleChangeAndamento} />
+                                <img className="chat-user-demandas-btn-icon" id='icon_andamento' src={demandasStatus[0] ? standby : chat_down} alt="seta para minimizar demandas em aberto" />
                             </div>
                         </div>
 
@@ -188,11 +177,11 @@ export default function ChatUsuario() {
                             }
                         </div>
 
-                        <div className="chat-user-demandas-header">
-                            <div className={`qtd-status qtd-status-${listaDemandaAberta.length === 0 ? "gray" : "green"}`}>{listaDemandaAberta.length}</div>
+                        <div className="chat-user-demandas-header"  onClick={handleChangeAbertas}>
+                            <div className={`qtd-status qtd-status-${listaDemandaAberta.length === 0 ? "purple" : "green"}`}>{listaDemandaAberta.length}</div>
                             <p className="chat-user-demandas-header-title">Abertas</p>
                             <div className="chat-user-demandas-header-actions">
-                                <img className="chat-user-demandas-btn-icon" id='icon_abertas' src={demandasStatus[1] ? standby : chat_down} alt="seta para minimizar demandas em aberto" onClick={handleChangeAbertas} />
+                                <img className="chat-user-demandas-btn-icon" id='icon_abertas' src={demandasStatus[1] ? standby : chat_down} alt="seta para minimizar demandas em aberto" />
                             </div>
                         </div>
                         <div className={demandasStatus[1] ? "chat-user-demandas-list" : " chat-user-hidden"}>
@@ -200,10 +189,11 @@ export default function ChatUsuario() {
                                 listaDemandaAberta.map((demanda) => newDemandaItem(demanda))
                             }
                         </div>
-                        <div className="chat-user-demandas-header">
+                        <div className="chat-user-demandas-header" onClick={handleChangeConcluidas}>
+                            <div className={`qtd-status qtd-status-purple`}>{listaDemandaConcluida.length}</div>
                             <p className="chat-user-demandas-header-title">Concluidas</p>
                             <div className="chat-user-demandas-header-actions">
-                                <img className="chat-user-demandas-btn-icon" id='icon_concluidas' src={demandasStatus[2] ? standby : chat_down} alt="seta para minimizar demandas em aberto" onClick={handleChangeConcluidas} />
+                                <img className="chat-user-demandas-btn-icon" id='icon_concluidas' src={demandasStatus[2] ? standby : chat_down} alt="seta para minimizar demandas em aberto" />
                             </div>
                         </div>
                         <div className={demandasStatus[2] ? "chat-user-demandas-list" : " chat-user-hidden"}>
@@ -215,8 +205,7 @@ export default function ChatUsuario() {
 
                     <div className="chat-user-container-chat">
                         <div className="chat-user-message-header">
-                            <p className={chooseColor()}>{demandaAtual.categoria.toLowerCase()}</p>
-                            <p>{demandaAtual.id !== '' ? `#${demandaAtual.id}` : ""}</p>
+                            <p className={chooseColor()}>{`#${demandaAtual.id}`}</p>
                             <p className={demandaAtual.id === '' ? "chat-user-hidden" : "chat-user-message-receiver"}>{demandaAtual.nome}</p>
                             <div className={demandaAtual.id === '' ? "chat-user-hidden" : "chat-user-demanda-action"}>
                                 <p className="chat-user-action-description">{demandaAtual.proximaAcao.texto}</p>
@@ -227,7 +216,7 @@ export default function ChatUsuario() {
                                     <ActionButton type="decline" demandaId={demandaAtual.id} userId={usuarioLogado.id} handleChangeDemandaAtual={handleChangeDemandaAtual} />
                                 </> : ""}
                                 {demandaAtual.proximaAcao.tipoBotao === "decline" ? <ActionButton type="decline" demandaId={demandaAtual.id} userId={usuarioLogado.id} handleChangeDemandaAtual={handleChangeDemandaAtual} /> : ""}
-                                <img src={ask} alt="" />
+                                <img src={ask} alt="" title={demandaAtual.proximaAcao.descricao} />
                             </div>
                         </div>
 

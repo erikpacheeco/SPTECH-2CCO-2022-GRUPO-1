@@ -20,11 +20,10 @@ function initialValuesDemanda() {
 
 function PerfilPetUsuario() {
 
-    const [infoUsuario, setInfoUsuario] = useState([])
     const [infoPet, setInfoPet] = useState([])
     const [preferencias, setPreferencias] = useState([])
-    const [valuesDemandaPagamento, setValuesDemandaPagamento] = useState(initialValuesDemanda)
-    const [valuesDemandaAdocao, setValuesDemandaAdocao] = useState(initialValuesDemanda)
+
+    const infoUsuario = JSON.parse(localStorage.getItem('petfinder_user'));
 
     const idPet = useParams()
     const navigate = useNavigate()
@@ -93,11 +92,6 @@ function PerfilPetUsuario() {
     }
 
     useEffect(() => {
-
-        const infoUsuario = JSON.parse(localStorage.getItem('petfinder_user'));
-        if (infoUsuario) {
-            setInfoUsuario(infoUsuario);
-        }
 
         api.get(`/pets/${idPet.id}/perfil`).then((res) => {
             setInfoPet(res.data)

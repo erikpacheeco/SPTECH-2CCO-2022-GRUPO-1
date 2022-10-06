@@ -2,9 +2,6 @@ package petfinder.petfinderapi.service;
 
 import java.util.List;
 import java.util.Objects;
-
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import petfinder.petfinderapi.entidades.Instituicao;
