@@ -1,0 +1,104 @@
+.cadastro-adm-container{
+    width: 90%;
+    display: flex;
+    justify-content: center;
+}
+
+.cadastro-adm-form-container{
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 80px;
+    margin-bottom: 80px;
+}
+
+.cadastro-adm-form-container .cadastro-adm-form{
+    background-color: rgb(246 246 246);
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+    border: 1px rgba(0, 0, 0, 0.11) solid;
+    box-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
+    position: relative;
+    padding: 40px 80px;
+}
+
+.cadastro-adm-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cadastro-adm-btn {
+    display: flex;
+    justify-content: center;
+}
+
+.cadastro-adm-input-container{
+    display: flex;
+    flex-direction: column;
+    margin-top: 16px;
+    width:100%;
+}
+
+.cadastro-adm-input-container input{
+    border-radius: 5px;
+    border: 1px solid #7F2AB5;
+    padding-left: 20px;
+    height: 37px;
+    background-color: #F3F2F2;
+}
+
+.cadastro-adm-input-container label {
+    font-family: 'Hind Madurai';
+    font-weight: 600;
+    font-size: 18px;
+    color: #7F2AB5;
+    background-color: #F3F2F2;
+}
+
+.cadastro-adm-separate-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.cadastro-adm-button-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 40%;
+    margin-top: 40px;
+}
+
+.cadastro-adm-title{
+    color: #7F2AB5;
+    text-align: center;
+    margin-top: 16px;
+    font-size: 36px;
+}
+
+.cadastro-adm-btn-form {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    cursor: pointer;
+    text-align: center;
+    border: 1px #7F2AB5 solid;
+    border-radius: 5px;
+    height: 40px;
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 22px;
+    color: #7F2AB5;
+}
+
+.cadastro-adm-btn-form:hover {
+    background-color: #7F2AB5;
+    color: #ffe56f;
+}

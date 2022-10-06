@@ -168,7 +168,7 @@
     display: flex;
     justify-content: space-between;
     width: 95%;
-    height: 65%;
+    height: 90%;
     /*background-color: black;*/
 }
 
@@ -185,34 +185,26 @@
     color: #7F2AB5;
 }
 
-.perfil-pet-usuario-info-adocao-adote{
-    width: 95%;
-    height: 20%;
-    /*background-color: antiquewhite;*/
-    display: flex;
-    justify-content: center;
-}
-
 .perfil-pet-usuario-info-adocao-adote-btn {
-    /*background-color: red;*/
-    width: 70%;
-    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
 }
 
 .perfil-pet-usuario-info-adocao-adote-btn button {
-    width: 100%;
-    height: 100%;
+    width: 306px;
+    height: 30px;
+    background: #F7CA00;
+    border-width: 0px;
     border-radius: 10px;
-    border-color: #50077E;
-    background-color: #FFFFFF;
-    font-size: 1.625em;
     color: #50077E;
+    cursor: pointer;
 }
 
 .perfil-pet-usuario-info-adocao-adote-btn button:hover {
     background-color: #50077E;
-    font-size: 1.625em;
-    color: #FFFFFF;
+    color: #F7CA00;
     cursor: pointer;
 }
 
@@ -272,19 +264,20 @@
 
 .perfil-pet-usuario-info-adocao-acao-btn {
     display: flex;
-    align-items: end;
-    justify-content: space-evenly;
+    align-items: center;
+    justify-content: space-around;
     width: 100%;
 }
 
 .perfil-pet-usuario-info-adocao-acao-btn button {
     width: 130px;
     height: 30px;
-    background: #F7CA00;
     border-width: 0px;
     border-radius: 10px;
-    color: #50077E;
     cursor: pointer;
+    background-color: #7F2AB5;
+    color: #FFFFFF;
+    border: 1px solid #FFFFFF;
 }
 
 .perfil-pet-usuario-info-adocao-acao-btn button:hover {

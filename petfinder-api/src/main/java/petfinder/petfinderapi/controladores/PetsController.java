@@ -112,6 +112,13 @@ public class PetsController implements GerenciadorArquivos {
         return ResponseEntity.ok(servicePet.getPetPerfilByInstituicaoId(id));
     }
 
+    @GetMapping("/instituicao/pets/count/{id}")
+    ResponseEntity countByPetInstituicao(@PathVariable int id) {
+        int qtdPetInst = repositoryPet.findAllPetInstituicao(id);
+        return ResponseEntity.status(200).body(qtdPetInst);
+    }
+
+
     @PostMapping
     @Operation(description = "Endpoint para cadastro de um novo pet em uma instituição especifica")
     public ResponseEntity<PetPerfil> postPet(@RequestBody @Valid PetRequest novoPet) {

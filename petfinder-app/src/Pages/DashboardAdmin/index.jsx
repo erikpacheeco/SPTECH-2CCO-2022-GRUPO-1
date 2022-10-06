@@ -15,22 +15,57 @@ export const data = [
     ["Jun", 39, 20]
 ];
 
+export const dataPremioSemana = [
+    ["", "Prêmios"], 
+    ["Seg", 3], 
+    ["Ter", 0], 
+    ["Qua", 2], 
+    ["Qui", 8], 
+    ["Sex", 10],
+    ["Sab", 5],
+    ["Dom", 0]
+]
+
+export const dataPremioMes = [
+    ["", "Prêmios"], 
+    ["Fev", 38], 
+    ["Mar", 43], 
+    ["Abr", 35], 
+    ["Mai", 20], 
+    ["Jun", 44]
+]
+
+export const dataDemandaSemana = [
+    ["", "Demanda"], 
+    ["Pagamento", 38], 
+    ["Adoção", 43]
+]
+
+export const dataDemandaMes = [
+    ["", "Demanda"], 
+    ["Pagamento", 163], 
+    ["Adoção", 195]
+]
+
 function DashboardAdmin() {
-    const [infoUsuario, setInfoUsuario] = useState([]);
-
+    
+    const infoUsuario = JSON.parse(localStorage.getItem('petfinder_user'));
+    
     const [infoDashboard, setInfoDashboard] = useState([]);
+    
+    const [valorDataPremio, setValorDataPremio] = useState(dataPremioSemana);
+    const [valorDataDemanda, setValorDataDemanda] = useState(dataDemandaSemana);
 
+    var trocaBtnPremio = true;
+    var trocaBtnDemanda = true;
 
     useEffect(() => {
-        const infoUsuario = JSON.parse(localStorage.getItem('petfinder_user'));
-        if (infoUsuario) {
-            setInfoUsuario(infoUsuario);
-        }
-
+        
         api.get(`/demandas/dashboard/${infoUsuario.id}`).then((res) => {
             setInfoDashboard(res.data)
         })
-    })
+
+    }, [])
 
     return (
         <>
@@ -104,32 +139,51 @@ function DashboardAdmin() {
                                 <h2>Prêmios adicionados por</h2>
                                 <div className="dashboard-admin-metricas-grafico-botoes">
 
-                                    <input
-                                        type="checkbox"
-                                    />
                                     <button
                                         type="button"
+                                        className="btn-semana-premio"
+                                        id='btn-semana-premio'
                                         onClick={() => {
+                                            if(trocaBtnPremio){
+                                                let btnSemanaPremio = document.getElementById("btn-semana-premio");
+                                                btnSemanaPremio.style.backgroundColor = "#7F2AB5";
+                                                btnSemanaPremio.style.color = "white";
+
+                                                let btnMesPremio = document.getElementById("btn-mes-premio");
+                                                btnMesPremio.style.backgroundColor = "white";
+                                                btnMesPremio.style.color = "#7F2AB5";
+                                            }
+                                            setValorDataPremio(dataPremioSemana)
                                         }}
                                     >
                                         Semana
                                     </button>
 
-                                    <input
-                                        type="checkbox"
-                                    />
                                     <button
                                         type="button"
+                                        className="btn-mes-premio"
+                                        id='btn-mes-premio'
                                         onClick={() => {
+                                            if(trocaBtnPremio){
+                                                let btnSemanaPremio = document.getElementById("btn-semana-premio");
+                                                btnSemanaPremio.style.backgroundColor = "white";
+                                                btnSemanaPremio.style.color = "#7F2AB5";
+
+                                                let btnMesPremio = document.getElementById("btn-mes-premio");
+                                                btnMesPremio.style.backgroundColor = "#7F2AB5";
+                                                btnMesPremio.style.color = "white";
+                                            }
+                                            setValorDataPremio(dataPremioMes);
                                         }}
                                     >
                                         Mês
                                     </button>
                                 </div>
-                                <div className="dashboard-admin-metricas-grafico-container">
+                                <div className="dashboard-admin-metricas-grafico-container">                            
                                     <Chart
+                                        id="chart-premio"
                                         chartType="Bar"
-                                        data={[["", "Prêmios"], ["Fev", 38], ["Mar", 43], ["Abr", 35], ["Mai", 20], ["Jun", 44]]}
+                                        data={valorDataPremio}
                                         width="100%"
                                         height="100%"
                                         legendToggle
@@ -142,23 +196,41 @@ function DashboardAdmin() {
 
                                 <div className="dashboard-admin-metricas-grafico-botoes">
 
-                                    <input
-                                        type="checkbox"
-                                    />
                                     <button
                                         type="button"
+                                        className="btn-semana-demanda"
+                                        id='btn-semana-demanda'
                                         onClick={() => {
+                                            if(trocaBtnDemanda){
+                                                let btnSemanaDemanda = document.getElementById("btn-semana-demanda");
+                                                btnSemanaDemanda.style.backgroundColor = "#7F2AB5";
+                                                btnSemanaDemanda.style.color = "white";
+
+                                                let btnMesDemanda = document.getElementById("btn-mes-demanda");
+                                                btnMesDemanda.style.backgroundColor = "white";
+                                                btnMesDemanda.style.color = "#7F2AB5";
+                                            }
+                                            setValorDataDemanda(dataDemandaSemana);
                                         }}
                                     >
                                         Semana
                                     </button>
 
-                                    <input
-                                        type="checkbox"
-                                    />
                                     <button
                                         type="button"
+                                        className="btn-mes-demanda"
+                                        id='btn-mes-demanda'
                                         onClick={() => {
+                                            if(trocaBtnDemanda){
+                                                let btnSemanaDemanda = document.getElementById("btn-semana-demanda");
+                                                btnSemanaDemanda.style.backgroundColor = "white";
+                                                btnSemanaDemanda.style.color = "#7F2AB5";
+
+                                                let btnMesDemanda = document.getElementById("btn-mes-demanda");
+                                                btnMesDemanda.style.backgroundColor = "#7F2AB5";
+                                                btnMesDemanda.style.color = "white";
+                                            }
+                                            setValorDataDemanda(dataDemandaMes);
                                         }}
                                     >
                                         Mês
@@ -168,7 +240,7 @@ function DashboardAdmin() {
                                 <div className="dashboard-admin-metricas-grafico-container">
                                     <Chart
                                         chartType="Bar"
-                                        data={[["", "Demanda"], ["Pagamento", 38], ["Adoção", 43], ["Resgate", 35]]}
+                                        data={valorDataDemanda}
                                         width="100%"
                                         height="100%"
                                         legendToggle

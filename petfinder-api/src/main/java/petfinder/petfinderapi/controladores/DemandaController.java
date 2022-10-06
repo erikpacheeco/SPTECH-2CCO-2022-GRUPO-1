@@ -69,6 +69,13 @@ public class DemandaController implements GerenciadorArquivos{
     private ListaObj<String> tiposMenssagensPossiveis = new ListaObj<String>(new String[]{"MENSAGEM", "ARQ_DOCUMENTO", "ARQ_IMAGEM"});
 
     // endpoints
+
+    @GetMapping("/{demandaId}/historico")
+    @Operation(description = "Endpoint que retorna uma lista do hisórico de alguma demanda")
+    public ResponseEntity<List<DtoDemandaHist>> getHistDemanda(@PathVariable int demandaId){
+        return ResponseEntity.ok(service.getHistDemandas(demandaId));
+    }
+
     @PatchMapping("/status/{idDemanda}")
     @Operation(description = "Endpoint para atualizar o status de uma demanda especifica pelo ID")
     public ResponseEntity<DtoDemanda> patchDemandaStatus(@PathVariable int idDemanda, @RequestBody @Valid DtoPatchDemanda dto) {
@@ -143,7 +150,7 @@ public class DemandaController implements GerenciadorArquivos{
             demanda = demandaRepositorio.save(demanda);
 
             gerarHistoricoDemanda(demanda);
-
+            demandaHistRepository.save(new DemandaHist(demanda));
             return ResponseEntity.ok(new DtoDemanda(demanda));
 
         }
@@ -371,18 +378,6 @@ public class DemandaController implements GerenciadorArquivos{
 
         // 404 demanda não encontrada
         return ResponseEntity.status(404).build();
-    }
-
-    @GetMapping("/historico/{idDemanda}")
-    @Operation(description = "Endpoint que retorna todo o histórico de demandas")
-    public ResponseEntity<List<DemandaHist>> getHistDemanda(@PathVariable int idDemanda){
-        List<DemandaHist> lista = demandaHistRepository.findAllByDemandaId(idDemanda);
-        // 204, em caso de lista vazia
-        if (lista.isEmpty()) {
-            return ResponseEntity.status(204).build();
-        }
-        // 200
-        return ResponseEntity.ok(lista);
     }
 
     @PostMapping("/mensagem")

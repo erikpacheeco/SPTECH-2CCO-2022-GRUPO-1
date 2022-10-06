@@ -11,9 +11,9 @@
 }
 
 .demanda-item-container:hover {
-    background-color: #ac58e0;
+    background-color: #7F2AB5;
     color: white;
-    
+    opacity: 0.9;
 }
 
 .demanda-active {
@@ -40,4 +40,9 @@
 
 .demanda-item-pagamento{
     background-color: #B1FF8A;
+}
+
+.demanda-item-selected {
+    background-color: #7F2AB5;
+    color: white;
 }

@@ -248,4 +248,10 @@ public class InsitituicoesController {
         // 404 instituicao não encontrada
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/instituicao/colaborador/count/{id}")
+    ResponseEntity countByPetInstituicao(@PathVariable int id) {
+        int qtdIntituicaoInst = instituicaoRepositorio.findAllColaboradoresInstituicao(id);
+        return ResponseEntity.status(200).body(qtdIntituicaoInst);
+    }
 }
