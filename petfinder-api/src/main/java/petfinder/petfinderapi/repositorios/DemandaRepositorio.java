@@ -85,4 +85,7 @@ public interface DemandaRepositorio extends JpaRepository<Demanda, Integer> {
     @Query("SELECT COUNT(d) FROM Demanda d WHERE d.status  = 'CONCLUIDO' AND d.colaborador.id = ?1")
     public Integer countAllDemandaConcluidaColaborador(int idUsuario);
 
+    @Query("SELECT COUNT(d) FROM Demanda d where d.status = 'CONCLUIDO' AND d.dataFechamento LIKE '2022-08-%' AND d.instituicao.id = ?1")
+    public Integer countAllApadrinhamentos(int idInstituicao);
+
 }

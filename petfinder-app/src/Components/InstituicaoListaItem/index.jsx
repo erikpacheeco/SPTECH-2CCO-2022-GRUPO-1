@@ -11,15 +11,18 @@ function ColaboradorListaItem(props){
 
     const [pets, setPets] = useState(0);
     const [instituicao, setInstituicao] = useState(0);
+    const [apadrinhamento, setApadrinhamento] = useState(0);
  
 
     useEffect(() => {
         api.get(`/pets/instituicao/pets/count/${(props.qtd)}`).then((res) => {
             setPets(res.data);
-            console.log(res.data);
         });
         api.get(`instituicoes/instituicao/colaborador/count/${(props.qtdCol)}`).then((res) => {
             setInstituicao(res.data);
+        });
+        api.get(`demandas/count/apadrinhamentos/${(props.qtdApadrinhamento)}`).then((res) => {
+            setApadrinhamento(res.data);
         });
     }, []);
 
@@ -43,6 +46,10 @@ function ColaboradorListaItem(props){
                             <div  className="instituicao-item-valor-box">
                                 <strong>Colaboradores:</strong>
                                 <strong>{instituicao}</strong>
+                            </div>
+                            <div  className="instituicao-item-valor-box">
+                                <strong>Apadrinhamentos:</strong>
+                                <strong>{apadrinhamento}</strong>
                             </div>
                         </div>
                     </div>

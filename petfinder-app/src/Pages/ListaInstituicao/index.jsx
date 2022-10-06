@@ -37,6 +37,7 @@ function ListaInstituicao() {
                      key={i.id} nome={i.nome}
                      qtd={i.id}
                      qtdCol={i.id}
+                     qtdApadrinhamento={i.id}
                     />
                 ))
               }

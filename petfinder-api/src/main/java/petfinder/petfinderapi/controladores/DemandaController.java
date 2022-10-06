@@ -660,4 +660,11 @@ public class DemandaController implements GerenciadorArquivos{
                 .header("content-disposition", "filename=\"demandas.txt\"")
                 .body(gravaArquivoTxt(listaDemanda, listaUsuario, listaInstituicao, listaPet,"demandas.txt"));
     }
+
+    @GetMapping("/count/apadrinhamentos/{idInstituicao}")
+    ResponseEntity countApadrinhamentosByIntituicao(@PathVariable int idInstituicao) {
+        int qtdApadrinhamentos = demandaRepositorio.countAllApadrinhamentos(idInstituicao);
+        return ResponseEntity.status(200).body(qtdApadrinhamentos);
+    }
+
 }
