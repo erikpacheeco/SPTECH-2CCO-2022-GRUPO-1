@@ -12,6 +12,7 @@ import petfinder.petfinderapi.entidades.*;
 import petfinder.petfinderapi.repositorios.*;
 import petfinder.petfinderapi.requisicao.CriacaoUsuario;
 import petfinder.petfinderapi.requisicao.DtoColaboradorRequest;
+import petfinder.petfinderapi.requisicao.DtoColaboradorSelfRequest;
 import petfinder.petfinderapi.requisicao.DtoSysadmRequest;
 import petfinder.petfinderapi.requisicao.InteresseUsuario;
 import petfinder.petfinderapi.utilitarios.FilaObj;
@@ -87,6 +88,13 @@ public class UsuarioController {
     public ResponseEntity<ColaboradorSimples> postColaborador(@RequestBody @Valid DtoColaboradorRequest dto) {
         ColaboradorSimples body = serviceUsuario.postColaborador(dto);
         return ResponseEntity.created(HeaderConfig.getLocation(body.getId())).body(body);
+    }
+
+    // atualizando informações do usuário
+    @PutMapping("/colaborador/{id}")
+    @Operation(description = "Endpoint que atualiza as informações de um usuario especifico filtrado pelo ID")
+    public ResponseEntity<UsuarioSemSenha> updateUsuario(@PathVariable int id, @RequestBody @Valid DtoColaboradorSelfRequest dto){
+        return ResponseEntity.ok(serviceUsuario.putUsuario(id, dto));
     }
 
     @GetMapping("/por-instituicao/{id}")
@@ -206,45 +214,6 @@ public class UsuarioController {
 
         // 400 bad request - nível de acesso inválido
         return ResponseEntity.status(400).build();
-    }
-
-    // atualizando informações do usuário
-    @PutMapping("/{id}")
-    @Operation(description = "Endpoint que atualiza as informações de um usuario especifico filtrado pelo ID")
-    public ResponseEntity<UsuarioSemSenha> updateUsuario(@PathVariable int id, @RequestBody @Valid UsuarioSemSenha novoUsuario) {
-
-        // verificando se usuário existe
-        if (usuarioRepository.existsById(id)) {
-
-            // pegando informações do usuário existente
-            Usuario usuarioAtual = usuarioRepository.findById(id).get();
-
-            // verificando se outro usuário já possui novo email
-            if (usuarioAtual.getEmail().equals(novoUsuario.getEmail()) || usuarioRepository.findByEmail(novoUsuario.getEmail()).size() ==  0) {
- 
-                // verificando se nivel acesso está válido
-                if (nivelAcesso.elementoExiste(novoUsuario.getNivelAcesso())) {
-
-                    // atualizando informações do novo usuário
-                    usuarioAtual.setNome(novoUsuario.getNome());
-                    usuarioAtual.setNivelAcesso(novoUsuario.getNivelAcesso());
-
-                    usuarioRepository.save(usuarioAtual);
-
-                    // 200
-                    return ResponseEntity.status(200).body(new UsuarioSemSenha(novoUsuario, usuarioAtual.getEndereco()));
-                }
-
-                // 400 bad request - nível de acesso inválido
-                return ResponseEntity.status(400).build();
-            }
-
-            // 409 email já existe
-            return ResponseEntity.status(409).build();
-        }
-
-        // 404 usuário não encontrado
-        return ResponseEntity.status(404).build();
     }
 
     @DeleteMapping("/{id}")
