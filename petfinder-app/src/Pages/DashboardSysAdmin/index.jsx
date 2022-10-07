@@ -7,7 +7,7 @@ import VLibras from "@djpfs/react-vlibras"
 import { useEffect, useState } from "react";
 import api from "../../Api";
 
-export const data = [
+export const dataApadrinhamentoMes = [
     ["Mês", "Padrinhos", "Mimos Postados"],
     ["Fev", 21, 10],
     ["Mar", 23, 7],
@@ -18,21 +18,19 @@ export const data = [
 
 function DashboardSysAdmin() {
 
-    const [infoUsuario, setInfoUsuario] = useState([]);
+    const infoUsuario = JSON.parse(localStorage.getItem('petfinder_user'));
 
     const [infoDashboard, setInfoDashboard] = useState([]);
 
     useEffect(() => {
 
-        const infoUsuario = JSON.parse(localStorage.getItem('petfinder_user'));
-        if (infoUsuario) {
-            setInfoUsuario(infoUsuario);
-        }
-
         api.get(`/demandas/dashboard/${infoUsuario.id}`).then((res) => {
             setInfoDashboard(res.data)
         })
-    })
+        
+    }, [])
+
+    console.log(infoDashboard)
 
     return (
         <>
@@ -74,11 +72,11 @@ function DashboardSysAdmin() {
 
                         <div className="dashboard-sysadmin-metricas-graficos">
                             <div className="dashboard-sysadmin-metricas-grafico">
-                                <h2>Apadrinhamento por semana</h2>
+                                <h2>Conversão de visitantes por mês</h2>
                                 <div className="dashboard-sysadmin-metricas-grafico-container">
                                     <Chart
                                         chartType="Bar"
-                                        data={[["", "Apadrin."], ["Seg", 38], ["Ter", 43], ["Qua", 35], ["Qui", 20], ["Sex", 44]]}
+                                        data={[["", "Visitantes", "Usuários"], ["Jan", 20, 9], ["Fev", 31, 12], ["Mar", 27, 5], ["Abr", 33, 15], ["Mai", 28, 20], ["Jun", 25, 22]]}
                                         width="100%"
                                         height="100%"
                                         legendToggle
@@ -87,11 +85,11 @@ function DashboardSysAdmin() {
                             </div>
 
                             <div className="dashboard-sysadmin-metricas-grafico">
-                                <h2>Apadrinhamento por mês</h2>
+                                <h2>Conversão de leads usuário por mês</h2>
                                 <div className="dashboard-sysadmin-metricas-grafico-container">
                                     <Chart
-                                        chartType="Line"
-                                        data={data}
+                                        chartType="Bar"
+                                        data={[["", "Cadastrados", "Clientes"], ["Jan", 20, 9], ["Fev", 31, 12], ["Mar", 27, 5], ["Abr", 33, 15], ["Mai", 28, 20], ["Jun", 25, 22]]}
                                         width="100%"
                                         height="100%"
                                         legendToggle
@@ -103,11 +101,12 @@ function DashboardSysAdmin() {
                         <div className="dashboard-sysadmin-metricas-graficos">
 
                             <div className="dashboard-sysadmin-metricas-grafico">
-                                <h2>Adoções por mês</h2>
+                                <h2>Conversão de leads instituição por mês</h2>
                                 <div className="dashboard-sysadmin-metricas-grafico-container">
                                     <Chart
                                         chartType="Bar"
-                                        data={[["", "Adoções"], ["Fev", 38], ["Mar", 43], ["Abr", 35], ["Mai", 20], ["Jun", 44]]}
+                                        // data={[["", "Adoções"], ["Fev", 38], ["Mar", 43], ["Abr", 35], ["Mai", 20], ["Jun", 44]]}
+                                        data={[["", "Cadastradas", "Clientes"], ["Jan", 20, 9], ["Fev", 31, 12], ["Mar", 27, 5], ["Abr", 33, 15], ["Mai", 28, 20], ["Jun", 25, 22]]}
                                         width="100%"
                                         height="100%"
                                         legendToggle
@@ -115,7 +114,7 @@ function DashboardSysAdmin() {
                                 </div>
                             </div>
 
-                            <div className="dashboard-sysadmin-metricas-grafico">
+                            {/* <div className="dashboard-sysadmin-metricas-grafico">
                                 <h2>Reporte de resgate por mês</h2>
                                 <div className="dashboard-sysadmin-metricas-grafico-container">
                                     <Chart
@@ -126,7 +125,7 @@ function DashboardSysAdmin() {
                                         legendToggle
                                     />
                                 </div>
-                            </div>
+                            </div> */}
 
                         </div>
                     </div>
