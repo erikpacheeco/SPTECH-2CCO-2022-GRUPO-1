@@ -34,7 +34,7 @@ function Rotas() {
                 <Route path="/" element={<Login/>}/>
                 <Route path="/home-user" element={<HomeUser/>} />
                 <Route path="/lista-pet" element={<ListaPet/>} />
-                <Route path="/cadastro-pet" element={<CadastroPet/>} />
+                <Route path="/cadastro-pet/:id" element={<CadastroPet/>} />
                 <Route path="/editar-colaborador/:id" element={<EditarColaborador/>} />
                 <Route path="/lista-colaborador/:id" element={<ListaColaborador/>} /> 
                 <Route path="/lista-adm/:id" element={<ListaAdm/>} /> 
