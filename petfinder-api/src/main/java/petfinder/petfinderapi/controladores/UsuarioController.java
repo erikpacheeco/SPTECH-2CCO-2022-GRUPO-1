@@ -168,6 +168,25 @@ public class UsuarioController {
         return ResponseEntity.status(200).body(usuarioSemSenha);
     }
 
+    // retorna usuário baseado no ID
+    @GetMapping("/completo/{id}")
+    @Operation(description = "Endpoint que retona um usuario especifico filtrado pelo ID")
+    public ResponseEntity<Usuario> getUsuarioByIdSenha(@PathVariable int id) {
+        Optional<Usuario> usuario = usuarioRepository.findById(id);
+
+        // verificando se usuário existe
+        if (!usuarioRepository.existsById(id)) {
+
+            // 404 usuario não encontrado
+            return ResponseEntity.status(404).build();
+        }
+
+        // 200 retornando DTO do usuário (sem senha e com endereço completo)
+        Usuario novoUsuario = new Usuario(usuario.get());
+
+        return ResponseEntity.status(200).body(novoUsuario);
+    }
+
     // cadastro usuário
 
     @PostMapping

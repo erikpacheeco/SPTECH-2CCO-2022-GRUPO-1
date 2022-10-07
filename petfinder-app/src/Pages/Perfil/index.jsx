@@ -37,7 +37,7 @@ function PerfilSysAdmin() {
 
     useEffect(() => {
         if(valuesUsuario.nome == "" && valuesUsuario.email == "" && valuesUsuario.senha == ""){
-            api.get(`/usuarios/${infoUsuario.id}`).then((res) => {
+            api.get(`/usuarios/completo/${infoUsuario.id}`).then((res) => {
                 // setInfoAdm(res.data)
                 console.log(res.data)
                 setValuesUsuario({nome:`${res.data.nome}`, email:`${res.data.email}`, senha:`${res.data.senha}`})
@@ -53,7 +53,7 @@ function PerfilSysAdmin() {
             senha: valuesUsuario.senha
         }
         console.log(json)
-        api.put("/usuarios/sysadm", json, {
+        api.put(`/usuarios/colaborador/${infoUsuario.id}`, json, {
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -63,7 +63,7 @@ function PerfilSysAdmin() {
                     icon: "success",
                     title: <h1>Perfil atualizado com sucesso</h1>,
                 }).then(() => {
-                    navigate(`/perfil-sysadmin/${infoUsuario.id}`)
+                    navigate(`/perfil/${infoUsuario.id}`)
                 })
             }).catch((error) => {
                 swal.fire({

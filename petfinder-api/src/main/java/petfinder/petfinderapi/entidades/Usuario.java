@@ -29,6 +29,19 @@ public class Usuario {
     // atributo temporario até definirmos o processo de logoff
     private boolean logado;
 
+    public Usuario() {}
+
+    public Usuario(Usuario usuario) {
+        this.id = usuario.getId();
+        this.nome = usuario.getNome();
+        this.email = usuario.email;
+        this.senha = usuario.getSenha();
+        this.nivelAcesso = usuario.getNivelAcesso();
+        this.endereco = usuario.getEndereco();
+        this.instituicao = usuario.getInstituicao();
+        this.logado = usuario.isLogado();
+    }
+
     // getters e setters
     public Integer getId() {
         return id;

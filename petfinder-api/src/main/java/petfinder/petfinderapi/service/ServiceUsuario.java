@@ -28,7 +28,7 @@ public class ServiceUsuario {
     @Autowired
     private UsuarioRepositorio repositoryUser;
 
-    private final List<String> nivelAcesso = List.of("adm", "chatops"); 
+    private final List<String> nivelAcesso = List.of("sysadm", "adm", "chatops");
 
     public ColaboradorSimples postColaborador(DtoColaboradorRequest dto) {
 
@@ -152,9 +152,9 @@ public class ServiceUsuario {
         }
 
         // 409 conflict
-        if(repositoryUser.findByEmail(entity.getEmail()).size() > 0) {
-            throw new ConflictValueException("email", entity.getEmail());
-        }
+        //if(repositoryUser.findByEmail(entity.getEmail()).size() > 0) {
+        //    throw new ConflictValueException("email", entity.getEmail());
+        //}
 
         return entity;
     }
