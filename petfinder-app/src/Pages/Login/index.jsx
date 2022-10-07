@@ -7,6 +7,8 @@ import HeaderBasic from "../../Components/HeaderBasic";
 import "./login.css"
 import api from "../../Api"
 import VLibras from "@djpfs/react-vlibras"
+import eye from "../../Images/eye.svg";
+import eyeOff from "../../Images/eye-off.svg";
 
 function resetValues() {
     return { email: "", senha: "" }
@@ -71,6 +73,19 @@ function Login() {
             });
     }
 
+    function changeEye() {
+        var senha = document.getElementById("senha");
+        var icon = document.getElementById("icon-eye")
+
+        if (senha.type == "password") {
+            senha.type = "text";
+            icon.src = eyeOff;
+        } else {
+            senha.type = "password";
+            icon.src = eye;
+        }
+    }
+
     return (
         <>
             <HeaderBasic />
@@ -94,14 +109,17 @@ function Login() {
 
                         <div className="login-input-container">
                             <label htmlFor="senha">Senha</label>
-                            <input
-                                id="senha"
-                                type="password"
-                                name="senha"
-                                required
-                                value={values.senha}
-                                onChange={handleChange}
-                            />
+                            <div className="login-senha-container">
+                                <input
+                                    id="senha"
+                                    type="password"
+                                    name="senha"
+                                    required
+                                    value={values.senha}
+                                    onChange={handleChange}
+                                />
+                                <img src={eye} alt="" id="icon-eye" onClick={changeEye}/>
+                            </div>
                         </div>
 
                         <div className="login-label-container">
