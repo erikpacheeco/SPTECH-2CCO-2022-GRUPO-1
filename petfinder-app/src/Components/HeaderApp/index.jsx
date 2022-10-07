@@ -24,6 +24,8 @@ function HeaderApp() {
     
     const [hiddenSideBar, setHidenSideBar] = useState(true);
     
+    const navigate = useNavigate();
+
     return (
     <header>
         <nav className="header-app-nav">
@@ -42,8 +44,19 @@ function HeaderApp() {
                         })
                     }
                 </div>
-                <p className="header-app-p">{objUserNome[0]}</p>
-                <img className="header-app-perfil-nav" src={perfil} alt="botão para o perfil"/>  
+                <div 
+                    className="header-app-container-perfil-nav"
+                    onClick={() => {
+                        if (objUser.nivelAcesso == "user") {
+                            navigate(`/perfil-usuario`)
+                        } else {
+                            navigate(`/perfil/${objUser.id}`)
+                        }
+                    }
+                    } >
+                    <p className="header-app-p">{objUserNome[0]}</p>
+                    <img className="header-app-perfil-nav" src={perfil} alt="botão para o perfil"/>  
+                </div>
             </div>
         </nav>
     </header>

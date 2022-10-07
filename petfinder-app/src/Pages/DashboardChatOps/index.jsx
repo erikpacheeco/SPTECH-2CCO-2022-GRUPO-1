@@ -14,16 +14,18 @@ import headerFunctions from "../../functions/headerFunctions";
 export const dataDemandaMes = [
     ["", "Demanda"],
     ["Pagamento", 102], 
-    ["Adoção", 127], 
-    ["Resgate", 92]
+    ["Adoção", 127]
 ];
 
 export const dataDemandaSemana = [
     ["", "Demanda"],
     ["Pagamento", 38], 
-    ["Adoção", 43], 
-    ["Resgate", 35]
+    ["Adoção", 43]
 ];
+
+export const options = {
+    is3D: true
+};
 
 function DashboardChatOps() {
 
@@ -75,6 +77,7 @@ function DashboardChatOps() {
                                         data={[["", "Demanda"], ["Sua equipe (com sucesso)", 38], ["Você (com sucesso)", 43], ["Sem sucesso", 35]]}
                                         width="100%"
                                         height="100%"
+                                        options={options}
                                         legendToggle
                                     />
                                 </div>

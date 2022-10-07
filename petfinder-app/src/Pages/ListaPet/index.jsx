@@ -6,20 +6,21 @@ import file from "../../Images/file-txt.svg"
 import api from "../../Api"
 import React, { useEffect, useState } from 'react';
 import { calculateNewValue } from '@testing-library/user-event/dist/utils';
-
 import VLibras from "@djpfs/react-vlibras"
 import headerFunctions from "../../functions/headerFunctions";
 import SideBarItem from "../../Components/SideBarItem";
 import NavItem from "../../Components/NavItem";
-
+import { useNavigate } from "react-router-dom";
 
 function ListaPet() {
 
     const [allPets, setAllPets] = useState([]);
     const [pets, setPets] = useState([]);
 
+    const navigate = useNavigate();
+    
     function handleAddItemList() {
-        console.log(allPets)
+        navigate(`/cadastro-pet/${objUser.id}`)
     }
 
     const objUser = JSON.parse(localStorage.getItem("petfinder_user"));

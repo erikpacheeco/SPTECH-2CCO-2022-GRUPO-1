@@ -143,6 +143,16 @@ function CadastroUsuario() {
         setFormPreferencias(false);
     }
 
+    function handleChangeUserPreferencia() {
+        setFormPreferencias(true);
+        setFormUser(false);
+    }
+
+    function handleChangePreferenciaUser() {
+        setFormPreferencias(false);
+        setFormUser(true);
+    }
+
     function addingNewLead() {
         let lead = {
             id: idLead+1,
@@ -162,8 +172,8 @@ function CadastroUsuario() {
                     <div className={formUser ? ("cadastro-usuario-form") : ("cadastro-usuario-form cadastro-usuario-hide")}>
                         <div className="cadastro-usuario-btn">
                             <button type="button" className="cadastro-usuario-btn-paginas-selected"></button>
-                            <button type="button" className="cadastro-usuario-btn-paginas"></button>
-                            <button type="button" className="cadastro-usuario-btn-paginas"></button>
+                            <button type="button" className="cadastro-usuario-btn-paginas" onClick={handleChangeUserEndereco}></button>
+                            <button type="button" className="cadastro-usuario-btn-paginas" onClick={handleChangeUserPreferencia}></button>
                         </div>
 
                         <h1 className="cadastro-usuario-title">COMO SE CHAMA?</h1>
@@ -217,9 +227,9 @@ function CadastroUsuario() {
 
                     <div className={formEndereco ? ("cadastro-usuario-form") : ("cadastro-usuario-form cadastro-usuario-hide")}>
                         <div className="cadastro-usuario-btn">
-                            <button type="button" className="cadastro-usuario-btn-paginas"></button>
+                            <button type="button" className="cadastro-usuario-btn-paginas" onClick={handleChangeEnderecoUser}></button>
                             <button type="button" className="cadastro-usuario-btn-paginas-selected"></button>
-                            <button type="button" className="cadastro-usuario-btn-paginas"></button>
+                            <button type="button" className="cadastro-usuario-btn-paginas" onClick={handleChangeEnderecoPreferencia}></button>
                         </div>
 
                         <h1 className="cadastro-usuario-title">ONDE MORA?</h1>
@@ -339,8 +349,8 @@ function CadastroUsuario() {
 
                     <div className={formPreferencias ? ("cadastro-usuario-form") : ("cadastro-usuario-form cadastro-usuario-hide")}>
                         <div className="cadastro-usuario-btn">
-                            <button type="button" className="cadastro-usuario-btn-paginas"></button>
-                            <button type="button" className="cadastro-usuario-btn-paginas"></button>
+                            <button type="button" className="cadastro-usuario-btn-paginas" onClick={handleChangePreferenciaUser}></button>
+                            <button type="button" className="cadastro-usuario-btn-paginas" onClick={handleChangePreferenciaEndereco}></button>
                             <button type="button" className="cadastro-usuario-btn-paginas-selected"></button>
                         </div>
 

@@ -1,6 +1,6 @@
 .dashboard-admin {
     width: 100%;
-    height: 90vh;
+    height: 80vh;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -17,11 +17,12 @@
 .dashboard-admin-metricas-container {
     display: flex;
     width: 100%;
-    height: 20%;
+    height: 15%;
     flex-wrap: wrap;
 }
 
 .dashboard-admin-metricas-container h2,
+.dashboard-admin-metricas-grafico-padrinho h2,
 .dashboard-admin-metricas-grafico h2 {
     color: #7F2AB5;
     font-size: 1.5rem;
@@ -68,6 +69,7 @@
     display: flex;
     justify-content: space-between;
     height: 50%;
+    margin-top: 10px;
 }
 
 .dashboard-admin-metricas-grafico-1 {
@@ -78,7 +80,8 @@
     color: #7F2AB5;
 }
 
-.dashboard-admin-metricas-grafico {
+.dashboard-admin-metricas-grafico,
+.dashboard-admin-metricas-grafico-padrinho {
     width: 45%;
     display: flex;
     flex-wrap: wrap;
@@ -93,6 +96,7 @@
 }
 
 .dashboard-admin-metricas-grafico input,
+.dashboard-admin-metricas-grafico-padrinho input,
 .dashboard-admin-metricas-grafico-1 input{
     display: none;
 }
@@ -101,20 +105,8 @@
     display: flex;
 }
 
-.dashboard-admin-metricas-grafico button{
-    width: 110px;
-    height: 30px;
-    border-radius: 50px;
-    border: 1px solid #7F2AB5;
-    /* background-color: #FFFFFF; */
-    font-size: 1em;
-    /* color: #7F2AB5; */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 10px;
-}
-
+.dashboard-admin-metricas-grafico button,
+.dashboard-admin-metricas-grafico-padrinho button,
 .dashboard-admin-metricas-grafico-1 button {
     width: 110px;
     height: 30px;
@@ -126,10 +118,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 10px;
+    margin-left: 10px;
 }
 
 .dashboard-admin-metricas-grafico button:hover, 
+.dashboard-admin-metricas-grafico-padrinho button:hover, 
 .dashboard-admin-metricas-grafico-1 button:hover, 
 .dashboard-admin-metricas-grafico-container-1 button:hover{
     background-color: #7F2AB5;
@@ -146,4 +139,8 @@
 .btn-mes-demanda {
     background-color: #FFFFFF;
     color: #7F2AB5;
+}
+
+.dashboard-admin-metricas-grafico-padrinho {
+    margin-top: 22px;
 }

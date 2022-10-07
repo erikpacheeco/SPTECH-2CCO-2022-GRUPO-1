@@ -21,6 +21,7 @@ import DashboardAdmin from "./Pages/DashboardAdmin";
 import ChatUsuario from "./Pages/ChatUsuario";
 import PerfilUsuario from "./Pages/PerfilUsuario";
 import ListaInstituicao from "./Pages/ListaInstituicao";
+import Perfil from "./Pages/Perfil";
 import React from "react";
 import './global.css';
 
@@ -34,7 +35,7 @@ function Rotas() {
                 <Route path="/" element={<Login/>}/>
                 <Route path="/home-user" element={<HomeUser/>} />
                 <Route path="/lista-pet" element={<ListaPet/>} />
-                <Route path="/cadastro-pet" element={<CadastroPet/>} />
+                <Route path="/cadastro-pet/:id" element={<CadastroPet/>} />
                 <Route path="/editar-colaborador/:id" element={<EditarColaborador/>} />
                 <Route path="/lista-colaborador/:id" element={<ListaColaborador/>} /> 
                 <Route path="/lista-adm/:id" element={<ListaAdm/>} /> 
@@ -50,6 +51,7 @@ function Rotas() {
                 <Route path="/chat" element={<ChatUsuario/>} />
                 <Route path="/perfil-usuario" element={<PerfilUsuario/>} />
                 <Route path="/lista-instituicao" element={<ListaInstituicao/>} />
+                <Route path="/perfil/:id" element={<Perfil/>} />
             </Routes>
         </BrowserRouter>
     );

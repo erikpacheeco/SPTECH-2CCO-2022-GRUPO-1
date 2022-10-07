@@ -5,9 +5,10 @@ import { Chart } from "react-google-charts";
 import VLibras from "@djpfs/react-vlibras"
 import { useEffect, useState } from "react";
 import api from "../../Api";
+import PetListItem from '../../Components/PetListItem';
 
 export const data = [
-    ["Mês", "Padrinhos", "Prêmios Postados"],
+    ["", "Padrinhos", "Prêmios Postados"],
     ["Fev", 21, 10],
     ["Mar", 23, 7],
     ["Abr", 16, 2],
@@ -81,10 +82,10 @@ function DashboardAdmin() {
                                 <p>Padrinhos</p>
                             </div>
 
-                            <div className="dashboard-admin-metricas-card">
+                            {/* <div className="dashboard-admin-metricas-card">
                                 <p>{infoDashboard.qtdResgatePendenteInstituicao}</p>
                                 <p>Resgates Pendentes</p>
-                            </div>
+                            </div> */}
 
                             <div className="dashboard-admin-metricas-card">
                                 <p>{infoDashboard.qtdPetAdotado}</p>
@@ -104,35 +105,7 @@ function DashboardAdmin() {
                     </div>
 
                     <div className="dashboard-admin-metricas-graficos-container">
-
-                        <div className="dashboard-admin-metricas-graficos">
-                            <div className="dashboard-admin-metricas-grafico">
-                                <h2>Pets resgatados esse mês</h2>
-                                <div className="dashboard-admin-metricas-grafico-container">
-                                    <Chart
-                                        chartType="Bar"
-                                        data={[["", "Resgate"], ["Fev", 38], ["Mar", 43], ["Abr", 35], ["Mai", 20], ["Jun", 44]]}
-                                        width="100%"
-                                        height="100%"
-                                        legendToggle
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="dashboard-admin-metricas-grafico">
-                                <h2>Padrinhos por mês</h2>
-                                <div className="dashboard-admin-metricas-grafico-container">
-                                    <Chart
-                                        chartType="Line"
-                                        data={data}
-                                        width="100%"
-                                        height="100%"
-                                        legendToggle
-                                    />
-                                </div>
-                            </div>
-                        </div>
-
+                        
                         <div className="dashboard-admin-metricas-graficos">
 
                             <div className="dashboard-admin-metricas-grafico-1">
@@ -249,6 +222,24 @@ function DashboardAdmin() {
                             </div>
 
                         </div>
+
+                        <div className="dashboard-admin-metricas-graficos">
+
+                            <div className="dashboard-admin-metricas-grafico-padrinho">
+                                <h2>Padrinhos por mês</h2>
+                                <div className="dashboard-admin-metricas-grafico-container">
+                                    <Chart
+                                        chartType="Line"
+                                        data={data}
+                                        width="100%"
+                                        height="100%"
+                                        legendToggle
+                                    />
+                                </div>
+                            </div>
+                            
+                        </div>
+
                     </div>
 
                 </div>
