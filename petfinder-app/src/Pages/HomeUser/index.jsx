@@ -94,7 +94,7 @@ export default function HomeUser() {
                                         <CardPet
                                             id={p.id}
                                             nome={p.nome}
-                                            isDoente={p.doente}
+                                            isDoente={p.isDoente}
                                             backgroundImage={p.caminhoImagem}
                                             onClick={() =>
                                                 navigate(`/perfil-pet-usuario/${p.id}`)
