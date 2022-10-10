@@ -1,11 +1,12 @@
 package petfinder.petfinderapi.controladores;
 
+import static org.springframework.http.ResponseEntity.*;
+import org.springframework.http.ResponseEntity;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import petfinder.petfinderapi.controladores.util.HeaderConfig;
@@ -20,6 +21,10 @@ import petfinder.petfinderapi.rest.DistanciaResposta;
 import petfinder.petfinderapi.service.ServicePet;
 import petfinder.petfinderapi.utilitarios.FilaObj;
 import petfinder.petfinderapi.utilitarios.PilhaObj;
+import petfinder.petfinderapi.utilitarios.UploadFile;
+import software.amazon.awssdk.awscore.exception.AwsServiceException;
+import software.amazon.awssdk.core.exception.SdkClientException;
+import software.amazon.awssdk.services.s3.model.S3Exception;
 import petfinder.petfinderapi.utilitarios.GerenciadorArquivos;
 import petfinder.petfinderapi.utilitarios.ListaObj;
 import javax.validation.Valid;
@@ -63,6 +68,11 @@ public class PetsController implements GerenciadorArquivos {
     // services
     @Autowired
     private ServicePet servicePet;
+
+    @PostMapping("/{id}/premios")
+    public ResponseEntity<String> postMimo(@PathVariable int id, @RequestParam("file") MultipartFile multipart) {
+        return ok(servicePet.postMimo(id, multipart));
+    }
 
     @GetMapping("/{id}/perfil")
     @Operation(description = "retorna dados do perfil do pet")

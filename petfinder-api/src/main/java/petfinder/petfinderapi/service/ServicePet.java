@@ -4,7 +4,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
 import petfinder.petfinderapi.entidades.Caracteristica;
 import petfinder.petfinderapi.entidades.Instituicao;
 import petfinder.petfinderapi.entidades.Pet;
@@ -21,6 +24,7 @@ import petfinder.petfinderapi.rest.DistanciaResposta;
 import petfinder.petfinderapi.service.exceptions.EntityNotFoundException;
 import petfinder.petfinderapi.service.exceptions.IdNotFoundException;
 import petfinder.petfinderapi.service.exceptions.NoContentException;
+import petfinder.petfinderapi.utilitarios.UploadFile;
 
 @Service
 public class ServicePet {
@@ -158,6 +162,15 @@ public class ServicePet {
         
         // falta lista de caracteristicas
         return pet;
+    }
+
+    public String postMimo(int id, MultipartFile multipart) {
+        try {
+            UploadFile.uploadFileLocally("img\\premios\\" + multipart.getOriginalFilename(), multipart);
+            return "ok";
+        } catch(Exception err) {
+            return err.getMessage();
+        }
     }
 
 }

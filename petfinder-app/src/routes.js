@@ -24,6 +24,7 @@ import ListaInstituicao from "./Pages/ListaInstituicao";
 import Perfil from "./Pages/Perfil";
 import React from "react";
 import './global.css';
+import AdicionarMimos from "./Pages/AdicionarMimos";
 
 function Rotas() {
     return (
@@ -52,6 +53,7 @@ function Rotas() {
                 <Route path="/perfil-usuario" element={<PerfilUsuario/>} />
                 <Route path="/lista-instituicao" element={<ListaInstituicao/>} />
                 <Route path="/perfil/:id" element={<Perfil/>} />
+                <Route path="/adicionar-mimos/:id" element={<AdicionarMimos/>} />
             </Routes>
         </BrowserRouter>
     );
