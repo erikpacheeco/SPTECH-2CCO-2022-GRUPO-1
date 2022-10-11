@@ -4,10 +4,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import petfinder.petfinderapi.entidades.Caracteristica;
 import petfinder.petfinderapi.entidades.Instituicao;
 import petfinder.petfinderapi.entidades.Pet;
@@ -28,6 +27,10 @@ import petfinder.petfinderapi.utilitarios.UploadFile;
 
 @Service
 public class ServicePet {
+
+    // active profile (dev or prod)
+    @Value("${spring.profiles.active}")
+    private String activeProfile;
     
     @Autowired
     private PetRepositorio petRepository;
@@ -166,8 +169,8 @@ public class ServicePet {
 
     public String postMimo(int id, MultipartFile multipart) {
         try {
-            UploadFile.uploadFileLocally("img\\premios\\" + multipart.getOriginalFilename(), multipart);
-            return "ok";
+            UploadFile.uploadFile(activeProfile, "img\\premios\\" + multipart.getOriginalFilename(), multipart);
+            return "success";
         } catch(Exception err) {
             return err.getMessage();
         }

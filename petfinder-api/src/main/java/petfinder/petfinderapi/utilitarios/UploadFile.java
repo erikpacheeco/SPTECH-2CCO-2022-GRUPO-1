@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.awscore.exception.AwsServiceException;
 import software.amazon.awssdk.core.exception.SdkClientException;
@@ -18,17 +16,12 @@ import software.amazon.awssdk.services.s3.model.S3Exception;
 
 @Component
 public class UploadFile {
-
-    // active profile (dev or prod)
-    @Value("${spring.profiles.active}")
-    private static String activeProfile;
     
     // bucket name
     private static final String BUCKET = "petfinder-bucket";
 
     // upload file
-    public static void uploadFile(String fileName, MultipartFile multipart) throws S3Exception, AwsServiceException, SdkClientException, IOException {
-        System.out.println(activeProfile);
+    public static void uploadFile(String activeProfile, String fileName, MultipartFile multipart) throws S3Exception, AwsServiceException, SdkClientException, IOException {
         if(activeProfile.equals("prod")) {
             // s3 bucket
             UploadFile.uploadFileS3(fileName, multipart);
@@ -46,9 +39,9 @@ public class UploadFile {
             FileOutputStream output = new FileOutputStream(path);
             output.write(multipart.getBytes());
             output.close();
-            // return new Message("file storage locally");
+            System.out.println("success upload to locally sotarage");;
         } catch (Exception e) {
-            // return new Message(e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
