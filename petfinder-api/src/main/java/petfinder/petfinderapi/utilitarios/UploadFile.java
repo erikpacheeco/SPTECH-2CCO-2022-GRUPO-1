@@ -24,7 +24,7 @@ public class UploadFile {
     public static void uploadFile(String activeProfile, String fileName, MultipartFile multipart) throws S3Exception, AwsServiceException, SdkClientException, IOException {
         if(activeProfile.equals("prod")) {
             // s3 bucket
-            UploadFile.uploadFileS3(fileName.replaceAll("\\", "/"), multipart);
+            UploadFile.uploadFileS3(fileName.replace("\\", "/"), multipart);
         } else if(activeProfile.equals("dev")) {
             // locally
             UploadFile.uploadFileLocally(fileName, multipart);
