@@ -111,7 +111,7 @@ function PerfilPetInstituicao() {
 
                     <div className="perfil-pet-instituicao-foto">
                         <h1>{infoPet.nome}</h1>
-                        <img src={api.defaults.baseURL+infoPet.caminhoImagem} alt="" />
+                        <img src={infoPet.caminhoImagem} alt="" />
                     </div>
 
                     <div className="perfil-pet-instituicao-informacao-container">

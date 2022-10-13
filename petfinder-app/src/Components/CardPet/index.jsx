@@ -11,7 +11,7 @@ export default function CardPet(props) {
     }
 
     return (
-        <figure className="card-pet-img-pet" onClick={props.onClick} style={{backgroundImage: `url("${api.defaults.baseURL}${props.backgroundImage}")`}}>
+        <figure className="card-pet-img-pet" onClick={props.onClick} style={{backgroundImage: `url("${props.backgroundImage}")`}}>
             <p>{props.nome}</p>
             <img
                 className={

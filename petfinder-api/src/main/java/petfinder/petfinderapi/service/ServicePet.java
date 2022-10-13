@@ -169,8 +169,7 @@ public class ServicePet {
 
     public String postMimo(int id, MultipartFile multipart) {
         try {
-            UploadFile.uploadFile(activeProfile, "img\\pet\\premios\\" + multipart.getOriginalFilename(), multipart);
-            return "success";
+            return UploadFile.uploadFile(activeProfile, "img\\premios\\" + multipart.getOriginalFilename(), multipart);
         } catch(Exception err) {
             return err.getMessage();
         }
