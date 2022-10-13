@@ -15,6 +15,7 @@ public class Leads {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private int usuario_id;
+    private String tipo;
     @NotNull
     private Date dataCadastro;
 
