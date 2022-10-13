@@ -37,15 +37,44 @@ export const dataPremioMes = [
 ]
 
 export const dataDemandaSemana = [
-    ["", "Demanda"], 
-    ["Pagamento", 38], 
-    ["Adoção", 43]
+    ["", "Pagamento", "Adoção"], 
+    ["Seg", 2, 1], 
+    ["Ter", 0, 2], 
+    ["Qua", 0, 0], 
+    ["Qui", 2, 2], 
+    ["Sex", 7, 4], 
+    ["Sab", 9, 6], 
+    ["Dom", 4, 3]
 ]
 
 export const dataDemandaMes = [
-    ["", "Demanda"], 
-    ["Pagamento", 163], 
-    ["Adoção", 195]
+    ["", "Pagamento", "Adoção"], 
+    ["Jan", 20, 16], 
+    ["Fev", 27, 18], 
+    ["Mar", 40, 34], 
+    ["Abr", 38, 36], 
+    ["Mai", 29, 30], 
+    ["Jun", 42, 44]
+]
+export const dataPadrinhoMes = [
+    ["", "Padrinhos"], 
+    ["Jan", 20], 
+    ["Fev", 18], 
+    ["Mar", 40], 
+    ["Abr", 38], 
+    ["Mai", 30], 
+    ["Jun", 42]
+]
+
+export const dataPadrinhoSemana = [
+    ["", "Padrinhos"], 
+    ["Seg", 2], 
+    ["Ter", 0], 
+    ["Qua", 1], 
+    ["Qui", 2], 
+    ["Sex", 4], 
+    ["Sab", 9], 
+    ["Dom", 4]
 ]
 
 function DashboardAdmin() {
@@ -56,9 +85,11 @@ function DashboardAdmin() {
     
     const [valorDataPremio, setValorDataPremio] = useState(dataPremioSemana);
     const [valorDataDemanda, setValorDataDemanda] = useState(dataDemandaSemana);
+    const [valorDataPadrinho, setValorDataPadrinho] = useState(dataPadrinhoSemana);
 
     var trocaBtnPremio = true;
     var trocaBtnDemanda = true;
+    var trocaBtnPadrinho = true;
 
     useEffect(() => {
         
@@ -225,12 +256,55 @@ function DashboardAdmin() {
 
                         <div className="dashboard-admin-metricas-graficos">
 
-                            <div className="dashboard-admin-metricas-grafico-padrinho">
-                                <h2>Padrinhos por mês</h2>
-                                <div className="dashboard-admin-metricas-grafico-container">
+                            <div className="dashboard-admin-metricas-grafico-1">
+                                <h2>Padrinhos por</h2>
+                                <div className="dashboard-admin-metricas-grafico-botoes">
+
+                                    <button
+                                        type="button"
+                                        className="btn-semana-padrinho"
+                                        id='btn-semana-padrinho'
+                                        onClick={() => {
+                                            if(trocaBtnPadrinho){
+                                                let btnSemanaPadrinho = document.getElementById("btn-semana-padrinho");
+                                                btnSemanaPadrinho.style.backgroundColor = "#7F2AB5";
+                                                btnSemanaPadrinho.style.color = "white";
+
+                                                let btnMesPadrinho = document.getElementById("btn-mes-padrinho");
+                                                btnMesPadrinho.style.backgroundColor = "white";
+                                                btnMesPadrinho.style.color = "#7F2AB5";
+                                            }
+                                            setValorDataPadrinho(dataPadrinhoSemana)
+                                        }}
+                                    >
+                                        Semana
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        className="btn-mes-padrinho"
+                                        id='btn-mes-padrinho'
+                                        onClick={() => {
+                                            if(trocaBtnPadrinho){
+                                                let btnSemanaPadrinho = document.getElementById("btn-semana-padrinho");
+                                                btnSemanaPadrinho.style.backgroundColor = "white";
+                                                btnSemanaPadrinho.style.color = "#7F2AB5";
+
+                                                let btnMesPadrinho = document.getElementById("btn-mes-padrinho");
+                                                btnMesPadrinho.style.backgroundColor = "#7F2AB5";
+                                                btnMesPadrinho.style.color = "white";
+                                            }
+                                            setValorDataPadrinho(dataPadrinhoMes);
+                                        }}
+                                    >
+                                        Mês
+                                    </button>
+                                </div>
+                                <div className="dashboard-admin-metricas-grafico-container">                            
                                     <Chart
-                                        chartType="Line"
-                                        data={data}
+                                        id="chart-premio"
+                                        chartType="Bar"
+                                        data={valorDataPadrinho}
                                         width="100%"
                                         height="100%"
                                         legendToggle
