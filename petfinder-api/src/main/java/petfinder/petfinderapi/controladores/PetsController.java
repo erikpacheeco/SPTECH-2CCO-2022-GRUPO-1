@@ -16,6 +16,7 @@ import petfinder.petfinderapi.requisicao.PetRequest;
 import petfinder.petfinderapi.resposta.Message;
 import petfinder.petfinderapi.resposta.PetPerfil;
 import petfinder.petfinderapi.resposta.PetPerfilEdicao;
+import petfinder.petfinderapi.resposta.PremioDto;
 import petfinder.petfinderapi.rest.ClienteCep;
 import petfinder.petfinderapi.rest.DistanciaResposta;
 import petfinder.petfinderapi.service.ServicePet;
@@ -694,5 +695,14 @@ public class PetsController implements GerenciadorArquivos {
             listaPet.add(petsDoentes.get(i));
         }
         return ResponseEntity.status(200).body(listaPet);
+    }
+
+    @GetMapping("/premios/get/{idPet}")
+    public ResponseEntity getPremiosByPetId(@PathVariable int idPet) {
+        List<PremioDto> premios = repositoryPremio.findByPetIdDto(idPet);
+        if (premios.isEmpty()) {
+            return ResponseEntity.status(204).build();
+        }
+        return ResponseEntity.status(200).body(premios);
     }
 }
