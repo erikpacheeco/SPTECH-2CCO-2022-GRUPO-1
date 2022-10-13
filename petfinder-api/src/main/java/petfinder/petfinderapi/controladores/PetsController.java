@@ -22,10 +22,6 @@ import petfinder.petfinderapi.rest.DistanciaResposta;
 import petfinder.petfinderapi.service.ServicePet;
 import petfinder.petfinderapi.utilitarios.FilaObj;
 import petfinder.petfinderapi.utilitarios.PilhaObj;
-import petfinder.petfinderapi.utilitarios.UploadFile;
-import software.amazon.awssdk.awscore.exception.AwsServiceException;
-import software.amazon.awssdk.core.exception.SdkClientException;
-import software.amazon.awssdk.services.s3.model.S3Exception;
 import petfinder.petfinderapi.utilitarios.GerenciadorArquivos;
 import petfinder.petfinderapi.utilitarios.ListaObj;
 import javax.validation.Valid;
@@ -270,7 +266,7 @@ public class PetsController implements GerenciadorArquivos {
         return ResponseEntity.status(400).build();
     }
 
-    @GetMapping("/premios")
+    @GetMapping("/static/img/premios")
     @Operation(description = "Endpoint que retorna uma lista de todos os premios")
     public ResponseEntity<Object> getPremios() {
         List<Premio> lista = repositoryPremio.findAll();
@@ -526,7 +522,7 @@ public class PetsController implements GerenciadorArquivos {
         return ResponseEntity.status(200).body(premios);
     }
 
-    @GetMapping("/premios/{idPet}")
+    @GetMapping("/static/img/premios/{idPet}")
     @Operation(description = "Endpoint para retornar todos os mimos de determinado pet")
     public ResponseEntity<List<Premio>> getByMimosPet(@PathVariable int idPet) {
         Optional<Pet> pet = repositoryPet.findById(idPet);

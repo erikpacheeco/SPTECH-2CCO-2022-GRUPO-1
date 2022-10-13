@@ -11,23 +11,22 @@ import testeGatinho from "../../Images/png_img/testeGatinho.jpg";
 import noPremio from "../../Images/png_img/gatinhu.png";
 
 function verificarPremio(mimos){
-    var teste = true;
 
     if(mimos.length > 0){
         return (
                 <div className="adicionar-mimos-box-lista">
-                    <CardPetSimples srcImg={testeGatinho}/>
-                    <CardPetSimples srcImg={testeGatinho}/>
-                    <CardPetSimples srcImg={testeGatinho}/>
-                    <CardPetSimples srcImg={testeGatinho}/>
-                    <CardPetSimples srcImg={testeGatinho}/>         
+                    {
+                        mimos.map(m => (
+                            <CardPetSimples srcImg={m.img}/>
+                        ))
+                    }  
                 </div>
             )
     } else {
         return (
             <div className="adicionar-mimos-box-Nolista">
                 <span>Ainda não há prêmio</span>  
-                <img src={noPremio} alt="" />
+                <img src={noPremio} alt="Gato triste" />
             </div>
         )
     }
@@ -43,6 +42,16 @@ function AdicionarMimos() {
 
     // params
     const params = useParams();
+
+    useEffect(() => {
+        api.get(`/pets/premios/get/${params.id}`).then(res => {
+            console.log(res.data);
+            if(res.status == 200) {
+                setMimos(res.data);
+            }
+        }).catch(error => {console.log(error)})
+        
+      }, []);
 
     // init
     useEffect(() => {

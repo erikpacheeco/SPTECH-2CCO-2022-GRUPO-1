@@ -181,7 +181,7 @@ function PerfilPetInstituicao() {
                     </div>    
                 </div>
                 <div className="perfil-pet-instituicao-btn">
-                    <button>Adicionar Mimos</button>
+                    <button onClick={() => navigate(`/adicionar-mimos/${idPet.id}`)}>Adicionar Mimos</button>
                     <button type="submit" onClick={handleSubmitPet}>Salvar</button>
                 </div>
             </div>
