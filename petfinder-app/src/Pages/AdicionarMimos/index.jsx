@@ -5,11 +5,38 @@ import { useParams } from "react-router-dom";
 import api from "../../Api";
 import HeaderApp from "../../Components/HeaderApp";
 import './adicionar-mimos.css';
+import IconImg from "../../Images/Icon-img.svg"
+import CardPetSimples from "../../Components/CardPetSimples/card-pet-simples";
+import testeGatinho from "../../Images/png_img/testeGatinho.jpg";
+import noPremio from "../../Images/png_img/gatinhu.png";
+
+function verificarPremio(mimos){
+    var teste = true;
+
+    if(mimos.length > 0){
+        return (
+                <div className="adicionar-mimos-box-lista">
+                    <CardPetSimples srcImg={testeGatinho}/>
+                    <CardPetSimples srcImg={testeGatinho}/>
+                    <CardPetSimples srcImg={testeGatinho}/>
+                    <CardPetSimples srcImg={testeGatinho}/>
+                    <CardPetSimples srcImg={testeGatinho}/>         
+                </div>
+            )
+    } else {
+        return (
+            <div className="adicionar-mimos-box-Nolista">
+                <span>Ainda não há prêmio</span>  
+                <img src={noPremio} alt="" />
+            </div>
+        )
+    }
+}
 
 function AdicionarMimos() {
 
     // states
-    const [mimos, setMimos] = useState([1, 2, 3, 4, 5, 6, 7, 8]);
+    const [mimos, setMimos] = useState([]);
     const [mimo, setMimo] = useState({});
     const [pet, setPet] = useState({});
     const [formData, setFormData] = useState(new FormData());
@@ -57,24 +84,33 @@ function AdicionarMimos() {
     return (
     <>
         <HeaderApp />
+        <div className="adicionar-mimos-root">
+            <div className="adicionar-mimos-root-container">
+                <h1  className="adicionar-mimos-titulo">Prêmios do Pet</h1>
+                <div className="adicionar-mimos-box-premio">
 
-        <div className="adicionar-mimos-main-container">
-            <h1>Mimos do Pet</h1>
+                    <div className="adicionar-mimos-adicionar">
+                        <div className="adicionar-mimos-container container-adicionar">
+                            <h2 className="adicionar-mimos-subtitulo">Adicionar Prêmio</h2>
+                            <form id="idForm" method="post" target="/test" encType="multipart/form-data" onSubmit={onHandleSubmit} className="adicionar-mimos-form">
+                                <label for="file" className="adicionar-mimos-label-img">
+                                    <img src={IconImg} alt="icone de imagem" />
+                                    <span>Adicionar Imagem</span>
+                                </label>
+                                <input className="adicionar-mimos-input-img" type="file" id="file" name="file" onChange={(evt) => setMimo({file:evt.target.files[0]})}/>
+                                <button className="adicionar-mimos-btn-adicionar" type="submit">Adicionar</button>
+                            </form>
+                        </div>
+                    </div>
 
-            {/* form de envio de mimo */}
-            <h2>Adicionar Mimo</h2>
-            <form id="idForm" method="post" target="/test" encType="multipart/form-data" onSubmit={onHandleSubmit} className="adicionar-mimos-form">
-                <input type="file" name="file" onChange={(evt) => setMimo({file:evt.target.files[0]})}/>
-                <button type="submit">submit</button>
-            </form>
+                    <div className="adicionar-mimos-lista">
+                        <div className="adicionar-mimos-container">
+                            <h2 className="adicionar-mimos-subtitulo">Lista de Prêmio</h2>
+                            {verificarPremio(mimos)}
+                        </div>
+                    </div>
 
-            {/* lista de mimos */}
-            <div className="adicionar-mimos-lista-mimos-container">
-                <h2>Lista de mimos</h2>
-
-                {mimos.map(mimo => {
-                    return (<div key={mimo} className="adicionar-mimos-card">mimo</div>);
-                })}
+                </div>
             </div>
         </div>
     </>

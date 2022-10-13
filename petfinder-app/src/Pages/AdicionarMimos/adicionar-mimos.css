@@ -1,10 +1,167 @@
-.adicionar-mimos-main-container {
-    background-color: #535353;
-    width: 50%;
-    margin-top: 50px;
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 10px;
-    padding: 10px;
-    color: white;
+.adicionar-mimos-root {
+    height: 85vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
+.adicionar-mimos-root-container{
+    width: 65%;
+    height: 95%;
+    display: flex;
+    flex-direction: column
+}
+
+.adicionar-mimos-titulo{
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 36px;
+    color: #7F2AB5;
+
+    margin: 20px 0px;
+}
+
+.adicionar-mimos-box-premio{
+    display: flex;
+    justify-content: space-between;
+    height: 85%;
+}
+
+.adicionar-mimos-adicionar{
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    width: 30%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    border-radius: 10px;
+}
+
+.adicionar-mimos-lista{
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    width: 65%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    border-radius: 10px;
+}
+
+.adicionar-mimos-container{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    margin: 0px 40px;
+}
+
+.container-adicionar{
+    align-items: center;
+}
+
+.adicionar-mimos-subtitulo{
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    color: #7F2AB5;
+    margin: 20px 0px;
+    width: fit-content;
+}
+
+.adicionar-mimos-form{
+    height: 90%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+.adicionar-mimos-input-img{
+    display: none;
+}
+
+.adicionar-mimos-label-img{
+    width: 190px;
+    height: 190px;
+    border: 2px solid #7F2AB5;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #e9e9e9;
+    margin-bottom: 20px
+}
+
+.adicionar-mimos-label-img img{
+    width: 25px;
+    margin-bottom: 12px;
+}
+
+.adicionar-mimos-btn-adicionar {
+    width: 190px;
+    height: 50px;
+
+    background: #7E29B4;
+    border-radius: 10px;
+
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+
+    color: #FFFFFF;
+}
+
+.adicionar-mimos-box-lista{
+    height: 90%;
+    width: 100%;
+    overflow: auto;
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.adicionar-mimos-box-Nolista{
+    height: 90%;
+    width: 100%;
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.adicionar-mimos-box-Nolista span {
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 32px;
+    color: #000000;
+}
+
+
+.adicionar-mimos-box-lista::-webkit-scrollbar {
+    width: 12px;
+}
+
+.adicionar-mimos-box-lista::-webkit-scrollbar-track {
+    background-color: rgba(218, 218, 218, 0.5);
+    border-radius: 5px;
+}
+
+.adicionar-mimos-box-lista::-webkit-scrollbar-thumb {
+    background-color: rgba(127, 41, 180, 1);
+    border-radius: 20px;
+    border: 3px solid rgba(218, 218, 218);
+}
+
