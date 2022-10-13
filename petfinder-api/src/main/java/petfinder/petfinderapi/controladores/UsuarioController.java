@@ -526,6 +526,24 @@ public class UsuarioController {
         return ResponseEntity.status(201).body(ultimoId);
     }
 
+    @GetMapping("/visitante")
+    @Operation(description = "Endpoint para pegar os visitantes")
+    public ResponseEntity getUsuarioVisitante() {
+
+        List visitantes = visitantesRepository.findAll();
+
+        return ResponseEntity.status(201).body(visitantes);
+    }
+
+    @GetMapping("/visitante/{ano}/{mes}")
+    @Operation(description = "Endpoint para pegar os visitantes por mês")
+    public ResponseEntity getUsuarioVisitantePorMes(@PathVariable String ano, @PathVariable String mes) {
+
+        List visitantes = visitantesRepository.getVisitantesPorMes(ano, mes);
+
+        return ResponseEntity.status(201).body(visitantes);
+    }
+
     @PostMapping("/visitante")
     @Operation(description = "Endpoint para inserir novo visitante")
     public ResponseEntity postUsuarioVisitante(@RequestBody Visitantes novoVisitante) {
@@ -546,6 +564,42 @@ public class UsuarioController {
         long ultimoId = leadsRepository.count();
 
         return ResponseEntity.status(201).body(ultimoId);
+    }
+
+    @GetMapping("/lead-instituicao")
+    @Operation(description = "Endpoint para pegar os leads do ultimo mês")
+    public ResponseEntity getLeadListaUltimoMes() {
+
+        List visitantes = leadsRepository.getUltimoMês();
+
+        return ResponseEntity.status(201).body(visitantes);
+    }
+
+    @GetMapping("/lead/{ano}/{mes}")
+    @Operation(description = "Endpoint para pegar os leads por mês")
+    public ResponseEntity getLeadPorMes(@PathVariable String ano, @PathVariable String mes) {
+
+        List visitantes = leadsRepository.getLeadPorMes(ano, mes);
+
+        return ResponseEntity.status(201).body(visitantes);
+    }
+
+    @GetMapping("/lead-usuario/{ano}/{mes}")
+    @Operation(description = "Endpoint para pegar os leads usuários por mês")
+    public ResponseEntity getLeadUsuarioPorMes(@PathVariable String ano, @PathVariable String mes) {
+
+        List visitantes = leadsRepository.getLeadUsuarioPorMes(ano, mes);
+
+        return ResponseEntity.status(201).body(visitantes);
+    }
+
+    @GetMapping("/lead-instituicao/{ano}/{mes}")
+    @Operation(description = "Endpoint para pegar os leads instituição por mês")
+    public ResponseEntity getLeadInstituicaoPorMes(@PathVariable String ano, @PathVariable String mes) {
+
+        List visitantes = leadsRepository.getLeadInstituicaoPorMes(ano, mes);
+
+        return ResponseEntity.status(201).body(visitantes);
     }
 
     @PostMapping("/lead")

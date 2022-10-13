@@ -175,6 +175,7 @@ CREATE TABLE visitantes (
 CREATE TABLE leads (
   id INT PRIMARY KEY AUTO_INCREMENT,
   usuario_id INT NOT NULL,
+  tipo VARCHAR(45) NOT NULL,
   data_cadastro DATE
 );
 

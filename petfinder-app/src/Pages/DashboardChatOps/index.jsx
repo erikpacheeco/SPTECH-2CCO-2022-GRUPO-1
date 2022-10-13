@@ -11,17 +11,26 @@ import perfil from "../../Images/people.svg"
 import demanda from "../../Images/attention-icon.svg"
 import headerFunctions from "../../functions/headerFunctions";
 
-export const dataDemandaMes = [
-    ["", "Demanda"],
-    ["Pagamento", 102], 
-    ["Adoção", 127]
-];
-
 export const dataDemandaSemana = [
-    ["", "Demanda"],
-    ["Pagamento", 38], 
-    ["Adoção", 43]
-];
+    ["", "Pagamento", "Adoção"], 
+    ["Seg", 2, 1], 
+    ["Ter", 0, 2], 
+    ["Qua", 0, 0], 
+    ["Qui", 2, 2], 
+    ["Sex", 7, 4], 
+    ["Sab", 9, 6], 
+    ["Dom", 4, 3]
+]
+
+export const dataDemandaMes = [
+    ["", "Pagamento", "Adoção"], 
+    ["Jan", 20, 16], 
+    ["Fev", 27, 18], 
+    ["Mar", 40, 34], 
+    ["Abr", 38, 36], 
+    ["Mai", 29, 30], 
+    ["Jun", 42, 44]
+]
 
 export const options = {
     is3D: true

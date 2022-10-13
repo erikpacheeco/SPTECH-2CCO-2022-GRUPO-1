@@ -37,7 +37,7 @@ const headerFunction = {
                 <SideBarItem icon={Dashboard} label="Dashboard" navigateTo={"/dashboard-admin"}/>,
                 <SideBarItem icon={Pets} label="Pets" navigateTo={"/lista-pet"}/>,
                 <SideBarItem icon={Demandas} label="Demandas" navigateTo={"/chat"}/>,
-                <SideBarItem icon={Padrinhos} label="Padrinhos" navigateTo={"/"}/>,
+                <SideBarItem icon={Padrinhos} label="Padrinhos" navigateTo={"/lista-padrinho"}/>,
                 <SideBarItem icon={MeuPerfil} label="Meu Perfil" navigateTo={`/perfil/${infoUsuario.id}`}/>,
                 <SideBarItem icon={UsuariosCadastrados} label="Colaboradores Cadastrados" navigateTo={`/lista-colaborador/${infoUsuario.id}`}/>
             ]
@@ -73,7 +73,7 @@ const headerFunction = {
         } else if(nivelAcesso == "adm"){
             listaHeader = [
                 <NavItem isSelected={paginaAtual == "/dashboard-admin" ? true : false} label="Dashboard" navigateTo={"/dashboard-admin"}/>,
-                <NavItem isSelected={paginaAtual == "" ? true : false} label="Padrinhos" navigateTo={"/dashboard-admin"}/>,
+                <NavItem isSelected={paginaAtual == "" ? true : false} label="Padrinhos" navigateTo={"/lista-padrinho"}/>,
                 <NavItem isSelected={paginaAtual == "/chat" ? true : false}label="Demandas" navigateTo={"/chat"}/>
             ]
         } else if(nivelAcesso == "chatops"){
