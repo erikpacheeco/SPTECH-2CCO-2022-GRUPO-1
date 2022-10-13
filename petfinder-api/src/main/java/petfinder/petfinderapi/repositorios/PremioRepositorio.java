@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 
 // import petfinder.petfinderapi.entidades.Pet;
 import petfinder.petfinderapi.entidades.Premio;
+import petfinder.petfinderapi.resposta.PremioDto;
 
 import java.util.List;
 
@@ -24,5 +25,8 @@ public interface PremioRepositorio extends JpaRepository<Premio, Integer> {
 
     @Query("SELECT count(distinct p.pet.id) FROM Premio p WHERE p.pet.instituicao.id = ?1")
     public Integer countPetSemPremioInstituicao(int idInstituicao);
+
+    @Query("SELECT new petfinder.petfinderapi.resposta.PremioDto(p) FROM Premio p where p.pet.id = ?1")
+    List<PremioDto> findByPetIdDto(int id);
 
 }
