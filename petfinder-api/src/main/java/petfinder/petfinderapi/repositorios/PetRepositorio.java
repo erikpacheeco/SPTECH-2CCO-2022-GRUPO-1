@@ -41,5 +41,4 @@ public interface PetRepositorio extends JpaRepository<Pet, Integer> {
 
     @Query("SELECT DISTINCT p.especie FROM Pet p")
     public List<String> findDistinctByEspecie();
-
 }

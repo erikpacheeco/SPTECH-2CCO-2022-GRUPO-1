@@ -57,7 +57,7 @@ VALUES
 INSERT INTO
 premio(pet_id, img)
 VALUES
-(1, '/img/pets/antonio.png'),
+(1, '/img/premios/antonio.png'),
 (2, '/img/pets/antonio-gabriel.png'),
 (1, '/img/pets/antonio.png');
 
