@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Timestamp;
+import java.util.Date;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.awscore.exception.AwsServiceException;
@@ -21,32 +23,37 @@ public class UploadFile {
     private static final String BUCKET = "petfinder-bucket";
 
     // upload file
-    public static void uploadFile(String activeProfile, String fileName, MultipartFile multipart) throws S3Exception, AwsServiceException, SdkClientException, IOException {
+    public static String uploadFile(String activeProfile, String fileName, MultipartFile multipart) throws S3Exception, AwsServiceException, SdkClientException, IOException {
+        Timestamp timestamp = new Timestamp(new Date().getTime());
+        fileName = fileName.replace(".", timestamp.getTime() + ".");
         if(activeProfile.equals("prod")) {
             // s3 bucket
-            UploadFile.uploadFileS3(fileName.replace("\\", "/"), multipart);
+            return "https://petfinder-bucket.s3.amazonaws.com/" + UploadFile.uploadFileS3(fileName.replace("\\", "/"), multipart);
         } else if(activeProfile.equals("dev")) {
             // locally
-            UploadFile.uploadFileLocally(fileName, multipart);
+            return UploadFile.uploadFileLocally(fileName, multipart).replace("\\", "/");
+        } else {
+            return null;
         }
-    }   
+    }
 
     // save file locally
-    public static void uploadFileLocally(String fileName, MultipartFile multipart) {
+    public static String uploadFileLocally(String fileName, MultipartFile multipart) {
         try {
             File path = new File(".\\src\\main\\resources\\static\\" + fileName);
             path.createNewFile();
             FileOutputStream output = new FileOutputStream(path);
             output.write(multipart.getBytes());
             output.close();
-            System.out.println("success upload to locally sotarage");;
+            return "http://localhost:8080/" + fileName.replace("\\", "/");
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            return null;
         }
     }
 
     // send file to bucket
-    private static void uploadFileS3(String fileName, MultipartFile multipart) throws S3Exception, AwsServiceException, SdkClientException, IOException {
+    private static String uploadFileS3(String fileName, MultipartFile multipart) throws S3Exception, AwsServiceException, SdkClientException, IOException {
 
         InputStream inputStream = multipart.getInputStream();
 
@@ -69,5 +76,7 @@ public class UploadFile {
             request,
             RequestBody.fromInputStream(inputStream, inputStream.available())
         );
+
+        return fileName;
     }
 }
