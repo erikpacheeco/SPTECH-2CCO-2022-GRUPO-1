@@ -22,6 +22,7 @@ import ChatUsuario from "./Pages/ChatUsuario";
 import PerfilUsuario from "./Pages/PerfilUsuario";
 import ListaInstituicao from "./Pages/ListaInstituicao";
 import Perfil from "./Pages/Perfil";
+import ListaPadrinho from "./Pages/ListaPadrinho";
 import React from "react";
 import './global.css';
 import AdicionarMimos from "./Pages/AdicionarMimos";
@@ -54,6 +55,7 @@ function Rotas() {
                 <Route path="/lista-instituicao" element={<ListaInstituicao/>} />
                 <Route path="/perfil/:id" element={<Perfil/>} />
                 <Route path="/adicionar-mimos/:id" element={<AdicionarMimos/>} />
+                <Route path="/lista-padrinho" element={<ListaPadrinho/>} />
             </Routes>
         </BrowserRouter>
     );
