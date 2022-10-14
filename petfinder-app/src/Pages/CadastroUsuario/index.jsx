@@ -2,7 +2,6 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import FloatResgate from "../../Components/FloatResgate";
 import HeaderBasic from "../../Components/HeaderBasic"
 import "./cadastro-usuario.css"
 import api from "../../Api"
@@ -417,7 +416,6 @@ function CadastroUsuario() {
 
                 </form>
             </div>
-            <FloatResgate />
 
             <VLibras forceOnload={true}></VLibras>
         </>
