@@ -67,7 +67,7 @@ public class PetsController implements GerenciadorArquivos {
     private ServicePet servicePet;
 
     @PostMapping("/{id}/premios")
-    public ResponseEntity<String> postMimo(@PathVariable int id, @RequestParam("file") MultipartFile multipart) {
+    public ResponseEntity<PremioDto> postMimo(@PathVariable int id, @RequestParam("file") MultipartFile multipart) {
         return ok(servicePet.postMimo(id, multipart));
     }
 
