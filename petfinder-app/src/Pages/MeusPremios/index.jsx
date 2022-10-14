@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import "./meusPremios.css";
 import HeaderApp from "../../Components/HeaderApp";
 import img from "../../Images/erase.svg";
 import VLibras from "@djpfs/react-vlibras"
-import headerFunctions from "../../functions/headerFunctions";
 
 export default function meusPremios() {
   return (

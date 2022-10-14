@@ -2,8 +2,6 @@ import "./lista-instituicao.css";
 import HeaderApp from "../../Components/HeaderApp";
 import React, { useEffect, useState } from "react";
 import headerFunctions from "../../functions/headerFunctions";
-import SideBarItem from "../../Components/SideBarItem";
-import NavItem from "../../Components/NavItem";
 import api from "../../Api";
 import InstituicaoListItem from "../../Components/InstituicaoListaItem"
 function ListaInstituicao() {

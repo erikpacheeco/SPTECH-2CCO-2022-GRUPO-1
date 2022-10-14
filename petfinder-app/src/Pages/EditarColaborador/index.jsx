@@ -21,7 +21,7 @@ function EditarColaborador() {
     const swal = withReactContent(Swal);
 
     useEffect(() => {
-        if(values.nome == "" && values.cargo == ""){
+        if(values.nome === "" && values.cargo === ""){
             api.get(`/usuarios/${idColaborador.id}`).then((res) => {
                 setInfoColaborador(res.data)
                 setValues({nome:`${res.data.nome}`, cargo:`${res.data.nivelAcesso}`})

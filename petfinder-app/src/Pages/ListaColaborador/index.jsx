@@ -1,10 +1,9 @@
-import styles from "./styles.css";
+import "./styles.css";
 import HeaderApp from "../../Components/HeaderApp";
 import ColaboradorListaItem from '../../Components/ColaboradorListaItem';
 import React, {useState, useEffect} from 'react';
 import api from "../../Api";
 import VLibras from "@djpfs/react-vlibras"
-import headerFunctions from "../../functions/headerFunctions";
 import { useNavigate } from "react-router-dom";
 import plus from "../../Images/plus.svg";
 
@@ -12,7 +11,6 @@ import plus from "../../Images/plus.svg";
 function ListaColaborador(){
     
     const [colaborador, setColaborador] = useState([]);
-    const [user, setUser] = useState();
     
     const navigate = useNavigate();
     
@@ -44,7 +42,7 @@ function ListaColaborador(){
                         <div className="lista-colaborador-tittle">
                             <h2>Colaboradores Cadastrados</h2>
                             <div className="lista-colaborador-add-icon" onClick={handleAddItemList}>
-                                <img src={plus} />
+                                <img src={plus} alt="plus"/>
                             </div>
                         </div>
                         <div className="lista-colaborador">

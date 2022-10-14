@@ -1,7 +1,6 @@
 import doente from "../../Images/png_img/saude_2.png"
 import "./card-pet.css"
 import React from "react";
-import api from "../../Api";
 
 export default function CardPet(props) {
 
@@ -18,6 +17,7 @@ export default function CardPet(props) {
                     props.isDoente ? ("card-pet-info") : ("card-pet-hide")
                 } src={doente}
                 title="Este animal possui alguma doença atualmente "
+                alt=""
             />
         </figure>
     );

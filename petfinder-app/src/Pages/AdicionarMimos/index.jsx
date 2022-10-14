@@ -7,7 +7,6 @@ import HeaderApp from "../../Components/HeaderApp";
 import './adicionar-mimos.css';
 import IconImg from "../../Images/Icon-img.svg"
 import CardPetSimples from "../../Components/CardPetSimples/card-pet-simples";
-import testeGatinho from "../../Images/png_img/testeGatinho.jpg";
 import noPremio from "../../Images/png_img/gatinhu.png";
 
 function verificarPremio(mimos){
@@ -16,8 +15,8 @@ function verificarPremio(mimos){
         return (
                 <div className="adicionar-mimos-box-lista">
                     {
-                        mimos.map(m => (
-                            <CardPetSimples srcImg={m.img}/>
+                        mimos.map((m, index) => (
+                            <CardPetSimples srcImg={m.img} key={index}/>
                         ))
                     }  
                 </div>
@@ -46,7 +45,7 @@ function AdicionarMimos() {
     useEffect(() => {
         api.get(`/pets/premios/get/${params.id}`).then(res => {
             console.log(res.data);
-            if(res.status == 200) {
+            if(res.status === 200) {
                 setMimos(res.data);
             }
         }).catch(error => {console.log(error)})
@@ -66,9 +65,6 @@ function AdicionarMimos() {
     
     useEffect(() => {
         setFormData(new FormData(document.querySelector("#idForm")));
-        for (const value of formData.values()) {
-            console.log(value);
-        }
     }, [mimo]);
 
     function onHandleSubmit(evt) {
@@ -84,6 +80,12 @@ function AdicionarMimos() {
         )
         .then(res => {
             console.log(res.data);
+            if (res.status === 200) {
+                setTimeout(() => {
+                    setMimos(oldState => [...oldState, res.data]);
+                }, 1000);
+            }
+            console.log("mimos", mimos);
         })
         .catch(err => {
             console.error(err);
@@ -95,14 +97,14 @@ function AdicionarMimos() {
         <HeaderApp />
         <div className="adicionar-mimos-root">
             <div className="adicionar-mimos-root-container">
-                <h1  className="adicionar-mimos-titulo">Prêmios do Pet</h1>
+                <h1  className="adicionar-mimos-titulo">Prêmios do(a) {pet.nome}</h1>
                 <div className="adicionar-mimos-box-premio">
 
                     <div className="adicionar-mimos-adicionar">
                         <div className="adicionar-mimos-container container-adicionar">
                             <h2 className="adicionar-mimos-subtitulo">Adicionar Prêmio</h2>
                             <form id="idForm" method="post" target="/test" encType="multipart/form-data" onSubmit={onHandleSubmit} className="adicionar-mimos-form">
-                                <label for="file" className="adicionar-mimos-label-img">
+                                <label htmlFor="file" className="adicionar-mimos-label-img">
                                     <img src={IconImg} alt="icone de imagem" />
                                     <span>Adicionar Imagem</span>
                                 </label>

@@ -8,12 +8,12 @@ function FloatResgate() {
             id="idSolicitar"
             className="float-resgate-container"
             onMouseOver={()=>{
-                if(document.getElementById("textSolicitar").style.display == "none"){
+                if(document.getElementById("textSolicitar").style.display === "none"){
                     document.getElementById("textSolicitar").style.display = "block"
                 }
             }}
             onMouseOut={()=>{
-                if(document.getElementById("textSolicitar").style.display == "block"){
+                if(document.getElementById("textSolicitar").style.display === "block"){
                     document.getElementById("textSolicitar").style.display = "none"
                 }
             }}

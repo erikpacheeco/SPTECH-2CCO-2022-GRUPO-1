@@ -35,8 +35,8 @@ function CadastroColaborador() {
     }
     
     useEffect(() => {
-        if(valuesUsuario.nome == "" &&
-        valuesUsuario.email == "" && valuesUsuario.senha == ""){
+        if(valuesUsuario.nome === "" &&
+        valuesUsuario.email === "" && valuesUsuario.senha === ""){
             api.get(`/usuarios/${idColaborador.id}`).then((res) => {
                 setValuesUsuarioInstituicao(res.data)
             })   

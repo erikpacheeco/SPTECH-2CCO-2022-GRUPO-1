@@ -2,16 +2,10 @@ import './styles.css';
 import userIcon from "../../Images/png_img/user_icon.png";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useParams } from 'react-router-dom';
 
 function ColaboradorListaItem(props){
 
-    function handleEditItem() {
-        console.log("edit!");
-    }
-
     const navigate  = useNavigate()
-    const idColaborador = useParams()
 
     return(
         <>

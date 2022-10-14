@@ -170,7 +170,7 @@
 .perfil-pet-instituicao-btn {
     display: flex;
     width: 90%;
-    justify-content: end;
+    justify-content: flex-end;
 }
 
 .perfil-pet-instituicao-btn button {

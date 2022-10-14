@@ -12,7 +12,6 @@ export default function HomeUser() {
 
     const [allPets, setAllPets] = useState([]);
     const [sickPets, setSickPets] = useState([]);
-    const [cont, setCont] = useState(0);
     const navigate = useNavigate()
 
     const responsive = {
