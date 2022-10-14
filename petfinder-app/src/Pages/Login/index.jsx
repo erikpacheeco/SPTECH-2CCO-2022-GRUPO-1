@@ -2,7 +2,6 @@ import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
-import FloatResgate from "../../Components/FloatResgate";
 import HeaderBasic from "../../Components/HeaderBasic";
 import "./login.css"
 import api from "../../Api"
@@ -147,7 +146,6 @@ function Login() {
                     </form>
                 </div>
             </div>
-            <FloatResgate />
 
             <VLibras forceOnload={true}></VLibras>
         </>

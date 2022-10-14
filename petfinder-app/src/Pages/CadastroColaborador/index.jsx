@@ -2,7 +2,6 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import FloatResgate from "../../Components/FloatResgate";
 import "./cadastro-colaborador.css";
 import api from "../../Api"
 import React from "react";
@@ -164,9 +163,6 @@ function CadastroColaborador() {
 
                 </form>
             </div>
-
-
-            <FloatResgate />
 
             <VLibras forceOnload={true}></VLibras>
         </>
