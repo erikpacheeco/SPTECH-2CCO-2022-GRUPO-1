@@ -701,4 +701,13 @@ public class PetsController implements GerenciadorArquivos {
         }
         return ResponseEntity.status(200).body(premios);
     }
+
+    @GetMapping("/apadrinhamentos/usuario/{idUser}")
+    public ResponseEntity getPetsApadrinhadosPorUser(@PathVariable int idUser) {
+        List<PetPerfil> pets = repositoryPet.findPetByDemandaApadrinhamentoAndUsuario(idUser);
+        if (pets.isEmpty()) {
+            return ResponseEntity.status(204).build();
+        }
+        return ResponseEntity.status(200).body(pets);
+    }
 }
