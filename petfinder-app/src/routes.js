@@ -45,7 +45,7 @@ function Rotas() {
                 <Route path="/cadastro-adm/:id" element={<CadastroAdm/>} />
                 <Route path="/perfil-pet-usuario/:id" element={<PerfilPetUsuario/>} /> 
                 <Route path="/perfil-pet-instituicao/:id" element={<PerfilPetInstituicao/>} /> 
-                <Route path="/meus-premios" element={<MeusPremios/>} />
+                <Route path="/meus-premios/:id" element={<MeusPremios/>} />
                 <Route path="/ver-mais" element={<VerMais/>} />
                 <Route path="/dashboard-sysadmin" element={<DashboardSysAdmin/>} />
                 <Route path="/dashboard-chatops" element={<DashboardChatOps/>} />
