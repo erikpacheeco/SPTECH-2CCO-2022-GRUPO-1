@@ -1,14 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./meusPremios.css";
 import HeaderApp from "../../Components/HeaderApp";
 import img from "../../Images/erase.svg";
-import VLibras from "@djpfs/react-vlibras"
-import headerFunctions from "../../functions/headerFunctions";
+import VLibras from "@djpfs/react-vlibras";
+import api from "../../Api";
+import CardPetSimples from "../../Components/CardPetSimples/card-pet-simples";
 
 export default function meusPremios() {
+  const infoUsuario = JSON.parse(localStorage.getItem("petfinder_user"));
+  const [instituicao, setInstituicao] = useState([]);
+  const [allPets, setAllPets] = useState([]);
+  const [allPremios, setAllPremios] = useState([]);
+
+  useEffect(() => {
+    api.get(`/instituicoes/apadrinhamentos/usuario/${infoUsuario.id}`)
+      .then((res) => {
+        setInstituicao(res.data);
+      });
+    api.get(`/pets/apadrinhamentos/usuario/${infoUsuario.id}`).then((res) => {
+      setAllPets(res.data);
+    });
+    api.get(`/demandas/premios/get/${infoUsuario.id}`).then((res) => {
+      setAllPremios(res.data);
+    });
+  }, []);
+
   return (
     <>
-      <HeaderApp/>
+      <HeaderApp />
 
       <div class="premios-container-geral">
         <h1 className="premios-h1-titulo">Meus Prêmios</h1>
@@ -21,17 +40,22 @@ export default function meusPremios() {
             <h2 className="premios-h2-filtros-titulos">Instituições</h2>
 
             <div className="premios-container-filtro-backend">
-              <p className="premios-p-filtro">Delivery de gatinhos</p>
-              <input type="checkbox" className="premios-check-box-filtro" />
+              {instituicao.map((i) => (
+                <p className="ver-mais-p-filtro">{i.nome}</p>
+              ))}
             </div>
 
             <h2 className="premios-h2-filtros-titulos">Pets</h2>
+            {allPets.map((p) => (
+              <p className="ver-mais-p-filtro">{p.nome}</p>
+            ))}
           </div>
 
           <div className="premios-fotos-container">
-            {/* <img src={} alt="" className="premios-img-animais"/> */}
+            {allPremios.map(p => (
+              <CardPetSimples srcImg={p.img} />
+            ))}
           </div>
-
         </div>
       </div>
 
