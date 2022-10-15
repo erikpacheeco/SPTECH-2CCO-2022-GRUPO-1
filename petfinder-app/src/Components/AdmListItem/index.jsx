@@ -2,12 +2,10 @@ import './adm-list-item.css';
 import userIcon from "../../Images/png_img/user_icon.png";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useParams } from 'react-router-dom';
 
 function AdmListItem(props){
 
     const navigate  = useNavigate()
-    const idAdm = useParams()
 
     return(
         <>

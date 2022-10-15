@@ -11,14 +11,17 @@ import petfinder.petfinderapi.entidades.Caracteristica;
 import petfinder.petfinderapi.entidades.Instituicao;
 import petfinder.petfinderapi.entidades.Pet;
 import petfinder.petfinderapi.entidades.PetHasCaracteristica;
+import petfinder.petfinderapi.entidades.Premio;
 import petfinder.petfinderapi.entidades.Usuario;
 import petfinder.petfinderapi.repositorios.CaracteristicaRepositorio;
 import petfinder.petfinderapi.repositorios.InstituicaoRepositorio;
 import petfinder.petfinderapi.repositorios.PetHasCaracteristicaRepositorio;
 import petfinder.petfinderapi.repositorios.PetRepositorio;
+import petfinder.petfinderapi.repositorios.PremioRepositorio;
 import petfinder.petfinderapi.repositorios.UsuarioRepositorio;
 import petfinder.petfinderapi.requisicao.PetRequest;
 import petfinder.petfinderapi.resposta.PetPerfil;
+import petfinder.petfinderapi.resposta.PremioDto;
 import petfinder.petfinderapi.rest.DistanciaResposta;
 import petfinder.petfinderapi.service.exceptions.EntityNotFoundException;
 import petfinder.petfinderapi.service.exceptions.IdNotFoundException;
@@ -46,6 +49,9 @@ public class ServicePet {
     
     @Autowired
     private PetHasCaracteristicaRepositorio petHasCaracteristicaRepository;
+
+    @Autowired
+    private PremioRepositorio premioRepositorio;
 
     @Autowired
     private ServiceCep serviceCep;
@@ -167,11 +173,17 @@ public class ServicePet {
         return pet;
     }
 
-    public String postMimo(int id, MultipartFile multipart) {
+    public PremioDto postMimo(int id, MultipartFile multipart) {
         try {
-            return UploadFile.uploadFile(activeProfile, "img\\premios\\" + multipart.getOriginalFilename(), multipart);
+            Pet pet = petRepository.findById(id).orElseThrow(() -> {
+                throw new EntityNotFoundException(id);
+            });
+            String fileName = UploadFile.uploadFile(activeProfile, "img\\premios\\" + multipart.getOriginalFilename(), multipart);
+            Premio premio = new Premio(pet, fileName);
+            PremioDto dto = new PremioDto(premioRepositorio.save(premio));
+            return dto;
         } catch(Exception err) {
-            return err.getMessage();
+            throw new EntityNotFoundException(id);
         }
     }
 

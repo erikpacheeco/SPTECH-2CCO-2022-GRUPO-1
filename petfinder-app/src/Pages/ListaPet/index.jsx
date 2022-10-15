@@ -5,17 +5,12 @@ import add from "../../Images/plus.svg"
 import file from "../../Images/file-txt.svg"
 import api from "../../Api"
 import React, { useEffect, useState } from 'react';
-import { calculateNewValue } from '@testing-library/user-event/dist/utils';
 import VLibras from "@djpfs/react-vlibras"
-import headerFunctions from "../../functions/headerFunctions";
-import SideBarItem from "../../Components/SideBarItem";
-import NavItem from "../../Components/NavItem";
 import { useNavigate } from "react-router-dom";
 
 function ListaPet() {
 
     const [allPets, setAllPets] = useState([]);
-    const [pets, setPets] = useState([]);
 
     const navigate = useNavigate();
     
@@ -49,12 +44,12 @@ function ListaPet() {
                             <div className="lista-pet-buttons">
                                 <label htmlFor="fileImport">
                                     <div className="lista-pet-add-icon" onClick={handleAddItemList}>
-                                        <img src={file} />
+                                        <img src={file} alt=""/>
                                         <input type="file" accept=".txt" id="fileImport" style={{display: "none"}}/>
                                     </div>
                                 </label>
                                 <div className="lista-pet-add-icon" onClick={handleAddItemList}>
-                                    <img src={add} />
+                                    <img src={add} alt=""/>
                                 </div>
                             </div>
                         </div>
@@ -80,9 +75,6 @@ function ListaPet() {
             <VLibras forceOnload={true}></VLibras>
         </>
     )
-
-    
-
 }
 
 export default ListaPet;

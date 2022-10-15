@@ -16,7 +16,7 @@ export default function VerMais() {
   const [distinctPets, setAllDistinctPets] = useState([]);
 
   const [allPets, setAllPets] = useState([]);
-  const [sickPets, setSickPets] = useState([]);
+  // const [sickPets, setSickPets] = useState([]);
 
   useEffect(() => {
     api.get("/instituicoes").then((res) => {
@@ -28,9 +28,9 @@ export default function VerMais() {
     api.get("/pets").then((res) => {
       setAllPets(res.data);
     });
-    api.get(`/pets/doentes/${8}`).then((res) => {
-      setSickPets(res.data);
-    });
+    // api.get(`/pets/doentes/${8}`).then((res) => {
+    //   setSickPets(res.data);
+    // });
     api.get("/pets/distinct").then((res) => {
       setAllDistinctPets(res.data);
     });

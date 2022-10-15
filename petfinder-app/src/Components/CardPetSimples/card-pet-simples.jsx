@@ -1,6 +1,5 @@
 import "./card-pet-simples.css"
 import React from "react";
-import api from "../../Api";
 
 function CardPetSimples(props) {
 

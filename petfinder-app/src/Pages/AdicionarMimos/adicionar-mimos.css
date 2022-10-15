@@ -119,6 +119,12 @@
     font-size: 24px;
 
     color: #FFFFFF;
+    border: none;
+}
+
+.adicionar-mimos-btn-adicionar:hover {
+    opacity: 0.8;
+    cursor: pointer;
 }
 
 .adicionar-mimos-box-lista{

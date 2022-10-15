@@ -1,8 +1,6 @@
 import './instituicao-list-item.css';
 import userIcon from "../../Images/png_img/user_icon.png";
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import api from '../../Api';

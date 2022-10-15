@@ -8,7 +8,7 @@ import VLibras from "@djpfs/react-vlibras"
 import HeaderApp from "../../Components/HeaderApp";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 function initialValuesUsuario() {
@@ -25,7 +25,6 @@ function PerfilSysAdmin() {
 
     const [valuesUsuario, setValuesUsuario] = useState(initialValuesUsuario)
 
-    const idAdm = useParams()
     const swal = withReactContent(Swal);
     const navigate = useNavigate();
 
@@ -35,7 +34,7 @@ function PerfilSysAdmin() {
     }
 
     useEffect(() => {
-        if(valuesUsuario.nome == "" && valuesUsuario.email == "" && valuesUsuario.senha == ""){
+        if(valuesUsuario.nome === "" && valuesUsuario.email === "" && valuesUsuario.senha === ""){
             api.get(`/usuarios/completo/${infoUsuario.id}`).then((res) => {
                 // setInfoAdm(res.data)
                 console.log(res.data)
@@ -78,7 +77,7 @@ function PerfilSysAdmin() {
         var senha = document.getElementById("senha");
         var icon = document.getElementById("icon-eye")
 
-        if (senha.type == "password") {
+        if (senha.type === "password") {
             senha.type = "text";
             icon.src = eyeOff;
         } else {

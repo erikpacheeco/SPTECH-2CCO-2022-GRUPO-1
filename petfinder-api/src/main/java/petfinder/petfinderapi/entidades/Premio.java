@@ -18,6 +18,13 @@ public class Premio {
     @ManyToOne
     private Pet pet;
 
+    public Premio() {}
+    public Premio(Pet pet, String imgPath) {
+        setPet(pet);
+        setImg(imgPath);
+        setDataEnvio(new Date());
+    }
+
     // attributes
     public int getId() {
         return id;

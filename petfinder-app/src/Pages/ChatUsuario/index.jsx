@@ -35,7 +35,6 @@ export default function ChatUsuario() {
         descricao: "undefined"
     });
 
-    const [idUltimoUsuario, setIdUltimoUsuario] = useState()
     const [idUltimoCliente, setIdUltimoCliente] = useState()
 
     function handleChangeAndamento() {
@@ -144,7 +143,7 @@ export default function ChatUsuario() {
     }
 
     function addingNewCliente() {
-        if ("concluir demada".localeCompare(demandaAtual.proximaAcao.acao) && usuarioLogado.nivelAcesso == "adm" || usuarioLogado.nivelAcesso == "chatops") {
+        if (("concluir demada".localeCompare(demandaAtual.proximaAcao.acao) && usuarioLogado.nivelAcesso === "adm") || usuarioLogado.nivelAcesso === "chatops") {
             let cliente = {
                 id: idUltimoCliente+1,
                 usuario_id: demandaAtual.idUsuario,
