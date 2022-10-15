@@ -4,7 +4,7 @@ import HeaderApp from "../../Components/HeaderApp";
 import img from "../../Images/erase.svg";
 import VLibras from "@djpfs/react-vlibras";
 import api from "../../Api";
-import CardPetSimples from "../../Components/CardPetSimples/card-pet-simples";
+import CardPetSimplesPremios from "../../Components/CardPetSimplesPremios";
 
 export default function meusPremios() {
   const infoUsuario = JSON.parse(localStorage.getItem("petfinder_user"));
@@ -46,15 +46,19 @@ export default function meusPremios() {
             </div>
 
             <h2 className="premios-h2-filtros-titulos">Pets</h2>
+            <div className="premios-container-filtro-backend">
             {allPets.map((p) => (
               <p className="ver-mais-p-filtro">{p.nome}</p>
             ))}
+            </div>
           </div>
 
           <div className="premios-fotos-container">
+            <div className="premios-fotos-container-sub" >
             {allPremios.map(p => (
-              <CardPetSimples srcImg={p.img} />
+              <CardPetSimplesPremios srcImg={p.img} />
             ))}
+          </div>
           </div>
         </div>
       </div>
