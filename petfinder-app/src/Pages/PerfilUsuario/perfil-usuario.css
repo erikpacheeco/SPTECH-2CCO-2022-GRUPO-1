@@ -64,91 +64,90 @@
     border: 1px solid rgba(175, 113, 214, 0.5);
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
-}
-
-.perfil-usuario-titulo{
-    font-family: 'Hind Madurai';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 32px;
-    line-height: 55px;
-
-    color: #000000;
-}
-
-.perfil-usuario-texto{
-    font-family: 'Hind Madurai';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 24px;
-    line-height: 39px;
-    color: #000000;
-}
-
-.perfil-usuario-input{
-    border: transparent;
-    background-color: transparent;
-    max-width: 100%;
-    min-width: 10%;
-    width: auto;
-    resize: both;
-}
-
-.perfil-usuario-div-edit{
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    /* flex-wrap: wrap; */
-}
-
-.perfil-usuario-btn-edit{
-    background-color: transparent;
-    border: none;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.perfil-usuario-btn-salvar{
-    background-color: transparent;
-    border: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    display: none;
+.perfil-usuario-pets-apadrinhado-container{
+    height: 95%;
+    width: 85%;
 }
 
-.perfil-usuario-btn-edit span{
-    font-family: 'Hind Madurai';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 22px;
-    color: #7F2AB5;
-    margin-right: 10px;
-}
-
-.perfil-usuario-pontuacao{
+.perfil-usuario-box-lista{
+    height: 100%;
     width: 100%;
-    height: 100%;
-    display: flex;
-}
-
-.perfil-usuario-pontuacao-dash{
-    width: 50%;
-    height: 100%;
-}
-
-.perfil-usuario-pontuacao-info{
-    width: 50%;
-    height: 100%;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-.perfil-usuario-medalha{
+.perfil-usuario-box-lista span {
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 40px;
+    color: #000000;
+}
+
+.perfil-usuario-box-lista-pet{
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    display: inline-flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    row-gap: 40px;
+    padding: 20px 0px;
+}
+
+.perfil-usuario-box-lista-pet::-webkit-scrollbar {
+    width: 12px;
+}
+
+.perfil-usuario-box-lista-pet::-webkit-scrollbar-track {
+    background-color: rgba(218, 218, 218, 0.5);
+    border-radius: 5px;
+}
+
+.perfil-usuario-box-lista-pet::-webkit-scrollbar-thumb {
+    background-color: rgba(127, 41, 180, 1);
+    border-radius: 20px;
+    border: 3px solid rgba(218, 218, 218);
+}
+
+.perfil-usuario-box-Nolista{
+    height: 100%;
+    width: 100%;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
+.perfil-usuario-box-Nolista span{
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 40px;
+    color: #000000;
+
+    margin-bottom: 80px;
+}
+
+.perfil-usuario-box-Nolista button {
+    margin-top: 80px;
+    border: 3px solid #FFD92E;
+    background-color: transparent;
+    border-radius: 90px;
+    width: 300px;
+    height: 95px;
+
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 32px;
+    cursor: pointer;
+    color: #000000;
+}

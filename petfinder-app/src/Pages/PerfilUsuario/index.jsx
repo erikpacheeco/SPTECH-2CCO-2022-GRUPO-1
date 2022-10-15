@@ -1,32 +1,94 @@
 import './perfil-usuario.css';
 
 import HeaderApp from "../../Components/HeaderApp";
-import React from "react";
-import EditarIcon from "../../Images/edit-two.svg"
-import PerfilUsuarioFuncoes from "./perfil-usuario-funcoes.js"
-// import { Chart } from "react-google-charts";
-import MedalhaNoBronze from "./../../Images/pet-friendly-No-bronze.svg"
-import MedalhaNoPrata from "./../../Images/pet-friendly-No-prata.svg"
-import MedalhaNoOuro from "./../../Images/pet-friendly-No-ouro.svg"
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import EditarIcon from "../../Images/edit-two.svg";
+import MedalhaNoBronze from "./../../Images/pet-friendly-No-bronze.svg";
+import MedalhaNoPrata from "./../../Images/pet-friendly-No-prata.svg";
+import MedalhaNoOuro from "./../../Images/pet-friendly-No-ouro.svg";
+import noPet from "../../Images/png_img/gatinhu.png";
+import api from "../../Api";
+import CardPet from "../../Components/CardPet";
 
-// function VerificarComplemento(objUser){
-//     if (objUser.endereco.complemento == null) {
-//         return (
-//             <input className="perfil-usuario-texto perfil-usuario-input"
-//                 id="email"
-//                 type="text" 
-//                 name="email"
-//                 value={objUser.endereco.complemento}
-//                 // onChange={}
-//             /> 
-//         )
-        
-//     }
-// }
+function verificarApadrinhado(pets){
+    const navigate = useNavigate()
+    if(pets.length > 0){
+        return (
+            <div className="perfil-usuario-box-lista">
+                <span>Pets que ajudei</span>
+                <div className="perfil-usuario-box-lista-pet">
+                    {
+                        pets.map((p, index) => (
+                            <CardPet
+                                key={index} 
+                                id={p.id}
+                                nome={p.nome}
+                                isDoente={p.isDoente}
+                                backgroundImage={p.caminhoImagem}
+                                onClick={() =>
+                                    navigate(`/perfil-pet-usuario/${p.id}`)
+                                }>
+                            </CardPet>
+                        ))
+                    }
+                    {
+                        pets.map((p, index) => (
+                            <CardPet
+                                key={index} 
+                                id={p.id}
+                                nome={p.nome}
+                                isDoente={p.isDoente}
+                                backgroundImage={p.caminhoImagem}
+                                onClick={() =>
+                                    navigate(`/perfil-pet-usuario/${p.id}`)
+                                }>
+                            </CardPet>
+                        ))
+                    }
+                    {
+                        pets.map((p, index) => (
+                            <CardPet
+                                key={index} 
+                                id={p.id}
+                                nome={p.nome}
+                                isDoente={p.isDoente}
+                                backgroundImage={p.caminhoImagem}
+                                onClick={() =>
+                                    navigate(`/perfil-pet-usuario/${p.id}`)
+                                }>
+                            </CardPet>
+                        ))
+                    }
+                </div>
+            </div>
+                
+            )
+    } else {
+        return (
+            <div className="perfil-usuario-box-Nolista">
+                <span>Ainda não ajudou algum pet</span>  
+                <img src={noPet} alt="Gato triste" />
+                <button onClick={() => navigate("/home-user")}>Ajude Aqui!</button>
+            </div>
+        )
+    }
+}  
 
 function PerfilUsuario(){
     
     const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
+    const [pets, setPets] = useState([]);
+
+    useEffect(() => {
+        api.get(`/pets/apadrinhamentos/usuario/${objUser.id}`).then(res => {
+            console.log(res.data);
+            if(res.status === 200) {
+                setPets(res.data);
+            }
+        }).catch(error => {console.log(error)})
+        
+      }, []);
 
     return(
         <>
@@ -40,106 +102,27 @@ function PerfilUsuario(){
                         <form>
                             <div className="perfil-usuario-card">
                                 <div className="perfil-usuario-card-container">
-                                    <div className="perfil-usuario-div-edit">
-                                        <input className="perfil-usuario-titulo perfil-usuario-input"
-                                            id="nome"
-                                            type="text" 
-                                            name="nome"
-                                            value={objUser.nome}
-                                            // onChange={}
-                                        />
-                                        <button className="perfil-usuario-btn-edit" onClick={PerfilUsuarioFuncoes}>
-                                            <span>Editar</span>
-                                            <img src={EditarIcon} alt="Editar" />
-                                        </button>
-                                        {/* <button className="perfil-usuario-btn-salvar">
-                                            <span>Salvar</span>
-                                            <img src={EditarIcon} alt="Salvar" />
-                                        </button> */}
-                                    </div>
-                                    <div className="perfil-usuario-div-edit">
-                                        <input className="perfil-usuario-texto perfil-usuario-input"
-                                            id="email"
-                                            type="text" 
-                                            name="email"
-                                            value={objUser.email}
-                                            // onChange={}
-                                        />
-                                    </div>
+                                    
                                 </div>
                             </div>
                             
                            <div className="perfil-usuario-card">
                                 <div className="perfil-usuario-card-container">
-                                    <span className="perfil-usuario-titulo">Endreço</span>
-                                    <div className="perfil-usuario-div-edit">
-                                        <input className="perfil-usuario-texto perfil-usuario-input"
-                                            id="email"
-                                            type="text" 
-                                            name="email"
-                                            value={objUser.endereco.rua}
-                                            // onChange={}
-                                        />
-                                        <input className="perfil-usuario-texto perfil-usuario-input"
-                                            id="email"
-                                            type="text" 
-                                            name="email"
-                                            value={objUser.endereco.num}
-                                            // onChange={}
-                                        />
-                                        {/* VerificarComplemento({objUser}); */}
-                                        <input className="perfil-usuario-texto perfil-usuario-input"
-                                            id="email"
-                                            type="text" 
-                                            name="email"
-                                            value={objUser.endereco.bairro}
-                                            // onChange={}
-                                        />
-                                    </div>
-                                    <div className="perfil-usuario-div-edit">
-                                        <input className="perfil-usuario-texto perfil-usuario-input"
-                                            id="email"
-                                            type="text" 
-                                            name="email"
-                                            value={objUser.endereco.cidade}
-                                            // onChange={}
-                                        />
-                                        <input className="perfil-usuario-texto perfil-usuario-input"
-                                            id="email"
-                                            type="text" 
-                                            name="email"
-                                            value={objUser.endereco.uf}
-                                            // onChange={}
-                                        />
-                                    </div>
+                                    
                                 </div>
                            </div>
 
                             <div className="perfil-usuario-card">
                                 <div className="perfil-usuario-card-container">
-                                    <div className="perfil-usuario-titulo">
-                                        <span>Pontuação</span>
-                                    </div>
-                                    <div className="perfil-usuario-pontuacao">
-                                        <div className="perfil-usuario-pontuacao-dash">
-                                            
-                                        </div>
-                                        <div className="perfil-usuario-pontuacao-info">
-                                            <span>Total: </span>
-                                            <span>Próxima Medalha: </span>
-                                            <div className="perfil-usuario-medalha">
-                                                <img src={MedalhaNoBronze} alt="MedalhaNoBronze" />
-                                                <img src={MedalhaNoPrata} alt="MedalhaNoPrata" />
-                                                <img src={MedalhaNoOuro} alt="MedalhaNoOuro" />
-                                            </div>
-                                        </div>
-                                    </div>
+                                    
                                 </div>
                            </div>
                         </form>
 
                         <div className="perfil-usuario-pets-apadrinhado">
-
+                            <div className="perfil-usuario-pets-apadrinhado-container">
+                                {verificarApadrinhado(pets)}
+                            </div>
                         </div>
                     </div>
                 </div>
