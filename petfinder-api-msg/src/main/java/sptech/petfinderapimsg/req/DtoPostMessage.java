@@ -20,6 +20,7 @@ public class DtoPostMessage {
     public DtoPostMessage() {
         this.dataEnvio = new Date();
     }
+    
 
     // getters and setters
     public String getConteudo() {

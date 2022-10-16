@@ -74,18 +74,6 @@ export default function ChatUsuario() {
         />);
     }
 
-    function formatData(data) {
-        let date_full = new Date(data);
-        let day = date_full.getDay();
-        let minute = date_full.getMinutes();
-        let hour = date_full.getHours();
-        let month = date_full.getMonth();
-        let year = date_full.getFullYear();
-        let time = hour + ':' + minute;
-        let date_string = time + ' - ' + day + '/' + month + '/' + year;
-        return date_string;
-    }
-
     function chooseColor() {
         if (demandaAtual.id !== '') {
             if (demandaAtual.categoria.toLowerCase() === "adocao") {
@@ -223,7 +211,7 @@ export default function ChatUsuario() {
                             <div className="chat-user-message-section" id='chatSection'>
                                 {
                                     messages.map((msg, index) => {
-                                        return (<Mensagem key={index} content={msg.conteudo} idUsuario={msg.remetente.id} date={formatData(msg.dataEnvio)} id='' />)
+                                        return (<Mensagem key={index} content={msg.conteudo} idUsuario={msg.remetente.id} date={msg.dataEnvio} id={msg.id} />)
                                     }).reverse()
                                 }
                             </div>
