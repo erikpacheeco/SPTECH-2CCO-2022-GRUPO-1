@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import petfinder.petfinderapi.controladores.util.HeaderConfig;
@@ -129,32 +130,36 @@ public class PetsController implements GerenciadorArquivos {
 
     @PostMapping
     @Operation(description = "Endpoint para cadastro de um novo pet em uma instituição especifica")
-    public ResponseEntity<PetPerfil> postPet(@RequestBody @Valid PetRequest novoPet) {
-        PetPerfil petCriado = servicePet.createPet(novoPet);
-        // return ResponseEntity.ok(petCriado);
+    public ResponseEntity<PetPerfil> postPet(
+        @RequestParam("file") MultipartFile multipart, 
+        @RequestParam("instituicaoId") Integer instituicaoId,
+        @RequestParam("nome") String nome,
+        @RequestParam("doente") Boolean doente,
+        @RequestParam("dataNasc") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date dataNasc,
+        @RequestParam("especie") String especie,
+        @RequestParam("raca") String raca,
+        @RequestParam("porte") String porte,
+        @RequestParam("sexo") String sexo,
+        @RequestParam("descricao") String descricao,
+        @RequestParam("caracteristicas[]") Integer[] caracteristicas
+    ) {
+        // creating pet
+        PetPerfil petCriado = servicePet.createPet(
+            multipart,
+            instituicaoId,
+            nome,
+            doente,
+            dataNasc,
+            especie,
+            raca,
+            porte,
+            sexo,
+            descricao,
+            List.of(caracteristicas)
+        );
+        // 201 created
         return ResponseEntity.created(HeaderConfig.getLocation(petCriado.getId())).body(petCriado);
     }
-
-    // @PatchMapping(value = "/foto/{id}", consumes = "image/jpeg")
-    // @Operation(description = "EndPoint para cadastrar a foto de perfil do animal")
-    // public ResponseEntity<Void> patchFoto(@PathVariable int id, @RequestBody byte[] novaFoto) {
-
-    //     Pet petEncontrado = repositoryPet.getById(id);
-    //     petEncontrado.setFotoPerfil(novaFoto);
-    //     repositoryPet.save(petEncontrado);
-
-    //     return ResponseEntity.status(200).build();
-    // }
-
-    // @GetMapping(value = "/foto/{codigo}", produces = "image/jpeg")
-    // @Operation(description = "EndPoint para ver as fotos dos animais")
-    // public ResponseEntity<byte[]> getFoto(@PathVariable int codigo) {
-    //     if (!repositoryPet.existsById(codigo)){
-    //         return ResponseEntity.status(404).build();
-    //     }
-    //     Pet petEncontrado = repositoryPet.getById(codigo);
-    //     return ResponseEntity.status(200).body(petEncontrado.getFotoPerfil());
-    // }
 
     @PutMapping("/{id}")
     @Operation(description = "Endpoint para atualizar informações de um pet especifico")
