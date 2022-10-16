@@ -25,6 +25,7 @@
 
 .perfil-usuario-box{
     height: 90vh;
+    margin-top: 20px;
     margin-bottom: 35px;
     display: flex;
     justify-content: space-between;
@@ -41,7 +42,7 @@
 
 .perfil-usuario-card{
     width: 100%;
-    min-height: 25%;
+    min-height: 20%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -54,7 +55,12 @@
 
 .perfil-usuario-card-container{
     width: 90%;
-    min-height: 95%;
+    background-color: red;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    row-gap: 15px;
+    margin: 10px 0px;
 }
 
 .perfil-usuario-pets-apadrinhado{
@@ -150,4 +156,86 @@
     font-size: 32px;
     cursor: pointer;
     color: #000000;
+}
+
+.perfil-usuario-div-editar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.perfil-usuario-div-editar button{
+    display: flex;
+    width: fit-content;
+    height: fit-content;
+    background-color: transparent;
+    border: none;
+}
+.perfil-usuario-div-editar button span{
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    color: #7F2AB5;
+    margin-right: 5px;
+}
+
+.perfil-usuario-card-titulo{
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 32px;
+    color: #000000;
+}
+
+.perfil-usuario-card-texto{
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    color: #000000;
+}
+
+.perfil-usuario-input{
+    background-color: transparent;
+    /* border: none; */
+}
+
+.perfil-usuario-input70{
+    width: 70%
+}
+
+.perfil-usuario-input50{
+    width: 50%
+}
+
+.perfil-usuario-input35{
+    width: 35%
+}
+
+.perfil-usuario-input15{
+    width: 15%
+}
+
+.perfil-usuario-card-container-pontuacao{
+    width: 90%;
+    height: 300px;
+    display: flex;
+    margin: 10px 0px;
+}
+.perfil-usuario-box-dash{
+    height: 100%;
+    width: 50%;
+    background-color: blue;
+    display: flex;
+    justify-content: center;
+}
+
+.perfil-usuario-box-pontuacao{
+    height: 100%;
+    width: 50%;
+    background-color: green;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }

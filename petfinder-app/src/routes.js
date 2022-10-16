@@ -51,6 +51,7 @@ function Rotas() {
                 <Route path="/dashboard-chatops" element={<DashboardChatOps/>} />
                 <Route path="/dashboard-admin" element={<DashboardAdmin/>} />
                 <Route path="/chat" element={<ChatUsuario/>} />
+                <Route path="/perfil-usuario/:id" element={<PerfilUsuario/>} />
                 <Route path="/perfil-usuario" element={<PerfilUsuario/>} />
                 <Route path="/lista-instituicao" element={<ListaInstituicao/>} />
                 <Route path="/perfil/:id" element={<Perfil/>} />
