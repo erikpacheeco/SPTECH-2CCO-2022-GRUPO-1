@@ -1,5 +1,6 @@
 package petfinder.petfinderapi.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -25,6 +26,7 @@ import petfinder.petfinderapi.resposta.PremioDto;
 import petfinder.petfinderapi.rest.DistanciaResposta;
 import petfinder.petfinderapi.service.exceptions.EntityNotFoundException;
 import petfinder.petfinderapi.service.exceptions.IdNotFoundException;
+import petfinder.petfinderapi.service.exceptions.InvalidFieldException;
 import petfinder.petfinderapi.service.exceptions.NoContentException;
 import petfinder.petfinderapi.utilitarios.UploadFile;
 
@@ -125,8 +127,47 @@ public class ServicePet {
         throw new EntityNotFoundException(id);
     }
 
+    public PetPerfil createPet(
+            MultipartFile multipart, 
+            Integer instituicaoId,
+            String nome,
+            Boolean doente,
+            Date dataNasc,
+            String especie,
+            String raca,
+            String porte,
+            String sexo,
+            String descricao,
+            List<Integer> caracteristicas
+        ) {
+        // creating pet
+        PetRequest novoPet = new PetRequest(instituicaoId,
+            nome,
+            doente,
+            dataNasc,
+            especie,
+            raca,
+            porte,
+            sexo,
+            descricao,
+            caracteristicas
+        );
+        Pet entity = createPet(novoPet);
+
+        // uploading pet profile image
+        try {
+            String fileName = UploadFile.uploadFile(activeProfile, "img\\pets\\" + multipart.getOriginalFilename(), multipart);
+            entity.setCaminhoImagem(fileName);
+        } catch(Exception ex) {
+            throw new InvalidFieldException("file", "arquivo inválido");
+        }
+
+        // 201 created
+        return new PetPerfil(petRepository.save(entity));
+    }
+
     // returns created pet
-    public PetPerfil createPet(PetRequest novoPet) {
+    private Pet createPet(PetRequest novoPet) {
         
         Optional<Instituicao> optionalInstituicao = instituicaoRepository.findById(novoPet.getInstituicaoId());
 
@@ -147,7 +188,7 @@ public class ServicePet {
             }
 
             // 201 created
-            return new PetPerfil(pet);
+            return pet;
         }
 
         // 404 instituicao not found

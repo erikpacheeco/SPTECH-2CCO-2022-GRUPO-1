@@ -2,11 +2,11 @@ import './perfil-usuario.css';
 
 import HeaderApp from "../../Components/HeaderApp";
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import EditarIcon from "../../Images/edit-two.svg";
-import MedalhaNoBronze from "./../../Images/pet-friendly-No-bronze.svg";
-import MedalhaNoPrata from "./../../Images/pet-friendly-No-prata.svg";
-import MedalhaNoOuro from "./../../Images/pet-friendly-No-ouro.svg";
+import { useNavigate } from "react-router-dom";
+// import EditarIcon from "../../Images/edit-two.svg";
+// import MedalhaNoBronze from "./../../Images/pet-friendly-No-bronze.svg";
+// import MedalhaNoPrata from "./../../Images/pet-friendly-No-prata.svg";
+// import MedalhaNoOuro from "./../../Images/pet-friendly-No-ouro.svg";
 import noPet from "../../Images/png_img/gatinhu.png";
 import api from "../../Api";
 import CardPet from "../../Components/CardPet";
