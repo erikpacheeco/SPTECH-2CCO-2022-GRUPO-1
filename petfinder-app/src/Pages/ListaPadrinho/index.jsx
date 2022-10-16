@@ -4,17 +4,10 @@ import PadrinhoListItem from "../../Components/PadrinhoListItem";
 import api from "../../Api"
 import React, { useEffect, useState } from 'react';
 import VLibras from "@djpfs/react-vlibras"
-import { useNavigate } from "react-router-dom";
 
 function ListaPadrinho() {
 
     const [allPadrinhos, setAllPadrinhos] = useState([]);
-
-    const navigate = useNavigate();
-
-    // function handleAddItemList() {
-    //     navigate(`/cadastro-padrinho/${objUser.id}`)
-    // }
 
     const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
 

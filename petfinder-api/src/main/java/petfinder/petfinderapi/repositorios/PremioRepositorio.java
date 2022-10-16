@@ -29,4 +29,6 @@ public interface PremioRepositorio extends JpaRepository<Premio, Integer> {
     @Query("SELECT new petfinder.petfinderapi.resposta.PremioDto(p) FROM Premio p where p.pet.id = ?1")
     List<PremioDto> findByPetIdDto(int id);
 
+    @Query("SELECT new petfinder.petfinderapi.resposta.PremioDto(p) from Premio p where p.pet.id IN (SELECT d.pet FROM Demanda d WHERE (d.status = 'CONCLUIDO' OR d.status = 'PGTO_REALIZADO_INST') AND d.dataFechamento LIKE '2022-08-%' AND d.usuario.id = ?1)")
+    List<PremioDto> findByUsuarioIdDto(int idUser);
 }

@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 import withReactContent from "sweetalert2-react-content";
 import api from '../../Api';
-import headerFunctions from "../../functions/headerFunctions";
 
 function resetValues() {
     return { nome: "" }
@@ -23,7 +22,7 @@ function EditarAdm() {
     const swal = withReactContent(Swal);
 
     useEffect(() => {
-        if(values.nome == ""){
+        if(values.nome === ""){
             api.get(`/usuarios/${idAdm.id}`).then((res) => {
                 setInfoAdm(res.data)
                 setValues({nome:`${res.data.nome}`})

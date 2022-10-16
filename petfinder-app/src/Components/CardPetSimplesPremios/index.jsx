@@ -1,10 +1,10 @@
-import "./card-pet-simples.css"
+import "./card-pet-simples-premios.css"
 import React from "react";
 
 function CardPetSimples(props) {
 
     return (
-       <img className="card-pet-simples"src={props.srcImg} alt="" />
+       <img className="cardPetSimples"src={props.srcImg} alt="" />
     )
 }
 

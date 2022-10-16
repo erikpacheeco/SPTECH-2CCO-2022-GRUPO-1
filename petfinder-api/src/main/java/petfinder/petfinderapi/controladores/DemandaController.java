@@ -61,6 +61,9 @@ public class DemandaController implements GerenciadorArquivos{
     @Autowired
     private ServiceDashboardChatOpsBI serviceDashboardChatOpsBI;
 
+    @Autowired
+    private PremioRepositorio premioRepositorio;
+
 
     // enums
     private ListaObj<String> categoriasPossiveis = new ListaObj<String>(new String[]{"ADOCAO", "PAGAMENTO", "RESGATE"});
@@ -665,6 +668,15 @@ public class DemandaController implements GerenciadorArquivos{
     ResponseEntity countApadrinhamentosByIntituicao(@PathVariable int idInstituicao) {
         int qtdApadrinhamentos = demandaRepositorio.countAllApadrinhamentos(idInstituicao);
         return ResponseEntity.status(200).body(qtdApadrinhamentos);
+    }
+
+    @GetMapping("/premios/get/{idUser}")
+    public ResponseEntity getPetsApadrinhadosPorUser(@PathVariable int idUser) {
+        List<PremioDto> pets = premioRepositorio.findByUsuarioIdDto(idUser);
+        if (pets.isEmpty()) {
+            return ResponseEntity.status(204).build();
+        }
+        return ResponseEntity.status(200).body(pets);
     }
 
 }

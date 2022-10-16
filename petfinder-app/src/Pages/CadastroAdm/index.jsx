@@ -6,7 +6,6 @@ import "./cadastro-adm.css";
 import api from "../../Api"
 import React from "react";
 import VLibras from "@djpfs/react-vlibras"
-import headerFunctions from "../../functions/headerFunctions";
 import HeaderApp from "../../Components/HeaderApp";
 
 function initialValuesUsuario() {

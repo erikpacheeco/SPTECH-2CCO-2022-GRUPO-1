@@ -1,11 +1,9 @@
 import './lista-adm.css';
 import HeaderApp from "../../Components/HeaderApp";
 import plus from "../../Images/plus.svg";
-import ColaboradorListaItem from '../../Components/ColaboradorListaItem';
 import React, {useState, useEffect} from 'react';
 import api from "../../Api";
 import VLibras from "@djpfs/react-vlibras"
-import headerFunctions from "../../functions/headerFunctions";
 import { useNavigate } from "react-router-dom";
 import AdmListItem from '../../Components/AdmListItem';
 
@@ -41,7 +39,7 @@ function ListaAdm(){
                         <div className="lista-adm-tittle">
                             <h2>Administradores Cadastrados</h2>
                             <div className="lista-adm-add-icon" onClick={handleAddItemList}>
-                                <img src={plus} />
+                                <img src={plus} alt=""/>
                             </div>
                         </div>
                         <div className="lista-adm">

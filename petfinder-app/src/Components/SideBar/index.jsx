@@ -2,7 +2,7 @@ import "./side-bar.css";
 import SideBarItem from "../SideBarItem";
 import closeSmall from "../../Images/close-small.svg";
 import logout from "../../Images/logout.svg";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 
 function SideBar(props) {
@@ -23,13 +23,14 @@ function SideBar(props) {
             </div>
             <div className="side-bar-option">
                 {
-                    props.elementsSide.map((element)=> {
+                    props.elementsSide.map((element, index)=> {
                         return (
                             <SideBarItem 
                                 id={element.props.id}
                                 label={element.props.label}
                                 icon={element.props.icon}
                                 navigateTo={element.props.navigateTo}
+                                key={index}
                             />
                         )
                     })

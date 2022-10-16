@@ -67,8 +67,9 @@ public class PetsController implements GerenciadorArquivos {
     private ServicePet servicePet;
 
     @PostMapping("/{id}/premios")
-    public ResponseEntity<String> postMimo(@PathVariable int id, @RequestParam("file") MultipartFile multipart) {
-        return ok(servicePet.postMimo(id, multipart));
+    public ResponseEntity<PremioDto> postMimo(@PathVariable int id, @RequestParam("file") MultipartFile multipart) {
+        PremioDto res = servicePet.postMimo(id, multipart);
+        return created(HeaderConfig.getLocation(res.getId())).body(res);
     }
 
     @GetMapping("/{id}/perfil")
@@ -700,5 +701,14 @@ public class PetsController implements GerenciadorArquivos {
             return ResponseEntity.status(204).build();
         }
         return ResponseEntity.status(200).body(premios);
+    }
+
+    @GetMapping("/apadrinhamentos/usuario/{idUser}")
+    public ResponseEntity getPetsApadrinhadosPorUser(@PathVariable int idUser) {
+        List<PetPerfil> pets = repositoryPet.findPetByDemandaApadrinhamentoAndUsuario(idUser);
+        if (pets.isEmpty()) {
+            return ResponseEntity.status(204).build();
+        }
+        return ResponseEntity.status(200).body(pets);
     }
 }

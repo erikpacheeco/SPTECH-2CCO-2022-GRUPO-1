@@ -10,12 +10,9 @@ import Pets from "../Images/paw.svg";
 import Demandas from "../Images/attention-icon.svg";
 import Padrinhos from "../Images/padrinhos.svg";
 import MeuPerfil from "../Images/people.svg";
-import PerfilInstituicao from "../Images/user-business.svg";
 import Mensagem from "../Images/message.svg";
 import MeusPremios from "../Images/picture.svg";
-import Resgate from "../Images/icon_resgate.svg";
 import React from "react";
-import { useState } from "react";
 
 const headerFunction = {
     sideBarNivelAcesso: function (nivelAcesso) {
@@ -24,7 +21,7 @@ const headerFunction = {
         
         let listaSideBar = []
     
-        if(nivelAcesso == "sysadm"){
+        if(nivelAcesso === "sysadm"){
             listaSideBar = [
                 // <SideBarItem icon={Home} label="Página Inicial" navigateTo={"/dashboard-sysadmin"}/>,
                 <SideBarItem icon={Dashboard} label="Dashboard" navigateTo={"/dashboard-sysadmin"}/>,
@@ -32,7 +29,7 @@ const headerFunction = {
                 <SideBarItem icon={InstituicaoCadastrada} label="Instituições Cadastradas" navigateTo={"/lista-instituicao"}/>,
                 <SideBarItem icon={MeuPerfil} label="Meu Perfil" navigateTo={`/perfil/${infoUsuario.id}`}/>
             ]
-        } else if(nivelAcesso == "adm"){
+        } else if(nivelAcesso === "adm"){
             listaSideBar = [
                 <SideBarItem icon={Dashboard} label="Dashboard" navigateTo={"/dashboard-admin"}/>,
                 <SideBarItem icon={Pets} label="Pets" navigateTo={"/lista-pet"}/>,
@@ -41,7 +38,7 @@ const headerFunction = {
                 <SideBarItem icon={MeuPerfil} label="Meu Perfil" navigateTo={`/perfil/${infoUsuario.id}`}/>,
                 <SideBarItem icon={UsuariosCadastrados} label="Colaboradores Cadastrados" navigateTo={`/lista-colaborador/${infoUsuario.id}`}/>
             ]
-        } else if (nivelAcesso == "chatops"){
+        } else if (nivelAcesso === "chatops"){
             listaSideBar = [
                 <SideBarItem icon={MeuPerfil} label="Meu Perfil" navigateTo={`/perfil/${infoUsuario.id}`}/>,
                 <SideBarItem icon={Dashboard} label="Dashboard" navigateTo={"/dashboard-chatops"}/>,
@@ -52,7 +49,7 @@ const headerFunction = {
                 <SideBarItem icon={Home} label="Página Inicial" navigateTo={"/home-user"}/>,
                 <SideBarItem icon={Mensagem} label="Mensagens" navigateTo={"/chat"}/>,
                 <SideBarItem icon={MeuPerfil} label="Meu Perfil" navigateTo={"/perfil-usuario"}/>,
-                <SideBarItem icon={MeusPremios} label="Meus Prêmios" navigateTo={"/meus-premios"}/>
+                <SideBarItem icon={MeusPremios} label="Meus Prêmios" navigateTo={`/meus-premios/${infoUsuario.id}`}/>
             ]
         }
     
@@ -64,28 +61,28 @@ const headerFunction = {
         const paginaAtual = document.location.pathname;
         let listaHeader = []
     
-        if(nivelAcesso == "sysadm"){
+        if(nivelAcesso === "sysadm"){
             listaHeader = [
-                <NavItem isSelected={paginaAtual == "/dashboard-sysadmin" ? true : false} label="Dashboard" navigateTo={"/dashboard-sysadmin"}/>,
-                <NavItem isSelected={paginaAtual == "" ? true : false} label="Admin Cadastrados" navigateTo={`/lista-adm/${infoUsuario.id}`}/>,
-                <NavItem isSelected={paginaAtual == "" ? true : false} label="Instituições Cadastradas" navigateTo={"/lista-instituicao"}/>
+                <NavItem isSelected={paginaAtual === "/dashboard-sysadmin" ? true : false} label="Dashboard" navigateTo={"/dashboard-sysadmin"}/>,
+                <NavItem isSelected={paginaAtual === "" ? true : false} label="Admin Cadastrados" navigateTo={`/lista-adm/${infoUsuario.id}`}/>,
+                <NavItem isSelected={paginaAtual === "" ? true : false} label="Instituições Cadastradas" navigateTo={"/lista-instituicao"}/>
             ]
-        } else if(nivelAcesso == "adm"){
+        } else if(nivelAcesso === "adm"){
             listaHeader = [
-                <NavItem isSelected={paginaAtual == "/dashboard-admin" ? true : false} label="Dashboard" navigateTo={"/dashboard-admin"}/>,
-                <NavItem isSelected={paginaAtual == "" ? true : false} label="Padrinhos" navigateTo={"/lista-padrinho"}/>,
-                <NavItem isSelected={paginaAtual == "/chat" ? true : false}label="Demandas" navigateTo={"/chat"}/>
+                <NavItem isSelected={paginaAtual === "/dashboard-admin" ? true : false} label="Dashboard" navigateTo={"/dashboard-admin"}/>,
+                <NavItem isSelected={paginaAtual === "" ? true : false} label="Padrinhos" navigateTo={"/lista-padrinho"}/>,
+                <NavItem isSelected={paginaAtual === "/chat" ? true : false}label="Demandas" navigateTo={"/chat"}/>
             ]
-        } else if(nivelAcesso == "chatops"){
+        } else if(nivelAcesso === "chatops"){
             listaHeader = [
-                <NavItem isSelected={paginaAtual == "/dashboard-chatops" ? true : false} label="Dashboard" navigateTo={"/dashboard-chatops"}/>,
-                <NavItem isSelected={paginaAtual == "/chat" ? true : false} label="Demandas" navigateTo={"/chat"}/>
+                <NavItem isSelected={paginaAtual === "/dashboard-chatops" ? true : false} label="Dashboard" navigateTo={"/dashboard-chatops"}/>,
+                <NavItem isSelected={paginaAtual === "/chat" ? true : false} label="Demandas" navigateTo={"/chat"}/>
             ]
         } else {
             listaHeader = [
-                <NavItem isSelected={paginaAtual == "/home-user" ? true : false} label="Página Inicial" navigateTo={"/home-user"}/>,
-                <NavItem isSelected={paginaAtual == "/meus-premios" ? true : false} label="Meus Prêmios" navigateTo={"/meus-premios"}/>,
-                <NavItem isSelected={paginaAtual == "/chat" ? true : false} label="Mensagens" navigateTo={"/chat"}/>
+                <NavItem isSelected={paginaAtual === "/home-user" ? true : false} label="Página Inicial" navigateTo={"/home-user"}/>,
+                <NavItem isSelected={paginaAtual === "/meus-premios" ? true : false} label="Meus Prêmios" navigateTo={`/meus-premios/${infoUsuario.id}`}/>,
+                <NavItem isSelected={paginaAtual === "/chat" ? true : false} label="Mensagens" navigateTo={"/chat"}/>
             ]
         }
     

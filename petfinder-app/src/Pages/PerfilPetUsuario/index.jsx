@@ -9,15 +9,6 @@ import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 import withReactContent from "sweetalert2-react-content";
 
-function initialValuesDemanda() {
-    return {
-        categoria: "",
-        fkUsuario: "",
-        fkIntituicao: "",
-        fkPet: ""
-    }
-}
-
 function PerfilPetUsuario() {
 
     const [infoPet, setInfoPet] = useState([])

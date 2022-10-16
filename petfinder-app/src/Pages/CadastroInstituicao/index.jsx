@@ -6,7 +6,7 @@ import "./cadastro-instituicao.css";
 import api from "../../Api"
 import React from "react";
 import VLibras from "@djpfs/react-vlibras";
-import HeaderApp from "../../Components/HeaderApp";
+import HeaderBasic from "../../Components/HeaderBasic";
 
 function initialValuesInstituicao() {
     return {
@@ -170,7 +170,7 @@ function CadastroInstituicao() {
 
     return (
         <>
-            <HeaderApp/>
+            <HeaderBasic/>
             
             <div className="cadastro-instituicao-container">
                 <form className="cadastro-instituicao-form-container" onSubmit={handleSubmit}>

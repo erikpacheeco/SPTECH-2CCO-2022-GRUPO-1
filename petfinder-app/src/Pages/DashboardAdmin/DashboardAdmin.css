@@ -76,7 +76,7 @@
     width: 45%;
     /*display: flex;*/
     flex-wrap: wrap;
-    align-items: end;
+    align-items: flex-end;
     color: #7F2AB5;
 }
 
@@ -86,7 +86,7 @@
     width: 45%;
     display: flex;
     flex-wrap: wrap;
-    align-items: end;
+    align-items: flex-end;
 }
 
 .dashboard-admin-metricas-grafico-container {

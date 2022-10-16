@@ -2,14 +2,13 @@ import app_menu from "../../Images/application-menu.svg"
 import perfil from "../../Images/people.svg"
 import NavItem from "../NavItem"
 import "./header-app.css"
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SideBar from "../SideBar";
-import SideBarItem from "../SideBarItem";
 import headerFunctions from "../../functions/headerFunctions";
 
 function logoff(){
-    if(localStorage.getItem("petfinder_user") == null){
+    if(localStorage.getItem("petfinder_user") === null){
         window.location.href = "/";
     }
 }
@@ -18,9 +17,9 @@ function HeaderApp() {
 
     logoff();
 
-    const [objUser, setObjUser] = useState(JSON.parse(localStorage.getItem("petfinder_user")));
+    const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
 
-    const [objUserNome, setObjUserNome] = useState(objUser.nome.split(" "));
+    const objUserNome = objUser.nome.split(" ");
     
     const [hiddenSideBar, setHidenSideBar] = useState(true);
     
@@ -34,12 +33,13 @@ function HeaderApp() {
                 <img className="header-app-application-menu" src={app_menu} alt="icone do menu" onClick={()=>{setHidenSideBar(false)}}/>
                 <div className="header-app-container-btn-nav header-app-nav-container-itens">
                     {
-                        headerFunctions.headerNivelAcesso(objUser.nivelAcesso).map((element)=> {
+                        headerFunctions.headerNivelAcesso(objUser.nivelAcesso).map((element, index)=> {
                             return (<NavItem 
                                 isSelected={element.props.isSelected} 
                                 navigateTo={element.props.navigateTo}
                                 id={element.props.id}
                                 label={element.props.label}
+                                key={index}
                             />)
                         })
                     }
@@ -47,7 +47,7 @@ function HeaderApp() {
                 <div 
                     className="header-app-container-perfil-nav"
                     onClick={() => {
-                        if (objUser.nivelAcesso == "user") {
+                        if (objUser.nivelAcesso === "user") {
                             navigate(`/perfil-usuario`)
                         } else {
                             navigate(`/perfil/${objUser.id}`)

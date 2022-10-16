@@ -171,7 +171,7 @@ function CadastroPet() {
                         <h1 className="cad-pet-title">Nos conte mais sobre ele</h1>
 
                         <div className="cad-pet-input-container cad-pet-img-container">
-                            <img id="img-preview" className="cad-pet-img cad-pet-hidden" src="" onChange />
+                            <img id="img-preview" className="cad-pet-img cad-pet-hidden" src="" onChange alt=""/>
                             <label className="cad-pet-upload-img" htmlFor="perfilImage">Selecionar Imagem</label>
                             <input type="file" accept="image/*" id="perfilImage" className="cad-pet-hidden" required name="caminhoImagem" value={valuesPet.caminhoImagem}
                                 onChange={(event) => {

@@ -73,7 +73,7 @@
     width: 45%;
     display: flex;
     flex-wrap: wrap;
-    align-items: end;
+    align-items: flex-end;
 }
 
 .dashboard-chatops-metricas-grafico-container-1 {
