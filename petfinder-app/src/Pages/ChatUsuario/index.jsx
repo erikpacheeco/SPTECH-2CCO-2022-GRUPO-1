@@ -12,11 +12,12 @@ import api from '../../Api.js'
 import api_msg from '../../ApiMsg.js'
 import DemandaItem from "../../Components/DemandaItem";
 import ActionButton from "../../Components/ActionButton";
+import FileUploadModal from "../../Components/FileUploadModal";
 
 export default function ChatUsuario() {
 
     const usuarioLogado = JSON.parse(localStorage.getItem("petfinder_user"));
-
+    const [modalIsOpen, setModalIsOpen] = useState(false);
     const [messages, setMessages] = useState([]);
     const [listaDemandaAberta, setListaDemandaAberta] = useState([]);
     const [listaDemandaAndamento, setListaDemandaAndamento] = useState([]);
@@ -191,6 +192,12 @@ export default function ChatUsuario() {
                     </div>
 
                     <div className="chat-user-container-chat">
+                        <FileUploadModal 
+                            isOpen={modalIsOpen} 
+                            setModalIsOpen={setModalIsOpen} 
+                            remetenteId={localStorage.getItem('petfinder_user_id')}
+                            demandaId={demandaAtual.id}
+                        />
                         <div className="chat-user-message-header">
                             <p className={chooseColor()}>{`#${demandaAtual.id}`}</p>
                             <p className={demandaAtual.id === '' ? "chat-user-hidden" : "chat-user-message-receiver"}>{demandaAtual.nome}</p>
@@ -211,14 +218,14 @@ export default function ChatUsuario() {
                             <div className="chat-user-message-section" id='chatSection'>
                                 {
                                     messages.map((msg, index) => {
-                                        return (<Mensagem key={index} content={msg.conteudo} idUsuario={msg.remetente.id} date={msg.dataEnvio} id={msg.id} />)
+                                        return (<Mensagem key={index} content={msg.conteudo} idUsuario={msg.remetente.id} date={msg.dataEnvio} id={msg.id} tipo={msg.tipo}/>)
                                     }).reverse()
                                 }
                             </div>
                             <div className="chat-user-message-input-container">
                                 <input className="chat-user-message-input" type="text" id="input_text" />
                                 <div className="chat-user-message-input-buttons">
-                                    <img className="chat-user-message-send-file-button" src={paperclip} alt="Anexar arquivo" />
+                                    <img className="chat-user-message-send-file-button" src={paperclip} alt="Anexar arquivo" onClick={() => setModalIsOpen(!modalIsOpen)}/>
                                     <img className="chat-user-message-send-button" src={send} alt="Enviar mensagem" onClick={(e) => { handleSubmitMessageText(e) }} />
                                 </div>
                             </div>

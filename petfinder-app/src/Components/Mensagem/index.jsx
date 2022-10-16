@@ -1,5 +1,6 @@
 import "./mensagem.css"
 import React from "react";
+import docPreview from "../../Images/icon-preview-doc.svg";
 
 function Mensagem(props) {
     Mensagem.defaultProps = {
@@ -23,7 +24,16 @@ function Mensagem(props) {
     return (
         <div className={Number(localStorage.getItem('petfinder_user_id')) === props.idUsuario ? 'msg-left' : 'msg-right'}>
             <div className={localStorage.getItem('petfinder_user_id') === props.idUsuario ? 'msg-container msg-color-right' : 'msg-container msg-color-left'}>
-                <p>{props.content}</p>
+
+                {props.tipo === "texto" ? 
+                <p>{props.content}</p> : 
+                (props.tipo === "img" ? 
+                <img src={props.content} alt="imagem" className="mensagem-imagem" /> :
+                <a href={props.content}>
+                    <img src={docPreview} alt="doc preview" className="mensagem-imagem"/>
+                </a>
+                )
+                }
                 <p className="msg-date">{formatData(props.date)}</p>
             </div>
         </div>

@@ -35,3 +35,8 @@
 .msg-color-right{
     background-color: #3333;
 }
+
+.mensagem-imagem {
+    max-height: 200px;
+    border-radius: 5px;
+}

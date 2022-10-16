@@ -1,0 +1,115 @@
+.file-modal-container {
+    width: 500px;
+    height: 370px;
+    background-color: white;
+    border: 1px solid #7F2AB5;
+    padding: 20px;
+    position: absolute;
+    top: 220px;
+    left: 40%;
+    border-radius: 5px;
+}
+
+.file-upload-modal-open {
+    display: absolute;
+}
+
+.file-upload-modal-closed {
+    display: none;
+}
+
+.file-modal-label {
+    /* border: 1px red solid; */
+    display: flex;
+    justify-content: space-between;
+}
+
+.file-modal-label-text {
+    font-size: 16px;
+}
+
+.file-modal-label-close {
+    background-color: red;
+}
+
+.file-upload-modal-form {
+    width: 500px;
+    height: 200px;
+    /* display: flex; */
+    /* border: 1px solid black; */
+    /* flex-direction: column; */
+    /* gap: 20px; */
+    /* justify-content: space-between; */
+}
+
+.file-upload-modal-form input {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.file-upload-modal-form-label {
+    font-size: 20px;
+    color: #7F2AB5;
+    display: block;
+    text-align: center;
+}
+
+.file-upload-modal-preview {
+    max-width: 50%;
+    height: 200px;
+}
+
+.file-upload-modal-form-enviar {
+    border: none;
+    background-color: #7F2AB5;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    align-self: flex-end;
+}
+
+.file-active {
+    background-color: #7F2AB5;
+}
+
+.file-upload-modal-form-enviar:hover {
+    opacity: 0.9;
+}
+
+.file-upload-modal-form-input {
+    /* border: red 1px solid; */
+    display: none;
+}
+
+#idInputImg, #idInputFile {
+    display: none;
+}
+
+.file-upload-modal-form-closed {
+    display: none;
+}
+
+.file-upload-modal-form-open {
+    display: block;
+}
+
+.file-modal-type-btn {
+    margin: 10px;
+    display: inline-block;
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #7F2AB5;
+    width: 60px;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.file-modal-type-btn-active {
+    background-color: #7F2AB5;
+    color: white;
+}
