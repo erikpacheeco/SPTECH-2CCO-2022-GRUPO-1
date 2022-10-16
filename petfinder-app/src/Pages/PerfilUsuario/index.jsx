@@ -13,6 +13,70 @@ import MedalhaOuroIcon from "./../../Images/pet-friendly-ouro.svg";
 import noPet from "../../Images/png_img/gatinhu.png";
 import api from "../../Api";
 import CardPet from "../../Components/CardPet";
+import Swal from 'sweetalert2';
+import withReactContent from "sweetalert2-react-content";
+
+// function handleSubmitColaborador(event) {
+//     const swal = withReactContent(Swal);
+//     event.preventDefault()
+//     let json = {
+//         id: infoColaborador.id,
+//         nome: values.nome,
+//         email: infoColaborador.email,
+//         nivelAcesso: values.cargo,
+//         endereco: {
+//             id: infoColaborador.endereco.id,
+//             rua: infoColaborador.endereco.rua,
+//             num: infoColaborador.endereco.num,
+//             complemento: infoColaborador.endereco.complemento,
+//             bairro: infoColaborador.endereco.bairro,
+//             cidade: infoColaborador.endereco.cidade,
+//             uf: infoColaborador.endereco.uf,
+//             cep: infoColaborador.endereco.cep,
+//             latitude: infoColaborador.endereco.latitude,
+//             longitude: infoColaborador.endereco.longitude
+//         },
+//         fkInstituicao: {
+//             id: infoColaborador.fkInstituicao.id,
+//             nome: infoColaborador.fkInstituicao.nome,
+//             telefone: infoColaborador.fkInstituicao.telefone,
+//             termoAdocao: infoColaborador.fkInstituicao.termoAdocao,
+//             endereco: {
+//               id: infoColaborador.fkInstituicao.endereco.id,
+//               rua: infoColaborador.fkInstituicao.endereco.rua,
+//               num: infoColaborador.fkInstituicao.endereco.num,
+//               complemento: infoColaborador.fkInstituicao.endereco.complemento,
+//               bairro: infoColaborador.fkInstituicao.endereco.bairro,
+//               cidade: infoColaborador.fkInstituicao.endereco.cidade,
+//               uf: infoColaborador.fkInstituicao.endereco.uf,
+//               cep: infoColaborador.fkInstituicao.endereco.cep,
+//               latitude: infoColaborador.fkInstituicao.endereco.latitude,
+//               longitude: infoColaborador.fkInstituicao.endereco.longitude
+//             }
+//           },
+//         logado: infoColaborador.logado
+//     }
+//     api.put(`/usuarios/${infoColaborador.id}`, json, {
+//         headers: {
+//             'Content-Type': 'application/json'
+//         }
+//     })
+//         .then((res) => {
+//             swal.fire({
+//                 icon: "success",
+//                 title: <h2>Usuário atualizado com sucesso!</h2>,
+//             }).then(() => {
+//                 navigate(`/lista-colaborador/${infoColaborador.id}`)
+//             })
+//         }).catch((error) => {
+//             swal.fire({
+//                 icon: "error",
+//                 title: <h2>Ops! Algo deu errado da nossa parte :(</h2>,
+//                 text: "Por favor, tente novamente!"
+//             });
+//             console.log(error)
+//         })
+// }
 
 function verificarApadrinhado(pets, objUser){
     const navigate = useNavigate()
@@ -37,7 +101,6 @@ function verificarApadrinhado(pets, objUser){
                     }
                 </div>
             </div>
-                
             )
     } else {
         return (
@@ -77,7 +140,28 @@ function verificarUsuarioEditar(objUser){
 function PerfilUsuario(){
     
     const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
+    const [usuario, setUsuario] = useState();
     const [pets, setPets] = useState([]);
+    
+    const [infoPadrinho, setInfoPadrinho] = useState([]);
+
+    useEffect(() => {
+        if(objUser.nivelAcesso === "user"){
+            console.log("TESTETETSTE");
+            setUsuario(objUser);
+            console.log(objUser);
+            console.log(usuario);
+            
+        }else{
+            const idUsuario = useParams();
+            api.get(`/usuario/${idUsuario}`).then(res => {
+                console.log(res.data);
+                if(res.status === 200) {
+                    setUsuario(res.data);
+                }
+            }).catch(error => {console.log(error)})
+        }
+    }, []);
 
     useEffect(() => {
         api.get(`/pets/apadrinhamentos/usuario/${objUser.id}`).then(res => {
