@@ -29,7 +29,7 @@ function PadrinhoListItem({nome, id}) {
                 </div>
                 <button 
                     onClick={() => 
-                        navigate(`/perfil/${id}`)
+                        navigate(`/perfil-usuario/${id}`)
                     } 
                     className="padrinho-list-item-btn-editar-cadastro">VER PERFIL</button>
             </div>

@@ -124,6 +124,90 @@ public class UsuarioController {
         return ResponseEntity.ok(serviceUsuario.getPadrinhos(idInstituicao));
     }
 
+    @GetMapping("/demandas/{idInstituicao}/{ano}/{mes}")
+    @Operation(description = "retorna lista de padrinhos de uma instituicao")
+    @ApiResponse(responseCode = "200", description = "Ok")
+    @ApiResponse(responseCode = "204", description = "No Content", content = @Content)
+    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
+    public ResponseEntity countDemandaPorMes(@PathVariable Integer idInstituicao, @PathVariable String ano, @PathVariable String mes) {
+            Integer countDemandasAdocaoMes = usuarioRepository.countDemandasAdocaoMes(idInstituicao, ano, mes);
+            Integer countDemandasPagamentoMes = usuarioRepository.countDemandasPagamentoMes(idInstituicao, ano, mes);
+
+            ArrayList demandas = new ArrayList<>();
+            demandas.add(countDemandasAdocaoMes);
+            demandas.add(countDemandasPagamentoMes);
+
+            return ResponseEntity.ok(demandas);
+    }
+
+    @GetMapping("/demandas/{idInstituicao}/{idUsuario}/{ano}/{mes}")
+    @Operation(description = "retorna lista de padrinhos de uma instituicao")
+    @ApiResponse(responseCode = "200", description = "Ok")
+    @ApiResponse(responseCode = "204", description = "No Content", content = @Content)
+    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
+    public ResponseEntity countDemandaPorMesUsuario(@PathVariable Integer idInstituicao, @PathVariable Integer idUsuario, @PathVariable String ano, @PathVariable String mes) {
+            Integer countDemandasAdocaoMes = usuarioRepository.countDemandasAdocaoMesUsuario(idInstituicao, idUsuario, ano, mes);
+            Integer countDemandasPagamentoMes = usuarioRepository.countDemandasPagamentoMesUsuario(idInstituicao, idUsuario, ano, mes);
+
+            ArrayList demandas = new ArrayList<>();
+            demandas.add(countDemandasAdocaoMes);
+            demandas.add(countDemandasPagamentoMes);
+
+            return ResponseEntity.ok(demandas);
+    }
+
+    @GetMapping("/padrinhos/{idInstituicao}/{ano}/{mes}")
+    @Operation(description = "retorna lista de padrinhos de uma instituicao")
+    @ApiResponse(responseCode = "200", description = "Ok")
+    @ApiResponse(responseCode = "204", description = "No Content", content = @Content)
+    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
+    public ResponseEntity countPadrinhosPorMes(@PathVariable Integer idInstituicao, @PathVariable String ano, @PathVariable String mes) {
+        List padrinhos = serviceUsuario.getPadrinhos(idInstituicao);
+
+        if (padrinhos.size() > 0) {
+            Integer countPadrinhosMes = usuarioRepository.countPadrinhosMes(idInstituicao, ano, mes);
+            return ResponseEntity.ok(countPadrinhosMes);
+        }
+        return ResponseEntity.status(204).build();
+    }
+
+    @GetMapping("/padrinhos-ultima-semana/{ano}/{mes}/{dia}")
+    @Operation(description = "Endpoint para pegar os leads do ultimo mês")
+    public ResponseEntity countPadrinhosUltimaSemana(@PathVariable String ano, @PathVariable String mes, @PathVariable String dia) {
+
+        int padrinho = usuarioRepository.countPadrinhosUltimaSemana(ano, mes, dia);
+
+        return ResponseEntity.status(200).body(padrinho);
+    }
+
+    @GetMapping("/demandas-ultima-semana/{ano}/{mes}/{dia}")
+    @Operation(description = "Endpoint para pegar os leads do ultimo mês")
+    public ResponseEntity countDemandasUltimaSemana(@PathVariable String ano, @PathVariable String mes, @PathVariable String dia) {
+
+        int demandaAdocao = usuarioRepository.countDemandaAdocaoUltimaSemana(ano, mes, dia);
+        int demandaPagamento = usuarioRepository.countDemandaPagamentoUltimaSemana(ano, mes, dia);
+
+        ArrayList demandas = new ArrayList<>();
+        demandas.add(demandaAdocao);
+        demandas.add(demandaPagamento);
+
+        return ResponseEntity.status(200).body(demandas);
+    }
+
+    @GetMapping("/demandas-ultima-semana/{idUsuario}/{ano}/{mes}/{dia}")
+    @Operation(description = "Endpoint para pegar os leads do ultimo mês")
+    public ResponseEntity countDemandasUltimaSemana(@PathVariable int idUsuario, @PathVariable String ano, @PathVariable String mes, @PathVariable String dia) {
+
+        int demandaAdocao = usuarioRepository.countDemandaAdocaoUltimaSemanaUsuario(idUsuario, ano, mes, dia);
+        int demandaPagamento = usuarioRepository.countDemandaPagamentoUltimaSemanaUsuario(idUsuario, ano, mes, dia);
+
+        ArrayList demandas = new ArrayList<>();
+        demandas.add(demandaAdocao);
+        demandas.add(demandaPagamento);
+
+        return ResponseEntity.status(200).body(demandas);
+    }
+
     // retorna todos os usuarios
     @GetMapping
     @Operation(description = "Endpoint que retorna uma lista com todos os usuários")
@@ -535,13 +619,18 @@ public class UsuarioController {
         return ResponseEntity.status(201).body(visitantes);
     }
 
-    @GetMapping("/visitante/{ano}/{mes}")
+    @GetMapping("/grafico-visitante/{ano}/{mes}")
     @Operation(description = "Endpoint para pegar os visitantes por mês")
-    public ResponseEntity getUsuarioVisitantePorMes(@PathVariable String ano, @PathVariable String mes) {
+    public ResponseEntity countUsuarioVisitantePorMes(@PathVariable String ano, @PathVariable String mes) {
 
-        List visitantes = visitantesRepository.getVisitantesPorMes(ano, mes);
+        int visitantes = visitantesRepository.countVisitantesPorMes(ano, mes);
+        int lead = leadsRepository.countLeadPorMes(ano, mes);
 
-        return ResponseEntity.status(201).body(visitantes);
+        ArrayList graficoVisitantes = new ArrayList<>();
+        graficoVisitantes.add(visitantes);
+        graficoVisitantes.add(lead);
+
+        return ResponseEntity.status(201).body(graficoVisitantes);
     }
 
     @PostMapping("/visitante")
@@ -575,29 +664,25 @@ public class UsuarioController {
         return ResponseEntity.status(201).body(visitantes);
     }
 
-    @GetMapping("/lead/{ano}/{mes}")
-    @Operation(description = "Endpoint para pegar os leads por mês")
-    public ResponseEntity getLeadPorMes(@PathVariable String ano, @PathVariable String mes) {
-
-        List visitantes = leadsRepository.getLeadPorMes(ano, mes);
-
-        return ResponseEntity.status(201).body(visitantes);
-    }
-
     @GetMapping("/lead-usuario/{ano}/{mes}")
     @Operation(description = "Endpoint para pegar os leads usuários por mês")
-    public ResponseEntity getLeadUsuarioPorMes(@PathVariable String ano, @PathVariable String mes) {
+    public ResponseEntity countLeadUsuarioPorMes(@PathVariable String ano, @PathVariable String mes) {
 
-        List visitantes = leadsRepository.getLeadUsuarioPorMes(ano, mes);
+        int leads = leadsRepository.countLeadUsuarioPorMes(ano, mes);
+        int clientes = demandaRepository.countDemandasConcluidasMes(ano, mes);
 
-        return ResponseEntity.status(201).body(visitantes);
+        ArrayList leadUsuario = new ArrayList<>();
+        leadUsuario.add(leads);
+        leadUsuario.add(clientes);
+
+        return ResponseEntity.status(201).body(leadUsuario);
     }
 
     @GetMapping("/lead-instituicao/{ano}/{mes}")
     @Operation(description = "Endpoint para pegar os leads instituição por mês")
-    public ResponseEntity getLeadInstituicaoPorMes(@PathVariable String ano, @PathVariable String mes) {
+    public ResponseEntity countLeadInstituicaoPorMes(@PathVariable String ano, @PathVariable String mes) {
 
-        List visitantes = leadsRepository.getLeadInstituicaoPorMes(ano, mes);
+        int visitantes = leadsRepository.countLeadInstituicaoPorMes(ano, mes);
 
         return ResponseEntity.status(201).body(visitantes);
     }
