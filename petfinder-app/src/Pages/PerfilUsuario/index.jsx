@@ -2,7 +2,7 @@ import './perfil-usuario.css';
 
 import HeaderApp from "../../Components/HeaderApp";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import EditarIcon from "../../Images/edit-two.svg";
 // import MedalhaNoBronzeIcon from "./../../Images/pet-friendly-No-bronze.svg";
 // import MedalhaNoPrataIcon from "./../../Images/pet-friendly-No-prata.svg";
@@ -142,7 +142,7 @@ function PerfilUsuario(){
     const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
     const [usuario, setUsuario] = useState();
     const [pets, setPets] = useState([]);
-    
+    const idUsuario = useParams();
     const [infoPadrinho, setInfoPadrinho] = useState([]);
 
     useEffect(() => {
@@ -153,7 +153,7 @@ function PerfilUsuario(){
             console.log(usuario);
             
         }else{
-            const idUsuario = useParams();
+            
             api.get(`/usuario/${idUsuario}`).then(res => {
                 console.log(res.data);
                 if(res.status === 200) {
