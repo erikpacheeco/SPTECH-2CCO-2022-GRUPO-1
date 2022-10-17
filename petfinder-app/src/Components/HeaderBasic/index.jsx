@@ -9,7 +9,7 @@ function HeaderBasic() {
   return (
     <nav className="header-basic-navbar">
       <section className="header-basic-navbar-container">
-        <a className="header-basic-navbar-container-logo link" href="/">
+        <a className="header-basic-navbar-container-logo link" href="http://petfinder-statico.ddns.net">
           <img className="header-basic-logo" src={logo} alt="" />
           <span className="header-basic-navbar-logo-nome">
             <span className="header-basic-logo-nome-verde">Pet</span>Finder

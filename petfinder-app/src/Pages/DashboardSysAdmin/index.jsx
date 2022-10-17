@@ -37,7 +37,8 @@ function DashboardSysAdmin() {
     const [infoLeadMes5, setInfoLeadMes5] = useState([]);
     const [infoLeadMes6, setInfoLeadMes6] = useState([]);
     
-    const [infoLeadInstituicaoMesAnterior, setInfoLeadInstituicaoMesAnterior] = useState([]);
+    const [infoTotalLeadInstituicao, setInfoTotalLeadInstituicao] = useState([]);
+    const [infoLeadInstituicaoAtivo, setInfoLeadInstituicaoAtivo] = useState();
 
     const [infoMes1, setInfoMes1] = useState([]);
     const [infoMes2, setInfoMes2] = useState([]);
@@ -61,61 +62,41 @@ function DashboardSysAdmin() {
         const dataAtual = new Date();
         const mesAtual = dataAtual.getMonth() + 1;
 
-        api.get(`/usuarios/visitante/${dataAtual.getFullYear()}/0${mesAtual-1}`).then((res) => {
-            setInfoVisitanteMes6(res.data)
+        api.get(`/usuarios/grafico-visitante/${dataAtual.getFullYear()}/0${mesAtual-1}`).then((res) => {
+            setInfoVisitanteMes6(res.data[0])
+            setInfoLeadMes6(res.data[1])
             setInfoMes6(mesAtual-1)
         })
 
-        api.get(`/usuarios/visitante/${dataAtual.getFullYear()}/0${mesAtual-2}`).then((res) => {
-            setInfoVisitanteMes5(res.data)
+        api.get(`/usuarios/grafico-visitante/${dataAtual.getFullYear()}/0${mesAtual-2}`).then((res) => {
+            setInfoVisitanteMes5(res.data[0])
+            setInfoLeadMes5(res.data[1])
             setInfoMes5(mesAtual-2)
         })
 
-        api.get(`/usuarios/visitante/${dataAtual.getFullYear()}/0${mesAtual-3}`).then((res) => {
-            setInfoVisitanteMes4(res.data)
+        api.get(`/usuarios/grafico-visitante/${dataAtual.getFullYear()}/0${mesAtual-3}`).then((res) => {
+            setInfoVisitanteMes4(res.data[0])
+            setInfoLeadMes4(res.data[1])
             setInfoMes4(mesAtual-3)
         })
 
-        api.get(`/usuarios/visitante/${dataAtual.getFullYear()}/0${mesAtual-4}`).then((res) => {
-            setInfoVisitanteMes3(res.data)
+        api.get(`/usuarios/grafico-visitante/${dataAtual.getFullYear()}/0${mesAtual-4}`).then((res) => {
+            setInfoVisitanteMes3(res.data[0])
+            setInfoLeadMes3(res.data[1])
             setInfoMes3(mesAtual-4)
         })
 
-        api.get(`/usuarios/visitante/${dataAtual.getFullYear()}/0${mesAtual-5}`).then((res) => {
-            setInfoVisitanteMes2(res.data)
+        api.get(`/usuarios/grafico-visitante/${dataAtual.getFullYear()}/0${mesAtual-5}`).then((res) => {
+            setInfoVisitanteMes2(res.data[0])
+            setInfoLeadMes2(res.data[1])
             setInfoMes2(mesAtual-5)
         })
 
-        api.get(`/usuarios/visitante/${dataAtual.getFullYear()}/0${mesAtual-6}`).then((res) => {
-            setInfoVisitanteMes1(res.data)
+        api.get(`/usuarios/grafico-visitante/${dataAtual.getFullYear()}/0${mesAtual-6}`).then((res) => {
+            setInfoVisitanteMes1(res.data[0])
+            setInfoLeadMes1(res.data[1])
             setInfoMes1(mesAtual-6)
         })
-
-        
-        api.get(`/usuarios/lead/${dataAtual.getFullYear()}/0${mesAtual-1}`).then((res) => {
-            setInfoLeadMes6(res.data)
-        })
-
-        api.get(`/usuarios/lead/${dataAtual.getFullYear()}/0${mesAtual-2}`).then((res) => {
-            setInfoLeadMes5(res.data)
-        })
-
-        api.get(`/usuarios/lead/${dataAtual.getFullYear()}/0${mesAtual-3}`).then((res) => {
-            setInfoLeadMes4(res.data)
-        })
-
-        api.get(`/usuarios/lead/${dataAtual.getFullYear()}/0${mesAtual-4}`).then((res) => {
-            setInfoLeadMes3(res.data)
-        })
-
-        api.get(`/usuarios/lead/${dataAtual.getFullYear()}/0${mesAtual-5}`).then((res) => {
-            setInfoLeadMes2(res.data)
-        })
-
-        api.get(`/usuarios/lead/${dataAtual.getFullYear()}/0${mesAtual-6}`).then((res) => {
-            setInfoLeadMes1(res.data)
-        })
-
 
     }, [])
 
@@ -160,11 +141,22 @@ function DashboardSysAdmin() {
     // Gráfico Lead Instituicao
     useEffect(() => {
         
-        const dataAtual = new Date();
-        const mesAnterior = dataAtual.getMonth();
+        let soma = 0;
+        let lead = 0;
 
-        api.get(`/usuarios/lead-instituicao/${dataAtual.getFullYear()}/0${mesAnterior}`).then((res) => {
-            setInfoLeadInstituicaoMesAnterior(res.data)
+        api.get(`/usuarios/lead-instituicao`).then((res) => {
+
+            res.data.forEach(element => {
+                soma+=element;
+            });
+
+            setInfoTotalLeadInstituicao(soma)
+
+            lead = res.data[0]
+
+            console.log(infoTotalLeadInstituicao)
+            setInfoLeadInstituicaoAtivo(lead-infoTotalLeadInstituicao)
+
         })
 
     }, [])
@@ -215,12 +207,12 @@ function DashboardSysAdmin() {
                                         chartType="Bar"
                                         data={[
                                             ["Mês", "Qtd Visitantes", "Qtd Usuários"], 
-                                            ["0"+infoMes1, infoVisitanteMes1.length, infoLeadMes1.length], 
-                                            ["0"+infoMes2, infoVisitanteMes2.length, infoLeadMes2.length], 
-                                            ["0"+infoMes3, infoVisitanteMes3.length, infoLeadMes3.length], 
-                                            ["0"+infoMes4, infoVisitanteMes4.length, infoLeadMes4.length], 
-                                            ["0"+infoMes5, infoVisitanteMes5.length, infoLeadMes5.length], 
-                                            ["0"+infoMes6, infoVisitanteMes6.length, infoLeadMes6.length]
+                                            ["0"+infoMes1, infoVisitanteMes1, infoLeadMes1], 
+                                            ["0"+infoMes2, infoVisitanteMes2, infoLeadMes2], 
+                                            ["0"+infoMes3, infoVisitanteMes3, infoLeadMes3], 
+                                            ["0"+infoMes4, infoVisitanteMes4, infoLeadMes4], 
+                                            ["0"+infoMes5, infoVisitanteMes5, infoLeadMes5], 
+                                            ["0"+infoMes6, infoVisitanteMes6, infoLeadMes6]
                                         ]}
                                         width="100%"
                                         height="100%"
@@ -236,12 +228,12 @@ function DashboardSysAdmin() {
                                         chartType="Bar"
                                         data={[
                                             ["Mês", "Qtd Leads", "Qtd Clientes"], 
-                                            ["0"+infoMes1, infoLeadUsuarioMes1.length, 9], 
-                                            ["0"+infoMes2, infoLeadUsuarioMes2.length, 12], 
-                                            ["0"+infoMes3, infoLeadUsuarioMes3.length, 5], 
-                                            ["0"+infoMes4, infoLeadUsuarioMes4.length, 15], 
-                                            ["0"+infoMes5, infoLeadUsuarioMes5.length, 20], 
-                                            ["0"+infoMes6, infoLeadUsuarioMes6.length, 22]
+                                            ["0"+infoMes1, infoLeadUsuarioMes1[0], infoLeadUsuarioMes1[1]], 
+                                            ["0"+infoMes2, infoLeadUsuarioMes2[0], infoLeadUsuarioMes2[1]], 
+                                            ["0"+infoMes3, infoLeadUsuarioMes3[0], infoLeadUsuarioMes3[1]], 
+                                            ["0"+infoMes4, infoLeadUsuarioMes4[0], infoLeadUsuarioMes4[1]], 
+                                            ["0"+infoMes5, infoLeadUsuarioMes5[0], infoLeadUsuarioMes5[1]], 
+                                            ["0"+infoMes6, infoLeadUsuarioMes6[0], infoLeadUsuarioMes6[1]]
                                         ]}
                                         width="100%"
                                         height="100%"
@@ -260,8 +252,8 @@ function DashboardSysAdmin() {
                                         chartType="PieChart"
                                         data={[
                                             ["", ""], 
-                                            ["Instituição Ativa", 20], 
-                                            ["Instituição Inativa", 31]
+                                            ["Instituição Ativa", infoLeadInstituicaoAtivo], 
+                                            ["Instituição Inativa", infoTotalLeadInstituicao-infoLeadInstituicaoAtivo]
                                         ]}
                                         options={options}
                                         width="100%"
@@ -270,19 +262,6 @@ function DashboardSysAdmin() {
                                     />
                                 </div>
                             </div>
-
-                            {/* <div className="dashboard-sysadmin-metricas-grafico">
-                                <h2>Reporte de resgate por mês</h2>
-                                <div className="dashboard-sysadmin-metricas-grafico-container">
-                                    <Chart
-                                        chartType="Bar"
-                                        data={[["", "Reporte"], ["Fev", 38], ["Mar", 43], ["Abr", 35], ["Mai", 20], ["Jun", 44]]}
-                                        width="100%"
-                                        height="100%"
-                                        legendToggle
-                                    />
-                                </div>
-                            </div> */}
 
                         </div>
                     </div>

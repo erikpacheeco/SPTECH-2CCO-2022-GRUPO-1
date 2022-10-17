@@ -92,7 +92,7 @@ CREATE TABLE demanda (
   categoria ENUM("adocao", "pagamento", "resgate") NOT NULL,
   data_abertura DATETIME NOT NULL,
   data_fechamento DATETIME NULL,
-  status ENUM("aberto", "em_andamento", "concluido", "cancelado", "documento_valido", "pgto_realizado_user", "pgto_realizado_inst", "resgate_invalido", "resgate_valido") NOT NULL,
+  status ENUM("aberto", "em_andamento", "concluido", "cancelado", "aguardando_validacao_documento", "documento_valido", "pgto_realizado_user", "pgto_realizado_inst") NOT NULL,
   usuario_id INT NOT NULL,
   instituicao_id INT NOT NULL,
   colaborador_id INT,
@@ -109,7 +109,7 @@ CREATE TABLE demanda (
 CREATE TABLE demanda_hist (
   id INT PRIMARY KEY AUTO_INCREMENT,
   data DATETIME DEFAULT NOW(),
-  status ENUM("adocao", "pagamento", "resgate"),
+  status ENUM("aberto", "em_andamento", "concluido", "cancelado", "aguardando_validacao_documento", "documento_valido", "pgto_realizado_user", "pagamento_realizado_user", "pgto_realizado_inst", "pagamento_realizado_inst") NOT NULL,
   demanda_id INT NOT NULL
 );
 

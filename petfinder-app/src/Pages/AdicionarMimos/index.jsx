@@ -80,10 +80,10 @@ function AdicionarMimos() {
         )
         .then(res => {
             console.log(res.data);
-            if (res.status === 200) {
+            if (res.status === 201) {
                 setTimeout(() => {
                     setMimos(oldState => [...oldState, res.data]);
-                }, 1000);
+                }, 500);
             }
             console.log("mimos", mimos);
         })

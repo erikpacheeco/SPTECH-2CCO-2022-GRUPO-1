@@ -49,7 +49,7 @@ const headerFunction = {
                 <SideBarItem icon={Home} label="Página Inicial" navigateTo={"/home-user"}/>,
                 <SideBarItem icon={Mensagem} label="Mensagens" navigateTo={"/chat"}/>,
                 <SideBarItem icon={MeuPerfil} label="Meu Perfil" navigateTo={"/perfil-usuario"}/>,
-                <SideBarItem icon={MeusPremios} label="Meus Prêmios" navigateTo={"/meus-premios"}/>
+                <SideBarItem icon={MeusPremios} label="Meus Prêmios" navigateTo={`/meus-premios/${infoUsuario.id}`}/>
             ]
         }
     
@@ -81,7 +81,7 @@ const headerFunction = {
         } else {
             listaHeader = [
                 <NavItem isSelected={paginaAtual === "/home-user" ? true : false} label="Página Inicial" navigateTo={"/home-user"}/>,
-                <NavItem isSelected={paginaAtual === "/meus-premios" ? true : false} label="Meus Prêmios" navigateTo={"/meus-premios"}/>,
+                <NavItem isSelected={paginaAtual === "/meus-premios" ? true : false} label="Meus Prêmios" navigateTo={`/meus-premios/${infoUsuario.id}`}/>,
                 <NavItem isSelected={paginaAtual === "/chat" ? true : false} label="Mensagens" navigateTo={"/chat"}/>
             ]
         }
