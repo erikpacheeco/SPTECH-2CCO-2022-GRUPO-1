@@ -22,6 +22,7 @@ import petfinder.petfinderapi.rest.DistanciaResposta;
 import petfinder.petfinderapi.service.ServicePet;
 import petfinder.petfinderapi.utilitarios.FilaObj;
 import petfinder.petfinderapi.utilitarios.PilhaObj;
+import petfinder.petfinderapi.utilitarios.HashTable.HashTable;
 import petfinder.petfinderapi.utilitarios.GerenciadorArquivos;
 import petfinder.petfinderapi.utilitarios.ListaObj;
 import javax.validation.Valid;
@@ -115,8 +116,14 @@ public class PetsController implements GerenciadorArquivos {
 
     @GetMapping("/instituicao/{id}")
     @Operation(description = "Endpoint que retorna uma lista de pets de uma instituição especifica")
-    ResponseEntity<List<PetPerfil>> getByInstituicaoId(@PathVariable int id) {
+    public ResponseEntity<List<PetPerfil>> getByInstituicaoId(@PathVariable int id) {
         return ResponseEntity.ok(servicePet.getPetPerfilByInstituicaoId(id));
+    }
+
+    @GetMapping("/instituicao/hashTable/{id}")
+    @Operation(description = "Endpoint que retorna uma lista de pets de uma instituição utilizando HashTable")
+    public ResponseEntity<HashTable> getPetPerfilByInstituicaoHashTable(@PathVariable int id) {
+        return ok(servicePet.getPetPerfilByInstituicaoIdHashTable(id));
     }
 
     @GetMapping("/instituicao/pets/count/{id}")
@@ -477,7 +484,7 @@ public class PetsController implements GerenciadorArquivos {
     }
 
     @GetMapping("/premios-instituicao/{idInstituicao}")
-    @Operation(description = "Endpoint para retornar todos os todos os mimos de determinada instituição")
+    @Operation(description = "Endpoint para retornar todos os mimos de determinada instituição")
     public ResponseEntity<Object> getByMimosInstituicao(@PathVariable int idInstituicao) {
 
         List<Pet> listaPet = repositoryPet.findByInstituicaoId(idInstituicao);

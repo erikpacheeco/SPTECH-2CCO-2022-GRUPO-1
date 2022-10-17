@@ -27,6 +27,7 @@ import petfinder.petfinderapi.service.exceptions.EntityNotFoundException;
 import petfinder.petfinderapi.service.exceptions.IdNotFoundException;
 import petfinder.petfinderapi.service.exceptions.NoContentException;
 import petfinder.petfinderapi.utilitarios.UploadFile;
+import petfinder.petfinderapi.utilitarios.HashTable.HashTable;
 
 @Service
 public class ServicePet {
@@ -185,6 +186,12 @@ public class ServicePet {
         } catch(Exception err) {
             throw new EntityNotFoundException(id);
         }
+    }
+
+    public HashTable getPetPerfilByInstituicaoIdHashTable(int id) {
+        List<Pet> listaPet = petRepository.findAll();
+        HashTable hash = new HashTable(listaPet);
+        return hash;
     }
 
 }
