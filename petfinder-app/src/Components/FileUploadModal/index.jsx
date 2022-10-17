@@ -1,9 +1,10 @@
 import React from "react";
 import { useState } from "react";
 import "./fileUploadModal.css";
-import previewDocImport from "../../Images/icon-preview-doc.svg";
-import previewCorrectImport from "../../Images/icon-preview-correct.svg";
-import previewImgImport from "../../Images/icon-preview-img.svg";
+import previewDocImport from "../../Images/file-doc.svg";
+import previewCorrectImport from "../../Images/file-success.svg";
+import previewImgImport from "../../Images/image-files.svg";
+import closeIcon from "../../Images/close-small-red.svg";
 import apiMsg from "../../ApiMsg";
 
 function FileUploadModal({
@@ -58,7 +59,7 @@ function FileUploadModal({
 
             <div className="file-modal-label">
                 <div className="file-modal-label-text">Selecione um tipo de arquivo:</div>
-                <div className="file-modal-label-close" onClick={() => setModalIsOpen(false)}>close</div>
+                <img src={closeIcon} alt="" className="file-modal-label-close" onClick={() => setModalIsOpen(false)}/>
             </div>
 
             <div className={`file-modal-type-btn ${uploadType === "img" ? "file-modal-type-btn-active" : ""}`} onClick={() => {setUploadType("img")}}>Imagem</div>

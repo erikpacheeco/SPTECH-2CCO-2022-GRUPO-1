@@ -13,7 +13,7 @@
 .msg-date{
     font-size: 12px;
     text-align: right;
-    color: #d899ff;
+    color: #eae2ee;
 }
 
 .msg-left{
@@ -28,12 +28,14 @@
 
 
 .msg-color-left{
-    background-color: #7F2AB5;
+    background-color: #a17baf;
     color: white;
 }
 
 .msg-color-right{
-    background-color: #3333;
+    /* background-color: #CBD7F5; */
+    background-color: #836bdb99;
+    color: white;
 }
 
 .mensagem-imagem {

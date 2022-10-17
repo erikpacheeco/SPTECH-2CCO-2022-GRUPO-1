@@ -1,12 +1,13 @@
 .file-modal-container {
-    width: 500px;
-    height: 370px;
+    width: 505px;
+    height: 441px;
     background-color: white;
-    border: 1px solid #7F2AB5;
+    border: 1px solid #50077e;
+    box-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
     padding: 20px;
     position: absolute;
-    top: 220px;
-    left: 40%;
+    top: 210px;
+    left: 47%;
     border-radius: 5px;
 }
 
@@ -26,10 +27,11 @@
 
 .file-modal-label-text {
     font-size: 16px;
+    color: #7F2AB5;
 }
 
 .file-modal-label-close {
-    background-color: red;
+    cursor: pointer;
 }
 
 .file-upload-modal-form {
@@ -52,7 +54,8 @@
 }
 
 .file-upload-modal-form-label {
-    font-size: 20px;
+    font-size: 16px;
+    margin-top: 55px;
     color: #7F2AB5;
     display: block;
     text-align: center;
@@ -61,12 +64,14 @@
 .file-upload-modal-preview {
     max-width: 50%;
     height: 200px;
+    cursor: pointer;
 }
 
 .file-upload-modal-form-enviar {
     border: none;
-    background-color: #7F2AB5;
-    color: white;
+    background-color: #FFD92E;
+    color: #7F2AB5;
+    font-weight: bold;
     border-radius: 5px;
     cursor: pointer;
     align-self: flex-end;
@@ -78,11 +83,14 @@
 
 .file-upload-modal-form-enviar:hover {
     opacity: 0.9;
+    font-weight: bold;
+    background-color: #7F2AB5;
+    color: #FFD92E;
 }
 
 .file-upload-modal-form-input {
-    /* border: red 1px solid; */
     display: none;
+    cursor: pointer;
 }
 
 #idInputImg, #idInputFile {
@@ -103,6 +111,7 @@
     padding: 5px;
     font-size: 14px;
     border: 1px solid #7F2AB5;
+    color: #7F2AB5;
     width: 60px;
     border-radius: 5px;
     text-align: center;

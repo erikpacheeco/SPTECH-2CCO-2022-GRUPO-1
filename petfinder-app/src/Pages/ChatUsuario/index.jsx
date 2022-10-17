@@ -121,7 +121,7 @@ export default function ChatUsuario() {
         let input = document.getElementById('input_text')
         let messageJson = {
             "conteudo": input.value,
-            "tipo": 'text',
+            "tipo": 'texto',
             "demandaId": demandaAtual.id,
             "remetenteId": localStorage.getItem('petfinder_user_id'),
             "dataEnvio": new Date()
