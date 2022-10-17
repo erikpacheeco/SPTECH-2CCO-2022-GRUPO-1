@@ -10,6 +10,7 @@ public class DtoDemanda {
     private int id;
     private String categoria;
     private Date dataAbertura;
+    private Date dataFechamento;
     private String status;
     private DtoUsuarioSimples usuario;
     private DtoUsuarioSimples colaborador;
@@ -23,6 +24,7 @@ public class DtoDemanda {
         this.id = d.getId();
         this.categoria = d.getCategoria();
         this.dataAbertura = d.getDataAbertura();
+        this.dataFechamento = d.getDataFechamento();
         this.status = d.getStatus();
         this.usuario = new DtoUsuarioSimples(d.getUsuario());
         this.colaborador = Objects.nonNull(d.getColaborador()) ? new DtoUsuarioSimples(d.getColaborador()) : null;
@@ -85,5 +87,11 @@ public class DtoDemanda {
     }
     public void setProximaAcaoColaborador(ProximaAcao proximaAcaoColaborador) {
         this.proximaAcaoColaborador = proximaAcaoColaborador;
+    }
+    public Date getDataFechamento() {
+        return dataFechamento;
+    }
+    public void setDataFechamento(Date dataFechamento) {
+        this.dataFechamento = dataFechamento;
     }
 }

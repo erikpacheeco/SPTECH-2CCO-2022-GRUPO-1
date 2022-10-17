@@ -12,35 +12,16 @@ function DashboardAdmin() {
     
     const [infoDashboard, setInfoDashboard] = useState([]);
 
-    const [infoPadrinhoSemana1, setInfoPadrinhoSemana1] = useState([]);
-    const [infoPadrinhoSemana2, setInfoPadrinhoSemana2] = useState([]);
-    const [infoPadrinhoSemana3, setInfoPadrinhoSemana3] = useState([]);
-    const [infoPadrinhoSemana4, setInfoPadrinhoSemana4] = useState([]);
-    const [infoPadrinhoSemana5, setInfoPadrinhoSemana5] = useState([]);
-    const [infoPadrinhoSemana6, setInfoPadrinhoSemana6] = useState([]);
-    const [infoPadrinhoSemana7, setInfoPadrinhoSemana7] = useState([]);
+    const [infoPadrinhosSemana, setInfoPadrinhosSemana] = useState([]);
+    const [infoPadrinhosMes, setInfoPadrinhosMes] = useState([]);
 
-    const [infoPadrinhoMes1, setInfoPadrinhoMes1] = useState([]);
-    const [infoPadrinhoMes2, setInfoPadrinhoMes2] = useState([]);
-    const [infoPadrinhoMes3, setInfoPadrinhoMes3] = useState([]);
-    const [infoPadrinhoMes4, setInfoPadrinhoMes4] = useState([]);
-    const [infoPadrinhoMes5, setInfoPadrinhoMes5] = useState([]);
-    const [infoPadrinhoMes6, setInfoPadrinhoMes6] = useState([]);
+    const [infoDemandaSemanaAdocao, setInfoDemandaSemanaAdocao] = useState([]);
+    const [infoDemandaSemanaPagamento, setInfoDemandaSemanaPagamento] = useState([]);
+    const [infoDemandaMesAdocao, setInfoDemandaMesAdocao] = useState([]);
+    const [infoDemandaMesPagamento, setInfoDemandaMesPagamento] = useState([]);
 
-    const [infoDemandaSemana1, setInfoDemandaSemana1] = useState([]);
-    const [infoDemandaSemana2, setInfoDemandaSemana2] = useState([]);
-    const [infoDemandaSemana3, setInfoDemandaSemana3] = useState([]);
-    const [infoDemandaSemana4, setInfoDemandaSemana4] = useState([]);
-    const [infoDemandaSemana5, setInfoDemandaSemana5] = useState([]);
-    const [infoDemandaSemana6, setInfoDemandaSemana6] = useState([]);
-    const [infoDemandaSemana7, setInfoDemandaSemana7] = useState([]);
-
-    const [infoDemandaMes1, setInfoDemandaMes1] = useState([]);
-    const [infoDemandaMes2, setInfoDemandaMes2] = useState([]);
-    const [infoDemandaMes3, setInfoDemandaMes3] = useState([]);
-    const [infoDemandaMes4, setInfoDemandaMes4] = useState([]);
-    const [infoDemandaMes5, setInfoDemandaMes5] = useState([]);
-    const [infoDemandaMes6, setInfoDemandaMes6] = useState([]);
+    const [infoPremiosSemana, setInfoPremiosSemana] = useState([]);
+    const [infoPremiosMes, setInfoPremiosMes] = useState([]);
 
     const [infoDia1, setInfoDia1] = useState([]);
     const [infoDia2, setInfoDia2] = useState([]);
@@ -61,6 +42,17 @@ function DashboardAdmin() {
     var trocaBtnDemanda = true;
     var trocaBtnPadrinho = true;
 
+    useEffect(() => {
+
+        const interval = setInterval(() => {
+            document.querySelector("#btn-semana-padrinho").click();
+            document.querySelector("#btn-semana-demanda").click();
+            document.querySelector("#btn-semana-premio").click();
+            return clearInterval(interval);
+        }, 300);
+
+    }, []);
+
     // cads 
     useEffect(() => {
         
@@ -68,214 +60,126 @@ function DashboardAdmin() {
             setInfoDashboard(res.data)
         })
 
+        const dataAtual = new Date();
+        const mesAtual = dataAtual.getMonth() + 1;
+        const diaAtual = dataAtual.getDate();
+
+        setInfoDia7(diaAtual)
+        setInfoDia6(diaAtual-1)
+        setInfoDia5(diaAtual-2)
+        setInfoDia4(diaAtual-3)
+        setInfoDia3(diaAtual-4)
+        setInfoDia2(diaAtual-5)
+        setInfoDia1(diaAtual-6)
+
+        setInfoMes6(mesAtual)
+        setInfoMes5(mesAtual-1)
+        setInfoMes4(mesAtual-2)
+        setInfoMes3(mesAtual-3)
+        setInfoMes2(mesAtual-4)
+        setInfoMes1(mesAtual-5)
+
     }, [])
 
     // grafico padrinhos
     useEffect(() => {
         
-        const dataAtual = new Date();
-        const mesAtual = dataAtual.getMonth() + 1;
-        const diaAtual = dataAtual.getDate();
-
-        api.get(`/usuarios/padrinhos-ultima-semana/${dataAtual.getFullYear()}/0${mesAtual-1}/${diaAtual}`).then((res) => {
-            setInfoPadrinhoSemana7(res.data)
-            setInfoDia7(diaAtual)
-        })
-
-        api.get(`/usuarios/padrinhos-ultima-semana/${dataAtual.getFullYear()}/0${mesAtual-1}/${diaAtual-1}`).then((res) => {
-            setInfoPadrinhoSemana6(res.data)
-            setInfoDia6(diaAtual-1)
-        })
-
-        api.get(`/usuarios/padrinhos-ultima-semana/${dataAtual.getFullYear()}/0${mesAtual-1}/${diaAtual-2}`).then((res) => {
-            setInfoPadrinhoSemana5(res.data)
-            setInfoDia5(diaAtual-2)
-        })
-
-        api.get(`/usuarios/padrinhos-ultima-semana/${dataAtual.getFullYear()}/0${mesAtual-1}/${diaAtual-3}`).then((res) => {
-            setInfoPadrinhoSemana4(res.data)
-            setInfoDia4(diaAtual-3)
-        })
-
-        api.get(`/usuarios/padrinhos-ultima-semana/${dataAtual.getFullYear()}/0${mesAtual-1}/${diaAtual-4}`).then((res) => {
-            setInfoPadrinhoSemana3(res.data)
-            setInfoDia3(diaAtual-4)
-        })
-
-        api.get(`/usuarios/padrinhos-ultima-semana/${dataAtual.getFullYear()}/0${mesAtual-1}/${diaAtual-5}`).then((res) => {
-            setInfoPadrinhoSemana2(res.data)
-            setInfoDia2(diaAtual-5)
-        })
-
-        api.get(`/usuarios/padrinhos-ultima-semana/${dataAtual.getFullYear()}/0${mesAtual-1}/${diaAtual-6}`).then((res) => {
-            setInfoPadrinhoSemana1(res.data)
-            setInfoDia1(diaAtual-6)
-        })
-
-        api.get(`/usuarios/padrinhos/${infoUsuario.fkInstituicao.id}/${dataAtual.getFullYear()}/0${mesAtual-1}`).then((res) => {
-            setInfoPadrinhoMes6(res.data)
-            setInfoMes6(mesAtual-1)
-        })
-
-        api.get(`/usuarios/padrinhos/${infoUsuario.fkInstituicao.id}/${dataAtual.getFullYear()}/0${mesAtual-2}`).then((res) => {
-            setInfoPadrinhoMes5(res.data)
-            setInfoMes5(mesAtual-2)
-        })
-
-        api.get(`/usuarios/padrinhos/${infoUsuario.fkInstituicao.id}/${dataAtual.getFullYear()}/0${mesAtual-3}`).then((res) => {
-            setInfoPadrinhoMes4(res.data)
-            setInfoMes4(mesAtual-3)
-        })
-
-        api.get(`/usuarios/padrinhos/${infoUsuario.fkInstituicao.id}/${dataAtual.getFullYear()}/0${mesAtual-4}`).then((res) => {
-            setInfoPadrinhoMes3(res.data)
-            setInfoMes3(mesAtual-4)
-        })
-
-        api.get(`/usuarios/padrinhos/${infoUsuario.fkInstituicao.id}/${dataAtual.getFullYear()}/0${mesAtual-5}`).then((res) => {
-            setInfoPadrinhoMes2(res.data)
-            setInfoMes2(mesAtual-5)
-        })
-
-        api.get(`/usuarios/padrinhos/${infoUsuario.fkInstituicao.id}/${dataAtual.getFullYear()}/0${mesAtual-6}`).then((res) => {
-            setInfoPadrinhoMes1(res.data)
-            setInfoMes1(mesAtual-6)
+        api.get(`/demandas/padrinhos/${infoUsuario.fkInstituicao.id}`).then((res) => {
+            setInfoPadrinhosSemana(res.data[0])
+            setInfoPadrinhosMes(res.data[1])
         })
 
     }, [])
 
     const dataPadrinhoMes = [
         ["Mês", "Padrinhos"], 
-        ["0"+infoMes1, infoPadrinhoMes1], 
-        ["0"+infoMes2, infoPadrinhoMes2], 
-        ["0"+infoMes3, infoPadrinhoMes3], 
-        ["0"+infoMes4, infoPadrinhoMes4], 
-        ["0"+infoMes5, infoPadrinhoMes5], 
-        ["0"+infoMes6, infoPadrinhoMes6]
+        ["0"+infoMes1, infoPadrinhosMes[0]], 
+        ["0"+infoMes2, infoPadrinhosMes[1]], 
+        ["0"+infoMes3, infoPadrinhosMes[2]], 
+        ["0"+infoMes4, infoPadrinhosMes[3]], 
+        ["0"+infoMes5, infoPadrinhosMes[4]], 
+        ["0"+infoMes6, infoPadrinhosMes[5]]
     ]
 
     const dataPadrinhoSemana = [
         ["Dia", "Padrinhos"], 
-        [infoDia1, infoPadrinhoSemana1], 
-        [infoDia2, infoPadrinhoSemana2], 
-        [infoDia3, infoPadrinhoSemana3], 
-        [infoDia4, infoPadrinhoSemana4], 
-        [infoDia5, infoPadrinhoSemana5], 
-        [infoDia6, infoPadrinhoSemana6], 
-        [infoDia7, infoPadrinhoSemana7]
+        [infoDia1, infoPadrinhosSemana[0]], 
+        [infoDia2, infoPadrinhosSemana[1]], 
+        [infoDia3, infoPadrinhosSemana[2]], 
+        [infoDia4, infoPadrinhosSemana[3]], 
+        [infoDia5, infoPadrinhosSemana[4]], 
+        [infoDia6, infoPadrinhosSemana[5]], 
+        [infoDia7, infoPadrinhosSemana[6]]
     ]
 
     // grafico demandas 
     useEffect(() => {
-
-        const dataAtual = new Date();
-        const mesAtual = dataAtual.getMonth() + 1;
-        const diaAtual = dataAtual.getDate();
-
-        api.get(`/usuarios/demandas-ultima-semana/${dataAtual.getFullYear()}/0${mesAtual-1}/${diaAtual}`).then((res) => {
-            setInfoDemandaSemana7(res.data)
-        })
-
-        api.get(`/usuarios/demandas-ultima-semana/${dataAtual.getFullYear()}/0${mesAtual-1}/${diaAtual-1}`).then((res) => {
-            setInfoDemandaSemana6(res.data)
-        })
-
-        api.get(`/usuarios/demandas-ultima-semana/${dataAtual.getFullYear()}/0${mesAtual-1}/${diaAtual-2}`).then((res) => {
-            setInfoDemandaSemana5(res.data)
-        })
-
-        api.get(`/usuarios/demandas-ultima-semana/${dataAtual.getFullYear()}/0${mesAtual-1}/${diaAtual-3}`).then((res) => {
-            setInfoDemandaSemana4(res.data)
-        })
-
-        api.get(`/usuarios/demandas-ultima-semana/${dataAtual.getFullYear()}/0${mesAtual-1}/${diaAtual-4}`).then((res) => {
-            setInfoDemandaSemana3(res.data)
-        })
-
-        api.get(`/usuarios/demandas-ultima-semana/${dataAtual.getFullYear()}/0${mesAtual-1}/${diaAtual-5}`).then((res) => {
-            setInfoDemandaSemana2(res.data)
-        })
-
-        api.get(`/usuarios/demandas-ultima-semana/${dataAtual.getFullYear()}/0${mesAtual-1}/${diaAtual-6}`).then((res) => {
-            setInfoDemandaSemana1(res.data)
-        })
-
-        api.get(`/usuarios/demandas/${infoUsuario.fkInstituicao.id}/${dataAtual.getFullYear()}/0${mesAtual-1}`).then((res) => {
-            setInfoDemandaMes6(res.data)
-        })
-
-        api.get(`/usuarios/demandas/${infoUsuario.fkInstituicao.id}/${dataAtual.getFullYear()}/0${mesAtual-2}`).then((res) => {
-            setInfoDemandaMes5(res.data)
-        })
-
-        api.get(`/usuarios/demandas/${infoUsuario.fkInstituicao.id}/${dataAtual.getFullYear()}/0${mesAtual-3}`).then((res) => {
-            setInfoDemandaMes4(res.data)
-        })
-
-        api.get(`/usuarios/demandas/${infoUsuario.fkInstituicao.id}/${dataAtual.getFullYear()}/0${mesAtual-4}`).then((res) => {
-            setInfoDemandaMes3(res.data)
-        })
-
-        api.get(`/usuarios/demandas/${infoUsuario.fkInstituicao.id}/${dataAtual.getFullYear()}/0${mesAtual-5}`).then((res) => {
-            setInfoDemandaMes2(res.data)
-        })
-
-        api.get(`/usuarios/demandas/${infoUsuario.fkInstituicao.id}/${dataAtual.getFullYear()}/0${mesAtual-6}`).then((res) => {
-            setInfoDemandaMes1(res.data)
+        
+        api.get(`/demandas/dashboard/instituicao/${infoUsuario.fkInstituicao.id}`).then((res) => {
+            setInfoDemandaMesAdocao(res.data.demandaAdocaoMes)
+            setInfoDemandaSemanaAdocao(res.data.demandaAdocaoSemana)
+            setInfoDemandaMesPagamento(res.data.demandaPagamentoMes)
+            setInfoDemandaSemanaPagamento(res.data.demandaPagamentoSemana)
         })
 
     }, [])
 
     const dataDemandaMes = [
         ["Mês", "Adoção", "Pagamento"], 
-        ["0"+infoMes1, infoDemandaMes1[0], infoDemandaMes1[1]], 
-        ["0"+infoMes2, infoDemandaMes2[0], infoDemandaMes2[1]], 
-        ["0"+infoMes3, infoDemandaMes3[0], infoDemandaMes3[1]], 
-        ["0"+infoMes4, infoDemandaMes4[0], infoDemandaMes4[1]], 
-        ["0"+infoMes5, infoDemandaMes5[0], infoDemandaMes5[1]], 
-        ["0"+infoMes6, infoDemandaMes6[0], infoDemandaMes6[1]]
+        ["0"+infoMes1, infoDemandaMesAdocao[0], infoDemandaMesPagamento[0]], 
+        ["0"+infoMes2, infoDemandaMesAdocao[1], infoDemandaMesPagamento[1]], 
+        ["0"+infoMes3, infoDemandaMesAdocao[2], infoDemandaMesPagamento[2]], 
+        ["0"+infoMes4, infoDemandaMesAdocao[3], infoDemandaMesPagamento[3]], 
+        ["0"+infoMes5, infoDemandaMesAdocao[4], infoDemandaMesPagamento[4]], 
+        ["0"+infoMes6, infoDemandaMesAdocao[5], infoDemandaMesPagamento[5]]
     ]
 
     const dataDemandaSemana = [
         ["Dia", "Adoção", "Pagamento"], 
-        [infoDia1, infoDemandaSemana1[0], infoDemandaSemana1[1]], 
-        [infoDia2, infoDemandaSemana2[0], infoDemandaSemana2[1]], 
-        [infoDia3, infoDemandaSemana3[0], infoDemandaSemana3[1]], 
-        [infoDia4, infoDemandaSemana4[0], infoDemandaSemana4[1]], 
-        [infoDia5, infoDemandaSemana5[0], infoDemandaSemana5[1]], 
-        [infoDia6, infoDemandaSemana6[0], infoDemandaSemana6[1]],
-        [infoDia7, infoDemandaSemana7[0], infoDemandaSemana7[1]]
+        [infoDia1, infoDemandaSemanaAdocao[0], infoDemandaSemanaPagamento[0]], 
+        [infoDia2, infoDemandaSemanaAdocao[1], infoDemandaSemanaPagamento[1]], 
+        [infoDia3, infoDemandaSemanaAdocao[2], infoDemandaSemanaPagamento[2]], 
+        [infoDia4, infoDemandaSemanaAdocao[3], infoDemandaSemanaPagamento[3]], 
+        [infoDia5, infoDemandaSemanaAdocao[4], infoDemandaSemanaPagamento[4]], 
+        [infoDia6, infoDemandaSemanaAdocao[5], infoDemandaSemanaPagamento[5]],
+        [infoDia7, infoDemandaSemanaAdocao[6], infoDemandaSemanaPagamento[6]]
     ]
 
     // grafico prêmios
     useEffect(() => {
 
+        api.get(`/demandas/premios/get/instituicao/${infoUsuario.fkInstituicao.id}`).then((res) => {
+            setInfoPremiosSemana(res.data[0])
+            setInfoPremiosMes(res.data[1])
+        })
+
     },[])
 
     const dataPremioSemana = [
-        ["", "Prêmios"], 
-        ["Seg", 3], 
-        ["Ter", 0], 
-        ["Qua", 2], 
-        ["Qui", 8], 
-        ["Sex", 10],
-        ["Sab", 5],
-        ["Dom", 0]
+        ["Dia", "Prêmios"], 
+        [infoDia1, infoPremiosSemana[0]], 
+        [infoDia2, infoPremiosSemana[1]], 
+        [infoDia3, infoPremiosSemana[2]], 
+        [infoDia4, infoPremiosSemana[3]], 
+        [infoDia5, infoPremiosSemana[4]], 
+        [infoDia6, infoPremiosSemana[5]], 
+        [infoDia7, infoPremiosSemana[6]], 
     ]
     
     const dataPremioMes = [
-        ["", "Prêmios"], 
-        ["Fev", 38], 
-        ["Mar", 43], 
-        ["Abr", 35], 
-        ["Mai", 20], 
-        ["Jun", 44]
+        ["Mês", "Prêmios"], 
+        [infoMes1, infoPremiosMes[0]],
+        [infoMes2, infoPremiosMes[1]],
+        [infoMes3, infoPremiosMes[2]],
+        [infoMes4, infoPremiosMes[3]],
+        [infoMes5, infoPremiosMes[4]],
+        [infoMes6, infoPremiosMes[5]]
     ]
     
 
-    const [valorDataPremio, setValorDataPremio] = useState(dataPremioSemana);
-    const [valorDataDemanda, setValorDataDemanda] = useState(dataDemandaSemana);
     const [valorDataPadrinho, setValorDataPadrinho] = useState(dataPadrinhoSemana);
+    const [valorDataDemanda, setValorDataDemanda] = useState(dataDemandaSemana);
+    const [valorDataPremio, setValorDataPremio] = useState(dataPremioSemana);
 
     return (
         <>

@@ -42,34 +42,4 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, Integer>{
     @Query("SELECT COUNT(u) FROM Usuario u WHERE u.nivelAcesso = 'adm'")
     public Integer findAllUsuarioAdmin();
 
-    @Query(value="select count(usuario_id) FROM Demanda d WHERE d.instituicao_id = ?1 AND d.categoria = 'PAGAMENTO' and d.data_fechamento like CONCAT(?2,'-',?3,'%')", nativeQuery=true)
-    Integer countPadrinhosMes(int instituicao, String ano, String mes);
-
-    @Query(value="select count(usuario_id) FROM Demanda d WHERE d.instituicao_id = ?1 AND d.categoria = 'PAGAMENTO' and d.data_fechamento like CONCAT(?2,'-',?3,'%')", nativeQuery=true)
-    Integer countDemandasPagamentoMes(int instituicao, String ano, String mes);
-
-    @Query(value="select count(usuario_id) FROM Demanda d WHERE d.instituicao_id = ?1 AND d.categoria = 'ADOCAO' and d.data_fechamento like CONCAT(?2,'-',?3,'%')", nativeQuery=true)
-    Integer countDemandasAdocaoMes(int instituicao, String ano, String mes);
-
-    @Query(value="select count(usuario_id) FROM Demanda d WHERE d.instituicao_id = ?1 AND d.colaborador_id = ?2 AND d.categoria = 'PAGAMENTO' and d.data_fechamento like CONCAT(?3,'-',?4,'%')", nativeQuery=true)
-    Integer countDemandasPagamentoMesUsuario(int instituicao, int usuario, String ano, String mes);
-
-    @Query(value="select count(usuario_id) FROM Demanda d WHERE d.instituicao_id = ?1 AND d.colaborador_id = ?2 AND d.categoria = 'ADOCAO' and d.data_fechamento like CONCAT(?3,'-',?4,'%')", nativeQuery=true)
-    Integer countDemandasAdocaoMesUsuario(int instituicao, int usuario, String ano, String mes);
-
-    @Query(value = "SELECT COUNT(data_fechamento) FROM Demanda d WHERE data_fechamento like CONCAT(?1,'-',?2,'-',?3,'%') AND status = 'CONCLUIDO'", nativeQuery = true)
-    public int countPadrinhosUltimaSemana(String ano, String mes, String dia);
-
-    @Query(value = "SELECT COUNT(data_fechamento) FROM Demanda d WHERE data_fechamento like CONCAT(?1,'-',?2,'-',?3,'%') AND categoria = 'PAGAMENTO'", nativeQuery = true)
-    public int countDemandaPagamentoUltimaSemana(String ano, String mes, String dia);
-
-    @Query(value = "SELECT COUNT(data_fechamento) FROM Demanda d WHERE data_fechamento like CONCAT(?1,'-',?2,'-',?3,'%') AND categoria = 'ADOCAO'", nativeQuery = true)
-    public int countDemandaAdocaoUltimaSemana(String ano, String mes, String dia);
-
-    @Query(value = "SELECT COUNT(data_fechamento) FROM Demanda d WHERE colaborador_id = ?1 AND data_fechamento like CONCAT(?2,'-',?3,'-',?4,'%') AND categoria = 'PAGAMENTO'", nativeQuery = true)
-    public int countDemandaPagamentoUltimaSemanaUsuario(int idUsuario, String ano, String mes, String dia);
-
-    @Query(value = "SELECT COUNT(data_fechamento) FROM Demanda d WHERE colaborador_id = ?1 AND data_fechamento like CONCAT(?2,'-',?3,'-',?4,'%') AND categoria = 'ADOCAO'", nativeQuery = true)
-    public int countDemandaAdocaoUltimaSemanaUsuario(int idUsuario, String ano, String mes, String dia);
-
 }

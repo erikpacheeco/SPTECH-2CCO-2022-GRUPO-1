@@ -1,0 +1,124 @@
+.file-modal-container {
+    width: 505px;
+    height: 441px;
+    background-color: white;
+    border: 1px solid #50077e;
+    box-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
+    padding: 20px;
+    position: absolute;
+    top: 210px;
+    left: 47%;
+    border-radius: 5px;
+}
+
+.file-upload-modal-open {
+    display: absolute;
+}
+
+.file-upload-modal-closed {
+    display: none;
+}
+
+.file-modal-label {
+    /* border: 1px red solid; */
+    display: flex;
+    justify-content: space-between;
+}
+
+.file-modal-label-text {
+    font-size: 16px;
+    color: #7F2AB5;
+}
+
+.file-modal-label-close {
+    cursor: pointer;
+}
+
+.file-upload-modal-form {
+    width: 500px;
+    height: 200px;
+    /* display: flex; */
+    /* border: 1px solid black; */
+    /* flex-direction: column; */
+    /* gap: 20px; */
+    /* justify-content: space-between; */
+}
+
+.file-upload-modal-form input {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.file-upload-modal-form-label {
+    font-size: 16px;
+    margin-top: 55px;
+    color: #7F2AB5;
+    display: block;
+    text-align: center;
+}
+
+.file-upload-modal-preview {
+    max-width: 50%;
+    height: 200px;
+    cursor: pointer;
+}
+
+.file-upload-modal-form-enviar {
+    border: none;
+    background-color: #FFD92E;
+    color: #7F2AB5;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    align-self: flex-end;
+}
+
+.file-active {
+    background-color: #7F2AB5;
+}
+
+.file-upload-modal-form-enviar:hover {
+    opacity: 0.9;
+    font-weight: bold;
+    background-color: #7F2AB5;
+    color: #FFD92E;
+}
+
+.file-upload-modal-form-input {
+    display: none;
+    cursor: pointer;
+}
+
+#idInputImg, #idInputFile {
+    display: none;
+}
+
+.file-upload-modal-form-closed {
+    display: none;
+}
+
+.file-upload-modal-form-open {
+    display: block;
+}
+
+.file-modal-type-btn {
+    margin: 10px;
+    display: inline-block;
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #7F2AB5;
+    color: #7F2AB5;
+    width: 60px;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.file-modal-type-btn-active {
+    background-color: #7F2AB5;
+    color: white;
+}

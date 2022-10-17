@@ -1,15 +1,10 @@
 import './DashboardChatOps.css';
 import HeaderApp from "../../Components/HeaderApp";
-import NavItem from "../../Components/NavItem";
 import React from "react";
 import { Chart } from "react-google-charts";
 import VLibras from "@djpfs/react-vlibras"
 import { useEffect, useState } from "react";
 import api from "../../Api"
-import SideBarItem from '../../Components/SideBarItem';
-import perfil from "../../Images/people.svg"
-import demanda from "../../Images/attention-icon.svg"
-import headerFunctions from "../../functions/headerFunctions";
 
 export const options = {
     is3D: true
@@ -20,23 +15,30 @@ function DashboardChatOps() {
     const infoUsuario = JSON.parse(localStorage.getItem('petfinder_user'));
 
     const [infoDashboard, setInfoDashboard] = useState([]);
-    
-    const [valorDataDemanda, setValorDataDemanda] = useState(dataDemandaSemana);
 
-    const [infoDemandaSemana1, setInfoDemandaSemana1] = useState([]);
-    const [infoDemandaSemana2, setInfoDemandaSemana2] = useState([]);
-    const [infoDemandaSemana3, setInfoDemandaSemana3] = useState([]);
-    const [infoDemandaSemana4, setInfoDemandaSemana4] = useState([]);
-    const [infoDemandaSemana5, setInfoDemandaSemana5] = useState([]);
-    const [infoDemandaSemana6, setInfoDemandaSemana6] = useState([]);
-    const [infoDemandaSemana7, setInfoDemandaSemana7] = useState([]);
+    const [infoDemandaComparaInst, setInfoDemandaComparaInst] = useState([]);
+    const [infoDemandaComparaUsuario, setInfoDemandaComparaUsuario] = useState([]);
+    const [infoDemandaComparaCancelada, setInfoDemandaComparaCancelada] = useState([]);
 
-    const [infoDemandaMes1, setInfoDemandaMes1] = useState([]);
-    const [infoDemandaMes2, setInfoDemandaMes2] = useState([]);
-    const [infoDemandaMes3, setInfoDemandaMes3] = useState([]);
-    const [infoDemandaMes4, setInfoDemandaMes4] = useState([]);
-    const [infoDemandaMes5, setInfoDemandaMes5] = useState([]);
-    const [infoDemandaMes6, setInfoDemandaMes6] = useState([]);
+    // const [infoDemandaSemana1, setInfoDemandaSemana1] = useState([]);
+    // const [infoDemandaSemana2, setInfoDemandaSemana2] = useState([]);
+    // const [infoDemandaSemana3, setInfoDemandaSemana3] = useState([]);
+    // const [infoDemandaSemana4, setInfoDemandaSemana4] = useState([]);
+    // const [infoDemandaSemana5, setInfoDemandaSemana5] = useState([]);
+    // const [infoDemandaSemana6, setInfoDemandaSemana6] = useState([]);
+    // const [infoDemandaSemana7, setInfoDemandaSemana7] = useState([]);
+
+    // const [infoDemandaMes1, setInfoDemandaMes1] = useState([]);
+    // const [infoDemandaMes2, setInfoDemandaMes2] = useState([]);
+    // const [infoDemandaMes3, setInfoDemandaMes3] = useState([]);
+    // const [infoDemandaMes4, setInfoDemandaMes4] = useState([]);
+    // const [infoDemandaMes5, setInfoDemandaMes5] = useState([]);
+    // const [infoDemandaMes6, setInfoDemandaMes6] = useState([]);
+
+    const [infoDemandaSemanaAdocao, setInfoDemandaSemanaAdocao] = useState([]);
+    const [infoDemandaSemanaPagamento, setInfoDemandaSemanaPagamento] = useState([]);
+    const [infoDemandaMesAdocao, setInfoDemandaMesAdocao] = useState([]);
+    const [infoDemandaMesPagamento, setInfoDemandaMesPagamento] = useState([]);
 
     const [infoDia1, setInfoDia1] = useState([]);
     const [infoDia2, setInfoDia2] = useState([]);
@@ -55,12 +57,40 @@ function DashboardChatOps() {
 
     var trocaBtnDemanda = true;
 
+    useEffect(() => {
+
+        const interval = setInterval(() => {
+            document.querySelector("#btn-semana-demanda").click();
+            return clearInterval(interval);
+        }, 400);
+
+    }, []);
+
     // Cards
     useEffect(() => {
     
         api.get(`/demandas/dashboard/${infoUsuario.id}`).then((res) => {
             setInfoDashboard(res.data)
         })
+
+        const dataAtual = new Date();
+        const mesAtual = dataAtual.getMonth() + 1;
+        const diaAtual = dataAtual.getDate();
+
+        setInfoDia7(diaAtual)
+        setInfoDia6(diaAtual-1)
+        setInfoDia5(diaAtual-2)
+        setInfoDia4(diaAtual-3)
+        setInfoDia3(diaAtual-4)
+        setInfoDia2(diaAtual-5)
+        setInfoDia1(diaAtual-6)
+
+        setInfoMes6(mesAtual)
+        setInfoMes5(mesAtual-1)
+        setInfoMes4(mesAtual-2)
+        setInfoMes3(mesAtual-3)
+        setInfoMes2(mesAtual-4)
+        setInfoMes1(mesAtual-5)
         
     }, [])
 
@@ -69,95 +99,49 @@ function DashboardChatOps() {
 
         const dataAtual = new Date();
         const mesAtual = dataAtual.getMonth() + 1;
-        const diaAtual = dataAtual.getDate();
 
-        api.get(`/usuarios/demandas-ultima-semana/${infoUsuario.id}/${dataAtual.getFullYear()}/0${mesAtual-1}/${diaAtual}`).then((res) => {
-            setInfoDemandaSemana7(res.data)
-            setInfoDia7(diaAtual)
+        api.get(`/usuarios/demanda/${infoUsuario.fkInstituicao.id}/${infoUsuario.id}/${dataAtual.getFullYear()}/0${mesAtual-1}`).then((res) => {
+            setInfoDemandaComparaInst(res.data[0])
+            setInfoDemandaComparaUsuario(res.data[1])
+            setInfoDemandaComparaCancelada(res.data[2])
         })
 
-        api.get(`/usuarios/demandas-ultima-semana/${infoUsuario.id}/${dataAtual.getFullYear()}/0${mesAtual-1}/${diaAtual-1}`).then((res) => {
-            setInfoDemandaSemana6(res.data)
-            setInfoDia6(diaAtual-1)
-        })
+    }, [])
 
-        api.get(`/usuarios/demandas-ultima-semana/${infoUsuario.id}/${dataAtual.getFullYear()}/0${mesAtual-1}/${diaAtual-2}`).then((res) => {
-            setInfoDemandaSemana5(res.data)
-            setInfoDia5(diaAtual-2)
-        })
+    // grafico demandas 
+    useEffect(() => {
 
-        api.get(`/usuarios/demandas-ultima-semana/${infoUsuario.id}/${dataAtual.getFullYear()}/0${mesAtual-1}/${diaAtual-3}`).then((res) => {
-            setInfoDemandaSemana4(res.data)
-            setInfoDia4(diaAtual-3)
-        })
-
-        api.get(`/usuarios/demandas-ultima-semana/${infoUsuario.id}/${dataAtual.getFullYear()}/0${mesAtual-1}/${diaAtual-4}`).then((res) => {
-            setInfoDemandaSemana3(res.data)
-            setInfoDia3(diaAtual-4)
-        })
-
-        api.get(`/usuarios/demandas-ultima-semana/${infoUsuario.id}/${dataAtual.getFullYear()}/0${mesAtual-1}/${diaAtual-5}`).then((res) => {
-            setInfoDemandaSemana2(res.data)
-            setInfoDia2(diaAtual-5)
-        })
-
-        api.get(`/usuarios/demandas-ultima-semana/${infoUsuario.id}/${dataAtual.getFullYear()}/0${mesAtual-1}/${diaAtual-6}`).then((res) => {
-            setInfoDemandaSemana1(res.data)
-            setInfoDia1(diaAtual-6)
-        })
-
-        api.get(`/usuarios/demandas/${infoUsuario.fkInstituicao.id}/${infoUsuario.id}/${dataAtual.getFullYear()}/0${mesAtual-1}`).then((res) => {
-            setInfoDemandaMes6(res.data)
-            setInfoMes6(mesAtual-1)
-        })
-
-        api.get(`/usuarios/demandas/${infoUsuario.fkInstituicao.id}/${infoUsuario.id}/${dataAtual.getFullYear()}/0${mesAtual-2}`).then((res) => {
-            setInfoDemandaMes5(res.data)
-            setInfoMes5(mesAtual-2)
-        })
-
-        api.get(`/usuarios/demandas/${infoUsuario.fkInstituicao.id}/${infoUsuario.id}/${dataAtual.getFullYear()}/0${mesAtual-3}`).then((res) => {
-            setInfoDemandaMes4(res.data)
-            setInfoMes4(mesAtual-3)
-        })
-
-        api.get(`/usuarios/demandas/${infoUsuario.fkInstituicao.id}/${infoUsuario.id}/${dataAtual.getFullYear()}/0${mesAtual-4}`).then((res) => {
-            setInfoDemandaMes3(res.data)
-            setInfoMes3(mesAtual-4)
-        })
-
-        api.get(`/usuarios/demandas/${infoUsuario.fkInstituicao.id}/${infoUsuario.id}/${dataAtual.getFullYear()}/0${mesAtual-5}`).then((res) => {
-            setInfoDemandaMes2(res.data)
-            setInfoMes2(mesAtual-5)
-        })
-
-        api.get(`/usuarios/demandas/${infoUsuario.fkInstituicao.id}/${infoUsuario.id}/${dataAtual.getFullYear()}/0${mesAtual-6}`).then((res) => {
-            setInfoDemandaMes1(res.data)
-            setInfoMes1(mesAtual-6)
+        api.get(`/demandas/dashboard/usuario/${infoUsuario.fkInstituicao.id}/${infoUsuario.id}`).then((res) => {
+            setInfoDemandaMesAdocao(res.data.demandaAdocaoMes)
+            setInfoDemandaSemanaAdocao(res.data.demandaAdocaoSemana)
+            setInfoDemandaMesPagamento(res.data.demandaPagamentoMes)
+            setInfoDemandaSemanaPagamento(res.data.demandaPagamentoSemana)
         })
 
     }, [])
 
     const dataDemandaMes = [
         ["Mês", "Adoção", "Pagamento"], 
-        ["0"+infoMes1, infoDemandaMes1[0], infoDemandaMes1[1]], 
-        ["0"+infoMes2, infoDemandaMes2[0], infoDemandaMes2[1]], 
-        ["0"+infoMes3, infoDemandaMes3[0], infoDemandaMes3[1]], 
-        ["0"+infoMes4, infoDemandaMes4[0], infoDemandaMes4[1]], 
-        ["0"+infoMes5, infoDemandaMes5[0], infoDemandaMes5[1]], 
-        ["0"+infoMes6, infoDemandaMes6[0], infoDemandaMes6[1]]
+        ["0"+infoMes1, infoDemandaMesAdocao[0], infoDemandaMesPagamento[0]], 
+        ["0"+infoMes2, infoDemandaMesAdocao[1], infoDemandaMesPagamento[1]], 
+        ["0"+infoMes3, infoDemandaMesAdocao[2], infoDemandaMesPagamento[2]], 
+        ["0"+infoMes4, infoDemandaMesAdocao[3], infoDemandaMesPagamento[3]], 
+        ["0"+infoMes5, infoDemandaMesAdocao[4], infoDemandaMesPagamento[4]], 
+        ["0"+infoMes6, infoDemandaMesAdocao[5], infoDemandaMesPagamento[5]]
     ]
 
     const dataDemandaSemana = [
         ["Dia", "Adoção", "Pagamento"], 
-        [infoDia1, infoDemandaSemana1[0], infoDemandaSemana1[1]], 
-        [infoDia2, infoDemandaSemana2[0], infoDemandaSemana2[1]], 
-        [infoDia3, infoDemandaSemana3[0], infoDemandaSemana3[1]], 
-        [infoDia4, infoDemandaSemana4[0], infoDemandaSemana4[1]], 
-        [infoDia5, infoDemandaSemana5[0], infoDemandaSemana5[1]], 
-        [infoDia6, infoDemandaSemana6[0], infoDemandaSemana6[1]],
-        [infoDia7, infoDemandaSemana7[0], infoDemandaSemana7[1]]
+        [infoDia1, infoDemandaSemanaAdocao[0], infoDemandaSemanaPagamento[0]], 
+        [infoDia2, infoDemandaSemanaAdocao[1], infoDemandaSemanaPagamento[1]], 
+        [infoDia3, infoDemandaSemanaAdocao[2], infoDemandaSemanaPagamento[2]], 
+        [infoDia4, infoDemandaSemanaAdocao[3], infoDemandaSemanaPagamento[3]], 
+        [infoDia5, infoDemandaSemanaAdocao[4], infoDemandaSemanaPagamento[4]], 
+        [infoDia6, infoDemandaSemanaAdocao[5], infoDemandaSemanaPagamento[5]],
+        [infoDia7, infoDemandaSemanaAdocao[6], infoDemandaSemanaPagamento[6]]
     ]
+
+    const [valorDataDemanda, setValorDataDemanda] = useState(dataDemandaSemana);
 
     return(
         <>
@@ -189,7 +173,12 @@ function DashboardChatOps() {
                                 <div className="dashboard-chatops-metricas-grafico-container-1">
                                     <Chart
                                         chartType="PieChart"
-                                        data={[["", "Demanda"], ["Sua equipe (com sucesso)", 38], ["Você (com sucesso)", 43], ["Sem sucesso", 35]]}
+                                        data={[
+                                            ["", "Demanda"], 
+                                            ["Sua equipe (com sucesso)", infoDemandaComparaInst - infoDemandaComparaUsuario], 
+                                            ["Você (com sucesso)", infoDemandaComparaUsuario], 
+                                            ["Sem sucesso", infoDemandaComparaCancelada]
+                                        ]}
                                         width="100%"
                                         height="100%"
                                         options={options}

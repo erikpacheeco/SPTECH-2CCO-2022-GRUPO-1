@@ -20,6 +20,18 @@ public class DtoPostMessage {
     public DtoPostMessage() {
         this.dataEnvio = new Date();
     }
+    public DtoPostMessage(
+        String conteudo,
+        String tipo,
+        Integer demandaId,
+        Integer remetenteId
+        ) {
+        this.conteudo = conteudo;
+        this.tipo = tipo;
+        this.demandaId = demandaId;
+        this.remetenteId = remetenteId;
+        this.dataEnvio = new Date();
+    }
 
     // getters and setters
     public String getConteudo() {
