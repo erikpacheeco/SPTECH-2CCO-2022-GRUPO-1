@@ -156,6 +156,25 @@ public class UsuarioController {
             return ResponseEntity.ok(demandas);
     }
 
+    @GetMapping("/demanda/{idInstituicao}/{idUsuario}/{ano}/{mes}")
+    @Operation(description = "retorna lista de padrinhos de uma instituicao")
+    @ApiResponse(responseCode = "200", description = "Ok")
+    @ApiResponse(responseCode = "204", description = "No Content", content = @Content)
+    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
+    public ResponseEntity countDemandaPorMesComparacaoUsuario(@PathVariable Integer idInstituicao, @PathVariable Integer idUsuario, @PathVariable String ano, @PathVariable String mes) {
+            Integer countDemandasConcluidasMesInstituicao = demandaRepository.countDemandasConcluidasMesInstituicao(idInstituicao, ano, mes);
+            Integer countDemandasConcluidasMesColaborador = demandaRepository.countDemandasConcluidasMesColaborador(idUsuario, ano, mes);
+            Integer countDemandasCanceladasMesInstituicao = demandaRepository.countDemandasCanceladasMesInstituicao(idInstituicao, ano, mes);
+
+
+            ArrayList demandas = new ArrayList<>();
+            demandas.add(countDemandasConcluidasMesInstituicao);
+            demandas.add(countDemandasConcluidasMesColaborador);
+            demandas.add(countDemandasCanceladasMesInstituicao);
+
+            return ResponseEntity.ok(demandas);
+    }
+
     @GetMapping("/padrinhos/{idInstituicao}/{ano}/{mes}")
     @Operation(description = "retorna lista de padrinhos de uma instituicao")
     @ApiResponse(responseCode = "200", description = "Ok")
@@ -659,9 +678,26 @@ public class UsuarioController {
     @Operation(description = "Endpoint para pegar os leads do ultimo mês")
     public ResponseEntity getLeadListaUltimoMes() {
 
-        List visitantes = leadsRepository.getUltimoMês();
+        List lead = leadsRepository.getUltimoLeadInstituicaoMês();
 
-        return ResponseEntity.status(201).body(visitantes);
+        ArrayList leadInstituicao = new ArrayList<>();
+        leadInstituicao.add(lead.size());
+
+
+        for (int i = 0; i < lead.size(); i++) {
+
+            List cliente = leadsRepository.getUltimoLeadInstituicaoAtivaMês(lead.get(i));
+
+            if (!cliente.isEmpty()) {
+                leadInstituicao.add(cliente.size());
+            }
+        }
+
+        if (leadInstituicao.size() == 1) {
+            leadInstituicao.add(0);
+        }
+
+        return ResponseEntity.status(200).body(leadInstituicao);
     }
 
     @GetMapping("/lead-usuario/{ano}/{mes}")

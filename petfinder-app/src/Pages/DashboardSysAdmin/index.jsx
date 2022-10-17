@@ -37,7 +37,8 @@ function DashboardSysAdmin() {
     const [infoLeadMes5, setInfoLeadMes5] = useState([]);
     const [infoLeadMes6, setInfoLeadMes6] = useState([]);
     
-    const [infoLeadInstituicaoMesAnterior, setInfoLeadInstituicaoMesAnterior] = useState([]);
+    const [infoTotalLeadInstituicao, setInfoTotalLeadInstituicao] = useState([]);
+    const [infoLeadInstituicaoAtivo, setInfoLeadInstituicaoAtivo] = useState();
 
     const [infoMes1, setInfoMes1] = useState([]);
     const [infoMes2, setInfoMes2] = useState([]);
@@ -142,11 +143,22 @@ function DashboardSysAdmin() {
     // Gráfico Lead Instituicao
     useEffect(() => {
         
-        const dataAtual = new Date();
-        const mesAnterior = dataAtual.getMonth();
+        let soma = 0;
+        let lead = 0;
 
-        api.get(`/usuarios/lead-instituicao/${dataAtual.getFullYear()}/0${mesAnterior}`).then((res) => {
-            setInfoLeadInstituicaoMesAnterior(res.data)
+        api.get(`/usuarios/lead-instituicao`).then((res) => {
+
+            res.data.forEach(element => {
+                soma+=element;
+            });
+
+            setInfoTotalLeadInstituicao(soma)
+
+            lead = res.data[0]
+
+            console.log(infoTotalLeadInstituicao)
+            setInfoLeadInstituicaoAtivo(lead-infoTotalLeadInstituicao)
+
         })
 
     }, [])
@@ -242,8 +254,8 @@ function DashboardSysAdmin() {
                                         chartType="PieChart"
                                         data={[
                                             ["", ""], 
-                                            ["Instituição Ativa", 20], 
-                                            ["Instituição Inativa", 31]
+                                            ["Instituição Ativa", infoLeadInstituicaoAtivo], 
+                                            ["Instituição Inativa", infoTotalLeadInstituicao-infoLeadInstituicaoAtivo]
                                         ]}
                                         options={options}
                                         width="100%"

@@ -91,5 +91,14 @@ public interface DemandaRepositorio extends JpaRepository<Demanda, Integer> {
     @Query(value="select count(status) FROM Demanda d WHERE d.status = 'CONCLUIDO' and d.data_fechamento like CONCAT(?1,'-',?2,'%')", nativeQuery=true)
     Integer countDemandasConcluidasMes(String ano, String mes);
 
+    @Query(value="select count(status) FROM Demanda d WHERE d.colaborador_id = ?1 AND d.status = 'CONCLUIDO' and d.data_fechamento like CONCAT(?2,'-',?3,'%')", nativeQuery=true)
+    Integer countDemandasConcluidasMesColaborador(int idColaborador, String ano, String mes);
+
+    @Query(value="select count(status) FROM Demanda d WHERE d.instituicao_id = ?1 AND d.status = 'CONCLUIDO' and d.data_fechamento like CONCAT(?2,'-',?3,'%')", nativeQuery=true)
+    Integer countDemandasConcluidasMesInstituicao(int idInstituicao, String ano, String mes);
+
+    @Query(value="select count(status) FROM Demanda d WHERE d.instituicao_id = ?1 AND d.status = 'CANCELADO' and d.data_fechamento like CONCAT(?2,'-',?3,'%')", nativeQuery=true)
+    Integer countDemandasCanceladasMesInstituicao(int idInstituicao, String ano, String mes);
+
 
 }

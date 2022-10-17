@@ -12,13 +12,13 @@ function DashboardAdmin() {
     
     const [infoDashboard, setInfoDashboard] = useState([]);
 
-    const [infoPadrinhoSemana1, setInfoPadrinhoSemana1] = useState([]);
-    const [infoPadrinhoSemana2, setInfoPadrinhoSemana2] = useState([]);
-    const [infoPadrinhoSemana3, setInfoPadrinhoSemana3] = useState([]);
-    const [infoPadrinhoSemana4, setInfoPadrinhoSemana4] = useState([]);
-    const [infoPadrinhoSemana5, setInfoPadrinhoSemana5] = useState([]);
-    const [infoPadrinhoSemana6, setInfoPadrinhoSemana6] = useState([]);
-    const [infoPadrinhoSemana7, setInfoPadrinhoSemana7] = useState([]);
+    const [infoPadrinhoSemana1, setInfoPadrinhoSemana1] = useState();
+    const [infoPadrinhoSemana2, setInfoPadrinhoSemana2] = useState();
+    const [infoPadrinhoSemana3, setInfoPadrinhoSemana3] = useState();
+    const [infoPadrinhoSemana4, setInfoPadrinhoSemana4] = useState();
+    const [infoPadrinhoSemana5, setInfoPadrinhoSemana5] = useState();
+    const [infoPadrinhoSemana6, setInfoPadrinhoSemana6] = useState();
+    const [infoPadrinhoSemana7, setInfoPadrinhoSemana7] = useState();
 
     const [infoPadrinhoMes1, setInfoPadrinhoMes1] = useState([]);
     const [infoPadrinhoMes2, setInfoPadrinhoMes2] = useState([]);
@@ -87,70 +87,77 @@ function DashboardAdmin() {
         const mesAtual = dataAtual.getMonth() + 1;
         const diaAtual = dataAtual.getDate();
 
-        api.get(`/usuarios/padrinhos-ultima-semana/${dataAtual.getFullYear()}/0${mesAtual-1}/${diaAtual}`).then((res) => {
-            setInfoPadrinhoSemana7(res.data)
-            setInfoDia7(diaAtual)
-        })
+        const interval = setInterval(() => {
 
-        api.get(`/usuarios/padrinhos-ultima-semana/${dataAtual.getFullYear()}/0${mesAtual-1}/${diaAtual-1}`).then((res) => {
-            setInfoPadrinhoSemana6(res.data)
-            setInfoDia6(diaAtual-1)
-        })
+            api.get(`/usuarios/padrinhos-ultima-semana/${dataAtual.getFullYear()}/0${mesAtual-1}/${diaAtual}`).then((res) => {
+                setInfoPadrinhoSemana7(res.data)
+                setInfoDia7(diaAtual)
+            })
+    
+            api.get(`/usuarios/padrinhos-ultima-semana/${dataAtual.getFullYear()}/0${mesAtual-1}/${diaAtual-1}`).then((res) => {
+                setInfoPadrinhoSemana6(res.data)
+                setInfoDia6(diaAtual-1)
+            })
+    
+            api.get(`/usuarios/padrinhos-ultima-semana/${dataAtual.getFullYear()}/0${mesAtual-1}/${diaAtual-2}`).then((res) => {
+                setInfoPadrinhoSemana5(res.data)
+                setInfoDia5(diaAtual-2)
+            })
+    
+            api.get(`/usuarios/padrinhos-ultima-semana/${dataAtual.getFullYear()}/0${mesAtual-1}/${diaAtual-3}`).then((res) => {
+                setInfoPadrinhoSemana4(res.data)
+                setInfoDia4(diaAtual-3)
+            })
+    
+            api.get(`/usuarios/padrinhos-ultima-semana/${dataAtual.getFullYear()}/0${mesAtual-1}/${diaAtual-4}`).then((res) => {
+                setInfoPadrinhoSemana3(res.data)
+                setInfoDia3(diaAtual-4)
+            })
+    
+            api.get(`/usuarios/padrinhos-ultima-semana/${dataAtual.getFullYear()}/0${mesAtual-1}/${diaAtual-5}`).then((res) => {
+                setInfoPadrinhoSemana2(res.data)
+                setInfoDia2(diaAtual-5)
+            })
+    
+            api.get(`/usuarios/padrinhos-ultima-semana/${dataAtual.getFullYear()}/0${mesAtual-1}/${diaAtual-6}`).then((res) => {
+                setInfoPadrinhoSemana1(res.data)
+                setInfoDia1(diaAtual-6)
+            })
+    
+            api.get(`/usuarios/padrinhos/${infoUsuario.fkInstituicao.id}/${dataAtual.getFullYear()}/0${mesAtual-1}`).then((res) => {
+                setInfoPadrinhoMes6(res.data)
+                setInfoMes6(mesAtual-1)
+            })
+    
+            api.get(`/usuarios/padrinhos/${infoUsuario.fkInstituicao.id}/${dataAtual.getFullYear()}/0${mesAtual-2}`).then((res) => {
+                setInfoPadrinhoMes5(res.data)
+                setInfoMes5(mesAtual-2)
+            })
+    
+            api.get(`/usuarios/padrinhos/${infoUsuario.fkInstituicao.id}/${dataAtual.getFullYear()}/0${mesAtual-3}`).then((res) => {
+                setInfoPadrinhoMes4(res.data)
+                setInfoMes4(mesAtual-3)
+            })
+    
+            api.get(`/usuarios/padrinhos/${infoUsuario.fkInstituicao.id}/${dataAtual.getFullYear()}/0${mesAtual-4}`).then((res) => {
+                setInfoPadrinhoMes3(res.data)
+                setInfoMes3(mesAtual-4)
+            })
+    
+            api.get(`/usuarios/padrinhos/${infoUsuario.fkInstituicao.id}/${dataAtual.getFullYear()}/0${mesAtual-5}`).then((res) => {
+                setInfoPadrinhoMes2(res.data)
+                setInfoMes2(mesAtual-5)
+            })
+    
+            api.get(`/usuarios/padrinhos/${infoUsuario.fkInstituicao.id}/${dataAtual.getFullYear()}/0${mesAtual-6}`).then((res) => {
+                setInfoPadrinhoMes1(res.data)
+                setInfoMes1(mesAtual-6)
+            })
 
-        api.get(`/usuarios/padrinhos-ultima-semana/${dataAtual.getFullYear()}/0${mesAtual-1}/${diaAtual-2}`).then((res) => {
-            setInfoPadrinhoSemana5(res.data)
-            setInfoDia5(diaAtual-2)
-        })
+            return() => clearInterval(interval)
+        }, 500)
 
-        api.get(`/usuarios/padrinhos-ultima-semana/${dataAtual.getFullYear()}/0${mesAtual-1}/${diaAtual-3}`).then((res) => {
-            setInfoPadrinhoSemana4(res.data)
-            setInfoDia4(diaAtual-3)
-        })
-
-        api.get(`/usuarios/padrinhos-ultima-semana/${dataAtual.getFullYear()}/0${mesAtual-1}/${diaAtual-4}`).then((res) => {
-            setInfoPadrinhoSemana3(res.data)
-            setInfoDia3(diaAtual-4)
-        })
-
-        api.get(`/usuarios/padrinhos-ultima-semana/${dataAtual.getFullYear()}/0${mesAtual-1}/${diaAtual-5}`).then((res) => {
-            setInfoPadrinhoSemana2(res.data)
-            setInfoDia2(diaAtual-5)
-        })
-
-        api.get(`/usuarios/padrinhos-ultima-semana/${dataAtual.getFullYear()}/0${mesAtual-1}/${diaAtual-6}`).then((res) => {
-            setInfoPadrinhoSemana1(res.data)
-            setInfoDia1(diaAtual-6)
-        })
-
-        api.get(`/usuarios/padrinhos/${infoUsuario.fkInstituicao.id}/${dataAtual.getFullYear()}/0${mesAtual-1}`).then((res) => {
-            setInfoPadrinhoMes6(res.data)
-            setInfoMes6(mesAtual-1)
-        })
-
-        api.get(`/usuarios/padrinhos/${infoUsuario.fkInstituicao.id}/${dataAtual.getFullYear()}/0${mesAtual-2}`).then((res) => {
-            setInfoPadrinhoMes5(res.data)
-            setInfoMes5(mesAtual-2)
-        })
-
-        api.get(`/usuarios/padrinhos/${infoUsuario.fkInstituicao.id}/${dataAtual.getFullYear()}/0${mesAtual-3}`).then((res) => {
-            setInfoPadrinhoMes4(res.data)
-            setInfoMes4(mesAtual-3)
-        })
-
-        api.get(`/usuarios/padrinhos/${infoUsuario.fkInstituicao.id}/${dataAtual.getFullYear()}/0${mesAtual-4}`).then((res) => {
-            setInfoPadrinhoMes3(res.data)
-            setInfoMes3(mesAtual-4)
-        })
-
-        api.get(`/usuarios/padrinhos/${infoUsuario.fkInstituicao.id}/${dataAtual.getFullYear()}/0${mesAtual-5}`).then((res) => {
-            setInfoPadrinhoMes2(res.data)
-            setInfoMes2(mesAtual-5)
-        })
-
-        api.get(`/usuarios/padrinhos/${infoUsuario.fkInstituicao.id}/${dataAtual.getFullYear()}/0${mesAtual-6}`).then((res) => {
-            setInfoPadrinhoMes1(res.data)
-            setInfoMes1(mesAtual-6)
-        })
+        
 
     }, [])
 
@@ -283,9 +290,9 @@ function DashboardAdmin() {
     ]
     
 
-    const [valorDataPremio, setValorDataPremio] = useState(dataPremioSemana);
-    const [valorDataDemanda, setValorDataDemanda] = useState(dataDemandaSemana);
     const [valorDataPadrinho, setValorDataPadrinho] = useState(dataPadrinhoSemana);
+    const [valorDataDemanda, setValorDataDemanda] = useState(dataDemandaSemana);
+    const [valorDataPremio, setValorDataPremio] = useState(dataPremioSemana);
 
     return (
         <>

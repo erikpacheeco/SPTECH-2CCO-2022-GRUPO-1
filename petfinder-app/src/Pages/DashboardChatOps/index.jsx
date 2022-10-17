@@ -1,15 +1,10 @@
 import './DashboardChatOps.css';
 import HeaderApp from "../../Components/HeaderApp";
-import NavItem from "../../Components/NavItem";
 import React from "react";
 import { Chart } from "react-google-charts";
 import VLibras from "@djpfs/react-vlibras"
 import { useEffect, useState } from "react";
 import api from "../../Api"
-import SideBarItem from '../../Components/SideBarItem';
-import perfil from "../../Images/people.svg"
-import demanda from "../../Images/attention-icon.svg"
-import headerFunctions from "../../functions/headerFunctions";
 
 export const options = {
     is3D: true
@@ -20,8 +15,10 @@ function DashboardChatOps() {
     const infoUsuario = JSON.parse(localStorage.getItem('petfinder_user'));
 
     const [infoDashboard, setInfoDashboard] = useState([]);
-    
-    const [valorDataDemanda, setValorDataDemanda] = useState(dataDemandaSemana);
+
+    const [infoDemandaComparaInst, setInfoDemandaComparaInst] = useState([]);
+    const [infoDemandaComparaUsuario, setInfoDemandaComparaUsuario] = useState([]);
+    const [infoDemandaComparaCancelada, setInfoDemandaComparaCancelada] = useState([]);
 
     const [infoDemandaSemana1, setInfoDemandaSemana1] = useState([]);
     const [infoDemandaSemana2, setInfoDemandaSemana2] = useState([]);
@@ -71,6 +68,20 @@ function DashboardChatOps() {
             setInfoDashboard(res.data)
         })
         
+    }, [])
+
+    // grafico demandas 
+    useEffect(() => {
+
+        const dataAtual = new Date();
+        const mesAtual = dataAtual.getMonth() + 1;
+
+        api.get(`/usuarios/demanda/${infoUsuario.fkInstituicao.id}/${infoUsuario.id}/${dataAtual.getFullYear()}/0${mesAtual-1}`).then((res) => {
+            setInfoDemandaComparaInst(res.data[0])
+            setInfoDemandaComparaUsuario(res.data[1])
+            setInfoDemandaComparaCancelada(res.data[2])
+        })
+
     }, [])
 
     // grafico demandas 
@@ -168,6 +179,8 @@ function DashboardChatOps() {
         [infoDia7, infoDemandaSemana7[0], infoDemandaSemana7[1]]
     ]
 
+    const [valorDataDemanda, setValorDataDemanda] = useState(dataDemandaSemana);
+
     return(
         <>
             <HeaderApp/>
@@ -198,7 +211,12 @@ function DashboardChatOps() {
                                 <div className="dashboard-chatops-metricas-grafico-container-1">
                                     <Chart
                                         chartType="PieChart"
-                                        data={[["", "Demanda"], ["Sua equipe (com sucesso)", 38], ["Você (com sucesso)", 43], ["Sem sucesso", 35]]}
+                                        data={[
+                                            ["", "Demanda"], 
+                                            ["Sua equipe (com sucesso)", infoDemandaComparaInst - infoDemandaComparaUsuario], 
+                                            ["Você (com sucesso)", infoDemandaComparaUsuario], 
+                                            ["Sem sucesso", infoDemandaComparaCancelada]
+                                        ]}
                                         width="100%"
                                         height="100%"
                                         options={options}

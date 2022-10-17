@@ -71,5 +71,7 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, Integer>{
 
     @Query(value = "SELECT COUNT(data_fechamento) FROM Demanda d WHERE colaborador_id = ?1 AND data_fechamento like CONCAT(?2,'-',?3,'-',?4,'%') AND categoria = 'ADOCAO'", nativeQuery = true)
     public int countDemandaAdocaoUltimaSemanaUsuario(int idUsuario, String ano, String mes, String dia);
-
+/*
+    @Query(value="select count(usuario_id) FROM Demanda d WHERE d.instituicao_id = ?1 AND d.colaborador_id = ?2 AND d.categoria = 'ADOCAO' and d.data_fechamento like CONCAT(?3,'-',?4,'%')", nativeQuery=true)
+    Integer countDemandasCOncluiUsuario(int instituicao, int usuario, String ano, String mes);*/
 }
