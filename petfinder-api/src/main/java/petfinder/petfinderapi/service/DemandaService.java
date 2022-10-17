@@ -1,5 +1,6 @@
 package petfinder.petfinderapi.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,8 @@ public class DemandaService {
                 // nivelAcesso: colaborador
                 demanda = patchDemandaColab(dto.getAction(), demanda, usuario);
             }
+
+            demanda.setDataFechamento(new Date());
 
             // saving demand history 
             histRepository.save(new DemandaHist(demanda));
