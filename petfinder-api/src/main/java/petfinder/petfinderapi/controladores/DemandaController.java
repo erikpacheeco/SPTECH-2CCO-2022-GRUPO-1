@@ -1,6 +1,8 @@
 package petfinder.petfinderapi.controladores;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -8,14 +10,12 @@ import org.springframework.web.bind.annotation.*;
 import petfinder.petfinderapi.entidades.*;
 import petfinder.petfinderapi.repositorios.*;
 import petfinder.petfinderapi.resposta.*;
-import petfinder.petfinderapi.service.ServiceDashboardAdmBI;
-import petfinder.petfinderapi.service.ServiceDashboardChatOpsBI;
-import petfinder.petfinderapi.service.ServiceDashboardSysadmBI;
+import petfinder.petfinderapi.service.*;
 import petfinder.petfinderapi.utilitarios.GerenciadorArquivos;
 import petfinder.petfinderapi.utilitarios.ListaObj;
 import petfinder.petfinderapi.requisicao.CriacaoDemanda;
 import petfinder.petfinderapi.requisicao.DtoPatchDemanda;
-import petfinder.petfinderapi.service.DemandaService;
+
 import javax.validation.Valid;
 import java.io.*;
 import java.text.DateFormat;
@@ -60,6 +60,9 @@ public class DemandaController implements GerenciadorArquivos{
 
     @Autowired
     private ServiceDashboardChatOpsBI serviceDashboardChatOpsBI;
+
+    @Autowired
+    private ServiceUsuario serviceUsuario;
 
     @Autowired
     private PremioRepositorio premioRepositorio;
@@ -680,12 +683,325 @@ public class DemandaController implements GerenciadorArquivos{
     }
 
     @GetMapping("/premios/get/instituicao/{idInst}")
-    public ResponseEntity findByInstituicaoIdDto(@PathVariable int idInst) {
-        List<PremioDtoData> premios = premioRepositorio.findByInstituicaoId(idInst);
-        if (premios.isEmpty()) {
+    public ResponseEntity findPremiosByInstituicaoIdDto(@PathVariable int idInst) {
+
+        LocalDateTime dataAtual = LocalDateTime.now();
+
+        String ano = Integer.toString(dataAtual.getYear());
+        String mes6 = Integer.toString(dataAtual.getMonthValue());
+        String mes5 = "0"+Integer.toString(dataAtual.getMonthValue()-1);
+        String mes4 = "0"+Integer.toString(dataAtual.getMonthValue()-2);
+        String mes3 = "0"+Integer.toString(dataAtual.getMonthValue()-3);
+        String mes2 = "0"+Integer.toString(dataAtual.getMonthValue()-4);
+        String mes1 = "0"+Integer.toString(dataAtual.getMonthValue()-5);
+
+        String dia7 = Integer.toString(dataAtual.getDayOfMonth());
+        String dia6 = Integer.toString(dataAtual.getDayOfMonth()-1);
+        String dia5 = Integer.toString(dataAtual.getDayOfMonth()-2);
+        String dia4 = Integer.toString(dataAtual.getDayOfMonth()-3);
+        String dia3 = Integer.toString(dataAtual.getDayOfMonth()-4);
+        String dia2 = Integer.toString(dataAtual.getDayOfMonth()-5);
+        String dia1 = Integer.toString(dataAtual.getDayOfMonth()-6);
+
+        List<PremioDtoData> premiosSemana7 = premioRepositorio.findByInstituicaoIdSemana(idInst, ano, mes6, dia7);
+        List<PremioDtoData> premiosSemana6 = premioRepositorio.findByInstituicaoIdSemana(idInst, ano, mes6, dia6);
+        List<PremioDtoData> premiosSemana5 = premioRepositorio.findByInstituicaoIdSemana(idInst, ano, mes6, dia5);
+        List<PremioDtoData> premiosSemana4 = premioRepositorio.findByInstituicaoIdSemana(idInst, ano, mes6, dia4);
+        List<PremioDtoData> premiosSemana3 = premioRepositorio.findByInstituicaoIdSemana(idInst, ano, mes6, dia3);
+        List<PremioDtoData> premiosSemana2 = premioRepositorio.findByInstituicaoIdSemana(idInst, ano, mes6, dia2);
+        List<PremioDtoData> premiosSemana1 = premioRepositorio.findByInstituicaoIdSemana(idInst, ano, mes6, dia1);
+
+        List<PremioDtoData> premiosMes6 = premioRepositorio.findByInstituicaoIdMes(idInst, ano, mes6);
+        List<PremioDtoData> premiosMes5 = premioRepositorio.findByInstituicaoIdMes(idInst, ano, mes5);
+        List<PremioDtoData> premiosMes4 = premioRepositorio.findByInstituicaoIdMes(idInst, ano, mes4);
+        List<PremioDtoData> premiosMes3 = premioRepositorio.findByInstituicaoIdMes(idInst,ano, mes3);
+        List<PremioDtoData> premiosMes2 = premioRepositorio.findByInstituicaoIdMes(idInst, ano, mes2);
+        List<PremioDtoData> premiosMes1 = premioRepositorio.findByInstituicaoIdMes(idInst, ano, mes1);
+
+
+        ArrayList premiosMes = new ArrayList<>();
+        premiosMes.add(premiosMes1.size());
+        premiosMes.add(premiosMes2.size());
+        premiosMes.add(premiosMes3.size());
+        premiosMes.add(premiosMes4.size());
+        premiosMes.add(premiosMes5.size());
+        premiosMes.add(premiosMes6.size());
+
+        ArrayList premiosSemana = new ArrayList<>();
+        premiosSemana.add(premiosSemana1.size());
+        premiosSemana.add(premiosSemana2.size());
+        premiosSemana.add(premiosSemana3.size());
+        premiosSemana.add(premiosSemana4.size());
+        premiosSemana.add(premiosSemana5.size());
+        premiosSemana.add(premiosSemana6.size());
+        premiosSemana.add(premiosSemana7.size());
+
+        ArrayList premios = new ArrayList<>();
+        premios.add(premiosSemana);
+        premios.add(premiosMes);
+
+        return ResponseEntity.status(200).body(premios);
+    }
+
+    @GetMapping("/dashboard/instituicao/{idInst}")
+    public ResponseEntity findDemandasByInstituicao(@PathVariable int idInst) {
+
+        LocalDateTime dataAtual = LocalDateTime.now();
+
+        String ano = Integer.toString(dataAtual.getYear());
+        String mes6 = Integer.toString(dataAtual.getMonthValue());
+        String mes5 = "0"+Integer.toString(dataAtual.getMonthValue()-1);
+        String mes4 = "0"+Integer.toString(dataAtual.getMonthValue()-2);
+        String mes3 = "0"+Integer.toString(dataAtual.getMonthValue()-3);
+        String mes2 = "0"+Integer.toString(dataAtual.getMonthValue()-4);
+        String mes1 = "0"+Integer.toString(dataAtual.getMonthValue()-5);
+
+        String dia7 = Integer.toString(dataAtual.getDayOfMonth());
+        String dia6 = Integer.toString(dataAtual.getDayOfMonth()-1);
+        String dia5 = Integer.toString(dataAtual.getDayOfMonth()-2);
+        String dia4 = Integer.toString(dataAtual.getDayOfMonth()-3);
+        String dia3 = Integer.toString(dataAtual.getDayOfMonth()-4);
+        String dia2 = Integer.toString(dataAtual.getDayOfMonth()-5);
+        String dia1 = Integer.toString(dataAtual.getDayOfMonth()-6);
+
+        int demandasSemanaAdocao7 = demandaRepositorio.countDemandaAdocaoUltimaSemana(idInst, ano, mes6, dia7);
+        int demandasSemanaAdocao6 = demandaRepositorio.countDemandaAdocaoUltimaSemana(idInst, ano, mes6, dia6);
+        int demandasSemanaAdocao5 = demandaRepositorio.countDemandaAdocaoUltimaSemana(idInst, ano, mes6, dia5);
+        int demandasSemanaAdocao4 = demandaRepositorio.countDemandaAdocaoUltimaSemana(idInst, ano, mes6, dia4);
+        int demandasSemanaAdocao3 = demandaRepositorio.countDemandaAdocaoUltimaSemana(idInst, ano, mes6, dia3);
+        int demandasSemanaAdocao2 = demandaRepositorio.countDemandaAdocaoUltimaSemana(idInst, ano, mes6, dia2);
+        int demandasSemanaAdocao1 = demandaRepositorio.countDemandaAdocaoUltimaSemana(idInst, ano, mes6, dia1);
+
+        int demandasSemanaPagamento7 = demandaRepositorio.countDemandaAdocaoUltimaSemana(idInst, ano, mes6, dia7);
+        int demandasSemanaPagamento6 = demandaRepositorio.countDemandaAdocaoUltimaSemana(idInst, ano, mes6, dia6);
+        int demandasSemanaPagamento5 = demandaRepositorio.countDemandaAdocaoUltimaSemana(idInst, ano, mes6, dia5);
+        int demandasSemanaPagamento4 = demandaRepositorio.countDemandaAdocaoUltimaSemana(idInst, ano, mes6, dia4);
+        int demandasSemanaPagamento3 = demandaRepositorio.countDemandaAdocaoUltimaSemana(idInst, ano, mes6, dia3);
+        int demandasSemanaPagamento2 = demandaRepositorio.countDemandaAdocaoUltimaSemana(idInst, ano, mes6, dia2);
+        int demandasSemanaPagamento1 = demandaRepositorio.countDemandaAdocaoUltimaSemana(idInst, ano, mes6, dia1);
+
+        int demandasMesAdocao6 = demandaRepositorio.countDemandasAdocaoMes(idInst, ano, mes6);
+        int demandasMesAdocao5 = demandaRepositorio.countDemandasAdocaoMes(idInst, ano, mes5);
+        int demandasMesAdocao4 = demandaRepositorio.countDemandasAdocaoMes(idInst, ano, mes4);
+        int demandasMesAdocao3 = demandaRepositorio.countDemandasAdocaoMes(idInst,ano, mes3);
+        int demandasMesAdocao2 = demandaRepositorio.countDemandasAdocaoMes(idInst, ano, mes2);
+        int demandasMesAdocao1 = demandaRepositorio.countDemandasAdocaoMes(idInst, ano, mes1);
+
+        int demandasMesPagamento6 = demandaRepositorio.countDemandasPagamentoMes(idInst, ano, mes6);
+        int demandasMesPagamento5 = demandaRepositorio.countDemandasPagamentoMes(idInst, ano, mes5);
+        int demandasMesPagamento4 = demandaRepositorio.countDemandasPagamentoMes(idInst, ano, mes4);
+        int demandasMesPagamento3 = demandaRepositorio.countDemandasPagamentoMes(idInst,ano, mes3);
+        int demandasMesPagamento2 = demandaRepositorio.countDemandasPagamentoMes(idInst, ano, mes2);
+        int demandasMesPagamento1 = demandaRepositorio.countDemandasPagamentoMes(idInst, ano, mes1);
+
+
+        ArrayList demandaAdocaoSemana = new ArrayList<>();
+        demandaAdocaoSemana.add(demandasSemanaAdocao1);
+        demandaAdocaoSemana.add(demandasSemanaAdocao2);
+        demandaAdocaoSemana.add(demandasSemanaAdocao3);
+        demandaAdocaoSemana.add(demandasSemanaAdocao4);
+        demandaAdocaoSemana.add(demandasSemanaAdocao5);
+        demandaAdocaoSemana.add(demandasSemanaAdocao6);
+        demandaAdocaoSemana.add(demandasSemanaAdocao7);
+
+        ArrayList demandaPagamentoSemana = new ArrayList<>();
+        demandaPagamentoSemana.add(demandasSemanaPagamento1);
+        demandaPagamentoSemana.add(demandasSemanaPagamento2);
+        demandaPagamentoSemana.add(demandasSemanaPagamento3);
+        demandaPagamentoSemana.add(demandasSemanaPagamento4);
+        demandaPagamentoSemana.add(demandasSemanaPagamento5);
+        demandaPagamentoSemana.add(demandasSemanaPagamento6);
+        demandaPagamentoSemana.add(demandasSemanaPagamento7);
+
+        ArrayList demandaAdocaoMes = new ArrayList<>();
+        demandaAdocaoMes.add(demandasMesAdocao1);
+        demandaAdocaoMes.add(demandasMesAdocao2);
+        demandaAdocaoMes.add(demandasMesAdocao3);
+        demandaAdocaoMes.add(demandasMesAdocao4);
+        demandaAdocaoMes.add(demandasMesAdocao5);
+        demandaAdocaoMes.add(demandasMesAdocao6);
+
+        ArrayList demandaPagamentoMes = new ArrayList<>();
+        demandaPagamentoMes.add(demandasMesPagamento1);
+        demandaPagamentoMes.add(demandasMesPagamento2);
+        demandaPagamentoMes.add(demandasMesPagamento3);
+        demandaPagamentoMes.add(demandasMesPagamento4);
+        demandaPagamentoMes.add(demandasMesPagamento5);
+        demandaPagamentoMes.add(demandasMesPagamento6);
+
+
+        TipoDemandaDto tipoDemandaDto = new TipoDemandaDto();
+        tipoDemandaDto.setDemandaAdocaoSemana(demandaAdocaoSemana);
+        tipoDemandaDto.setDemandaPagamentoSemana(demandaPagamentoSemana);
+        tipoDemandaDto.setDemandaAdocaoMes(demandaAdocaoMes);
+        tipoDemandaDto.setDemandaPagamentoMes(demandaPagamentoMes);
+
+        return ResponseEntity.status(200).body(tipoDemandaDto);
+    }
+    @GetMapping("/dashboard/usuario/{idInst}/{idUsuario}")
+    public ResponseEntity findDemandasByInstituicao(@PathVariable int idInst, @PathVariable int idUsuario) {
+
+        LocalDateTime dataAtual = LocalDateTime.now();
+
+        String ano = Integer.toString(dataAtual.getYear());
+        String mes6 = Integer.toString(dataAtual.getMonthValue());
+        String mes5 = "0"+Integer.toString(dataAtual.getMonthValue()-1);
+        String mes4 = "0"+Integer.toString(dataAtual.getMonthValue()-2);
+        String mes3 = "0"+Integer.toString(dataAtual.getMonthValue()-3);
+        String mes2 = "0"+Integer.toString(dataAtual.getMonthValue()-4);
+        String mes1 = "0"+Integer.toString(dataAtual.getMonthValue()-5);
+
+        String dia7 = Integer.toString(dataAtual.getDayOfMonth());
+        String dia6 = Integer.toString(dataAtual.getDayOfMonth()-1);
+        String dia5 = Integer.toString(dataAtual.getDayOfMonth()-2);
+        String dia4 = Integer.toString(dataAtual.getDayOfMonth()-3);
+        String dia3 = Integer.toString(dataAtual.getDayOfMonth()-4);
+        String dia2 = Integer.toString(dataAtual.getDayOfMonth()-5);
+        String dia1 = Integer.toString(dataAtual.getDayOfMonth()-6);
+
+        int demandasSemanaAdocao7 = demandaRepositorio.countDemandaAdocaoUltimaSemanaUsuario(idUsuario, ano, mes6, dia7);
+        int demandasSemanaAdocao6 = demandaRepositorio.countDemandaAdocaoUltimaSemanaUsuario(idUsuario, ano, mes6, dia6);
+        int demandasSemanaAdocao5 = demandaRepositorio.countDemandaAdocaoUltimaSemanaUsuario(idUsuario, ano, mes6, dia5);
+        int demandasSemanaAdocao4 = demandaRepositorio.countDemandaAdocaoUltimaSemanaUsuario(idUsuario, ano, mes6, dia4);
+        int demandasSemanaAdocao3 = demandaRepositorio.countDemandaAdocaoUltimaSemanaUsuario(idUsuario, ano, mes6, dia3);
+        int demandasSemanaAdocao2 = demandaRepositorio.countDemandaAdocaoUltimaSemanaUsuario(idUsuario, ano, mes6, dia2);
+        int demandasSemanaAdocao1 = demandaRepositorio.countDemandaAdocaoUltimaSemanaUsuario(idUsuario, ano, mes6, dia1);
+
+        int demandasSemanaPagamento7 = demandaRepositorio.countDemandaPagamentoUltimaSemana(idUsuario, ano, mes6, dia7);
+        int demandasSemanaPagamento6 = demandaRepositorio.countDemandaPagamentoUltimaSemana(idUsuario, ano, mes6, dia6);
+        int demandasSemanaPagamento5 = demandaRepositorio.countDemandaPagamentoUltimaSemana(idUsuario, ano, mes6, dia5);
+        int demandasSemanaPagamento4 = demandaRepositorio.countDemandaPagamentoUltimaSemana(idUsuario, ano, mes6, dia4);
+        int demandasSemanaPagamento3 = demandaRepositorio.countDemandaPagamentoUltimaSemana(idUsuario, ano, mes6, dia3);
+        int demandasSemanaPagamento2 = demandaRepositorio.countDemandaPagamentoUltimaSemana(idUsuario, ano, mes6, dia2);
+        int demandasSemanaPagamento1 = demandaRepositorio.countDemandaPagamentoUltimaSemana(idUsuario, ano, mes6, dia1);
+
+        int demandasMesAdocao6 = demandaRepositorio.countDemandasAdocaoMesUsuario(idInst, idUsuario, ano, mes6);
+        int demandasMesAdocao5 = demandaRepositorio.countDemandasAdocaoMesUsuario(idInst, idUsuario, ano, mes5);
+        int demandasMesAdocao4 = demandaRepositorio.countDemandasAdocaoMesUsuario(idInst, idUsuario, ano, mes4);
+        int demandasMesAdocao3 = demandaRepositorio.countDemandasAdocaoMesUsuario(idInst, idUsuario,ano, mes3);
+        int demandasMesAdocao2 = demandaRepositorio.countDemandasAdocaoMesUsuario(idInst, idUsuario, ano, mes2);
+        int demandasMesAdocao1 = demandaRepositorio.countDemandasAdocaoMesUsuario(idInst, idUsuario, ano, mes1);
+
+        int demandasMesPagamento6 = demandaRepositorio.countDemandasPagamentoMesUsuario(idInst, idUsuario, ano, mes6);
+        int demandasMesPagamento5 = demandaRepositorio.countDemandasPagamentoMesUsuario(idInst, idUsuario, ano, mes5);
+        int demandasMesPagamento4 = demandaRepositorio.countDemandasPagamentoMesUsuario(idInst, idUsuario, ano, mes4);
+        int demandasMesPagamento3 = demandaRepositorio.countDemandasPagamentoMesUsuario(idInst, idUsuario,ano, mes3);
+        int demandasMesPagamento2 = demandaRepositorio.countDemandasPagamentoMesUsuario(idInst, idUsuario, ano, mes2);
+        int demandasMesPagamento1 = demandaRepositorio.countDemandasPagamentoMesUsuario(idInst, idUsuario, ano, mes1);
+
+
+        ArrayList demandaAdocaoSemana = new ArrayList<>();
+        demandaAdocaoSemana.add(demandasSemanaAdocao1);
+        demandaAdocaoSemana.add(demandasSemanaAdocao2);
+        demandaAdocaoSemana.add(demandasSemanaAdocao3);
+        demandaAdocaoSemana.add(demandasSemanaAdocao4);
+        demandaAdocaoSemana.add(demandasSemanaAdocao5);
+        demandaAdocaoSemana.add(demandasSemanaAdocao6);
+        demandaAdocaoSemana.add(demandasSemanaAdocao7);
+
+        ArrayList demandaPagamentoSemana = new ArrayList<>();
+        demandaPagamentoSemana.add(demandasSemanaPagamento1);
+        demandaPagamentoSemana.add(demandasSemanaPagamento2);
+        demandaPagamentoSemana.add(demandasSemanaPagamento3);
+        demandaPagamentoSemana.add(demandasSemanaPagamento4);
+        demandaPagamentoSemana.add(demandasSemanaPagamento5);
+        demandaPagamentoSemana.add(demandasSemanaPagamento6);
+        demandaPagamentoSemana.add(demandasSemanaPagamento7);
+
+        ArrayList demandaAdocaoMes = new ArrayList<>();
+        demandaAdocaoMes.add(demandasMesAdocao1);
+        demandaAdocaoMes.add(demandasMesAdocao2);
+        demandaAdocaoMes.add(demandasMesAdocao3);
+        demandaAdocaoMes.add(demandasMesAdocao4);
+        demandaAdocaoMes.add(demandasMesAdocao5);
+        demandaAdocaoMes.add(demandasMesAdocao6);
+
+        ArrayList demandaPagamentoMes = new ArrayList<>();
+        demandaPagamentoMes.add(demandasMesPagamento1);
+        demandaPagamentoMes.add(demandasMesPagamento2);
+        demandaPagamentoMes.add(demandasMesPagamento3);
+        demandaPagamentoMes.add(demandasMesPagamento4);
+        demandaPagamentoMes.add(demandasMesPagamento5);
+        demandaPagamentoMes.add(demandasMesPagamento6);
+
+
+        TipoDemandaDto tipoDemandaDto = new TipoDemandaDto();
+        tipoDemandaDto.setDemandaAdocaoSemana(demandaAdocaoSemana);
+        tipoDemandaDto.setDemandaPagamentoSemana(demandaPagamentoSemana);
+        tipoDemandaDto.setDemandaAdocaoMes(demandaAdocaoMes);
+        tipoDemandaDto.setDemandaPagamentoMes(demandaPagamentoMes);
+
+        return ResponseEntity.status(200).body(tipoDemandaDto);
+    }
+
+    @GetMapping("/padrinhos/{idInstituicao}")
+    @Operation(description = "retorna lista de padrinhos de uma instituicao")
+    @ApiResponse(responseCode = "200", description = "Ok")
+    @ApiResponse(responseCode = "204", description = "No Content", content = @Content)
+    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
+    public ResponseEntity countPadrinhosPorMes(@PathVariable Integer idInstituicao) {
+
+        LocalDateTime dataAtual = LocalDateTime.now();
+
+        String ano = Integer.toString(dataAtual.getYear());
+        String mes6 = Integer.toString(dataAtual.getMonthValue());
+        String mes5 = "0"+Integer.toString(dataAtual.getMonthValue()-1);
+        String mes4 = "0"+Integer.toString(dataAtual.getMonthValue()-2);
+        String mes3 = "0"+Integer.toString(dataAtual.getMonthValue()-3);
+        String mes2 = "0"+Integer.toString(dataAtual.getMonthValue()-4);
+        String mes1 = "0"+Integer.toString(dataAtual.getMonthValue()-5);
+
+        String dia7 = Integer.toString(dataAtual.getDayOfMonth());
+        String dia6 = Integer.toString(dataAtual.getDayOfMonth()-1);
+        String dia5 = Integer.toString(dataAtual.getDayOfMonth()-2);
+        String dia4 = Integer.toString(dataAtual.getDayOfMonth()-3);
+        String dia3 = Integer.toString(dataAtual.getDayOfMonth()-4);
+        String dia2 = Integer.toString(dataAtual.getDayOfMonth()-5);
+        String dia1 = Integer.toString(dataAtual.getDayOfMonth()-6);
+
+        List allPadrinhos = serviceUsuario.getPadrinhos(idInstituicao);
+
+        if (allPadrinhos.size() == 0) {
             return ResponseEntity.status(204).build();
         }
-        return ResponseEntity.status(200).body(premios);
+
+        Integer padrinhosMes6 = demandaRepositorio.countPadrinhosMes(idInstituicao, ano, mes6);
+        Integer padrinhosMes5 = demandaRepositorio.countPadrinhosMes(idInstituicao, ano, mes5);
+        Integer padrinhosMes4 = demandaRepositorio.countPadrinhosMes(idInstituicao, ano, mes4);
+        Integer padrinhosMes3 = demandaRepositorio.countPadrinhosMes(idInstituicao, ano, mes3);
+        Integer padrinhosMes2 = demandaRepositorio.countPadrinhosMes(idInstituicao, ano, mes2);
+        Integer padrinhosMes1 = demandaRepositorio.countPadrinhosMes(idInstituicao, ano, mes1);
+
+        int padrinhoSemana7 = demandaRepositorio.countPadrinhosUltimaSemana(ano, mes6, dia7);
+        int padrinhoSemana6 = demandaRepositorio.countPadrinhosUltimaSemana(ano, mes6, dia6);
+        int padrinhoSemana5 = demandaRepositorio.countPadrinhosUltimaSemana(ano, mes6, dia5);
+        int padrinhoSemana4 = demandaRepositorio.countPadrinhosUltimaSemana(ano, mes6, dia4);
+        int padrinhoSemana3 = demandaRepositorio.countPadrinhosUltimaSemana(ano, mes6, dia3);
+        int padrinhoSemana2 = demandaRepositorio.countPadrinhosUltimaSemana(ano, mes6, dia2);
+        int padrinhoSemana1 = demandaRepositorio.countPadrinhosUltimaSemana(ano, mes6, dia1);
+
+        ArrayList demandaPadrinhoSemana = new ArrayList<>();
+        demandaPadrinhoSemana.add(padrinhoSemana1);
+        demandaPadrinhoSemana.add(padrinhoSemana2);
+        demandaPadrinhoSemana.add(padrinhoSemana3);
+        demandaPadrinhoSemana.add(padrinhoSemana4);
+        demandaPadrinhoSemana.add(padrinhoSemana5);
+        demandaPadrinhoSemana.add(padrinhoSemana6);
+        demandaPadrinhoSemana.add(padrinhoSemana7);
+
+        ArrayList demandaPadrinhoMes = new ArrayList<>();
+        demandaPadrinhoMes.add(padrinhosMes1);
+        demandaPadrinhoMes.add(padrinhosMes2);
+        demandaPadrinhoMes.add(padrinhosMes3);
+        demandaPadrinhoMes.add(padrinhosMes4);
+        demandaPadrinhoMes.add(padrinhosMes5);
+        demandaPadrinhoMes.add(padrinhosMes6);
+
+        ArrayList padrinhos = new ArrayList<>();
+        padrinhos.add(demandaPadrinhoSemana);
+        padrinhos.add(demandaPadrinhoMes);
+
+        return ResponseEntity.status(200).body(padrinhos);
     }
 
 }

@@ -35,4 +35,9 @@ public interface PremioRepositorio extends JpaRepository<Premio, Integer> {
 
     @Query("SELECT new petfinder.petfinderapi.resposta.PremioDtoData(p) from Premio p where p.pet.instituicao.id = ?1")
     List<PremioDtoData> findByInstituicaoId(int idInst);
+    @Query("SELECT new petfinder.petfinderapi.resposta.PremioDtoData(p) from Premio p where p.pet.instituicao.id = ?1 AND dataEnvio like CONCAT(?2,'-',?3,'%')")
+    List<PremioDtoData> findByInstituicaoIdMes(int idInst, String ano, String mes);
+
+    @Query("SELECT new petfinder.petfinderapi.resposta.PremioDtoData(p) from Premio p where p.pet.instituicao.id = ?1 AND dataEnvio like CONCAT(?2,'-',?3,'-',?4,'%')")
+    List<PremioDtoData> findByInstituicaoIdSemana(int idInst, String ano, String mes, String dia);
 }

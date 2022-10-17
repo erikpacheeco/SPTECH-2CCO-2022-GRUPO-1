@@ -123,23 +123,7 @@ public class UsuarioController {
     public ResponseEntity<List<UsuarioSemSenha>> getPadrinhos(@PathVariable Integer idInstituicao) {
         return ResponseEntity.ok(serviceUsuario.getPadrinhos(idInstituicao));
     }
-
-    @GetMapping("/demandas/{idInstituicao}/{ano}/{mes}")
-    @Operation(description = "retorna lista de padrinhos de uma instituicao")
-    @ApiResponse(responseCode = "200", description = "Ok")
-    @ApiResponse(responseCode = "204", description = "No Content", content = @Content)
-    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
-    public ResponseEntity countDemandaPorMes(@PathVariable Integer idInstituicao, @PathVariable String ano, @PathVariable String mes) {
-            Integer countDemandasAdocaoMes = usuarioRepository.countDemandasAdocaoMes(idInstituicao, ano, mes);
-            Integer countDemandasPagamentoMes = usuarioRepository.countDemandasPagamentoMes(idInstituicao, ano, mes);
-
-            ArrayList demandas = new ArrayList<>();
-            demandas.add(countDemandasAdocaoMes);
-            demandas.add(countDemandasPagamentoMes);
-
-            return ResponseEntity.ok(demandas);
-    }
-
+/*
     @GetMapping("/demandas/{idInstituicao}/{idUsuario}/{ano}/{mes}")
     @Operation(description = "retorna lista de padrinhos de uma instituicao")
     @ApiResponse(responseCode = "200", description = "Ok")
@@ -155,7 +139,7 @@ public class UsuarioController {
 
             return ResponseEntity.ok(demandas);
     }
-
+*/
     @GetMapping("/demanda/{idInstituicao}/{idUsuario}/{ano}/{mes}")
     @Operation(description = "retorna lista de padrinhos de uma instituicao")
     @ApiResponse(responseCode = "200", description = "Ok")
@@ -174,45 +158,7 @@ public class UsuarioController {
 
             return ResponseEntity.ok(demandas);
     }
-
-    @GetMapping("/padrinhos/{idInstituicao}/{ano}/{mes}")
-    @Operation(description = "retorna lista de padrinhos de uma instituicao")
-    @ApiResponse(responseCode = "200", description = "Ok")
-    @ApiResponse(responseCode = "204", description = "No Content", content = @Content)
-    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
-    public ResponseEntity countPadrinhosPorMes(@PathVariable Integer idInstituicao, @PathVariable String ano, @PathVariable String mes) {
-        List padrinhos = serviceUsuario.getPadrinhos(idInstituicao);
-
-        if (padrinhos.size() > 0) {
-            Integer countPadrinhosMes = usuarioRepository.countPadrinhosMes(idInstituicao, ano, mes);
-            return ResponseEntity.ok(countPadrinhosMes);
-        }
-        return ResponseEntity.status(204).build();
-    }
-
-    @GetMapping("/padrinhos-ultima-semana/{ano}/{mes}/{dia}")
-    @Operation(description = "Endpoint para pegar os leads do ultimo mês")
-    public ResponseEntity countPadrinhosUltimaSemana(@PathVariable String ano, @PathVariable String mes, @PathVariable String dia) {
-
-        int padrinho = usuarioRepository.countPadrinhosUltimaSemana(ano, mes, dia);
-
-        return ResponseEntity.status(200).body(padrinho);
-    }
-
-    @GetMapping("/demandas-ultima-semana/{ano}/{mes}/{dia}")
-    @Operation(description = "Endpoint para pegar os leads do ultimo mês")
-    public ResponseEntity countDemandasUltimaSemana(@PathVariable String ano, @PathVariable String mes, @PathVariable String dia) {
-
-        int demandaAdocao = usuarioRepository.countDemandaAdocaoUltimaSemana(ano, mes, dia);
-        int demandaPagamento = usuarioRepository.countDemandaPagamentoUltimaSemana(ano, mes, dia);
-
-        ArrayList demandas = new ArrayList<>();
-        demandas.add(demandaAdocao);
-        demandas.add(demandaPagamento);
-
-        return ResponseEntity.status(200).body(demandas);
-    }
-
+/*
     @GetMapping("/demandas-ultima-semana/{idUsuario}/{ano}/{mes}/{dia}")
     @Operation(description = "Endpoint para pegar os leads do ultimo mês")
     public ResponseEntity countDemandasUltimaSemana(@PathVariable int idUsuario, @PathVariable String ano, @PathVariable String mes, @PathVariable String dia) {
@@ -225,7 +171,7 @@ public class UsuarioController {
         demandas.add(demandaPagamento);
 
         return ResponseEntity.status(200).body(demandas);
-    }
+    }*/
 
     // retorna todos os usuarios
     @GetMapping
