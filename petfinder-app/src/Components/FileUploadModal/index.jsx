@@ -44,7 +44,8 @@ function FileUploadModal({
                 }
             }
         )
-        .then(() => {
+        .then((res) => {
+            console.log(res.data);
             setModalIsOpen(false);
         })
         .catch(err => {

@@ -217,9 +217,8 @@ export default function ChatUsuario() {
                         <div className="chat-user-message-container">
                             <div className="chat-user-message-section" id='chatSection'>
                                 {
-                                    messages.map((msg, index) => {
-                                        return (<Mensagem key={index} content={msg.conteudo} idUsuario={msg.remetente.id} date={msg.dataEnvio} id={msg.id} tipo={msg.tipo}/>)
-                                    }).reverse()
+                                messages.map((msg, index) => {
+                                    return (<Mensagem key={index} content={msg.conteudo} idUsuario={msg.remetente.id} date={msg.dataEnvio} id={msg.id} tipo={msg.tipo}/>)}).reverse()
                                 }
                             </div>
                             <div className="chat-user-message-input-container">

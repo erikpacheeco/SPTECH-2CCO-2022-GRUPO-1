@@ -61,6 +61,16 @@ function DashboardAdmin() {
     var trocaBtnDemanda = true;
     var trocaBtnPadrinho = true;
 
+    useEffect(() => {
+
+        const interval = setInterval(() => {
+            document.querySelector("#btn-semana-padrinho").click();
+            document.querySelector("#btn-semana-demanda").click();
+            return clearInterval(interval);
+        }, 400);
+
+    }, []);
+
     // cads 
     useEffect(() => {
         

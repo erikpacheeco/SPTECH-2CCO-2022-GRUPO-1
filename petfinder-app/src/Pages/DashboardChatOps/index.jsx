@@ -55,6 +55,15 @@ function DashboardChatOps() {
 
     var trocaBtnDemanda = true;
 
+    useEffect(() => {
+
+        const interval = setInterval(() => {
+            document.querySelector("#btn-semana-demanda").click();
+            return clearInterval(interval);
+        }, 400);
+
+    }, []);
+
     // Cards
     useEffect(() => {
     

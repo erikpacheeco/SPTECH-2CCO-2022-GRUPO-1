@@ -51,6 +51,8 @@ function DashboardSysAdmin() {
 
         api.get(`/demandas/dashboard/${infoUsuario.id}`).then((res) => {
             setInfoDashboard(res.data)
+        }).then(res => {
+            console.log(res.data);
         })
         
     }, [])
