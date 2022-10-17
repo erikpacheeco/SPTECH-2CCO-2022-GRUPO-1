@@ -679,4 +679,13 @@ public class DemandaController implements GerenciadorArquivos{
         return ResponseEntity.status(200).body(pets);
     }
 
+    @GetMapping("/premios/get/instituicao/{idInst}")
+    public ResponseEntity findByInstituicaoIdDto(@PathVariable int idInst) {
+        List<PremioDtoData> premios = premioRepositorio.findByInstituicaoId(idInst);
+        if (premios.isEmpty()) {
+            return ResponseEntity.status(204).build();
+        }
+        return ResponseEntity.status(200).body(premios);
+    }
+
 }
