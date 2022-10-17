@@ -1,5 +1,4 @@
-import Carousel from 'react-multi-carousel';
-import 'react-multi-carousel/lib/styles.css';
+
 import { useEffect, useState } from "react";
 import CardPet from "../../Components/CardPet";
 import HeaderApp from "../../Components/HeaderApp";
@@ -7,35 +6,40 @@ import "./home-user.css"
 import api from "../../Api"
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import Slider from 'react-slick';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import {GoChevronLeft, GoChevronRight} from "react-icons/go"
+
+
 
 export default function HomeUser() {
+
+    // function Arrow(props) {
+    //     let className = props.type === "next" ? "nextArrow" : "prevArrow";
+    //     className += " arrow";
+    //     const char = props.type === "next" ? right_arrow : left_arrow;
+    //     return (
+    //         <span className={className} onClick={props.onClick}>
+    //             <img src={char}/>
+    //         </span>
+    //     );
+    // }
+
+    const settings = {
+        slidesToShow: 5,
+        slidesToScroll: 1,
+        nextArrow: <GoChevronRight color="#7F2AB5"/>,
+        prevArrow: <GoChevronLeft color="#7F2AB5"/>,
+        infinite: true
+    }
 
     const [allPets, setAllPets] = useState([]);
     const [sickPets, setSickPets] = useState([]);
     const navigate = useNavigate()
 
-    const responsive = {
-        superLargeDesktop: {
-            // the naming can be any, depends on you.
-            breakpoint: { max: 4000, min: 3000 },
-            items: 8
-        },
-        desktop: {
-            breakpoint: { max: 3000, min: 1024 },
-            items: 6
-        },
-        tablet: {
-            breakpoint: { max: 1024, min: 464 },
-            items: 2
-        },
-        mobile: {
-            breakpoint: { max: 464, min: 0 },
-            items: 1
-        }
-    };
-
     useEffect(() => {
-        api.get("/pets").then((res) => {
+        api.get("/pets/qtd/18").then((res) => {
             setAllPets(res.data);
         })
         api.get(`/pets/doentes/${8}`).then((res) => {
@@ -45,7 +49,7 @@ export default function HomeUser() {
 
     return (
         <>
-             <HeaderApp/>
+            <HeaderApp />
 
             <main className="home-user-container-main">
                 <div className="home-user-container">
@@ -60,12 +64,13 @@ export default function HomeUser() {
                         </div>
                         <div className="home-user-container-center">
                             <div className="home-user-lista-ajuda">
-                                <Carousel responsive={responsive}>
+                                <Slider {...settings}>
                                     {
                                         sickPets.map((p) => (
                                             <CardPet
+                                                id={p.id}
                                                 nome={p.nome}
-                                                isDoente={false}
+                                                isDoente={p.isDoente}
                                                 backgroundImage={p.caminhoImagem}
                                                 onClick={() =>
                                                     navigate(`/perfil-pet-usuario/${p.id}`)
@@ -73,7 +78,7 @@ export default function HomeUser() {
                                             />
                                         ))
                                     }
-                                </Carousel>
+                                </Slider>
                             </div>
                         </div>
                     </section>

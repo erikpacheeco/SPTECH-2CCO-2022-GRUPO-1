@@ -716,4 +716,19 @@ public class PetsController implements GerenciadorArquivos {
         }
         return ResponseEntity.status(200).body(pets);
     }
+
+    @GetMapping("qtd/{qtdPets}")
+    public ResponseEntity<List<PetPerfil>> getPetsQtdPets(@PathVariable int qtdPets) {
+        List<PetPerfil> pets = repositoryPet.findByAdotado();
+
+        if (pets.isEmpty()) {
+            return ResponseEntity.status(204).build();
+        }
+
+        List<PetPerfil> listaPet = new ArrayList<>();
+        for (int i = 0; i < qtdPets && i < pets.size(); i++) {
+            listaPet.add(pets.get(i));
+        }
+        return ResponseEntity.status(200).body(listaPet);
+    }
 }
