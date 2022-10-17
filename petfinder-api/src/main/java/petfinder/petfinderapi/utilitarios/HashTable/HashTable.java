@@ -21,13 +21,14 @@ public class HashTable {
 
             for(int i = 0; i <= list.size(); i++) {
 
+                System.out.println("id pet: " + list.get(i).getId());
+
                 if (list.get(i) == null) {
                     continue;
                 }
                 
                 if (list.get(i).getInstituicao().getId() == id) {
 
-                    System.out.println("id pet: " + list.get(i).getId());
 
                     partition.add(list.remove(i));
                     continue;
