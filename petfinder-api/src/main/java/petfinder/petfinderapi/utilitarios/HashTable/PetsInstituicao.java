@@ -3,21 +3,22 @@ package petfinder.petfinderapi.utilitarios.HashTable;
 import java.util.ArrayList;
 import java.util.List;
 import petfinder.petfinderapi.entidades.Pet;
+import petfinder.petfinderapi.resposta.PetPerfil;
 
 public class PetsInstituicao {
     
     // attributes
     private int id;
-    private List<Pet> pets;
+    private List<PetPerfil> pets;
 
     // constructor
     public PetsInstituicao(int id) {
-        pets = new ArrayList<Pet>();
+        pets = new ArrayList<PetPerfil>();
         this.id = id;
     }
 
     // methods
-    public void add(Pet pet) {
+    public void add(PetPerfil pet) {
         this.pets.add(pet);
     }
 
@@ -28,10 +29,23 @@ public class PetsInstituicao {
     public void setId(int id) {
         this.id = id;
     }
-    public List<Pet> getPets() {
+    public List<PetPerfil> getPets() {
         return pets;
     }
-    public void setPets(List<Pet> pets) {
+    public void setPets(List<PetPerfil> pets) {
         this.pets = pets;
+    }
+
+    @Override
+    public String toString() {
+        return "PetsInstituicao [id=" + id + ", pets=" + pets + "]";
+    }
+
+    public Boolean isEmpty() {
+        return this.getPets().isEmpty();
+    }
+
+    public Boolean isNotEmpty() {
+        return !isEmpty();
     }
 }

@@ -1,8 +1,9 @@
 package petfinder.petfinderapi.utilitarios.HashTable;
 
+import java.util.ArrayList;
 import java.util.List;
-
 import petfinder.petfinderapi.entidades.Pet;
+import petfinder.petfinderapi.resposta.PetPerfil;
 
 public class HashTable {
     
@@ -11,41 +12,32 @@ public class HashTable {
 
     public HashTable(List<Pet> list) {
 
-        System.out.println("===========================================");
+        tab = new ArrayList<PetsInstituicao>();
 
         while(!list.isEmpty()) {
+            PetsInstituicao partition = new PetsInstituicao(list.get(0).getInstituicao().getId());
 
-            int id = list.get(0).getInstituicao().getId();
-            System.out.println("id instituicao: " + id);
-            PetsInstituicao partition = new PetsInstituicao(id);
-
-            for(int i = 0; i <= list.size(); i++) {
-
-                System.out.println("id pet: " + list.get(i).getId());
-
-                if (list.get(i) == null) {
-                    continue;
+            for(int i = 0; i < list.size(); i++) {
+                if(list.get(i).getInstituicao().getId() == partition.getId()) {
+                    partition.add(new PetPerfil(list.remove(i)));
                 }
-                
-                if (list.get(i).getInstituicao().getId() == id) {
-
-
-                    partition.add(list.remove(i));
-                    continue;
-                }
-
-                tab.add(partition);
             }
+
+            tab.add(partition);
         }
-
-        System.out.println("===========================================");
-    }
-
-    public void display() {
-
     }
 
     public List<PetsInstituicao> getTab() {
         return tab;
+    }
+
+    public PetsInstituicao find(int id) {
+        for (PetsInstituicao p : tab) {
+            if (p.getId() == id) {
+                return p;
+            }
+        }
+
+        return null;
     }
 }

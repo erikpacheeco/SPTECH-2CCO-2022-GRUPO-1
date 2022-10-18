@@ -23,6 +23,7 @@ import petfinder.petfinderapi.service.ServicePet;
 import petfinder.petfinderapi.utilitarios.FilaObj;
 import petfinder.petfinderapi.utilitarios.PilhaObj;
 import petfinder.petfinderapi.utilitarios.HashTable.HashTable;
+import petfinder.petfinderapi.utilitarios.HashTable.PetsInstituicao;
 import petfinder.petfinderapi.utilitarios.GerenciadorArquivos;
 import petfinder.petfinderapi.utilitarios.ListaObj;
 import javax.validation.Valid;
@@ -123,7 +124,7 @@ public class PetsController implements GerenciadorArquivos {
 
     @GetMapping("/instituicao/hashTable/{id}")
     @Operation(description = "Endpoint que retorna uma lista de pets de uma instituição utilizando HashTable")
-    public ResponseEntity<HashTable> getPetPerfilByInstituicaoHashTable(@PathVariable int id) {
+    public ResponseEntity<PetsInstituicao> getPetPerfilByInstituicaoHashTable(@PathVariable int id) {
         return ok(servicePet.getPetPerfilByInstituicaoIdHashTable(id));
     }
 

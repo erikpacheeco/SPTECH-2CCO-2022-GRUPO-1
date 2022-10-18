@@ -30,6 +30,7 @@ import petfinder.petfinderapi.service.exceptions.InvalidFieldException;
 import petfinder.petfinderapi.service.exceptions.NoContentException;
 import petfinder.petfinderapi.utilitarios.UploadFile;
 import petfinder.petfinderapi.utilitarios.HashTable.HashTable;
+import petfinder.petfinderapi.utilitarios.HashTable.PetsInstituicao;
 
 @Service
 public class ServicePet {
@@ -229,10 +230,25 @@ public class ServicePet {
         }
     }
 
-    public HashTable getPetPerfilByInstituicaoIdHashTable(int id) {
-        List<Pet> listaPet = petRepository.findAll();
-        HashTable hash = new HashTable(listaPet);
-        return hash;
+    public PetsInstituicao getPetPerfilByInstituicaoIdHashTable(int id) {
+
+        // 200
+        if(instituicaoRepository.existsById(id)) {   
+            List<Pet> listaPet = petRepository.findAll();
+            HashTable hash = new HashTable(listaPet);
+            PetsInstituicao filtred = hash.find(id);
+
+            // 200
+            if(filtred != null) {
+                return filtred;
+            }
+            
+            // 204 no content
+            throw new NoContentException("pet");
+        }
+
+        // 404 not found
+        throw new EntityNotFoundException(id);
     }
 
 }
