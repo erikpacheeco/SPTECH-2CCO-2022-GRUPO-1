@@ -21,7 +21,7 @@ function initialValuesUsuario() {
 function initialValuesEndereco() {
     return {
         rua: "",
-        complemento: null,
+        complemento: "",
         num: "",
         bairro: "",
         cidade: "",
@@ -32,7 +32,6 @@ function initialValuesEndereco() {
 
 function CadastroUsuario() {
 
-    const [cep, setCep] = useState("");
     const [valuesUsuario, setValuesUsuario] = useState(initialValuesUsuario)
     const [valuesEndereco, setValuesEndereco] = useState(initialValuesEndereco)
     const [valuesInteresse, setValuesInteresse] = useState([])
@@ -132,7 +131,7 @@ function CadastroUsuario() {
     useEffect(() => {
         api.get("/pets/caracteristicas").then((res) => {
             try {
-                console.log(res.data)
+                // console.log(res.data)
                 setPreferencias(res.data)
             } catch (error) {
                 console.log(error)
@@ -385,14 +384,16 @@ function CadastroUsuario() {
                         <div className="cadastro-usuario-btn-preferencia-container">
                             {
                                 preferencias.map((pref) => (
-                                    <>
+                                    <div key={`div-pref-${pref.id}`}>
                                         <input
+                                            key={`input-pref-${pref.id}`}
                                             className="cadastro-usuario-hide"
                                             value={pref.caracteristica}
                                             type="checkbox"
                                             id={pref.id}
                                         />
                                         <button
+                                            key={`btn-pref-${pref.id}`}
                                             type="button"
                                             className="cadastro-usuario-btn-preferencia"
                                             id={pref.id + "-btn"}
@@ -415,7 +416,8 @@ function CadastroUsuario() {
                                         >
                                             {pref.caracteristica}
                                         </button>
-                                    </>
+                                    </div>
+                                    
                                 ))
                             }
                         </div>
