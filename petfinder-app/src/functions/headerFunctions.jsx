@@ -81,7 +81,7 @@ const headerFunction = {
         } else {
             listaHeader = [
                 <NavItem isSelected={paginaAtual === "/home-user" ? true : false} label="Página Inicial" navigateTo={"/home-user"}/>,
-                <NavItem isSelected={paginaAtual === "/meus-premios" ? true : false} label="Meus Prêmios" navigateTo={`/meus-premios/${infoUsuario.id}`}/>,
+                <NavItem isSelected={paginaAtual === `/meus-premios/${infoUsuario.id}` ? true : false} label="Meus Prêmios" navigateTo={`/meus-premios/${infoUsuario.id}`}/>,
                 <NavItem isSelected={paginaAtual === "/chat" ? true : false} label="Mensagens" navigateTo={"/chat"}/>
             ]
         }
