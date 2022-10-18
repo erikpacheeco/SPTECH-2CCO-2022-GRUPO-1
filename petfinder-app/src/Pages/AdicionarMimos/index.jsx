@@ -38,6 +38,7 @@ function AdicionarMimos() {
     const [mimo, setMimo] = useState({});
     const [pet, setPet] = useState({});
     const [formData, setFormData] = useState(new FormData());
+    const [previewImg, setPreviewImg] = useState(IconImg);
 
     // params
     const params = useParams();
@@ -79,13 +80,12 @@ function AdicionarMimos() {
             }
         )
         .then(res => {
-            console.log(res.data);
             if (res.status === 201) {
                 setTimeout(() => {
                     setMimos(oldState => [...oldState, res.data]);
+                    setPreviewImg(IconImg);
                 }, 500);
             }
-            console.log("mimos", mimos);
         })
         .catch(err => {
             console.error(err);
@@ -105,10 +105,13 @@ function AdicionarMimos() {
                             <h2 className="adicionar-mimos-subtitulo">Adicionar Prêmio</h2>
                             <form id="idForm" method="post" target="/test" encType="multipart/form-data" onSubmit={onHandleSubmit} className="adicionar-mimos-form">
                                 <label htmlFor="file" className="adicionar-mimos-label-img">
-                                    <img src={IconImg} alt="icone de imagem" />
+                                    <img src={previewImg} alt="icone de imagem" />
                                     <span>Adicionar Imagem</span>
                                 </label>
-                                <input className="adicionar-mimos-input-img" type="file" id="file" name="file" onChange={(evt) => setMimo({file:evt.target.files[0]})}/>
+                                <input className="adicionar-mimos-input-img" type="file" id="file" name="file" onChange={(evt) => {
+                                    setMimo({file:evt.target.files[0]})
+                                    setPreviewImg(URL.createObjectURL(evt.target.files[0]));
+                                }}/>
                                 <button className="adicionar-mimos-btn-adicionar" type="submit">Adicionar</button>
                             </form>
                         </div>

@@ -102,7 +102,9 @@
 }
 
 .adicionar-mimos-label-img img{
-    width: 25px;
+    /* width: 25px; */
+    max-width: 100px;
+    max-height: 100px;
     margin-bottom: 12px;
 }
 

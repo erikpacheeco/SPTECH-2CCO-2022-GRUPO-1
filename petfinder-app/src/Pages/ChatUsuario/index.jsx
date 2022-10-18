@@ -105,7 +105,7 @@ export default function ChatUsuario() {
                 setListaDemandaAndamento(res.data.emAndamento)
                 setListaDemandaConcluida(res.data.fechadas)
             });
-        }, 1000);
+        }, 500);
         return () => clearInterval(interval);
     }, [demandaAtual]);
 
@@ -224,7 +224,11 @@ export default function ChatUsuario() {
                             <div className="chat-user-message-input-container">
                                 <input className="chat-user-message-input" type="text" id="input_text" />
                                 <div className="chat-user-message-input-buttons">
-                                    <img className="chat-user-message-send-file-button" src={paperclip} alt="Anexar arquivo" onClick={() => setModalIsOpen(!modalIsOpen)}/>
+                                    <img className="chat-user-message-send-file-button" src={paperclip} alt="Anexar arquivo" onClick={() => {
+                                        if(demandaAtual.id !== "") {
+                                            setModalIsOpen(!modalIsOpen)}
+                                        }
+                                    }/>
                                     <img className="chat-user-message-send-button" src={send} alt="Enviar mensagem" onClick={(e) => { handleSubmitMessageText(e) }} />
                                 </div>
                             </div>
