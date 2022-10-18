@@ -49,7 +49,7 @@ function DashboardAdmin() {
             document.querySelector("#btn-semana-demanda").click();
             document.querySelector("#btn-semana-premio").click();
             return clearInterval(interval);
-        }, 300);
+        }, 400);
 
     }, []);
 

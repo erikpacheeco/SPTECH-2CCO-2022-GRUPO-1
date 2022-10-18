@@ -70,7 +70,7 @@ public interface DemandaRepositorio extends JpaRepository<Demanda, Integer> {
     @Query("SELECT new petfinder.petfinderapi.resposta.DtoDemanda(d) FROM Demanda d WHERE d.colaborador.id = ?1 OR d.status = 'ABERTO'")
     List<DtoDemanda> findColabDemandas(Integer id);
 
-    @Query("SELECT COUNT(d) FROM Demanda d WHERE d.categoria = 'PAGAMENTO' AND d.status  = 'ABERTO'")
+    @Query("SELECT COUNT(d) FROM Demanda d WHERE d.categoria = 'PAGAMENTO' AND d.status  = 'CONCLUIDO'")
     public Integer findAllPadrinho();
 
     @Query("SELECT COUNT(d) FROM Demanda d WHERE d.categoria = 'PAGAMENTO' AND d.status  = 'ABERTO' AND d.instituicao.id = ?1")

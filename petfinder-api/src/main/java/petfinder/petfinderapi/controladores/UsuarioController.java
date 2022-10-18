@@ -72,6 +72,40 @@ public class UsuarioController {
 
     // endpoints
 
+    @PutMapping("/{id}")
+    @Operation(description = "Endpoint que atualiza as informações de um usuario especifico filtrado pelo ID")
+    public ResponseEntity<UsuarioSemSenha> updateUsuario(@PathVariable int id, @RequestBody @Valid UsuarioSemSenha novoUsuario) {
+
+        // verificando se usuário existe
+        if (usuarioRepository.existsById(id)) {
+            // pegando informações do usuário existente
+            Usuario usuarioAtual = usuarioRepository.findById(id).get();
+            // verificando se outro usuário já possui novo email
+            if (usuarioAtual.getEmail().equals(novoUsuario.getEmail()) || usuarioRepository.findByEmail(novoUsuario.getEmail()).size() ==  0) {
+
+                // verificando se nivel acesso está válido
+                if (nivelAcesso.elementoExiste(novoUsuario.getNivelAcesso())) {
+
+                    // atualizando informações do novo usuário
+                    usuarioAtual.setNome(novoUsuario.getNome());
+                    usuarioAtual.setNivelAcesso(novoUsuario.getNivelAcesso());
+
+                    usuarioRepository.save(usuarioAtual);
+
+                    // 200
+                    return ResponseEntity.status(200).body(new UsuarioSemSenha(novoUsuario, usuarioAtual.getEndereco()));
+                }
+
+                // 400 bad request - nível de acesso inválido
+                return ResponseEntity.status(400).build();
+            }
+            // 409 email já existe
+            return ResponseEntity.status(409).build();
+        }
+        // 404 usuário não encontrado
+        return ResponseEntity.status(404).build();
+    }
+
     @PostMapping("/sysadm")
     @Operation(description = "retorna colaboradores de uma instituicao")
     @ApiResponse(responseCode = "201", description = "Created")
@@ -123,23 +157,7 @@ public class UsuarioController {
     public ResponseEntity<List<UsuarioSemSenha>> getPadrinhos(@PathVariable Integer idInstituicao) {
         return ResponseEntity.ok(serviceUsuario.getPadrinhos(idInstituicao));
     }
-/*
-    @GetMapping("/demandas/{idInstituicao}/{idUsuario}/{ano}/{mes}")
-    @Operation(description = "retorna lista de padrinhos de uma instituicao")
-    @ApiResponse(responseCode = "200", description = "Ok")
-    @ApiResponse(responseCode = "204", description = "No Content", content = @Content)
-    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
-    public ResponseEntity countDemandaPorMesUsuario(@PathVariable Integer idInstituicao, @PathVariable Integer idUsuario, @PathVariable String ano, @PathVariable String mes) {
-            Integer countDemandasAdocaoMes = usuarioRepository.countDemandasAdocaoMesUsuario(idInstituicao, idUsuario, ano, mes);
-            Integer countDemandasPagamentoMes = usuarioRepository.countDemandasPagamentoMesUsuario(idInstituicao, idUsuario, ano, mes);
 
-            ArrayList demandas = new ArrayList<>();
-            demandas.add(countDemandasAdocaoMes);
-            demandas.add(countDemandasPagamentoMes);
-
-            return ResponseEntity.ok(demandas);
-    }
-*/
     @GetMapping("/demanda/{idInstituicao}/{idUsuario}/{ano}/{mes}")
     @Operation(description = "retorna lista de padrinhos de uma instituicao")
     @ApiResponse(responseCode = "200", description = "Ok")
@@ -158,20 +176,6 @@ public class UsuarioController {
 
             return ResponseEntity.ok(demandas);
     }
-/*
-    @GetMapping("/demandas-ultima-semana/{idUsuario}/{ano}/{mes}/{dia}")
-    @Operation(description = "Endpoint para pegar os leads do ultimo mês")
-    public ResponseEntity countDemandasUltimaSemana(@PathVariable int idUsuario, @PathVariable String ano, @PathVariable String mes, @PathVariable String dia) {
-
-        int demandaAdocao = usuarioRepository.countDemandaAdocaoUltimaSemanaUsuario(idUsuario, ano, mes, dia);
-        int demandaPagamento = usuarioRepository.countDemandaPagamentoUltimaSemanaUsuario(idUsuario, ano, mes, dia);
-
-        ArrayList demandas = new ArrayList<>();
-        demandas.add(demandaAdocao);
-        demandas.add(demandaPagamento);
-
-        return ResponseEntity.status(200).body(demandas);
-    }*/
 
     // retorna todos os usuarios
     @GetMapping

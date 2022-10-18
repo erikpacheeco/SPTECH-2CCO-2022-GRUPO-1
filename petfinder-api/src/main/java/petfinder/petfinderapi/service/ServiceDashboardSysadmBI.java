@@ -39,7 +39,7 @@ public class ServiceDashboardSysadmBI {
         Integer qtdUsuario = usuarioRepositorio.findAllUsuario();
         Integer qtdAnimal = petRepositorio.findAllPet();
         Integer qtdPadrinho = demandaRepositorio.findAllPadrinho();
-        Integer qtdAdmin = usuarioRepositorio.findAllUsuarioAdmin();
+        Integer qtdAdmin = usuarioRepositorio.findAllUsuarioSysAdmin();
 
         return new DashboardSysadmBI(qtdInstituicao, qtdUsuario, qtdAnimal, qtdPadrinho, qtdAdmin);
 

@@ -39,7 +39,7 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, Integer>{
     @Query("SELECT COUNT(u) FROM Usuario u WHERE u.nivelAcesso <> 'sysadm'")
     public Integer findAllUsuario();
 
-    @Query("SELECT COUNT(u) FROM Usuario u WHERE u.nivelAcesso = 'adm'")
-    public Integer findAllUsuarioAdmin();
+    @Query("SELECT COUNT(u) FROM Usuario u WHERE u.nivelAcesso = 'sysadm'")
+    public Integer findAllUsuarioSysAdmin();
 
 }
