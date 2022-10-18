@@ -7,6 +7,7 @@ import api from "../../Api"
 import React from "react";
 import VLibras from "@djpfs/react-vlibras";
 import HeaderBasic from "../../Components/HeaderBasic";
+import axios from "axios";
 
 function initialValuesInstituicao() {
     return {
@@ -60,6 +61,36 @@ function CadastroInstituicao() {
     function handleChangeEndereco(event) {
         const { value, name } = event.target
         setValuesEndereco({ ...valuesEndereco, [name]: value, })
+
+        // editing cep field
+        if(name === "cep" && value.length === 8) {
+            axios.get(`https://viacep.com.br/ws/${value}/json/`)
+            .then(res => {
+                if(res.data.erro) {
+                    return Promise.reject("error");
+                }
+
+                // mudando estilo do input para informar o erro
+                document.querySelector("#idDivInputCep").classList.add("cadastro-instituicao-input-container");
+                document.querySelector("#idDivInputCep").classList.remove("cadastro-instituicao-input-container-error");
+
+                // atribuindo valores de endereço
+                setValuesEndereco({
+                    rua: res.data.logradouro,
+                    complemento: res.data.complemento,
+                    num: "",
+                    bairro: res.data.bairro,
+                    cidade: res.data.localidade,
+                    uf: res.data.uf,
+                    cep: res.data.cep.replace("-", "")
+                });
+
+            })
+            .catch(err => {
+                document.querySelector("#idDivInputCep").classList.remove("cadastro-instituicao-input-container");
+                document.querySelector("#idDivInputCep").classList.add("cadastro-instituicao-input-container-error");
+            });
+        }
     }
 
     function handleChangeUser(event) {
@@ -68,9 +99,6 @@ function CadastroInstituicao() {
     }
 
     function handleSubmit(event) {
-        //console.log(valuesUsuario)
-        //console.log(valuesInstituicao)
-        //console.log(valuesEndereco)
         event.preventDefault()
         let json = {
             nome: valuesUsuario.nome,
@@ -90,7 +118,7 @@ function CadastroInstituicao() {
                 }
             }
         }
-        console.log(json)
+
         api.post("/instituicoes", json, {
             headers: {
                 'Content-Type': 'application/json'
@@ -109,7 +137,6 @@ function CadastroInstituicao() {
                     title: <h1>Ops! Algo deu errado da nossa parte :(</h1>,
                     text: "Por favor, tente novamente!"
                 });
-                console.log(error)
             })
     }
 
@@ -117,12 +144,10 @@ function CadastroInstituicao() {
 
         api.get("/usuarios/ultimo-usuario-cadastrado").then((res) => {
             setIdUltimoUsuario(res.data)
-            console.log("ultimo cadastro usuario "+res.data)
         })
 
         api.get("/usuarios/ultimo-cliente").then((res) => {
             setIdUltimoCliente(res.data)
-            console.log("ultimo cadastro cliente "+res.data)
         })
 
     }, [])
@@ -227,7 +252,7 @@ function CadastroInstituicao() {
                         </div>
 
                         <h1 className="cadastro-instituicao-title">ENDEREÇO</h1>
-                        <div className="cadastro-instituicao-input-container">
+                        <div className="cadastro-instituicao-input-container" id="idDivInputCep">
                             <label html="cep">CEP: </label>
                             <input
                                 id="cep"
