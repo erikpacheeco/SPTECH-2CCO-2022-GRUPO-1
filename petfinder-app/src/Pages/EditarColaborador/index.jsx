@@ -42,16 +42,16 @@ function EditarColaborador() {
             email: infoColaborador.email,
             nivelAcesso: values.cargo,
             endereco: {
-                id: infoColaborador.endereco.id,
-                rua: infoColaborador.endereco.rua,
-                num: infoColaborador.endereco.num,
-                complemento: infoColaborador.endereco.complemento,
-                bairro: infoColaborador.endereco.bairro,
-                cidade: infoColaborador.endereco.cidade,
-                uf: infoColaborador.endereco.uf,
-                cep: infoColaborador.endereco.cep,
-                latitude: infoColaborador.endereco.latitude,
-                longitude: infoColaborador.endereco.longitude
+                id: null,
+                rua: null,
+                num: null,
+                complemento: null,
+                bairro: null,
+                cidade: null,
+                uf: null,
+                cep: null,
+                latitude: null,
+                longitude: null
             },
             fkInstituicao: {
                 id: infoColaborador.fkInstituicao.id,
