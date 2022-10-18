@@ -156,7 +156,7 @@ function PerfilPetUsuario() {
 
                                 <div className="perfil-pet-usuario-info-descricao">
                                     <p>Descrição: </p>
-                                    <textarea className="perfil-pet-usuario-descricao-textarea" id="" cols="30" rows="15" value={infoPet.descricao}></textarea>
+                                    <textarea className="perfil-pet-usuario-descricao-textarea" id="" cols="30" rows="15" value={infoPet.descricao} readOnly></textarea>
 
                                 </div>
 
