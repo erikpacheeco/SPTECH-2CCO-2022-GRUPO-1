@@ -2,6 +2,8 @@ package sptech.petfinderapimsg.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
+
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +18,7 @@ import sptech.petfinderapimsg.repositories.UsuarioRepository;
 import sptech.petfinderapimsg.req.DtoPostMessage;
 import sptech.petfinderapimsg.res.DtoMessageResponse;
 import sptech.petfinderapimsg.services.exceptions.EntityNotFoundException;
+import sptech.petfinderapimsg.services.exceptions.FileUploadException;
 import sptech.petfinderapimsg.services.exceptions.IdNotFoundException;
 import sptech.petfinderapimsg.services.exceptions.NoContentException;
 import sptech.petfinderapimsg.services.util.UploadFile;
@@ -106,11 +109,12 @@ public class MessageService {
 
         try {
             fileName = UploadFile.uploadFile(activeProfile, "img\\msg\\" + multipart.getOriginalFilename(), multipart);
+            TimeUnit.SECONDS.sleep(1);
+            DtoMessageResponse dto = createMessage(new DtoPostMessage(fileName, tipo, demandaId, remetenteId));
+            return dto;
         } catch (Exception ex) {
-            throw new EntityNotFoundException(demandaId);
+            throw new FileUploadException();
         }
 
-        DtoMessageResponse dto = createMessage(new DtoPostMessage(fileName, tipo, demandaId, remetenteId));
-        return dto;
     }
 }

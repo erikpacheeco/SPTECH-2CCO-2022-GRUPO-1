@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -159,6 +161,7 @@ public class ServicePet {
         // uploading pet profile image
         try {
             String fileName = UploadFile.uploadFile(activeProfile, "img\\pets\\" + multipart.getOriginalFilename(), multipart);
+            TimeUnit.SECONDS.sleep(1);
             entity.setCaminhoImagem(fileName);
         } catch(Exception ex) {
             throw new InvalidFieldException("file", "arquivo inválido");
@@ -222,6 +225,7 @@ public class ServicePet {
                 throw new EntityNotFoundException(id);
             });
             String fileName = UploadFile.uploadFile(activeProfile, "img\\premios\\" + multipart.getOriginalFilename(), multipart);
+            TimeUnit.SECONDS.sleep(1);
             Premio premio = new Premio(pet, fileName);
             PremioDto dto = new PremioDto(premioRepositorio.save(premio));
             return dto;

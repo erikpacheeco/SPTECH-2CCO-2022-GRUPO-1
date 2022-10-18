@@ -122,7 +122,6 @@ VALUES
 ('Yoru', 'yoru@gmail.com', 'urubu200', 'user', 2, null, false),
 ('Sage', 'sage@gmail.com', 'urubu200', 'user', 1, null, false);
 
-
 -- usuario
 INSERT INTO
 usuario(nome,email,nivel_acesso,logado,instituicao_id,endereco_id,senha)
@@ -1115,7 +1114,7 @@ INSERT INTO mensagem(conteudo, data_envio, tipo, demanda_id, usuario_id) VALUES
 ('Boa tarde, tudo certo? Eu gostaria de saber mais sobre o Fernandinho!', now(), 'texto', 14, 9),
 ('Boa tarde, que bom saber! O Fernandinho é um doce de pet', now(), 'texto', 14, 2),
 ('Mas também é muito bagunceiro, ele está à procura de um cuidador paciente', now(), 'texto', 14, 2),
-('Bora dale', now(), 'texto', 14, 2);
+('http://localhost:8081:/api-msg/img/msg/termo-de-adocao.docx', now(), 'doc', 14, 2);
 
 -- visitantes
 INSERT INTO visitantes(data_visita) VALUES

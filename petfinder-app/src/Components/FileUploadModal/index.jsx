@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import "./fileUploadModal.css";
 import previewDocImport from "../../Images/file-doc.svg";
@@ -46,8 +46,9 @@ function FileUploadModal({
             }
         )
         .then((res) => {
-            console.log(res.data);
             setModalIsOpen(false);
+            setPreviewImg(previewImgImport);
+            setPreviewDoc(previewDocImport);
         })
         .catch(err => {
             console.error(err);
@@ -73,7 +74,7 @@ function FileUploadModal({
                 <label className="file-upload-modal-form-label" htmlFor="idInputImg">
                     <div>Selecione um arquivo</div>
                     <img  className="file-upload-modal-preview" src={previewImg} alt="preview" />
-                    <input className="file-upload-modal-form-input" type="file" name="file" id="idInputImg" hidden readOnly onChange={evt => handleOnChangeImgFile(evt, "img")} accept="image/*"/>
+                    <input className="file-upload-modal-form-input" type="file" name="file" id="idInputImg" hidden readOnly onChange={evt => handleOnChangeImgFile(evt, "img")} accept="image/*" required/>
                 </label>
                 <input className="file-upload-modal-form-enviar" type="submit" value="Enviar Imagem"/>
             </form>
@@ -86,7 +87,7 @@ function FileUploadModal({
                 <label className="file-upload-modal-form-label" htmlFor="idInputFile">
                     <div>Selecione um arquivo</div>
                     <img  className="file-upload-modal-preview" src={previewDoc} alt="preview" />
-                    <input className="file-upload-modal-form-input" type="file" name="file" id="idInputFile" hidden readOnly onChange={evt => handleOnChangeDocFile(evt, "doc")} accept=".pdf, .doc, .docx"/>
+                    <input className="file-upload-modal-form-input" type="file" name="file" id="idInputFile" hidden readOnly onChange={evt => handleOnChangeDocFile(evt, "doc")} accept=".pdf, .doc, .docx" required/>
                 </label>
                 <input className="file-upload-modal-form-enviar" type="submit" value="Enviar Arquivo"/>
             </form>
