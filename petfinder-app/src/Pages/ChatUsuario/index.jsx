@@ -120,11 +120,11 @@ export default function ChatUsuario() {
         event.preventDefault();
         let input = document.getElementById('input_text')
         let messageJson = {
-            "conteudo": input.value,
-            "tipo": 'texto',
-            "demandaId": demandaAtual.id,
-            "remetenteId": localStorage.getItem('petfinder_user_id'),
-            "dataEnvio": new Date()
+            conteudo: input.value,
+            tipo: 'texto',
+            demandaId: demandaAtual.id,
+            remetenteId: localStorage.getItem('petfinder_user_id'),
+            dataEnvio: new Date()
         }
         input.value = '';
 
