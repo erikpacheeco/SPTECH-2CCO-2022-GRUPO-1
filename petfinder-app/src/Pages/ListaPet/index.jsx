@@ -43,10 +43,10 @@ function ListaPet() {
                             <h2>Pets Cadastrados</h2>
                             <div className="lista-pet-buttons">
                                 <label htmlFor="fileImport">
-                                    <div className="lista-pet-add-icon" onClick={handleAddItemList}>
+                                    {/* <div className="lista-pet-add-icon" onClick={handleAddItemList}>
                                         <img src={file} alt=""/>
                                         <input type="file" accept=".txt" id="fileImport" style={{display: "none"}}/>
-                                    </div>
+                                    </div> */}
                                 </label>
                                 <div className="lista-pet-add-icon" onClick={handleAddItemList}>
                                     <img src={add} alt=""/>
