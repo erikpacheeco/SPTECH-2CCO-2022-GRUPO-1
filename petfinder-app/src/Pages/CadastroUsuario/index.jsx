@@ -7,6 +7,7 @@ import "./cadastro-usuario.css"
 import api from "../../Api"
 import React from "react";
 import VLibras from "@djpfs/react-vlibras";
+import axios from "axios";
 
 function initialValuesUsuario() {
     return {
@@ -27,11 +28,11 @@ function initialValuesEndereco() {
         uf: "",
         cep: ""
     }
-
 }
 
 function CadastroUsuario() {
 
+    const [cep, setCep] = useState("");
     const [valuesUsuario, setValuesUsuario] = useState(initialValuesUsuario)
     const [valuesEndereco, setValuesEndereco] = useState(initialValuesEndereco)
     const [valuesInteresse, setValuesInteresse] = useState([])
@@ -55,6 +56,36 @@ function CadastroUsuario() {
     function handleChangeEndereco(event) {
         const { value, name } = event.target
         setValuesEndereco({ ...valuesEndereco, [name]: value, })
+
+        if(name === "cep" && value.length === 8) {
+            axios.get(`https://viacep.com.br/ws/${value}/json/`)
+            .then(res => {
+                if(res.data.erro) {
+                    return Promise.reject("error");
+                }
+
+                // mudando estilo do input para informar o erro
+                document.querySelector("#idDivInputCep").classList.add("cadastro-usuario-input-container");
+                document.querySelector("#idDivInputCep").classList.remove("cadastro-usuario-input-container-error");
+
+                // atribuindo valores de endereço
+                setValuesEndereco({
+                    rua: res.data.logradouro,
+                    complemento: res.data.complemento,
+                    num: "",
+                    bairro: res.data.bairro,
+                    cidade: res.data.localidade,
+                    uf: res.data.uf,
+                    cep: res.data.cep.replace("-", "")
+                });
+
+            })
+            .catch(err => {
+                document.querySelector("#idDivInputCep").classList.remove("cadastro-usuario-input-container");
+                document.querySelector("#idDivInputCep").classList.add("cadastro-usuario-input-container-error");
+                console.warn("CEP não encontrado");
+            });
+        }
     }
 
     function handleSubmit(event) {
@@ -77,7 +108,6 @@ function CadastroUsuario() {
             },
             interesses: valuesInteresse
         }
-        console.log(json)
         api.post("/usuarios", json, {
             headers: {
                 'Content-Type': 'application/json'
@@ -111,12 +141,10 @@ function CadastroUsuario() {
 
         api.get("/usuarios/ultimo-usuario-cadastrado").then((res) => {
             setIdUltimoUsuario(res.data)
-            console.log("ultimo cadastro"+res.data)
         })
 
         api.get("/usuarios/ultimo-lead").then((res) => {
             setIdLead(res.data)
-            console.log(res.data)
         })
 
     }, [])
@@ -232,7 +260,7 @@ function CadastroUsuario() {
                         </div>
 
                         <h1 className="cadastro-usuario-title">ONDE MORA?</h1>
-                        <div className="cadastro-usuario-input-container">
+                        <div className="cadastro-usuario-input-container" id="idDivInputCep">
                             <label html="cep">CEP: </label>
                             <input
                                 id="cep"
@@ -244,7 +272,7 @@ function CadastroUsuario() {
                                 pattern="[0-9]+"
                                 required
                                 onChange={handleChangeEndereco}
-                            />
+                                />
                         </div>
 
                         <div className="cadastro-usuario-input-container">
