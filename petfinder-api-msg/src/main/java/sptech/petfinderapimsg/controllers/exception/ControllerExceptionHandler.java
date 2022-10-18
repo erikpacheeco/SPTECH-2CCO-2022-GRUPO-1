@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import sptech.petfinderapimsg.services.exceptions.EntityNotFoundException;
+import sptech.petfinderapimsg.services.exceptions.FileUploadException;
 import sptech.petfinderapimsg.services.exceptions.IdNotFoundException;
 import sptech.petfinderapimsg.services.exceptions.NoContentException;
 
@@ -47,4 +48,16 @@ public class ControllerExceptionHandler {
         );
         return status(204).body(err);
     }
+
+    @ExceptionHandler(FileUploadException.class)
+    public ResponseEntity<StandardError> fileUploadError(NoContentException e, HttpServletRequest request) {
+        StandardError err = new StandardError(
+            500, 
+            "File upload error", 
+            e.getMessage(), 
+            request.getRequestURI()
+        );
+        return status(503).body(err);
+    }
+
 }
