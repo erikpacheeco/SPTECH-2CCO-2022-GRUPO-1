@@ -21,18 +21,6 @@ function AdmListItem(props){
                                 <strong>{props.nome}</strong>
                             </div>
                         </div>
-                        <button 
-                        onClick={() => 
-                            {
-                            try {
-                                navigate(`/editar-adm/${props.id}`)
-                                
-                            } catch (error) {
-                                console.log(error)
-                            }
-                            }
-                        } 
-                        className="adm-list-item-editar">EDITAR</button>
                     </div>
                 </div>
             </div>
