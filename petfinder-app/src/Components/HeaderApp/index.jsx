@@ -29,7 +29,6 @@ function HeaderApp() {
     useEffect(() => {
         let body = document.getElementsByTagName("body")[0];
         if(objUser.nivelAcesso === "user") body.classList.add("background-user")
-        else body.classList.add("background-adm")
     },[])
 
     return (
