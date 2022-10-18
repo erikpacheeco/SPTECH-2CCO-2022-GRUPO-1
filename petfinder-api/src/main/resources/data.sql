@@ -448,7 +448,8 @@ VALUES
 ('iko','2014-05-24','Cachorro','Macho','Pequeno','Chihuahua Shorthair Mix','',true,false,'http://localhost:8080/img/pets/iko.jpg',20),
 ('arty','2014-06-01','Cachorro','Macho','Grande','Jack Russell Terrier Mix','',false,false,'http://localhost:8080/img/pets/arty.jpg',23),
 ('onora','2015-10-25','Cachorro','Femea','Grande','Labrador Retriever Mix','',false,false,'http://localhost:8080/img/pets/onora.jpg',1),
-('atches','2013-10-02','Gato','Femea','Pequeno','Domestic Medium Hair Mix','',false,false,'http://localhost:8080/img/pets/atches.jpg',5);
+('atches','2013-10-02','Gato','Femea','Pequeno','Domestic Medium Hair Mix','',false,false,'http://localhost:8080/img/pets/atches.jpg',5),
+('Jack','2013-10-02','Cachorro','Macho','Grande','Golden','Bobão e amoroso',false,false,'http://localhost:8080/img/pets/jack2.jpg',5);
 
 
 -- Premio
