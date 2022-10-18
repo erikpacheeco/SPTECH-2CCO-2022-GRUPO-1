@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SideBar from "../SideBar";
 import headerFunctions from "../../functions/headerFunctions";
+import { useEffect } from "react";
 
 function logoff(){
     if(localStorage.getItem("petfinder_user") === null){
@@ -24,6 +25,12 @@ function HeaderApp() {
     const [hiddenSideBar, setHidenSideBar] = useState(true);
     
     const navigate = useNavigate();
+
+    useEffect(() => {
+        let body = document.getElementsByTagName("body")[0];
+        if(objUser.nivelAcesso === "user") body.classList.add("background-user")
+        else body.classList.add("background-adm")
+    },[])
 
     return (
     <header>

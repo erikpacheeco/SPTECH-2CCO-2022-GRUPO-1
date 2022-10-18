@@ -55,11 +55,10 @@
 
 .perfil-usuario-card-container{
     width: 90%;
-    background-color: red;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    row-gap: 15px;
+    row-gap: 6px;
     margin: 10px 0px;
 }
 
@@ -197,8 +196,20 @@
 }
 
 .perfil-usuario-input{
+    background-color: #eaeaea;
+    border: solid 2px #7F2AB5;
+    padding: 1px 5px;
+    margin-right: 2px;
+    border-radius: 5px;
+}
+
+.perfil-usuario-input:disabled{
     background-color: transparent;
-    /* border: none; */
+    border: solid 2px #7F2AB5;
+}
+
+.perfil-usuario-input::placeholder{
+    color: #000000;
 }
 
 .perfil-usuario-input70{
@@ -213,8 +224,16 @@
     width: 35%
 }
 
+.perfil-usuario-input20{
+    width: 20%
+}
+
 .perfil-usuario-input15{
     width: 15%
+}
+
+.perfil-usuario-input10{
+    width: 10%
 }
 
 .perfil-usuario-card-container-pontuacao{

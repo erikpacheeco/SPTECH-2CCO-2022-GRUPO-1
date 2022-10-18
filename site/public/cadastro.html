@@ -112,7 +112,7 @@
         const dataAtual = new Date().toISOString();
         console.log(dataAtual.toString())
 
-        fetch(`http://localhost:8080/usuarios/ultimo-visitante`, {
+        fetch(`http://3.235.137.54:8080/usuarios/ultimo-visitante`, {
             method: "GET",
             headers: {"Content-type": "application/json; charset=UTF-8"}
         })
@@ -124,7 +124,7 @@
             dataVisita: dataAtual.toString()
         }
 
-        fetch(`http://localhost:8080/usuarios/visitante`, {
+        fetch(`http://3.235.137.54:8080/usuarios/visitante`, {
             method: "POST",
             body: JSON.stringify(data),
             headers: {"Content-type": "application/json; charset=UTF-8"}

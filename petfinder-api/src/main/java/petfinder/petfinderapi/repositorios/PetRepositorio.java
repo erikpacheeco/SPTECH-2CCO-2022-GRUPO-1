@@ -13,6 +13,9 @@ public interface PetRepositorio extends JpaRepository<Pet, Integer> {
   
     @Query("SELECT new petfinder.petfinderapi.resposta.PetPerfil(p) FROM Pet p WHERE p.doente = 'true' and p.adotado = 'false'")
     List<PetPerfil> findByDoenteAndAdotado();
+
+    @Query("SELECT new petfinder.petfinderapi.resposta.PetPerfil(p) FROM Pet p WHERE  p.adotado = 'false'")
+    List<PetPerfil> findByAdotado();
   
     List<Pet> findByInstituicaoId(int id);
 
