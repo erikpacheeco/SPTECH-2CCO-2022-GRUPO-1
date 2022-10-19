@@ -467,7 +467,7 @@ INSERT INTO
 premio(pet_id,img,data_envio)
 VALUES
 (1,null,'2022-04-01'),
-(5,'https://petfinder-bucket.s3.amazonaws.com/img/premios/abby.jpg.','2022-04-02'),
+(5,'https://petfinder-bucket.s3.amazonaws.com/img/premios/abby.jpg','2022-04-02'),
 (9,null,'2022-04-03'),
 (10,null,'2022-04-04'),
 (12,null,'2022-04-05'),

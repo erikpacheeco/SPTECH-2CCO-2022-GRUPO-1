@@ -37,8 +37,7 @@ function Login() {
                 }
             }
         ).then((res) => {
-            localStorage.setItem("petfinder_user", JSON.stringify(res.data))
-            localStorage.setItem("petfinder_user_id", JSON.stringify(res.data.id))
+            localStorage.setItem("petfinder_user", JSON.stringify(res.data));
 
             if(res.data.nivelAcesso.toLowerCase() === "sysadm") {
                 navigate("/dashboard-sysadmin")

@@ -119,7 +119,7 @@ CREATE TABLE demanda_hist (
 CREATE TABLE mensagem (
   id INT PRIMARY KEY AUTO_INCREMENT,
   conteudo TEXT NOT NULL,
-  tipo ENUM("texto", "arq_documento", "arq_imagem") NOT NULL,
+  tipo ENUM("texto", "doc", "img") NOT NULL,
   data_envio DATETIME NOT NULL,
   usuario_id INT NOT NULL,
   demanda_id INT NOT NULL,
@@ -155,7 +155,7 @@ CREATE TABLE demanda_has_pet (
 -- -----------------------------------------------------
 CREATE TABLE premio (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  img TEXT NOT NULL,
+  img TEXT,
   data_envio DATE,
   pet_id INT NOT NULL,
   FOREIGN KEY (pet_id) REFERENCES pet(id)
