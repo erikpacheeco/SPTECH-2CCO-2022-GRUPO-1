@@ -2,10 +2,10 @@
 INSERT INTO 
 endereco(rua, num, complemento, bairro, cidade, uf, cep, latitude, longitude)
 VALUES
-('rua A', '111', null, 'Bairro A', 'Sao Paulo', 'SP', '05143320', null, null),
-('rua B', '222', null, 'Bairro B', 'Sao Paulo', 'SP', '24455540', null, null),
-('rua C', '333', null, 'Bairro C', 'Sao Paulo', 'SP', '03181050', null, null),
-('rua D', '444', null, 'Bairro D', 'Sao Paulo', 'SP', '05845270', null, null);
+('Rua José Correia Lima', '111', null, 'Jardim Felicidade', 'São Paulo', 'SP', '05143320', null, null),
+('Rua José Correia Lima', '222', null, 'Nova Cidade', 'Rio de Janeiro', 'RJ', '24455540', null, null),
+('Rua João Borba', '333', null, 'Vila Bertioga', 'São Paulo', 'SP', '03181050', null, null),
+('Rua Benedita Lima Teixeira', '444', null, 'Jardim Brasília', 'São Paulo', 'SP', '05845270', null, null);
 
 
 -- endereco
@@ -465,7 +465,7 @@ INSERT INTO
 premio(pet_id,img,data_envio)
 VALUES
 (1,null,'2022-04-01'),
-(5,null,'2022-04-02'),
+(5,'http://localhost:8080/img/premios/abby.jpg.','2022-04-02'),
 (9,null,'2022-04-03'),
 (10,null,'2022-04-04'),
 (12,null,'2022-04-05'),
@@ -500,7 +500,7 @@ VALUES
 (68,null,'2022-06-08'),
 (78,null,'2022-06-09'),
 (1,null,'2022-06-10'),
-(5,null,'2022-06-11'),
+(5,'http://localhost:8080/img/premios/alice.jpg','2022-06-11'),
 (9,null,'2022-06-12'),
 (10,null,'2022-06-13'),
 (12,null,'2022-06-14'),
@@ -535,7 +535,7 @@ VALUES
 (68,null,'2022-07-19'),
 (78,null,'2022-07-20'),
 (1,null,'2022-07-21'),
-(5,null,'2022-07-22'),
+(5,'http://localhost:8080/img/premios/arty.jpg','2022-07-22'),
 (9,null,'2022-07-23'),
 (10,null,'2022-07-24'),
 (12,null,'2022-07-01'),
@@ -570,7 +570,7 @@ VALUES
 (68,null,'2022-08-17'),
 (78,null,'2022-08-18'),
 (1,null,'2022-08-19'),
-(5,null,'2022-08-20'),
+(5,'http://localhost:8080/img/premios/batatinha.png','2022-08-20'),
 (9,null,'2022-08-21'),
 (10,null,'2022-08-22'),
 (12,null,'2022-08-23'),
@@ -605,7 +605,7 @@ VALUES
 (68,null,'2022-09-19'),
 (78,null,'2022-09-20'),
 (1,null,'2022-09-21'),
-(5,null,'2022-09-22'),
+(5,'http://localhost:8080/img/premios/boris.jpg','2022-09-22'),
 (9,null,'2022-09-23'),
 (10,null,'2022-09-24'),
 (12,null,'2022-09-01'),
@@ -640,7 +640,7 @@ VALUES
 (68,null,'2022-09-11'),
 (78,null,'2022-09-12'),
 (1,null,'2022-09-13'),
-(5,null,'2022-09-14'),
+(5,'http://localhost:8080/img/premios/comet.jpg','2022-09-14'),
 (9,null,'2022-09-15'),
 (10,null,'2022-09-16'),
 (12,null,'2022-09-17'),
@@ -907,14 +907,14 @@ VALUES
 INSERT INTO
 demanda(categoria, data_abertura, data_fechamento, status, usuario_id, instituicao_id, pet_id, colaborador_id)
 VALUES
-('PAGAMENTO', '2020-01-01', null, 'ABERTO', 9, 1, null, null),
+('PAGAMENTO', '2020-01-01', null, 'ABERTO', 10, 1, null, null),
 ('PAGAMENTO', '2020-01-01', null, 'ABERTO', 10, 1, 1, null),
-('PAGAMENTO', '2020-01-01', null, 'EM_ANDAMENTO', 9, 1, null, 2),
-('PAGAMENTO', '2020-01-01', null, 'PGTO_REALIZADO_USER', 9, 1, null, 2),
+('PAGAMENTO', '2020-01-01', null, 'EM_ANDAMENTO', 10, 1, null, 2),
+('PAGAMENTO', '2020-01-01', null, 'PGTO_REALIZADO_USER', 10, 1, null, 2),
 ('PAGAMENTO', '2020-01-01', null, 'PGTO_REALIZADO_USER', 10, 1, 2, 2),
 ('PAGAMENTO', '2020-01-01', null, 'PGTO_REALIZADO_USER', 11, 1, null, 2),
-('PAGAMENTO', '2022-08-08', '2022-08-08', 'PGTO_REALIZADO_INST', 9, 1, 1, 2),
-('PAGAMENTO', '2020-01-01', '2020-01-01', 'CANCELADO', 9, 1, null, 2),
+('PAGAMENTO', '2022-08-08', '2022-08-08', 'PGTO_REALIZADO_INST', 10, 1, 1, 2),
+('PAGAMENTO', '2020-01-01', '2020-01-01', 'CANCELADO', 10, 1, null, 2),
 ('ADOCAO', '2020-01-01', null, 'ABERTO', 9, 1, null, null),
 ('ADOCAO', '2022-08-25', null, 'EM_ANDAMENTO', 9, 1, 5, 2),
 ('ADOCAO', '2022-08-25', null, 'AGUARDANDO_VALIDACAO_DOCUMENTO', 9, 1, 5, 2),
@@ -932,16 +932,16 @@ VALUES
 INSERT INTO
 demanda(categoria,data_abertura,data_fechamento,status,usuario_id,colaborador_id,instituicao_id,pet_id)
 VALUES
-('PAGAMENTO','2022-04-01','2022-04-02','CONCLUIDO',9,2,1,78),
-('PAGAMENTO','2022-04-02','2022-04-02','CONCLUIDO',9,2,1,68),
-('PAGAMENTO','2022-04-03','2022-04-03','CANCELADO',9,2,1,57),
-('PAGAMENTO','2022-04-04','2022-04-04','CONCLUIDO',9,4,1,78),
-('ADOCAO','2022-04-05','2022-04-05','CANCELADO',9,4,1,68),
-('ADOCAO','2022-04-06','2022-04-08','CONCLUIDO',9,2,1,1),
-('PAGAMENTO','2022-04-07','2022-04-07','CONCLUIDO',9,4,1,57),
-('PAGAMENTO','2022-04-08','2022-04-08','CONCLUIDO',9,4,1,30),
-('PAGAMENTO','2022-04-09','2022-04-09','CANCELADO',9,4,1,31),
-('ADOCAO','2022-04-10','2022-04-12','CONCLUIDO',9,2,1,5),
+('PAGAMENTO','2022-04-01','2022-04-02','CONCLUIDO',10,2,1,78),
+('PAGAMENTO','2022-04-02','2022-04-02','CONCLUIDO',10,2,1,68),
+('PAGAMENTO','2022-04-03','2022-04-03','CANCELADO',10,2,1,57),
+('PAGAMENTO','2022-04-04','2022-04-04','CONCLUIDO',10,4,1,78),
+('ADOCAO','2022-04-05','2022-04-05','CANCELADO',10,4,1,68),
+('ADOCAO','2022-04-06','2022-04-08','CONCLUIDO',10,2,1,1),
+('PAGAMENTO','2022-04-07','2022-04-07','CONCLUIDO',10,4,1,57),
+('PAGAMENTO','2022-04-08','2022-04-08','CONCLUIDO',10,4,1,30),
+('PAGAMENTO','2022-04-09','2022-04-09','CANCELADO',10,4,1,31),
+('ADOCAO','2022-04-10','2022-04-12','CONCLUIDO',10,2,1,5),
 ('PAGAMENTO','2022-05-01','2022-05-02','CONCLUIDO',29,2,1,22),
 ('PAGAMENTO','2022-05-02','2022-05-02','CONCLUIDO',33,2,1,19),
 ('PAGAMENTO','2022-05-03','2022-05-03','CANCELADO',40,2,1,26),
@@ -1128,10 +1128,12 @@ VALUES
 
 -- mensagem
 INSERT INTO mensagem(conteudo, data_envio, tipo, demanda_id, usuario_id) VALUES
-('Boa tarde, tudo certo? Eu gostaria de saber mais sobre o Fernandinho!', now(), 'texto', 14, 9),
-('Boa tarde, que bom saber! O Fernandinho é um doce de pet', now(), 'texto', 14, 2),
-('Mas também é muito bagunceiro, ele está à procura de um cuidador paciente', now(), 'texto', 14, 2),
-('http://localhost:8081:/api-msg/img/msg/termo-de-adocao.docx', now(), 'doc', 14, 2);
+('Boa tarde, tudo certo? Eu gostaria de saber mais sobre o Fernandinho!', now(), 'texto', 10, 9),
+('Boa tarde, que bom saber! O Fernandinho é um doce de pet', now(), 'texto', 10, 2),
+('Mas também é muito bagunceiro, ele está à procura de um cuidador paciente', now(), 'texto', 10, 2),
+('Aqui está um documento com os termos da adoção!', now(), 'texto', 10, 2),
+('http://localhost:8081:/api-msg/img/msg/termo-de-adocao.docx', now(), 'doc', 10, 2),
+('Obrigado!', now(), 'texto', 10, 9);
 
 -- visitantes
 INSERT INTO visitantes(data_visita) VALUES
