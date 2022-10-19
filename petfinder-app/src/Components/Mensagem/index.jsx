@@ -22,8 +22,8 @@ function Mensagem(props) {
     }
 
     return (
-        <div className={Number(localStorage.getItem('petfinder_user').id) === props.idUsuario ? 'msg-left' : 'msg-right'}>
-            <div className={Number(localStorage.getItem('petfinder_user').id) === props.idUsuario ? 'msg-container msg-color-right' : 'msg-container msg-color-left'}>
+        <div className={JSON.parse(localStorage.getItem('petfinder_user')).id === props.idUsuario ? 'msg-left' : 'msg-right'}>
+            <div className={JSON.parse(localStorage.getItem('petfinder_user')).id === props.idUsuario ? 'msg-container msg-color-right' : 'msg-container msg-color-left'}>
 
                 {props.tipo === "texto" ? 
                 <p>{props.content}</p> : 

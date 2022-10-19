@@ -100,7 +100,7 @@ export default function ChatUsuario() {
                     }
                 });
             }
-            api.get(`/demandas/chats/${localStorage.getItem('petfinder_user').id}`).then((res) => {
+            api.get(`/demandas/chats/${JSON.parse(localStorage.getItem('petfinder_user')).id}`).then((res) => {
                 setListaDemandaAberta(res.data.abertas)
                 setListaDemandaAndamento(res.data.emAndamento)
                 setListaDemandaConcluida(res.data.fechadas)
@@ -123,7 +123,7 @@ export default function ChatUsuario() {
             conteudo: input.value,
             tipo: 'texto',
             demandaId: demandaAtual.id,
-            remetenteId: localStorage.getItem('petfinder_user').id,
+            remetenteId: JSON.parse(localStorage.getItem('petfinder_user')).id,
             dataEnvio: new Date()
         }
         input.value = '';
@@ -195,7 +195,7 @@ export default function ChatUsuario() {
                         <FileUploadModal 
                             isOpen={modalIsOpen} 
                             setModalIsOpen={setModalIsOpen} 
-                            remetenteId={localStorage.getItem('petfinder_user').id}
+                            remetenteId={JSON.parse(localStorage.getItem('petfinder_user')).id}
                             demandaId={demandaAtual.id}
                         />
                         <div className="chat-user-message-header">
