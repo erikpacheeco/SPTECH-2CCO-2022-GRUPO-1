@@ -46,7 +46,7 @@ function AdicionarMimos() {
     useEffect(() => {
         api.get(`/pets/premios/get/${params.id}`).then(res => {
             console.log(res.data);
-            if(res.status === 200) {
+            if(res.status == 200) {
                 setMimos(res.data);
             }
         }).catch(error => {console.log(error)})
@@ -80,7 +80,7 @@ function AdicionarMimos() {
             }
         )
         .then(res => {
-            if (res.status === 201) {
+            if (res.status == 201) {
                 setTimeout(() => {
                     setMimos(oldState => [...oldState, res.data]);
                     setPreviewImg(IconImg);

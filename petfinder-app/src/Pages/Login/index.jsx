@@ -39,19 +39,19 @@ function Login() {
         ).then((res) => {
             localStorage.setItem("petfinder_user", JSON.stringify(res.data));
 
-            if(res.data.nivelAcesso.toLowerCase() === "sysadm") {
+            if(res.data.nivelAcesso.toLowerCase() == "sysadm") {
                 navigate("/dashboard-sysadmin")
-            } else if (res.data.nivelAcesso.toLowerCase() === "adm") {
+            } else if (res.data.nivelAcesso.toLowerCase() == "adm") {
                 navigate("/dashboard-admin")
-            } else if (res.data.nivelAcesso.toLowerCase() === "chatops") {
+            } else if (res.data.nivelAcesso.toLowerCase() == "chatops") {
                 navigate("/dashboard-chatops")
-            } else if (res.data.nivelAcesso.toLowerCase() === "user") {
+            } else if (res.data.nivelAcesso.toLowerCase() == "user") {
                 navigate("/home-user")
             }
             
         }) 
             .catch(error => {
-                if (error.request.status === 401) {
+                if (error.request.status == 401) {
                     console.log("success")
                     swal.fire({
                         icon: "error",
@@ -73,7 +73,7 @@ function Login() {
         var senha = document.getElementById("senha");
         var icon = document.getElementById("icon-eye")
 
-        if (senha.type === "password") {
+        if (senha.type == "password") {
             senha.type = "text";
             icon.src = eyeOff;
         } else {

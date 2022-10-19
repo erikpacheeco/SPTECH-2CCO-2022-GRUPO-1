@@ -20,14 +20,14 @@ function FileUploadModal({
     const [formData, setFormData] = useState(new FormData());
 
     function handleOnChangeImgFile(event, type) {
-        setFormData(type === "img" ? new FormData(document.querySelector("#idFormImg")) : new FormData(document.querySelector("#idFormFile")));
+        setFormData(type == "img" ? new FormData(document.querySelector("#idFormImg")) : new FormData(document.querySelector("#idFormFile")));
         if (event.target.files.length > 0) {
             setPreviewImg(URL.createObjectURL(event.target.files[0]));
         }
     }
 
     function handleOnChangeDocFile(event, type) {
-        setFormData(type === "img" ? new FormData(document.querySelector("#idFormImg")) : new FormData(document.querySelector("#idFormFile")));
+        setFormData(type == "img" ? new FormData(document.querySelector("#idFormImg")) : new FormData(document.querySelector("#idFormFile")));
         if (event.target.files.length > 0) {
             setPreviewDoc(previewCorrectImport);
         }
@@ -63,11 +63,11 @@ function FileUploadModal({
                 <img src={closeIcon} alt="" className="file-modal-label-close" onClick={() => setModalIsOpen(false)}/>
             </div>
 
-            <div className={`file-modal-type-btn ${uploadType === "img" ? "file-modal-type-btn-active" : ""}`} onClick={() => {setUploadType("img")}}>Imagem</div>
-            <div className={`file-modal-type-btn ${uploadType === "file" ? "file-modal-type-btn-active" : ""}`} onClick={() => {setUploadType("file")}}>Arquivo</div>
+            <div className={`file-modal-type-btn ${uploadType == "img" ? "file-modal-type-btn-active" : ""}`} onClick={() => {setUploadType("img")}}>Imagem</div>
+            <div className={`file-modal-type-btn ${uploadType == "file" ? "file-modal-type-btn-active" : ""}`} onClick={() => {setUploadType("file")}}>Arquivo</div>
 
             {/* form imagem */}
-            <form onSubmit={evt => handleOnSubmit(evt, "img")} className={`file-upload-modal-form file-upload-modal-form-${uploadType === "img" ? "open" : "closed"}`} id="idFormImg" encType="multipart/form-data">
+            <form onSubmit={evt => handleOnSubmit(evt, "img")} className={`file-upload-modal-form file-upload-modal-form-${uploadType == "img" ? "open" : "closed"}`} id="idFormImg" encType="multipart/form-data">
                 <input type="hidden" name="tipo" value="img"/>
                 <input type="hidden" name="remetenteId" value={remetenteId}/>
                 <input type="hidden" name="demandaId" value={demandaId}/>
@@ -80,7 +80,7 @@ function FileUploadModal({
             </form>
 
             {/* form file */}
-            <form onSubmit={evt => handleOnSubmit(evt, "file")} className={`file-upload-modal-form file-upload-modal-form-${uploadType === "file" ? "open" : "closed"}`} id="idFormFile" encType="multipart/form-data">
+            <form onSubmit={evt => handleOnSubmit(evt, "file")} className={`file-upload-modal-form file-upload-modal-form-${uploadType == "file" ? "open" : "closed"}`} id="idFormFile" encType="multipart/form-data">
                 <input type="hidden" name="tipo" value="doc"/>
                 <input type="hidden" name="remetenteId" value={remetenteId}/>
                 <input type="hidden" name="demandaId" value={demandaId}/>

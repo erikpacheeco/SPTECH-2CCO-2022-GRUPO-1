@@ -57,8 +57,8 @@ export default function ChatUsuario() {
         setDemandaAtual({
             id: demanda.id,
             categoria: demanda.categoria,
-            nome: usuarioLogado.nivelAcesso === "user" ? (demanda.colaborador === null ? "" : demanda.colaborador.nome) : demanda.usuario.nome,
-            proximaAcao: JSON.parse(localStorage.getItem("petfinder_user")).nivelAcesso === "user" ? demanda.proximaAcaoUsuario : demanda.proximaAcaoColaborador,
+            nome: usuarioLogado.nivelAcesso == "user" ? (demanda.colaborador == null ? "" : demanda.colaborador.nome) : demanda.usuario.nome,
+            proximaAcao: toLowerCase(JSON.parse(localStorage.getItem("petfinder_user")).nivelAcesso) == "user" ? demanda.proximaAcaoUsuario : demanda.proximaAcaoColaborador,
             status: demanda.status,
             idUsuario: demanda.idUsuario
         })
@@ -67,21 +67,21 @@ export default function ChatUsuario() {
     function newDemandaItem(demanda) {
         return (<DemandaItem
             categoria={demanda.categoria}
-            nome={usuarioLogado.nivelAcesso === "user" ? (demanda.colaborador === null ? "" : demanda.colaborador.nome) : demanda.usuario.nome}
+            nome={usuarioLogado.nivelAcesso == "user" ? (demanda.colaborador == null ? "" : demanda.colaborador.nome) : demanda.usuario.nome}
             id={demanda.id}
             onClick={(evt) => handleChangeDemandaAtual(demanda, evt)}
             key={demanda.id}
-            isSelected={demanda.id === demandaAtual.id}
+            isSelected={demanda.id == demandaAtual.id}
         />);
     }
 
     function chooseColor() {
         if (demandaAtual.id !== '') {
-            if (demandaAtual.categoria.toLowerCase() === "adocao") {
+            if (demandaAtual.categoria.toLowerCase() == "adocao") {
                 return "chat-user-message-type chat-user-adocao"
-            } else if (demandaAtual.categoria.toLowerCase() === "pagamento") {
+            } else if (demandaAtual.categoria.toLowerCase() == "pagamento") {
                 return "chat-user-message-type chat-user-pagamento"
-            } else if (demandaAtual.categoria.toLowerCase() === "resgate") {
+            } else if (demandaAtual.categoria.toLowerCase() == "resgate") {
                 return "chat-user-message-type chat-user-resgate"
             }
         } else {
@@ -93,9 +93,9 @@ export default function ChatUsuario() {
         const interval = setInterval(() => {
             if (demandaAtual.id !== "") {
                 api_msg.get(`/message/${demandaAtual.id}`).then((res) => {
-                    if (res.status === 200) {
+                    if (res.status == 200) {
                         setMessages(res.data)
-                    } else if (res.status === 204) {
+                    } else if (res.status == 204) {
                         setMessages([]);
                     }
                 });
@@ -132,7 +132,7 @@ export default function ChatUsuario() {
     }
 
     function addingNewCliente() {
-        if (("concluir demada".localeCompare(demandaAtual.proximaAcao.acao) && usuarioLogado.nivelAcesso === "adm") || usuarioLogado.nivelAcesso === "chatops") {
+        if (("concluir demada".localeCompare(demandaAtual.proximaAcao.acao) && usuarioLogado.nivelAcesso == "adm") || usuarioLogado.nivelAcesso == "chatops") {
             let cliente = {
                 id: idUltimoCliente+1,
                 usuario_id: demandaAtual.idUsuario,
@@ -152,7 +152,7 @@ export default function ChatUsuario() {
 
                     <div className="chat-user-container-demandas">
                         <div className="chat-user-demandas-header" onClick={handleChangeAndamento}>
-                            <div className={`qtd-status qtd-status-${listaDemandaAndamento.length === 0 ? "purple" : "yellow"}`}>{listaDemandaAndamento.length}</div>
+                            <div className={`qtd-status qtd-status-${listaDemandaAndamento.length == 0 ? "purple" : "yellow"}`}>{listaDemandaAndamento.length}</div>
                             <p className="chat-user-demandas-header-title">Em Andamento</p>
                             <div className="chat-user-demandas-header-actions">
                                 <img className="chat-user-demandas-btn-icon" id='icon_andamento' src={demandasStatus[0] ? standby : chat_down} alt="seta para minimizar demandas em aberto" />
@@ -166,7 +166,7 @@ export default function ChatUsuario() {
                         </div>
 
                         <div className="chat-user-demandas-header"  onClick={handleChangeAbertas}>
-                            <div className={`qtd-status qtd-status-${listaDemandaAberta.length === 0 ? "purple" : "green"}`}>{listaDemandaAberta.length}</div>
+                            <div className={`qtd-status qtd-status-${listaDemandaAberta.length == 0 ? "purple" : "green"}`}>{listaDemandaAberta.length}</div>
                             <p className="chat-user-demandas-header-title">Abertas</p>
                             <div className="chat-user-demandas-header-actions">
                                 <img className="chat-user-demandas-btn-icon" id='icon_abertas' src={demandasStatus[1] ? standby : chat_down} alt="seta para minimizar demandas em aberto" />
@@ -200,16 +200,16 @@ export default function ChatUsuario() {
                         />
                         <div className="chat-user-message-header">
                             <p className={chooseColor()}>{`#${demandaAtual.id}`}</p>
-                            <p className={demandaAtual.id === '' ? "chat-user-hidden" : "chat-user-message-receiver"}>{demandaAtual.nome}</p>
-                            <div className={demandaAtual.id === '' ? "chat-user-hidden" : "chat-user-demanda-action"}>
+                            <p className={demandaAtual.id == '' ? "chat-user-hidden" : "chat-user-message-receiver"}>{demandaAtual.nome}</p>
+                            <div className={demandaAtual.id == '' ? "chat-user-hidden" : "chat-user-demanda-action"}>
                                 <p className="chat-user-action-description">{demandaAtual.proximaAcao.texto}</p>
                                 <img className="chat-user-hidden" src={check} alt="" />
-                                {demandaAtual.proximaAcao.tipoBotao === "accept" ? <ActionButton type="accept" demandaId={demandaAtual.id} userId={usuarioLogado.id} handleChangeDemandaAtual={handleChangeDemandaAtual} /> : ""}
-                                {demandaAtual.proximaAcao.tipoBotao === "accept/decline" ? <>
+                                {demandaAtual.proximaAcao.tipoBotao == "accept" ? <ActionButton type="accept" demandaId={demandaAtual.id} userId={usuarioLogado.id} handleChangeDemandaAtual={handleChangeDemandaAtual} /> : ""}
+                                {demandaAtual.proximaAcao.tipoBotao == "accept/decline" ? <>
                                     <ActionButton type="accept" demandaId={demandaAtual.id} userId={usuarioLogado.id} handleChangeDemandaAtual={handleChangeDemandaAtual} onClick={addingNewCliente}/>
                                     <ActionButton type="decline" demandaId={demandaAtual.id} userId={usuarioLogado.id} handleChangeDemandaAtual={handleChangeDemandaAtual} />
                                 </> : ""}
-                                {demandaAtual.proximaAcao.tipoBotao === "decline" ? <ActionButton type="decline" demandaId={demandaAtual.id} userId={usuarioLogado.id} handleChangeDemandaAtual={handleChangeDemandaAtual} /> : ""}
+                                {demandaAtual.proximaAcao.tipoBotao == "decline" ? <ActionButton type="decline" demandaId={demandaAtual.id} userId={usuarioLogado.id} handleChangeDemandaAtual={handleChangeDemandaAtual} /> : ""}
                                 <img src={ask} alt="" title={demandaAtual.proximaAcao.descricao} />
                             </div>
                         </div>

@@ -22,12 +22,12 @@ function Mensagem(props) {
     }
 
     return (
-        <div className={JSON.parse(localStorage.getItem('petfinder_user')).id === props.idUsuario ? 'msg-left' : 'msg-right'}>
-            <div className={JSON.parse(localStorage.getItem('petfinder_user')).id === props.idUsuario ? 'msg-container msg-color-right' : 'msg-container msg-color-left'}>
+        <div className={JSON.parse(localStorage.getItem('petfinder_user')).id == props.idUsuario ? 'msg-left' : 'msg-right'}>
+            <div className={JSON.parse(localStorage.getItem('petfinder_user')).id == props.idUsuario ? 'msg-container msg-color-right' : 'msg-container msg-color-left'}>
 
-                {props.tipo === "texto" ? 
+                {props.tipo == "texto" ? 
                 <p>{props.content}</p> : 
-                (props.tipo === "img" ? 
+                (props.tipo == "img" ? 
                 <img src={props.content} alt="imagem" className="mensagem-imagem" /> :
                 <a href={props.content}>
                     <img src={docPreview} alt="doc preview" className="mensagem-imagem"/>

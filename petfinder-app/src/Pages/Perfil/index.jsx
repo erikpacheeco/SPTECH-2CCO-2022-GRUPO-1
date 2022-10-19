@@ -34,7 +34,7 @@ function PerfilSysAdmin() {
     }
 
     useEffect(() => {
-        if(valuesUsuario.nome === "" && valuesUsuario.email === "" && valuesUsuario.senha === ""){
+        if(valuesUsuario.nome == "" && valuesUsuario.email == "" && valuesUsuario.senha == ""){
             api.get(`/usuarios/completo/${infoUsuario.id}`).then((res) => {
                 // setInfoAdm(res.data)
                 console.log(res.data)
@@ -77,7 +77,7 @@ function PerfilSysAdmin() {
         var senha = document.getElementById("senha");
         var icon = document.getElementById("icon-eye")
 
-        if (senha.type === "password") {
+        if (senha.type == "password") {
             senha.type = "text";
             icon.src = eyeOff;
         } else {

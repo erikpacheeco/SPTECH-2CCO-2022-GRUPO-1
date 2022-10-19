@@ -9,7 +9,7 @@ import headerFunctions from "../../functions/headerFunctions";
 import { useEffect } from "react";
 
 function logoff(){
-    if(localStorage.getItem("petfinder_user") === null){
+    if(localStorage.getItem("petfinder_user") == null){
         window.location.href = "/";
     }
 }
@@ -28,7 +28,7 @@ function HeaderApp() {
 
     useEffect(() => {
         let body = document.getElementsByTagName("body")[0];
-        if(objUser.nivelAcesso === "user") body.classList.add("background-user")
+        if(objUser.nivelAcesso == "user") body.classList.add("background-user")
     },[])
 
     return (
@@ -53,7 +53,7 @@ function HeaderApp() {
                 <div 
                     className="header-app-container-perfil-nav"
                     onClick={() => {
-                        if (objUser.nivelAcesso === "user") {
+                        if (objUser.nivelAcesso == "user") {
                             navigate(`/perfil-usuario`)
                         } else {
                             navigate(`/perfil/${objUser.id}`)

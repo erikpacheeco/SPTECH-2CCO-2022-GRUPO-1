@@ -96,7 +96,7 @@ function CadastroPet() {
     useEffect(() => {
         let char = "";
         valuesCaracteristica.map((id, index) => {
-            return char += (index === (valuesCaracteristica.length - 1) || (valuesCaracteristica.length === 1)) ? id : `${id},`;
+            return char += (index == (valuesCaracteristica.length - 1) || (valuesCaracteristica.length == 1)) ? id : `${id},`;
         });
         setListaCaracteristicas(char);
     }, [valuesCaracteristica]);

@@ -63,7 +63,7 @@ function CadastroInstituicao() {
         setValuesEndereco({ ...valuesEndereco, [name]: value, })
 
         // editing cep field
-        if(name === "cep" && value.length === 8) {
+        if(name == "cep" && value.length == 8) {
             axios.get(`https://viacep.com.br/ws/${value}/json/`)
             .then(res => {
                 if(res.data.erro) {

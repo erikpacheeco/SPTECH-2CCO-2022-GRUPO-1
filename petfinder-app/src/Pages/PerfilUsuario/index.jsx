@@ -81,7 +81,7 @@ function PerfilUsuario() {
     // const swal = withReactContent(Swal);
 
     useLayoutEffect(() => {
-        if (objUser.nivelAcesso === "user") {
+        if (objUser.nivelAcesso == "user") {
             setInfoPadrinho(objUser);
         } else {
             api.get(`/usuarios/${idUsuario}`).then((res) => {
@@ -94,7 +94,7 @@ function PerfilUsuario() {
    
     useEffect(() => {
         api.get(`/pets/apadrinhamentos/usuario/${infoPadrinho.id}`).then(res => {
-            if(res.status === 200) {
+            if(res.status == 200) {
                 setPets(res.data);
             }
         }).catch(error => {console.log(error)})
@@ -214,14 +214,14 @@ function PerfilUsuario() {
                 <div className="perfil-usuario-box-Nolista">
                     <span>Ainda não ajudou algum pet</span>
                     <img src={noPet} alt="Gato triste" />
-                    {objUser.nivelAcesso === "user" ? <button onClick={() => navigate("/home-user")}>Ajude Aqui!</button> : ""}
+                    {objUser.nivelAcesso == "user" ? <button onClick={() => navigate("/home-user")}>Ajude Aqui!</button> : ""}
                 </div>
             )
         }
     }
 
     function verificarUsuarioEditar(objUser) {
-        if (objUser.nivelAcesso === "user") {
+        if (objUser.nivelAcesso == "user") {
             return (
                 
                 editarInput ? 
@@ -252,7 +252,7 @@ function PerfilUsuario() {
             <div className="perfil-usuario-root">
                 <div className="perfil-usuario-root-container">
                     <div className="perfil-usuario-box-titulo">
-                        <span>{objUser.nivelAcesso === "user" ? "Meu Perfil" : "Perfil do Padrinho"}</span>
+                        <span>{objUser.nivelAcesso == "user" ? "Meu Perfil" : "Perfil do Padrinho"}</span>
                     </div>
                     <div className="perfil-usuario-box">
                         <form>

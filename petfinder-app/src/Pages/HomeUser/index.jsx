@@ -16,9 +16,9 @@ import {GoChevronLeft, GoChevronRight} from "react-icons/go"
 export default function HomeUser() {
 
     // function Arrow(props) {
-    //     let className = props.type === "next" ? "nextArrow" : "prevArrow";
+    //     let className = props.type == "next" ? "nextArrow" : "prevArrow";
     //     className += " arrow";
-    //     const char = props.type === "next" ? right_arrow : left_arrow;
+    //     const char = props.type == "next" ? right_arrow : left_arrow;
     //     return (
     //         <span className={className} onClick={props.onClick}>
     //             <img src={char}/>
