@@ -199,7 +199,6 @@
     background-color: #eaeaea;
     border: solid 2px #7F2AB5;
     padding: 1px 5px;
-    margin-right: 2px;
     border-radius: 5px;
 }
 
@@ -210,6 +209,10 @@
 
 .perfil-usuario-input::placeholder{
     color: #000000;
+}
+
+.perfil-usuario-input90{
+    width: 97%
 }
 
 .perfil-usuario-input70{
@@ -245,16 +248,32 @@
 .perfil-usuario-box-dash{
     height: 100%;
     width: 50%;
-    background-color: blue;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center
+    
 }
 
 .perfil-usuario-box-pontuacao{
     height: 100%;
     width: 50%;
-    background-color: green;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-evenly;
+}
+
+.perfil-usuario-box-pontuacao span{
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+
+    color: #000000;
+}
+
+.perfil-usuario-div-input{
+    width: 100%;
+    display: flex;
+    column-gap: 8px;
 }

@@ -1,23 +1,36 @@
 import './perfil-usuario.css';
 
 import HeaderApp from "../../Components/HeaderApp";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useLayoutEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import EditarIcon from "../../Images/edit-two.svg";
+import { Chart } from "react-google-charts";
 
-import noPet from "../../Images/png_img/gatinhu.png";
 import api from "../../Api";
 import CardPet from "../../Components/CardPet";
-import Swal from 'sweetalert2';
-import withReactContent from "sweetalert2-react-content";
+// import Swal from 'sweetalert2';
+// import withReactContent from "sweetalert2-react-content";
 
 // imagens
-// import MedalhaNoBronzeIcon from "./../../Images/pet-friendly-No-bronze.svg";
-// import MedalhaNoPrataIcon from "./../../Images/pet-friendly-No-prata.svg";
-// import MedalhaNoOuroIcon from "./../../Images/pet-friendly-No-ouro.svg";
-// import MedalhaBronzeIcon from "./../../Images/pet-friendly-bronze.svg";
+import MedalhaBronzeIcon from "./../../Images/pet-friendly-bronze.svg";
 // import MedalhaPrataIcon from "./../../Images/pet-friendly-prata.svg";
 // import MedalhaOuroIcon from "./../../Images/pet-friendly-ouro.svg";
+// import MedalhaNoBronzeIcon from "./../../Images/pet-friendly-No-bronze.svg";
+import MedalhaNoPrataIcon from "./../../Images/pet-friendly-No-prata.svg";
+import MedalhaNoOuroIcon from "./../../Images/pet-friendly-No-ouro.svg";
+import noPet from "../../Images/png_img/gatinhu.png";
+import EditarIcon from "../../Images/edit-two.svg";
+
+export const options = {
+    pieHole: 0.7,
+    legend: "none",
+    width: "100%",
+    backgroundColor: "none",
+    slices: {
+        0: { color: '#FFE055'},
+        1: { color: '#BC9A00'}
+      },
+      pieSliceText: 'none',
+}
 
 function PerfilUsuario() {
 
@@ -65,9 +78,9 @@ function PerfilUsuario() {
     );
     // const navigate = useNavigate();
     const [editarInput, setEditarInput] = useState(true);
-    const swal = withReactContent(Swal);
+    // const swal = withReactContent(Swal);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (objUser.nivelAcesso === "user") {
             setInfoPadrinho(objUser);
         } else {
@@ -76,15 +89,17 @@ function PerfilUsuario() {
             }).catch(error => { console.log(error) })
         }
 
+    }, []);
+
+   
+    useEffect(() => {
         api.get(`/pets/apadrinhamentos/usuario/${infoPadrinho.id}`).then(res => {
-            console.log(res.data);
             if(res.status === 200) {
                 setPets(res.data);
             }
         }).catch(error => {console.log(error)})
-
-    }, []);
-
+    }, [])
+        
     // const [values, setValues] = useState();
 
     // function resetValues(infoPadrinho) {
@@ -95,72 +110,70 @@ function PerfilUsuario() {
     //         )
     // }
 
-    console.log("testando agora");
-    console.log(infoPadrinho.nome);
 
     function handleChange(event) {
         // const { value, name } = event.target;
         // setValues({ ...values, [name]: value, })
     }
     
-    function handleSubmitColaborador(event) {
-        event.preventDefault()
-        let json = {
-            id: infoPadrinho.id,
-            nome: infoPadrinho.nome,
-            email: infoPadrinho.email,
-            nivelAcesso: infoPadrinho.cargo,
-            endereco: {
-                id: infoPadrinho.endereco.id,
-                rua: infoPadrinho.endereco.rua,
-                num: infoPadrinho.endereco.num,
-                complemento: infoPadrinho.endereco.complemento,
-                bairro: infoPadrinho.endereco.bairro,
-                cidade: infoPadrinho.endereco.cidade,
-                uf: infoPadrinho.endereco.uf,
-                cep: infoPadrinho.endereco.cep,
-                latitude: infoPadrinho.endereco.latitude,
-                longitude: infoPadrinho.endereco.longitude
-            },
-            fkInstituicao: {
-                id: infoPadrinho.fkInstituicao.id,
-                nome: infoPadrinho.fkInstituicao.nome,
-                telefone: infoPadrinho.fkInstituicao.telefone,
-                termoAdocao: infoPadrinho.fkInstituicao.termoAdocao,
-                endereco: {
-                  id: infoPadrinho.fkInstituicao.endereco.id,
-                  rua: infoPadrinho.fkInstituicao.endereco.rua,
-                  num: infoPadrinho.fkInstituicao.endereco.num,
-                  complemento: infoPadrinho.fkInstituicao.endereco.complemento,
-                  bairro: infoPadrinho.fkInstituicao.endereco.bairro,
-                  cidade: infoPadrinho.fkInstituicao.endereco.cidade,
-                  uf: infoPadrinho.fkInstituicao.endereco.uf,
-                  cep: infoPadrinho.fkInstituicao.endereco.cep,
-                  latitude: infoPadrinho.fkInstituicao.endereco.latitude,
-                  longitude: infoPadrinho.fkInstituicao.endereco.longitude
-                }
-              },
-            logado: infoPadrinho.logado
-        }
-        api.put(`/usuarios/${infoPadrinho.id}`, json, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then((res) => {
-                swal.fire({
-                    icon: "success",
-                    title: <h2>Usuário atualizado com sucesso!</h2>,
-                })
-            }).catch((error) => {
-                swal.fire({
-                    icon: "error",
-                    title: <h2>Ops! Algo deu errado da nossa parte :(</h2>,
-                    text: "Por favor, tente novamente!"
-                });
-                console.log(error)
-            })
-    }
+    // function handleSubmitColaborador(event) {
+    //     event.preventDefault()
+    //     let json = {
+    //         id: infoPadrinho.id,
+    //         nome: infoPadrinho.nome,
+    //         email: infoPadrinho.email,
+    //         nivelAcesso: infoPadrinho.cargo,
+    //         endereco: {
+    //             id: infoPadrinho.endereco.id,
+    //             rua: infoPadrinho.endereco.rua,
+    //             num: infoPadrinho.endereco.num,
+    //             complemento: infoPadrinho.endereco.complemento,
+    //             bairro: infoPadrinho.endereco.bairro,
+    //             cidade: infoPadrinho.endereco.cidade,
+    //             uf: infoPadrinho.endereco.uf,
+    //             cep: infoPadrinho.endereco.cep,
+    //             latitude: infoPadrinho.endereco.latitude,
+    //             longitude: infoPadrinho.endereco.longitude
+    //         },
+    //         fkInstituicao: {
+    //             id: infoPadrinho.fkInstituicao.id,
+    //             nome: infoPadrinho.fkInstituicao.nome,
+    //             telefone: infoPadrinho.fkInstituicao.telefone,
+    //             termoAdocao: infoPadrinho.fkInstituicao.termoAdocao,
+    //             endereco: {
+    //               id: infoPadrinho.fkInstituicao.endereco.id,
+    //               rua: infoPadrinho.fkInstituicao.endereco.rua,
+    //               num: infoPadrinho.fkInstituicao.endereco.num,
+    //               complemento: infoPadrinho.fkInstituicao.endereco.complemento,
+    //               bairro: infoPadrinho.fkInstituicao.endereco.bairro,
+    //               cidade: infoPadrinho.fkInstituicao.endereco.cidade,
+    //               uf: infoPadrinho.fkInstituicao.endereco.uf,
+    //               cep: infoPadrinho.fkInstituicao.endereco.cep,
+    //               latitude: infoPadrinho.fkInstituicao.endereco.latitude,
+    //               longitude: infoPadrinho.fkInstituicao.endereco.longitude
+    //             }
+    //           },
+    //         logado: infoPadrinho.logado
+    //     }
+    //     api.put(`/usuarios/${infoPadrinho.id}`, json, {
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         }
+    //     })
+    //         .then((res) => {
+    //             swal.fire({
+    //                 icon: "success",
+    //                 title: <h2>Usuário atualizado com sucesso!</h2>,
+    //             })
+    //         }).catch((error) => {
+    //             swal.fire({
+    //                 icon: "error",
+    //                 title: <h2>Ops! Algo deu errado da nossa parte :(</h2>,
+    //                 text: "Por favor, tente novamente!"
+    //             });
+    //             console.log(error)
+    //         })
+    // }
 
     function clicarEdicao(event) {
         event.preventDefault();
@@ -229,7 +242,8 @@ function PerfilUsuario() {
         }
     }
 
-    
+    const [totalPontos, setTotalPontos] = useState(2200);
+    const [proximaMedalha, setProximaMedalha] = useState(3000);   
     
 
     return (
@@ -248,31 +262,31 @@ function PerfilUsuario() {
                                         <span className="perfil-usuario-card-titulo">Informação Pessoal</span>
                                         {verificarUsuarioEditar(objUser)}
                                     </div>
-                                    <input
-                                        id="nome"
-                                        type="text"
-                                        name="nome"
-                                        value={infoPadrinho.nome}
-                                        onChange={handleChange}
-                                        className="perfil-usuario-card-texto perfil-usuario-input perfil-usuario-input70"
-                                        disabled={editarInput}
-                                    />
-                                    <input
-                                        id="email"
-                                        type="text"
-                                        name="email"
-                                        value={infoPadrinho.email}
-                                        onChange={handleChange}
-                                        className="perfil-usuario-card-texto perfil-usuario-input perfil-usuario-input70"
-                                        disabled={editarInput}
-                                    />
+                                        <input
+                                            id="nome"
+                                            type="text"
+                                            name="nome"
+                                            value={infoPadrinho.nome}
+                                            onChange={handleChange}
+                                            className="perfil-usuario-card-texto perfil-usuario-input perfil-usuario-input90"
+                                            disabled={editarInput}
+                                        />
+                                        <input
+                                            id="email"
+                                            type="text"
+                                            name="email"
+                                            value={infoPadrinho.email}
+                                            onChange={handleChange}
+                                            className="perfil-usuario-card-texto perfil-usuario-input perfil-usuario-input90"
+                                            disabled={editarInput}
+                                        />
                                 </div>
                             </div>
 
                             <div className="perfil-usuario-card">
                                 <div className="perfil-usuario-card-container">
                                     <span className="perfil-usuario-card-titulo">Endereço</span>
-                                    <div>
+                                    <div className="perfil-usuario-div-input">
                                         <input
                                             id="rua"
                                             type="text"
@@ -282,9 +296,7 @@ function PerfilUsuario() {
                                             className="perfil-usuario-card-texto perfil-usuario-input perfil-usuario-input70"
                                             disabled={editarInput}
                                         />
-                                    </div>
-                                    <div>
-                                        <input
+                                         <input
                                             id="num"
                                             type="text"
                                             name="num"
@@ -308,14 +320,16 @@ function PerfilUsuario() {
                                                 id="num"
                                                 type="text"
                                                 name="num"
-                                                value=""
+                                                value="    "
                                                 onChange={handleChange}
-                                                className="perfil-usuario-card-texto perfil-usuario-input perfil-usuario-input20"
+                                                className="perfil-usuario-card-texto perfil-usuario-input perfil-usuario-input10"
                                                 disabled={editarInput}
-                                                placeholder="Complemento"
                                             />
-
                                         }
+                                    </div>
+                                    <div className="perfil-usuario-div-input">
+                                       
+                                        
                                         
                                         <input
                                             id="cep"
@@ -326,8 +340,6 @@ function PerfilUsuario() {
                                             className="perfil-usuario-card-texto perfil-usuario-input perfil-usuario-input15"
                                             disabled={editarInput}
                                         />
-                                    </div>
-                                    <div>
                                         <input
                                             id="bairro"
                                             type="text"
@@ -337,6 +349,9 @@ function PerfilUsuario() {
                                             className="perfil-usuario-card-texto perfil-usuario-input perfil-usuario-input35"
                                             disabled={editarInput}
                                         />
+                                    </div>
+                                    <div className="perfil-usuario-div-input">
+                                        
                                         <input
                                             id="cidade"
                                             type="text"
@@ -363,12 +378,25 @@ function PerfilUsuario() {
                                 <div className="perfil-usuario-card-container-pontuacao">
                                     <div className="perfil-usuario-box-dash">
                                         <span className="perfil-usuario-card-titulo">Pontuação</span>
+                                        <Chart
+                                            chartType="PieChart"
+                                            data={[
+                                                ["", ""], 
+                                                ["Total Pontos", totalPontos], 
+                                                ["Próxima Medalha", proximaMedalha - totalPontos]
+                                            ]}
+                                            
+                                            options={options}
+                                            className="perfil-usuario-chat"                                            
+                                        />
                                     </div>
                                     <div className="perfil-usuario-box-pontuacao">
-                                        <span>Total:</span>
-                                        <span>Próxima Medalha: </span>
-                                        <div>
-                                            <img src="" alt="" />
+                                        <span>Total Pontos: {totalPontos}</span>
+                                        <span>Próxima Medalha: {proximaMedalha}</span>
+                                        <div className="perfil-usuario-box-medalhas">
+                                            <img src={MedalhaBronzeIcon} alt="" />
+                                            <img src={MedalhaNoPrataIcon} alt="" />
+                                            <img src={MedalhaNoOuroIcon} alt="" />
                                         </div>
                                     </div>
                                 </div>
