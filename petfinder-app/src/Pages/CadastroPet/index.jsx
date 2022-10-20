@@ -186,7 +186,7 @@ function CadastroPet() {
                         </div>
 
                         <div className="cad-pet-form-btn-container">
-                            <button className="cad-pet-btn" onClick={handleChangePageDesc}>Próximo</button>
+                            <button className="cad-pet-btn" type="button" onClick={handleChangePageDesc}>Próximo</button>
                         </div>
 
                     </div>
@@ -218,8 +218,8 @@ function CadastroPet() {
                         </div>
 
                         <div className="cad-pet-form-btn-container">
-                            <button className="cad-pet-btn" onClick={handleChangePageBase}>Voltar</button>
-                            <button className="cad-pet-btn" onClick={handleChangePagePref}>Próximo</button>
+                            <button className="cad-pet-btn" type="button" onClick={handleChangePageBase}>Voltar</button>
+                            <button className="cad-pet-btn" type="button" onClick={handleChangePagePref}>Próximo</button>
                         </div>
                     </div>
 
@@ -268,7 +268,7 @@ function CadastroPet() {
                             </div>
                         </div>
                         <div className="cad-pet-form-btn-container">
-                            <button className="cad-pet-btn" onClick={handleChangePageDesc}>Voltar</button>
+                            <button className="cad-pet-btn" type="button" onClick={handleChangePageDesc}>Voltar</button>
                             <input type="submit" className="cad-pet-btn" value="Cadastrar"/>
                         </div>
                     </div>
