@@ -76,7 +76,7 @@ CREATE TABLE usuario (
   nome VARCHAR(60) NOT NULL,
   email VARCHAR(40) NOT NULL,
   senha VARCHAR(16) NOT NULL,
-  nivel_acesso ENUM("SYSADM", "ADM", "PETOPS", "CHATOPS", "USER", "UNSIGNED") NOT NULL,
+  nivel_acesso ENUM("sysadm", "adm", "petops", "chatops", "user") NOT NULL,
   instituicao_id INT,
   endereco_id INT,
   logado TINYINT DEFAULT 0,
