@@ -88,46 +88,46 @@ public interface DemandaRepositorio extends JpaRepository<Demanda, Integer> {
     @Query("SELECT COUNT(d) FROM Demanda d where d.status = 'CONCLUIDO' AND d.dataFechamento LIKE '2022-08-%' AND d.instituicao.id = ?1")
     public Integer countAllApadrinhamentos(int idInstituicao);
 
-    @Query(value="select count(status) FROM Demanda d WHERE d.status = 'CONCLUIDO' and d.data_fechamento like CONCAT(?1,'-',?2,'%')", nativeQuery=true)
+    @Query("select count(status) FROM Demanda d WHERE d.status = 'CONCLUIDO' and d.dataFechamento like CONCAT(?1,'-',?2,'%')")
     Integer countDemandasConcluidasMes(String ano, String mes);
 
-    @Query(value="select count(status) FROM Demanda d WHERE d.colaborador_id = ?1 AND d.status = 'CONCLUIDO' and d.data_fechamento like CONCAT(?2,'-',?3,'%')", nativeQuery=true)
+    @Query("select count(status) FROM Demanda d WHERE d.colaborador.id = ?1 AND d.status = 'CONCLUIDO' and d.dataFechamento like CONCAT(?2,'-',?3,'%')")
     Integer countDemandasConcluidasMesColaborador(int idColaborador, String ano, String mes);
 
-    @Query(value="select count(status) FROM Demanda d WHERE d.instituicao_id = ?1 AND d.status = 'CONCLUIDO' and d.data_fechamento like CONCAT(?2,'-',?3,'%')", nativeQuery=true)
+    @Query("select count(status) FROM Demanda d WHERE d.instituicao.id = ?1 AND d.status = 'CONCLUIDO' and d.dataFechamento like CONCAT(?2,'-',?3,'%')")
     Integer countDemandasConcluidasMesInstituicao(int idInstituicao, String ano, String mes);
 
-    @Query(value="select count(status) FROM Demanda d WHERE d.instituicao_id = ?1 AND d.status = 'CANCELADO' and d.data_fechamento like CONCAT(?2,'-',?3,'%')", nativeQuery=true)
+    @Query("select count(status) FROM Demanda d WHERE d.instituicao.id = ?1 AND d.status = 'CANCELADO' and d.dataFechamento like CONCAT(?2,'-',?3,'%')")
     Integer countDemandasCanceladasMesInstituicao(int idInstituicao, String ano, String mes);
 
-    @Query(value = "SELECT COUNT(data_fechamento) FROM Demanda d WHERE d.instituicao_id = ?1 AND data_fechamento like CONCAT(?2,'-',?3,'-',?4,'%') AND categoria = 'PAGAMENTO'", nativeQuery = true)
+    @Query("SELECT COUNT(dataFechamento) FROM Demanda d WHERE d.instituicao.id = ?1 AND dataFechamento like CONCAT(?2,'-',?3,'-',?4,'%') AND d.categoria = 'PAGAMENTO'")
     public int countDemandaPagamentoUltimaSemana(int idInstituicao, String ano, String mes, String dia);
 
-    @Query(value = "SELECT COUNT(data_fechamento) FROM Demanda d WHERE d.instituicao_id = ?1 AND data_fechamento like CONCAT(?2,'-',?3,'-',?4,'%') AND categoria = 'ADOCAO'", nativeQuery = true)
+    @Query("SELECT COUNT(dataFechamento) FROM Demanda d WHERE d.instituicao.id = ?1 AND dataFechamento like CONCAT(?2,'-',?3,'-',?4,'%') AND d.categoria = 'ADOCAO'")
     public int countDemandaAdocaoUltimaSemana(int idInstituicao, String ano, String mes, String dia);
 
-    @Query(value="select count(usuario_id) FROM Demanda d WHERE d.instituicao_id = ?1 AND d.categoria = 'ADOCAO' and d.data_fechamento like CONCAT(?2,'-',?3,'%')", nativeQuery=true)
+    @Query("select count(usuario_id) FROM Demanda d WHERE d.instituicao.id = ?1 AND d.categoria = 'ADOCAO' and d.dataFechamento like CONCAT(?2,'-',?3,'%')")
     Integer countDemandasAdocaoMes(int instituicao, String ano, String mes);
 
-    @Query(value="select count(usuario_id) FROM Demanda d WHERE d.instituicao_id = ?1 AND d.categoria = 'PAGAMENTO' and d.data_fechamento like CONCAT(?2,'-',?3,'%')", nativeQuery=true)
+    @Query("select count(usuario_id) FROM Demanda d WHERE d.instituicao.id = ?1 AND d.categoria = 'PAGAMENTO' and d.dataFechamento like CONCAT(?2,'-',?3,'%')")
     Integer countDemandasPagamentoMes(int instituicao, String ano, String mes);
 
-    @Query(value = "SELECT COUNT(data_fechamento) FROM Demanda d WHERE data_fechamento like CONCAT(?1,'-',?2,'-',?3,'%') AND status = 'CONCLUIDO'", nativeQuery = true)
+    @Query( "SELECT COUNT(dataFechamento) FROM Demanda d WHERE d.dataFechamento like CONCAT(?1,'-',?2,'-',?3,'%') AND d.status = 'CONCLUIDO'")
     public int countPadrinhosUltimaSemana(String ano, String mes, String dia);
 
-    @Query(value="select count(usuario_id) FROM Demanda d WHERE d.instituicao_id = ?1 AND d.categoria = 'PAGAMENTO' and d.data_fechamento like CONCAT(?2,'-',?3,'%')", nativeQuery=true)
+    @Query("select count(usuario_id) FROM Demanda d WHERE d.instituicao.id = ?1 AND d.categoria = 'PAGAMENTO' and d.dataFechamento like CONCAT(?2,'-',?3,'%')")
     Integer countPadrinhosMes(int instituicao, String ano, String mes);
 
-    @Query(value="select count(usuario_id) FROM Demanda d WHERE d.instituicao_id = ?1 AND d.colaborador_id = ?2 AND d.categoria = 'PAGAMENTO' and d.data_fechamento like CONCAT(?3,'-',?4,'%')", nativeQuery=true)
+    @Query("select count(usuario_id) FROM Demanda d WHERE d.instituicao.id = ?1 AND d.colaborador.id = ?2 AND d.categoria = 'PAGAMENTO' and d.dataFechamento like CONCAT(?3,'-',?4,'%')")
     Integer countDemandasPagamentoMesUsuario(int instituicao, int usuario, String ano, String mes);
 
-    @Query(value="select count(usuario_id) FROM Demanda d WHERE d.instituicao_id = ?1 AND d.colaborador_id = ?2 AND d.categoria = 'ADOCAO' and d.data_fechamento like CONCAT(?3,'-',?4,'%')", nativeQuery=true)
+    @Query("select count(usuario_id) FROM Demanda d WHERE d.instituicao.id = ?1 AND d.colaborador.id = ?2 AND d.categoria = 'ADOCAO' and d.dataFechamento like CONCAT(?3,'-',?4,'%')")
     Integer countDemandasAdocaoMesUsuario(int instituicao, int usuario, String ano, String mes);
 
-    @Query(value = "SELECT COUNT(data_fechamento) FROM Demanda d WHERE colaborador_id = ?1 AND data_fechamento like CONCAT(?2,'-',?3,'-',?4,'%') AND categoria = 'PAGAMENTO'", nativeQuery = true)
+    @Query("SELECT COUNT(dataFechamento) FROM Demanda d WHERE d.colaborador.id = ?1 AND d.dataFechamento like CONCAT(?2,'-',?3,'-',?4,'%') AND d.categoria = 'PAGAMENTO'")
     public int countDemandaPagamentoUltimaSemanaUsuario(int idUsuario, String ano, String mes, String dia);
 
-    @Query(value = "SELECT COUNT(data_fechamento) FROM Demanda d WHERE colaborador_id = ?1 AND data_fechamento like CONCAT(?2,'-',?3,'-',?4,'%') AND categoria = 'ADOCAO'", nativeQuery = true)
+    @Query( "SELECT COUNT(dataFechamento) FROM Demanda d WHERE d.colaborador.id = ?1 AND d.dataFechamento like CONCAT(?2,'-',?3,'-',?4,'%') AND d.categoria = 'ADOCAO'")
     public int countDemandaAdocaoUltimaSemanaUsuario(int idUsuario, String ano, String mes, String dia);
 
 }
