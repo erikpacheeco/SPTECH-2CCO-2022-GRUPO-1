@@ -628,15 +628,15 @@ public class UsuarioController {
     @Operation(description = "Endpoint para pegar os leads do ultimo mês")
     public ResponseEntity getLeadListaUltimoMes() {
 
-        List lead = leadsRepository.getUltimoLeadInstituicaoMês();
+        List<Integer> lead = leadsRepository.getUltimoLeadInstituicaoMes();
 
-        ArrayList leadInstituicao = new ArrayList<>();
+        ArrayList<Integer> leadInstituicao = new ArrayList<Integer>();
         leadInstituicao.add(lead.size());
 
 
         for (int i = 0; i < lead.size(); i++) {
 
-            List cliente = leadsRepository.getUltimoLeadInstituicaoAtivaMês(lead.get(i));
+            List<Integer> cliente = leadsRepository.getUltimoLeadInstituicaoAtivaMes(lead.get(i));
 
             if (!cliente.isEmpty()) {
                 leadInstituicao.add(cliente.size());

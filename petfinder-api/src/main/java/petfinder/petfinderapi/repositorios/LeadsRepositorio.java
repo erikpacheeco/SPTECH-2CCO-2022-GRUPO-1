@@ -10,19 +10,19 @@ import java.util.Objects;
 
 public interface LeadsRepositorio extends JpaRepository<Leads, Integer> {
 
-    @Query(value="select count(data_cadastro) from Leads l where l.tipo != 'sysadm' and l.data_cadastro like CONCAT(?1,'-',?2,'%')", nativeQuery=true)
+    @Query("select count(dataCadastro) from Leads l where l.tipo <> 'sysadm' and l.dataCadastro like CONCAT(?1,'-',?2,'%')")
     public int countLeadPorMes(String ano, String mes);
 
-    @Query(value="select count(data_cadastro) from Leads l where l.tipo = 'user' and l.data_cadastro like CONCAT(?1,'-',?2,'%')", nativeQuery=true)
+    @Query("select count(dataCadastro) from Leads l where l.tipo = 'user' and l.dataCadastro like CONCAT(?1,'-',?2,'%')")
     public int countLeadUsuarioPorMes(String ano, String mes);
 
-    @Query(value="select count(data_cadastro) from Leads l where l.tipo = 'adm' or l.tipo = 'chatops' and l.data_cadastro like CONCAT(?1,'-',?2,'%')", nativeQuery=true)
+    @Query("select count(dataCadastro) from Leads l where l.tipo = 'adm' or l.tipo = 'chatops' and l.dataCadastro like CONCAT(?1,'-',?2,'%')")
     public int countLeadInstituicaoPorMes(String ano, String mes);
 
-    @Query(value = "SELECT id FROM leads WHERE data_cadastro BETWEEN CURDATE() - INTERVAL 30 DAY AND CURDATE() AND tipo != 'user' AND tipo != 'sysadmin'", nativeQuery = true)
-    public List getUltimoLeadInstituicaoMês();
+    @Query("SELECT l.id FROM Leads l WHERE l.dataCadastro > (CURRENT_DATE - 30) AND l.tipo <> 'user' AND l.tipo <> 'sysadmin'")
+    public List<Integer> getUltimoLeadInstituicaoMes();
 
-    @Query(value = "SELECT id FROM Demanda WHERE data_fechamento BETWEEN CURDATE() - INTERVAL 30 DAY AND CURDATE() AND colaborador_id = ?1 AND status = 'CONCLUIDO'", nativeQuery = true)
-    public List getUltimoLeadInstituicaoAtivaMês(Object idInstituicao);
+    @Query("SELECT d.id FROM Demanda d WHERE d.dataFechamento > (CURRENT_DATE - 30) AND d.colaborador.id = ?1 AND d.status = 'CONCLUIDO'")
+    public List<Integer> getUltimoLeadInstituicaoAtivaMes(int idInstituicao);
 
 }
