@@ -26,7 +26,7 @@ public class UploadFile {
     public static String uploadFile(String activeProfile, String fileName, MultipartFile multipart) throws S3Exception, AwsServiceException, SdkClientException, IOException {
         Timestamp timestamp = new Timestamp(new Date().getTime());
         fileName = fileName.replace(".", timestamp.getTime() + ".").replace(" ", "");
-        if(activeProfile.equals("prod")) {
+        if(activeProfile.equalsIgnoreCase("prod") || activeProfile.equalsIgnoreCase("qa")) {
             // s3 bucket
             return "https://petfinder-bucket.s3.amazonaws.com/" + UploadFile.uploadFileS3(fileName.replace("\\", "/"), multipart);
         } else if(activeProfile.equals("dev")) {
