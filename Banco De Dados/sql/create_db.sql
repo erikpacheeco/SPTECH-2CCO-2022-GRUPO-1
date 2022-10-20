@@ -50,7 +50,7 @@ CREATE TABLE pet (
   raca VARCHAR(30) NOT NULL,
   porte VARCHAR(30) NOT NULL,
   caminho_imagem TEXT NOT NULL,
-  sexo VARCHAR(6) NOT NULL,
+  sexo VARCHAR(30) NOT NULL,
   descricao TEXT NOT NULL,
   doente TINYINT NULL,
   adotado TINYINT NOT NULL,
