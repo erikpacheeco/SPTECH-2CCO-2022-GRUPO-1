@@ -37,8 +37,8 @@ function DashboardSysAdmin() {
     const [infoLeadMes5, setInfoLeadMes5] = useState(0);
     const [infoLeadMes6, setInfoLeadMes6] = useState(0);
 
-    const [infoTotalLeadInstituicao, setInfoTotalLeadInstituicao] = useState([]);
-    const [infoLeadInstituicaoAtivo, setInfoLeadInstituicaoAtivo] = useState();
+    const [infoTotalLeadInstituicao, setInfoTotalLeadInstituicao] = useState(0);
+    const [infoLeadInstituicaoAtivo, setInfoLeadInstituicaoAtivo] = useState(0);
 
     const [infoMes1, setInfoMes1] = useState(0);
     const [infoMes2, setInfoMes2] = useState(0);
@@ -149,13 +149,11 @@ function DashboardSysAdmin() {
                 soma += element;
             });
 
-            setInfoTotalLeadInstituicao(soma)
-
-            lead = res.data[0]
-
-            console.log(infoTotalLeadInstituicao)
+            setInfoTotalLeadInstituicao(soma);
+            lead = res.data[0]            
+        })
+        .then(() => {
             setInfoLeadInstituicaoAtivo(lead - infoTotalLeadInstituicao)
-
         })
 
     }, [])
