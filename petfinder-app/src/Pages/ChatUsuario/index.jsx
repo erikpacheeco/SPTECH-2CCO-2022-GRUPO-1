@@ -58,7 +58,7 @@ export default function ChatUsuario() {
             id: demanda.id,
             categoria: demanda.categoria,
             nome: usuarioLogado.nivelAcesso == "user" ? (demanda.colaborador == null ? "" : demanda.colaborador.nome) : demanda.usuario.nome,
-            proximaAcao: toLowerCase(JSON.parse(localStorage.getItem("petfinder_user")).nivelAcesso) == "user" ? demanda.proximaAcaoUsuario : demanda.proximaAcaoColaborador,
+            proximaAcao: JSON.parse(localStorage.getItem("petfinder_user")).nivelAcesso.toLowerCase() == "user" ? demanda.proximaAcaoUsuario : demanda.proximaAcaoColaborador,
             status: demanda.status,
             idUsuario: demanda.idUsuario
         })
