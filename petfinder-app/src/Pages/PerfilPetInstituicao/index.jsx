@@ -15,7 +15,7 @@ function resetValues() {
         especie: "",
         idade: "",
         instituicao: "",
-        isDoente: "",
+        isDoente: "true",
         mimosPorMes: "",
         nome: "",
         porte: "",

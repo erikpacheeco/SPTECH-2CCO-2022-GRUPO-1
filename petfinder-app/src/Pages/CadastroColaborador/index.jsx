@@ -13,7 +13,7 @@ function initialValuesUsuario() {
         nome: "",
         email: "",
         senha: "",
-        nivelAcesso: ""
+        nivelAcesso: "adm"
     }
 }
 
