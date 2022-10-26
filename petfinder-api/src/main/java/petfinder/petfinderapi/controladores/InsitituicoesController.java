@@ -13,6 +13,7 @@ import petfinder.petfinderapi.repositorios.EnderecoRepositorio;
 import petfinder.petfinderapi.repositorios.InstituicaoRepositorio;
 import petfinder.petfinderapi.repositorios.UsuarioRepositorio;
 import petfinder.petfinderapi.requisicao.DtoAdmRequest;
+import petfinder.petfinderapi.resposta.PetPerfil;
 import petfinder.petfinderapi.rest.ClienteCep;
 import petfinder.petfinderapi.rest.Distancep;
 import petfinder.petfinderapi.rest.DistanciaResposta;
@@ -247,5 +248,20 @@ public class InsitituicoesController {
 
         // 404 instituicao não encontrada
         return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/instituicao/colaborador/count/{id}")
+    ResponseEntity countByPetInstituicao(@PathVariable int id) {
+        int qtdIntituicaoInst = instituicaoRepositorio.findAllColaboradoresInstituicao(id);
+        return ResponseEntity.status(200).body(qtdIntituicaoInst);
+    }
+
+    @GetMapping("/apadrinhamentos/usuario/{idUser}")
+    public ResponseEntity getPetsApadrinhadosPorUser(@PathVariable int idUser) {
+        List<Instituicao> instituicao = instituicaoRepositorio.findInstituicaoByDemandaApadrinhamentoAndUsuario(idUser);
+        if (instituicao.isEmpty()) {
+            return ResponseEntity.status(204).build();
+        }
+        return ResponseEntity.status(200).body(instituicao);
     }
 }

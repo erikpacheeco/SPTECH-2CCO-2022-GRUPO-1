@@ -11,7 +11,7 @@ public class Usuario {
     // atributos
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     @NotNull
     private String nome;
     @Email
@@ -29,11 +29,24 @@ public class Usuario {
     // atributo temporario até definirmos o processo de logoff
     private boolean logado;
 
+    public Usuario() {}
+
+    public Usuario(Usuario usuario) {
+        this.id = usuario.getId();
+        this.nome = usuario.getNome();
+        this.email = usuario.email;
+        this.senha = usuario.getSenha();
+        this.nivelAcesso = usuario.getNivelAcesso();
+        this.endereco = usuario.getEndereco();
+        this.instituicao = usuario.getInstituicao();
+        this.logado = usuario.isLogado();
+    }
+
     // getters e setters
-    public int getId() {
+    public Integer getId() {
         return id;
     }
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
     public String getNome() {

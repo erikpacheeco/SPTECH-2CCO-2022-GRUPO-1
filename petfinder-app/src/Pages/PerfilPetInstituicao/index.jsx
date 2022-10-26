@@ -1,6 +1,5 @@
 import './PerfilPetInstituicao.css';
 import HeaderApp from "../../Components/HeaderApp";
-import NavItem from "../../Components/NavItem";
 import { useEffect, useState } from "react";
 import api from "../../Api"
 import React from "react";
@@ -9,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 import withReactContent from "sweetalert2-react-content";
 import VLibras from "@djpfs/react-vlibras"
-import headerFunctions from "../../functions/headerFunctions";
 
 function resetValues() {
     return { 
@@ -17,7 +15,7 @@ function resetValues() {
         especie: "",
         idade: "",
         instituicao: "",
-        isDoente: "",
+        isDoente: "true",
         mimosPorMes: "",
         nome: "",
         porte: "",
@@ -34,8 +32,6 @@ function PerfilPetInstituicao() {
     const idPet = useParams()
     const navigate = useNavigate()
     const swal = withReactContent(Swal);
-
-    const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
 
     console.log(values)
 
@@ -70,18 +66,18 @@ function PerfilPetInstituicao() {
     function handleSubmitPet(event) {
         event.preventDefault()
         let json = {
-            id: infoPet.id,
-            nome: infoPet.nome,
-            especie: infoPet.especie,
-            raca: infoPet.raca,
-            porte: infoPet.porte,
-            sexo: infoPet.sexo,
-            descricao: infoPet.descricao,
-            caminhoImagem: infoPet.caminhoImagem,
-            doente: infoPet.isDoente,
-            adotado: infoPet.adotado,
-            instituicao: infoPet.instituicao,
-            caracteristicas: infoPet.caracteristicas
+            id: values.id,
+            nome: values.nome,
+            especie: values.especie,
+            raca: values.raca,
+            porte: values.porte,
+            sexo: values.sexo,
+            descricao: values.descricao,
+            caminhoImagem: values.caminhoImagem,
+            doente: values.isDoente,
+            adotado: values.adotado,
+            instituicao: values.instituicao,
+            caracteristicas: values.caracteristicas
         }
         api.put(`/pets/${infoPet.id}`, json, {
             headers: {
@@ -93,7 +89,7 @@ function PerfilPetInstituicao() {
                     icon: "success",
                     title: <h2>Pet atualizado com sucesso!</h2>,
                 }).then(() => {
-                    navigate(`/perfil-pet-instituicao/${infoPet.id}`)
+                    navigate(`/lista-pet`)
                 })
             }).catch((error) => {
                 swal.fire({
@@ -107,17 +103,14 @@ function PerfilPetInstituicao() {
 
     return(
         <>
-            <HeaderApp
-                    sideItens={headerFunctions.sideBarNivelAcesso(objUser.nivelAcesso)}
-                    itens={headerFunctions.headerNivelAcesso(objUser.nivelnivelAcesso)}
-                />
+            <HeaderApp/>
 
             <div className="perfil-pet-instituicao">
                 <div className="perfil-pet-instituicao-container">
 
                     <div className="perfil-pet-instituicao-foto">
                         <h1>{infoPet.nome}</h1>
-                        <img src={api.defaults.baseURL+infoPet.caminhoImagem} alt="" />
+                        <img src={infoPet.caminhoImagem} alt="" />
                     </div>
 
                     <div className="perfil-pet-instituicao-informacao-container">
@@ -187,7 +180,7 @@ function PerfilPetInstituicao() {
                     </div>    
                 </div>
                 <div className="perfil-pet-instituicao-btn">
-                    <button>Adicionar Mimos</button>
+                    <button onClick={() => navigate(`/adicionar-mimos/${idPet.id}`)}>Adicionar Mimos</button>
                     <button type="submit" onClick={handleSubmitPet}>Salvar</button>
                 </div>
             </div>

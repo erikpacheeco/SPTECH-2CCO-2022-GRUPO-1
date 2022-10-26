@@ -6,7 +6,6 @@ import api from "../../Api";
 import CardPet from "../../Components/CardPet";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from 'react';
-import headerFunctions from "../../functions/headerFunctions";
 
 export default function VerMais() {
   const [instituicao, setInstituicao] = useState([]);
@@ -14,12 +13,10 @@ export default function VerMais() {
 
   const navigate = useNavigate();
 
-  const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
-
   const [distinctPets, setAllDistinctPets] = useState([]);
 
   const [allPets, setAllPets] = useState([]);
-  const [sickPets, setSickPets] = useState([]);
+  // const [sickPets, setSickPets] = useState([]);
 
   useEffect(() => {
     api.get("/instituicoes").then((res) => {
@@ -31,9 +28,9 @@ export default function VerMais() {
     api.get("/pets").then((res) => {
       setAllPets(res.data);
     });
-    api.get(`/pets/doentes/${8}`).then((res) => {
-      setSickPets(res.data);
-    });
+    // api.get(`/pets/doentes/${8}`).then((res) => {
+    //   setSickPets(res.data);
+    // });
     api.get("/pets/distinct").then((res) => {
       setAllDistinctPets(res.data);
     });
@@ -41,10 +38,7 @@ export default function VerMais() {
 
   return (
     <>
-      <HeaderApp
-        sideItens={headerFunctions.sideBarNivelAcesso(objUser.nivelAcesso)}
-        itens={headerFunctions.headerNivelAcesso(objUser.nivelnivelAcesso)}
-      />
+      <HeaderApp/>
       <div class="ver-mais-container-geral">
         <h1 className="ver-mais-h1-titulo">Todos os Pet´s</h1>
         <div className="ver-mais-container-conteudo">

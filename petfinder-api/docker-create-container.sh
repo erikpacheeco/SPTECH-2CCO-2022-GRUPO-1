@@ -1,3 +1,6 @@
+#Making deploy log
+git log --oneline -n 1 | paste - - - > ../prod-log/deploy_8080.txt
+
 # deleting container and image
 sudo docker stop ct-petfinder-api
 sudo docker rm ct-petfinder-api

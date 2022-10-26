@@ -57,7 +57,7 @@
     justify-content: center;
 }
 
-.cadastro-usuario-input-container{
+.cadastro-usuario-input-container, .cadastro-usuario-input-container-error{
     display: flex;
     flex-direction: column;
     margin-top: 16px;
@@ -72,12 +72,19 @@
     background-color: #F3F2F2;
 }
 
-.cadastro-usuario-input-container label {
+.cadastro-usuario-input-container-error input{
+    border-radius: 5px;
+    border: 1px solid red;
+    padding-left: 20px;
+    height: 37px;
+    background-color: #F3F2F2;
+}
+
+.cadastro-usuario-input-container label, .cadastro-usuario-input-container-error label {
     font-family: 'Hind Madurai';
     font-weight: 600;
     font-size: 18px;
     color: #7F2AB5;
-    background-color: #F3F2F2;
 }
 
 .cadastro-usuario-separate-container{

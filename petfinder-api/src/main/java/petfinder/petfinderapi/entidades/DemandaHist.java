@@ -27,7 +27,7 @@ public class DemandaHist {
     public DemandaHist(Demanda demanda) {
         this.status = demanda.getStatus();
         // flexibilidade de data no update
-        this.data = demanda.getDataAbertura();
+        this.data = new Date();
         this.demanda = demanda;
     }
 
@@ -50,10 +50,10 @@ public class DemandaHist {
     public void setStatus(String status) {
         this.status = status;
     }
-    public Demanda getFkDemanda() {
+    public Demanda getDemanda() {
         return demanda;
     }
-    public void setFkDemanda(Demanda fkDemanda) {
+    public void setDemanda(Demanda fkDemanda) {
         this.demanda = fkDemanda;
     }
 }

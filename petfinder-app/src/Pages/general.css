@@ -11,3 +11,14 @@ body {
     padding-top: 100px;
     font-family: 'Hind Madurai', sans-serif;
 } 
+
+.background-adm{
+    background-image: url("../Images/back_adm.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.background-user{
+    background-image: url("../Images/back_user.svg");
+
+}

@@ -2,13 +2,12 @@ import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
-import FloatResgate from "../../Components/FloatResgate";
 import HeaderBasic from "../../Components/HeaderBasic";
 import "./login.css"
 import api from "../../Api"
 import VLibras from "@djpfs/react-vlibras"
-import headerFunctions from "../../functions/headerFunctions";
-import HeaderApp from "../../Components/HeaderApp";
+import eye from "../../Images/eye.svg";
+import eyeOff from "../../Images/eye-off.svg";
 
 function resetValues() {
     return { email: "", senha: "" }
@@ -18,8 +17,6 @@ function Login() {
     const [values, setValues] = useState(resetValues)
     const navigate = useNavigate()
     const swal = withReactContent(Swal);
-    const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
-
 
     function handleChange(event) {
         const { value, name } = event.target;
@@ -40,8 +37,7 @@ function Login() {
                 }
             }
         ).then((res) => {
-            localStorage.setItem("petfinder_user", JSON.stringify(res.data))
-            localStorage.setItem("petfinder_user_id", JSON.stringify(res.data.id))
+            localStorage.setItem("petfinder_user", JSON.stringify(res.data));
 
             if(res.data.nivelAcesso.toLowerCase() == "sysadm") {
                 navigate("/dashboard-sysadmin")
@@ -73,6 +69,19 @@ function Login() {
             });
     }
 
+    function changeEye() {
+        var senha = document.getElementById("senha");
+        var icon = document.getElementById("icon-eye")
+
+        if (senha.type == "password") {
+            senha.type = "text";
+            icon.src = eyeOff;
+        } else {
+            senha.type = "password";
+            icon.src = eye;
+        }
+    }
+
     return (
         <>
             <HeaderBasic />
@@ -96,18 +105,21 @@ function Login() {
 
                         <div className="login-input-container">
                             <label htmlFor="senha">Senha</label>
-                            <input
-                                id="senha"
-                                type="password"
-                                name="senha"
-                                required
-                                value={values.senha}
-                                onChange={handleChange}
-                            />
+                            <div className="login-senha-container">
+                                <input
+                                    id="senha"
+                                    type="password"
+                                    name="senha"
+                                    required
+                                    value={values.senha}
+                                    onChange={handleChange}
+                                />
+                                <img src={eye} alt="" id="icon-eye" onClick={changeEye}/>
+                            </div>
                         </div>
 
                         <div className="login-label-container">
-                            <a className="login-link-senha link">Esqueci a senha</a>
+                            <a className="login-link-senha link" href="/">Esqueci a senha</a>
                         </div>
 
                         {/* Buttons */}
@@ -131,7 +143,6 @@ function Login() {
                     </form>
                 </div>
             </div>
-            <FloatResgate />
 
             <VLibras forceOnload={true}></VLibras>
         </>

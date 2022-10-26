@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./chat-user.css"
 import HeaderApp from "../../Components/HeaderApp";
-import NavItem from "../../Components/NavItem";
-import SideBarItem from "../../Components/SideBarItem";
 import Mensagem from "../../Components/Mensagem";
-import perfil from "../../Images/people.svg"
-import home from "../../Images/home.svg"
-import message from "../../Images/message.svg"
-import premio from "../../Images/picture.svg"
 import standby from "../../Images/chat-standby.svg"
 import chat_down from "../../Images/chat-down.svg"
 import check from "../../Images/check.svg"
@@ -18,13 +12,12 @@ import api from '../../Api.js'
 import api_msg from '../../ApiMsg.js'
 import DemandaItem from "../../Components/DemandaItem";
 import ActionButton from "../../Components/ActionButton";
-import headerFunctions from "../../functions/headerFunctions";
+import FileUploadModal from "../../Components/FileUploadModal";
 
 export default function ChatUsuario() {
 
     const usuarioLogado = JSON.parse(localStorage.getItem("petfinder_user"));
-    const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
-
+    const [modalIsOpen, setModalIsOpen] = useState(false);
     const [messages, setMessages] = useState([]);
     const [listaDemandaAberta, setListaDemandaAberta] = useState([]);
     const [listaDemandaAndamento, setListaDemandaAndamento] = useState([]);
@@ -39,10 +32,10 @@ export default function ChatUsuario() {
             tipoBotao: null,
             acao: null,
         },
-        status: null
+        status: null,
+        descricao: "undefined"
     });
 
-    const [idUltimoUsuario, setIdUltimoUsuario] = useState()
     const [idUltimoCliente, setIdUltimoCliente] = useState()
 
     function handleChangeAndamento() {
@@ -60,12 +53,12 @@ export default function ChatUsuario() {
         else setDemandasStatus([demandasStatus[0], demandasStatus[1], true]);
     }
 
-    function handleChangeDemandaAtual(demanda) {
+    function handleChangeDemandaAtual(demanda, evt) {
         setDemandaAtual({
             id: demanda.id,
             categoria: demanda.categoria,
-            nome: usuarioLogado.nivelAcesso === "user" ? (demanda.colaborador === null ? "" : demanda.colaborador.nome) : demanda.usuario.nome,
-            proximaAcao: JSON.parse(localStorage.getItem("petfinder_user")).nivelAcesso === "user" ? demanda.proximaAcaoUsuario : demanda.proximaAcaoColaborador,
+            nome: usuarioLogado.nivelAcesso == "user" ? (demanda.colaborador == null ? "" : demanda.colaborador.nome) : demanda.usuario.nome,
+            proximaAcao: JSON.parse(localStorage.getItem("petfinder_user")).nivelAcesso.toLowerCase() == "user" ? demanda.proximaAcaoUsuario : demanda.proximaAcaoColaborador,
             status: demanda.status,
             idUsuario: demanda.idUsuario
         })
@@ -74,32 +67,21 @@ export default function ChatUsuario() {
     function newDemandaItem(demanda) {
         return (<DemandaItem
             categoria={demanda.categoria}
-            nome={usuarioLogado.nivelAcesso === "user" ? (demanda.colaborador === null ? "" : demanda.colaborador.nome) : demanda.usuario.nome}
+            nome={usuarioLogado.nivelAcesso == "user" ? (demanda.colaborador == null ? "" : demanda.colaborador.nome) : demanda.usuario.nome}
             id={demanda.id}
-            onClick={() => handleChangeDemandaAtual(demanda)}
+            onClick={(evt) => handleChangeDemandaAtual(demanda, evt)}
             key={demanda.id}
+            isSelected={demanda.id == demandaAtual.id}
         />);
-    }
-
-    function formatData(data) {
-        let date_full = new Date(data);
-        let day = date_full.getDay();
-        let minute = date_full.getMinutes();
-        let hour = date_full.getHours();
-        let month = date_full.getMonth();
-        let year = date_full.getFullYear();
-        let time = hour + ':' + minute;
-        let date_string = time + ' - ' + day + '/' + month + '/' + year;
-        return date_string;
     }
 
     function chooseColor() {
         if (demandaAtual.id !== '') {
-            if (demandaAtual.categoria.toLowerCase() === "adocao") {
+            if (demandaAtual.categoria.toLowerCase() == "adocao") {
                 return "chat-user-message-type chat-user-adocao"
-            } else if (demandaAtual.categoria.toLowerCase() === "pagamento") {
+            } else if (demandaAtual.categoria.toLowerCase() == "pagamento") {
                 return "chat-user-message-type chat-user-pagamento"
-            } else if (demandaAtual.categoria.toLowerCase() === "resgate") {
+            } else if (demandaAtual.categoria.toLowerCase() == "resgate") {
                 return "chat-user-message-type chat-user-resgate"
             }
         } else {
@@ -109,22 +91,21 @@ export default function ChatUsuario() {
 
     useEffect(() => {
         const interval = setInterval(() => {
-            console.log("useEffect!!!")
             if (demandaAtual.id !== "") {
                 api_msg.get(`/message/${demandaAtual.id}`).then((res) => {
-                    if (res.status === 200) {
+                    if (res.status == 200) {
                         setMessages(res.data)
-                    } else if (res.status === 204) {
+                    } else if (res.status == 204) {
                         setMessages([]);
                     }
                 });
             }
-            api.get(`/demandas/chats/${localStorage.getItem('petfinder_user_id')}`).then((res) => {
+            api.get(`/demandas/chats/${JSON.parse(localStorage.getItem('petfinder_user')).id}`).then((res) => {
                 setListaDemandaAberta(res.data.abertas)
                 setListaDemandaAndamento(res.data.emAndamento)
                 setListaDemandaConcluida(res.data.fechadas)
             });
-        }, 1000);
+        }, 500);
         return () => clearInterval(interval);
     }, [demandaAtual]);
 
@@ -135,27 +116,15 @@ export default function ChatUsuario() {
         })
     }, [])
 
-    // setTimeout(() => {
-    //     console.log("ei")
-    // }, 1000);
-
-    // useEffect(() => {
-    //     // api.get(`/demandas/${demandaAtual.id}`)
-    //     // .then(res => {
-    //     //     setDemandaAtual(res.data);
-    //     // });
-    //     console.log("ei");
-    // }, [demandaAtual, listaDemandaAberta, listaDemandaAndamento, listaDemandaConcluida]);
-
     function handleSubmitMessageText(event) {
         event.preventDefault();
         let input = document.getElementById('input_text')
         let messageJson = {
-            "conteudo": input.value,
-            "tipo": 'text',
-            "demandaId": demandaAtual.id,
-            "remetenteId": localStorage.getItem('petfinder_user_id'),
-            "dataEnvio": new Date()
+            conteudo: input.value,
+            tipo: 'texto',
+            demandaId: demandaAtual.id,
+            remetenteId: JSON.parse(localStorage.getItem('petfinder_user')).id,
+            dataEnvio: new Date()
         }
         input.value = '';
 
@@ -163,7 +132,7 @@ export default function ChatUsuario() {
     }
 
     function addingNewCliente() {
-        if ("concluir demada".localeCompare(demandaAtual.proximaAcao.acao) && usuarioLogado.nivelAcesso == "adm" || usuarioLogado.nivelAcesso == "chatops") {
+        if (("concluir demada".localeCompare(demandaAtual.proximaAcao.acao) && usuarioLogado.nivelAcesso == "adm") || usuarioLogado.nivelAcesso == "chatops") {
             let cliente = {
                 id: idUltimoCliente+1,
                 usuario_id: demandaAtual.idUsuario,
@@ -177,20 +146,16 @@ export default function ChatUsuario() {
 
     return (
         <>
-            <HeaderApp
-                sideItens={headerFunctions.sideBarNivelAcesso(objUser.nivelAcesso)}
-                itens={headerFunctions.headerNivelAcesso(objUser.nivelnivelAcesso)}
-
-            />
+            <HeaderApp/>
             <div className="chat-user-centralizer">
                 <div className="chat-user-container">
 
                     <div className="chat-user-container-demandas">
-                        <div className="chat-user-demandas-header">
-                            <div className={`qtd-status qtd-status-${listaDemandaAndamento.length === 0 ? "gray" : "blue"}`}>{listaDemandaAndamento.length}</div>
+                        <div className="chat-user-demandas-header" onClick={handleChangeAndamento}>
+                            <div className={`qtd-status qtd-status-${listaDemandaAndamento.length == 0 ? "purple" : "yellow"}`}>{listaDemandaAndamento.length}</div>
                             <p className="chat-user-demandas-header-title">Em Andamento</p>
                             <div className="chat-user-demandas-header-actions">
-                                <img className="chat-user-demandas-btn-icon" id='icon_andamento' src={demandasStatus[0] ? standby : chat_down} alt="seta para minimizar demandas em aberto" onClick={handleChangeAndamento} />
+                                <img className="chat-user-demandas-btn-icon" id='icon_andamento' src={demandasStatus[0] ? standby : chat_down} alt="seta para minimizar demandas em aberto" />
                             </div>
                         </div>
 
@@ -200,11 +165,11 @@ export default function ChatUsuario() {
                             }
                         </div>
 
-                        <div className="chat-user-demandas-header">
-                            <div className={`qtd-status qtd-status-${listaDemandaAberta.length === 0 ? "gray" : "green"}`}>{listaDemandaAberta.length}</div>
+                        <div className="chat-user-demandas-header"  onClick={handleChangeAbertas}>
+                            <div className={`qtd-status qtd-status-${listaDemandaAberta.length == 0 ? "purple" : "green"}`}>{listaDemandaAberta.length}</div>
                             <p className="chat-user-demandas-header-title">Abertas</p>
                             <div className="chat-user-demandas-header-actions">
-                                <img className="chat-user-demandas-btn-icon" id='icon_abertas' src={demandasStatus[1] ? standby : chat_down} alt="seta para minimizar demandas em aberto" onClick={handleChangeAbertas} />
+                                <img className="chat-user-demandas-btn-icon" id='icon_abertas' src={demandasStatus[1] ? standby : chat_down} alt="seta para minimizar demandas em aberto" />
                             </div>
                         </div>
                         <div className={demandasStatus[1] ? "chat-user-demandas-list" : " chat-user-hidden"}>
@@ -212,10 +177,11 @@ export default function ChatUsuario() {
                                 listaDemandaAberta.map((demanda) => newDemandaItem(demanda))
                             }
                         </div>
-                        <div className="chat-user-demandas-header">
+                        <div className="chat-user-demandas-header" onClick={handleChangeConcluidas}>
+                            <div className={`qtd-status qtd-status-purple`}>{listaDemandaConcluida.length}</div>
                             <p className="chat-user-demandas-header-title">Concluidas</p>
                             <div className="chat-user-demandas-header-actions">
-                                <img className="chat-user-demandas-btn-icon" id='icon_concluidas' src={demandasStatus[2] ? standby : chat_down} alt="seta para minimizar demandas em aberto" onClick={handleChangeConcluidas} />
+                                <img className="chat-user-demandas-btn-icon" id='icon_concluidas' src={demandasStatus[2] ? standby : chat_down} alt="seta para minimizar demandas em aberto" />
                             </div>
                         </div>
                         <div className={demandasStatus[2] ? "chat-user-demandas-list" : " chat-user-hidden"}>
@@ -226,35 +192,43 @@ export default function ChatUsuario() {
                     </div>
 
                     <div className="chat-user-container-chat">
+                        <FileUploadModal 
+                            isOpen={modalIsOpen} 
+                            setModalIsOpen={setModalIsOpen} 
+                            remetenteId={JSON.parse(localStorage.getItem('petfinder_user')).id}
+                            demandaId={demandaAtual.id}
+                        />
                         <div className="chat-user-message-header">
-                            <p className={chooseColor()}>{demandaAtual.categoria.toLowerCase()}</p>
-                            <p>{demandaAtual.id !== '' ? `#${demandaAtual.id}` : ""}</p>
-                            <p className={demandaAtual.id === '' ? "chat-user-hidden" : "chat-user-message-receiver"}>{demandaAtual.nome}</p>
-                            <div className={demandaAtual.id === '' ? "chat-user-hidden" : "chat-user-demanda-action"}>
+                            <p className={chooseColor()}>{`#${demandaAtual.id}`}</p>
+                            <p className={demandaAtual.id == '' ? "chat-user-hidden" : "chat-user-message-receiver"}>{demandaAtual.nome}</p>
+                            <div className={demandaAtual.id == '' ? "chat-user-hidden" : "chat-user-demanda-action"}>
                                 <p className="chat-user-action-description">{demandaAtual.proximaAcao.texto}</p>
                                 <img className="chat-user-hidden" src={check} alt="" />
-                                {demandaAtual.proximaAcao.tipoBotao === "accept" ? <ActionButton type="accept" demandaId={demandaAtual.id} userId={usuarioLogado.id} handleChangeDemandaAtual={handleChangeDemandaAtual} /> : ""}
-                                {demandaAtual.proximaAcao.tipoBotao === "accept/decline" ? <>
+                                {demandaAtual.proximaAcao.tipoBotao == "accept" ? <ActionButton type="accept" demandaId={demandaAtual.id} userId={usuarioLogado.id} handleChangeDemandaAtual={handleChangeDemandaAtual} /> : ""}
+                                {demandaAtual.proximaAcao.tipoBotao == "accept/decline" ? <>
                                     <ActionButton type="accept" demandaId={demandaAtual.id} userId={usuarioLogado.id} handleChangeDemandaAtual={handleChangeDemandaAtual} onClick={addingNewCliente}/>
                                     <ActionButton type="decline" demandaId={demandaAtual.id} userId={usuarioLogado.id} handleChangeDemandaAtual={handleChangeDemandaAtual} />
                                 </> : ""}
-                                {demandaAtual.proximaAcao.tipoBotao === "decline" ? <ActionButton type="decline" demandaId={demandaAtual.id} userId={usuarioLogado.id} handleChangeDemandaAtual={handleChangeDemandaAtual} /> : ""}
-                                <img src={ask} alt="" />
+                                {demandaAtual.proximaAcao.tipoBotao == "decline" ? <ActionButton type="decline" demandaId={demandaAtual.id} userId={usuarioLogado.id} handleChangeDemandaAtual={handleChangeDemandaAtual} /> : ""}
+                                <img src={ask} alt="" title={demandaAtual.proximaAcao.descricao} />
                             </div>
                         </div>
 
                         <div className="chat-user-message-container">
                             <div className="chat-user-message-section" id='chatSection'>
                                 {
-                                    messages.map((msg, index) => {
-                                        return (<Mensagem key={index} content={msg.conteudo} idUsuario={msg.remetente.id} date={formatData(msg.dataEnvio)} id='' />)
-                                    }).reverse()
+                                messages.map((msg, index) => {
+                                    return (<Mensagem key={index} content={msg.conteudo} idUsuario={msg.remetente.id} date={msg.dataEnvio} id={msg.id} tipo={msg.tipo}/>)}).reverse()
                                 }
                             </div>
                             <div className="chat-user-message-input-container">
                                 <input className="chat-user-message-input" type="text" id="input_text" />
                                 <div className="chat-user-message-input-buttons">
-                                    <img className="chat-user-message-send-file-button" src={paperclip} alt="Anexar arquivo" />
+                                    <img className="chat-user-message-send-file-button" src={paperclip} alt="Anexar arquivo" onClick={() => {
+                                        if(demandaAtual.id !== "") {
+                                            setModalIsOpen(!modalIsOpen)}
+                                        }
+                                    }/>
                                     <img className="chat-user-message-send-button" src={send} alt="Enviar mensagem" onClick={(e) => { handleSubmitMessageText(e) }} />
                                 </div>
                             </div>

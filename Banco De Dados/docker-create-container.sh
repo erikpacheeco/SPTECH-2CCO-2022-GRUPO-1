@@ -1,3 +1,6 @@
+#Making deploy log
+git log --oneline -n 1 | paste - - - > ../prod-log/deploy_db.txt
+
 # deleteing actual container and image
 sudo docker stop ct-petfinder-db
 sudo docker rm ct-petfinder-db

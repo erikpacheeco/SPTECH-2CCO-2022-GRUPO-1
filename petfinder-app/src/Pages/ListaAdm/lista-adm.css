@@ -1,0 +1,58 @@
+.lista-adm-root {
+    width: 100%;
+    height: 100%;
+}
+
+.logo-background {
+    z-index: -3;
+}
+
+.lista-adm {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+
+.lista-adm-container {
+    height: 100%;
+    width: 95%;
+}
+
+.lista-adm-tittle {
+    /* background-color: aqua; */
+    width : 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.lista-adm-tittle h2 {
+    margin-top: 40px;
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 44px;
+
+    color: #7F2AB5;
+}
+
+.lista-adm-add-icon {
+    /* background-color: rgb(97, 34, 133); */
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    border: 2px rgb(97, 34, 133) solid;
+    color: rgb(97, 34, 133);
+    text-align: center;
+    /* vertical-align: middle; */
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -31,7 +31,7 @@
 .pet-item-value{
     display: flex;
     width: 75%;
-
+    justify-content: space-between;
 }
 
 .pet-list-item-btn-editar-cadastro {
@@ -53,6 +53,7 @@
 .pet-key-value-item-container {
     /* text-align: center; */
     margin-right: 60px;
+    width: 25%;
 }
 .pet-key-value-item-key {
     font-family: 'Hind Madurai';

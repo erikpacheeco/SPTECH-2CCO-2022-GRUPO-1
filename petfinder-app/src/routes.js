@@ -7,8 +7,9 @@ import HomeUser from "./Pages/HomeUser";
 import ListaPet from "./Pages/ListaPet";
 import CadastroPet from "./Pages/CadastroPet"
 import EditarColaborador from "./Pages/EditarColaborador";
-import CadastrarColaborador from "./Pages/CadastrarColaborador";
 import ListaColaborador from "./Pages/ListaColaborador";
+import ListaAdm from "./Pages/ListaAdm";
+import CadastroAdm from "./Pages/CadastroAdm";
 import PerfilPetUsuario from "./Pages/PerfilPetUsuario";
 import PerfilPetInstituicao from "./Pages/PerfilPetInstituicao";
 import MeusPremios from "./Pages/MeusPremios";
@@ -18,8 +19,12 @@ import DashboardChatOps from "./Pages/DashboardChatOps";
 import DashboardAdmin from "./Pages/DashboardAdmin";
 import ChatUsuario from "./Pages/ChatUsuario";
 import PerfilUsuario from "./Pages/PerfilUsuario";
+import ListaInstituicao from "./Pages/ListaInstituicao";
+import Perfil from "./Pages/Perfil";
+import ListaPadrinho from "./Pages/ListaPadrinho";
 import React from "react";
 import './global.css';
+import AdicionarMimos from "./Pages/AdicionarMimos";
 
 function Rotas() {
     return (
@@ -31,19 +36,25 @@ function Rotas() {
                 <Route path="/" element={<Login/>}/>
                 <Route path="/home-user" element={<HomeUser/>} />
                 <Route path="/lista-pet" element={<ListaPet/>} />
-                <Route path="/cadastro-pet" element={<CadastroPet/>} />
+                <Route path="/cadastro-pet/:id" element={<CadastroPet/>} />
                 <Route path="/editar-colaborador/:id" element={<EditarColaborador/>} />
-                <Route path="/cadastro-colaborador" element={<CadastrarColaborador/>} />
                 <Route path="/lista-colaborador/:id" element={<ListaColaborador/>} /> 
+                <Route path="/lista-adm/:id" element={<ListaAdm/>} /> 
+                <Route path="/cadastro-adm/:id" element={<CadastroAdm/>} />
                 <Route path="/perfil-pet-usuario/:id" element={<PerfilPetUsuario/>} /> 
                 <Route path="/perfil-pet-instituicao/:id" element={<PerfilPetInstituicao/>} /> 
-                <Route path="/meus-premios" element={<MeusPremios/>} />
+                <Route path="/meus-premios/:id" element={<MeusPremios/>} />
                 <Route path="/ver-mais" element={<VerMais/>} />
                 <Route path="/dashboard-sysadmin" element={<DashboardSysAdmin/>} />
                 <Route path="/dashboard-chatops" element={<DashboardChatOps/>} />
                 <Route path="/dashboard-admin" element={<DashboardAdmin/>} />
                 <Route path="/chat" element={<ChatUsuario/>} />
+                <Route path="/perfil-usuario/:id" element={<PerfilUsuario/>} />
                 <Route path="/perfil-usuario" element={<PerfilUsuario/>} />
+                <Route path="/lista-instituicao" element={<ListaInstituicao/>} />
+                <Route path="/perfil/:id" element={<Perfil/>} />
+                <Route path="/adicionar-mimos/:id" element={<AdicionarMimos/>} />
+                <Route path="/lista-padrinho" element={<ListaPadrinho/>} />
             </Routes>
         </BrowserRouter>
     );

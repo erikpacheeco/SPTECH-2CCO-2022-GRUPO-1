@@ -5,21 +5,17 @@ import add from "../../Images/plus.svg"
 import file from "../../Images/file-txt.svg"
 import api from "../../Api"
 import React, { useEffect, useState } from 'react';
-import { calculateNewValue } from '@testing-library/user-event/dist/utils';
-
 import VLibras from "@djpfs/react-vlibras"
-import headerFunctions from "../../functions/headerFunctions";
-import SideBarItem from "../../Components/SideBarItem";
-import NavItem from "../../Components/NavItem";
-
+import { useNavigate } from "react-router-dom";
 
 function ListaPet() {
 
     const [allPets, setAllPets] = useState([]);
-    const [pets, setPets] = useState([]);
 
+    const navigate = useNavigate();
+    
     function handleAddItemList() {
-        console.log(allPets)
+        navigate(`/cadastro-pet/${objUser.id}`)
     }
 
     const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
@@ -39,10 +35,7 @@ function ListaPet() {
         <>
 
             <div className="lista-pet-root">
-                <HeaderApp
-                    sideItens={headerFunctions.sideBarNivelAcesso(objUser.nivelAcesso)}
-                    itens={headerFunctions.headerNivelAcesso(objUser.nivelnivelAcesso)}
-                />
+                <HeaderApp/>
 
                 <div className="lista-pet">
                     <div className="lista-pet-container">
@@ -50,13 +43,13 @@ function ListaPet() {
                             <h2>Pets Cadastrados</h2>
                             <div className="lista-pet-buttons">
                                 <label htmlFor="fileImport">
-                                    <div className="lista-pet-add-icon" onClick={handleAddItemList}>
-                                        <img src={file} />
+                                    {/* <div className="lista-pet-add-icon" onClick={handleAddItemList}>
+                                        <img src={file} alt=""/>
                                         <input type="file" accept=".txt" id="fileImport" style={{display: "none"}}/>
-                                    </div>
+                                    </div> */}
                                 </label>
                                 <div className="lista-pet-add-icon" onClick={handleAddItemList}>
-                                    <img src={add} />
+                                    <img src={add} alt=""/>
                                 </div>
                             </div>
                         </div>
@@ -64,6 +57,7 @@ function ListaPet() {
                             {
                                 allPets.map((pet) => (
                                     <PetListItem
+                                        id={pet.id}
                                         nome={pet.nome}
                                         especie={pet.especie}
                                         raca={pet.raca}
@@ -81,9 +75,6 @@ function ListaPet() {
             <VLibras forceOnload={true}></VLibras>
         </>
     )
-
-    
-
 }
 
 export default ListaPet;

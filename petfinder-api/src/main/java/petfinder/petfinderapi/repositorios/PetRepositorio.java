@@ -13,6 +13,9 @@ public interface PetRepositorio extends JpaRepository<Pet, Integer> {
   
     @Query("SELECT new petfinder.petfinderapi.resposta.PetPerfil(p) FROM Pet p WHERE p.doente = 'true' and p.adotado = 'false'")
     List<PetPerfil> findByDoenteAndAdotado();
+
+    @Query("SELECT new petfinder.petfinderapi.resposta.PetPerfil(p) FROM Pet p WHERE  p.adotado = 'false'")
+    List<PetPerfil> findByAdotado();
   
     List<Pet> findByInstituicaoId(int id);
 
@@ -33,7 +36,7 @@ public interface PetRepositorio extends JpaRepository<Pet, Integer> {
     @Query("SELECT count(p) FROM Pet p WHERE p.adotado <> 'true'")
     public Integer findAllPet();
 
-    @Query("SELECT count(p) FROM Pet p WHERE p.adotado = 'true' AND p.instituicao.id = ?1")
+    @Query("SELECT count(p) FROM Demanda p WHERE p.categoria = 'ADOCAO' AND p.instituicao.id = ?1 AND p.status = 'CONCLUIDO'")
     public Integer findAllAdotadoInstituicao(int idInstituicao);
 
     @Query("SELECT COUNT(p) FROM Pet p WHERE p.instituicao.id = ?1")
@@ -41,5 +44,9 @@ public interface PetRepositorio extends JpaRepository<Pet, Integer> {
 
     @Query("SELECT DISTINCT p.especie FROM Pet p")
     public List<String> findDistinctByEspecie();
+
+    @Query("SELECT DISTINCT new petfinder.petfinderapi.resposta.PetPerfil(d.pet) FROM Demanda d WHERE d.status = 'CONCLUIDO' AND d.dataFechamento LIKE '2022-08-%' AND d.usuario.id = ?1")
+    public List<PetPerfil> findPetByDemandaApadrinhamentoAndUsuario(int idUser);
+
 
 }

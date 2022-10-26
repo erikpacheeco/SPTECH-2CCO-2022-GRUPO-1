@@ -7,15 +7,20 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import petfinder.petfinderapi.controladores.util.HeaderConfig;
 import petfinder.petfinderapi.entidades.*;
 import petfinder.petfinderapi.repositorios.*;
 import petfinder.petfinderapi.requisicao.CriacaoUsuario;
+import petfinder.petfinderapi.requisicao.DtoColaboradorRequest;
+import petfinder.petfinderapi.requisicao.DtoColaboradorSelfRequest;
+import petfinder.petfinderapi.requisicao.DtoSysadmRequest;
 import petfinder.petfinderapi.requisicao.InteresseUsuario;
 import petfinder.petfinderapi.utilitarios.FilaObj;
 import petfinder.petfinderapi.utilitarios.ListaObj;
 import petfinder.petfinderapi.requisicao.UsuarioLogin;
 import petfinder.petfinderapi.resposta.ColaboradorSimples;
 import petfinder.petfinderapi.resposta.Message;
+import petfinder.petfinderapi.resposta.SysadmSimples;
 import petfinder.petfinderapi.resposta.UsuarioSemSenha;
 import petfinder.petfinderapi.service.ServiceUsuario;
 import java.util.*;
@@ -67,6 +72,65 @@ public class UsuarioController {
 
     // endpoints
 
+    @PutMapping("/{id}")
+    @Operation(description = "Endpoint que atualiza as informações de um usuario especifico filtrado pelo ID")
+    public ResponseEntity<UsuarioSemSenha> updateUsuario(@PathVariable int id, @RequestBody @Valid UsuarioSemSenha novoUsuario) {
+
+        // verificando se usuário existe
+        if (usuarioRepository.existsById(id)) {
+            // pegando informações do usuário existente
+            Usuario usuarioAtual = usuarioRepository.findById(id).get();
+            // verificando se outro usuário já possui novo email
+            if (usuarioAtual.getEmail().equals(novoUsuario.getEmail()) || usuarioRepository.findByEmail(novoUsuario.getEmail()).size() ==  0) {
+
+                // verificando se nivel acesso está válido
+                if (nivelAcesso.elementoExiste(novoUsuario.getNivelAcesso())) {
+
+                    // atualizando informações do novo usuário
+                    usuarioAtual.setNome(novoUsuario.getNome());
+                    usuarioAtual.setNivelAcesso(novoUsuario.getNivelAcesso());
+
+                    usuarioRepository.save(usuarioAtual);
+
+                    // 200
+                    return ResponseEntity.status(200).body(new UsuarioSemSenha(novoUsuario, usuarioAtual.getEndereco()));
+                }
+
+                // 400 bad request - nível de acesso inválido
+                return ResponseEntity.status(400).build();
+            }
+            // 409 email já existe
+            return ResponseEntity.status(409).build();
+        }
+        // 404 usuário não encontrado
+        return ResponseEntity.status(404).build();
+    }
+
+    @PostMapping("/sysadm")
+    @Operation(description = "retorna colaboradores de uma instituicao")
+    @ApiResponse(responseCode = "201", description = "Created")
+    public ResponseEntity<SysadmSimples> postSysadm(@RequestBody @Valid DtoSysadmRequest dto) {
+        SysadmSimples body = serviceUsuario.postSysadm(dto);
+        return ResponseEntity.created(HeaderConfig.getLocation(body.getId())).body(body);
+    }
+
+    @PostMapping("/colaborador")
+    @Operation(description = "retorna colaboradores de uma instituicao")
+    @ApiResponse(responseCode = "201", description = "Created")
+    @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content)
+    @ApiResponse(responseCode = "409", description = "Conflict", content = @Content)
+    public ResponseEntity<ColaboradorSimples> postColaborador(@RequestBody @Valid DtoColaboradorRequest dto) {
+        ColaboradorSimples body = serviceUsuario.postColaborador(dto);
+        return ResponseEntity.created(HeaderConfig.getLocation(body.getId())).body(body);
+    }
+
+    // atualizando informações do usuário
+    @PutMapping("/colaborador/{id}")
+    @Operation(description = "Endpoint que atualiza as informações de um usuario especifico filtrado pelo ID")
+    public ResponseEntity<UsuarioSemSenha> updateUsuario(@PathVariable int id, @RequestBody @Valid DtoColaboradorSelfRequest dto){
+        return ResponseEntity.ok(serviceUsuario.putUsuario(id, dto));
+    }
+
     @GetMapping("/por-instituicao/{id}")
     @Operation(description = "retorna colaboradores de uma instituicao")
     @ApiResponse(responseCode = "200", description = "Ok")
@@ -92,6 +156,25 @@ public class UsuarioController {
     @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
     public ResponseEntity<List<UsuarioSemSenha>> getPadrinhos(@PathVariable Integer idInstituicao) {
         return ResponseEntity.ok(serviceUsuario.getPadrinhos(idInstituicao));
+    }
+
+    @GetMapping("/demanda/{idInstituicao}/{idUsuario}/{ano}/{mes}")
+    @Operation(description = "retorna lista de padrinhos de uma instituicao")
+    @ApiResponse(responseCode = "200", description = "Ok")
+    @ApiResponse(responseCode = "204", description = "No Content", content = @Content)
+    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
+    public ResponseEntity countDemandaPorMesComparacaoUsuario(@PathVariable Integer idInstituicao, @PathVariable Integer idUsuario, @PathVariable String ano, @PathVariable String mes) {
+            Integer countDemandasConcluidasMesInstituicao = demandaRepository.countDemandasConcluidasMesInstituicao(idInstituicao, ano, mes);
+            Integer countDemandasConcluidasMesColaborador = demandaRepository.countDemandasConcluidasMesColaborador(idUsuario, ano, mes);
+            Integer countDemandasCanceladasMesInstituicao = demandaRepository.countDemandasCanceladasMesInstituicao(idInstituicao, ano, mes);
+
+
+            ArrayList demandas = new ArrayList<>();
+            demandas.add(countDemandasConcluidasMesInstituicao);
+            demandas.add(countDemandasConcluidasMesColaborador);
+            demandas.add(countDemandasCanceladasMesInstituicao);
+
+            return ResponseEntity.ok(demandas);
     }
 
     // retorna todos os usuarios
@@ -136,6 +219,25 @@ public class UsuarioController {
         UsuarioSemSenha usuarioSemSenha = new UsuarioSemSenha(usuario.get(), usuario.get().getEndereco());
 
         return ResponseEntity.status(200).body(usuarioSemSenha);
+    }
+
+    // retorna usuário baseado no ID
+    @GetMapping("/completo/{id}")
+    @Operation(description = "Endpoint que retona um usuario especifico filtrado pelo ID")
+    public ResponseEntity<Usuario> getUsuarioByIdSenha(@PathVariable int id) {
+        Optional<Usuario> usuario = usuarioRepository.findById(id);
+
+        // verificando se usuário existe
+        if (!usuarioRepository.existsById(id)) {
+
+            // 404 usuario não encontrado
+            return ResponseEntity.status(404).build();
+        }
+
+        // 200 retornando DTO do usuário (sem senha e com endereço completo)
+        Usuario novoUsuario = new Usuario(usuario.get());
+
+        return ResponseEntity.status(200).body(novoUsuario);
     }
 
     // cadastro usuário
@@ -184,45 +286,6 @@ public class UsuarioController {
 
         // 400 bad request - nível de acesso inválido
         return ResponseEntity.status(400).build();
-    }
-
-    // atualizando informações do usuário
-    @PutMapping("/{id}")
-    @Operation(description = "Endpoint que atualiza as informações de um usuario especifico filtrado pelo ID")
-    public ResponseEntity<UsuarioSemSenha> updateUsuario(@PathVariable int id, @RequestBody @Valid UsuarioSemSenha novoUsuario) {
-
-        // verificando se usuário existe
-        if (usuarioRepository.existsById(id)) {
-
-            // pegando informações do usuário existente
-            Usuario usuarioAtual = usuarioRepository.findById(id).get();
-
-            // verificando se outro usuário já possui novo email
-            if (usuarioAtual.getEmail().equals(novoUsuario.getEmail()) || usuarioRepository.findByEmail(novoUsuario.getEmail()).size() ==  0) {
- 
-                // verificando se nivel acesso está válido
-                if (nivelAcesso.elementoExiste(novoUsuario.getNivelAcesso())) {
-
-                    // atualizando informações do novo usuário
-                    usuarioAtual.setNome(novoUsuario.getNome());
-                    usuarioAtual.setNivelAcesso(novoUsuario.getNivelAcesso());
-
-                    usuarioRepository.save(usuarioAtual);
-
-                    // 200
-                    return ResponseEntity.status(200).body(new UsuarioSemSenha(novoUsuario, usuarioAtual.getEndereco()));
-                }
-
-                // 400 bad request - nível de acesso inválido
-                return ResponseEntity.status(400).build();
-            }
-
-            // 409 email já existe
-            return ResponseEntity.status(409).build();
-        }
-
-        // 404 usuário não encontrado
-        return ResponseEntity.status(404).build();
     }
 
     @DeleteMapping("/{id}")
@@ -516,6 +579,29 @@ public class UsuarioController {
         return ResponseEntity.status(201).body(ultimoId);
     }
 
+    @GetMapping("/visitante")
+    @Operation(description = "Endpoint para pegar os visitantes")
+    public ResponseEntity getUsuarioVisitante() {
+
+        List visitantes = visitantesRepository.findAll();
+
+        return ResponseEntity.status(201).body(visitantes);
+    }
+
+    @GetMapping("/grafico-visitante/{ano}/{mes}")
+    @Operation(description = "Endpoint para pegar os visitantes por mês")
+    public ResponseEntity countUsuarioVisitantePorMes(@PathVariable String ano, @PathVariable String mes) {
+
+        int visitantes = visitantesRepository.countVisitantesPorMes(ano, mes);
+        int lead = leadsRepository.countLeadPorMes(ano, mes);
+
+        ArrayList graficoVisitantes = new ArrayList<>();
+        graficoVisitantes.add(visitantes);
+        graficoVisitantes.add(lead);
+
+        return ResponseEntity.status(201).body(graficoVisitantes);
+    }
+
     @PostMapping("/visitante")
     @Operation(description = "Endpoint para inserir novo visitante")
     public ResponseEntity postUsuarioVisitante(@RequestBody Visitantes novoVisitante) {
@@ -536,6 +622,55 @@ public class UsuarioController {
         long ultimoId = leadsRepository.count();
 
         return ResponseEntity.status(201).body(ultimoId);
+    }
+
+    @GetMapping("/lead-instituicao")
+    @Operation(description = "Endpoint para pegar os leads do ultimo mês")
+    public ResponseEntity getLeadListaUltimoMes() {
+
+        List<Integer> lead = leadsRepository.getUltimoLeadInstituicaoMes();
+
+        ArrayList<Integer> leadInstituicao = new ArrayList<Integer>();
+        leadInstituicao.add(lead.size());
+
+
+        for (int i = 0; i < lead.size(); i++) {
+
+            List<Integer> cliente = leadsRepository.getUltimoLeadInstituicaoAtivaMes(lead.get(i));
+
+            if (!cliente.isEmpty()) {
+                leadInstituicao.add(cliente.size());
+            }
+        }
+
+        if (leadInstituicao.size() == 1) {
+            leadInstituicao.add(0);
+        }
+
+        return ResponseEntity.status(200).body(leadInstituicao);
+    }
+
+    @GetMapping("/lead-usuario/{ano}/{mes}")
+    @Operation(description = "Endpoint para pegar os leads usuários por mês")
+    public ResponseEntity countLeadUsuarioPorMes(@PathVariable String ano, @PathVariable String mes) {
+
+        int leads = leadsRepository.countLeadUsuarioPorMes(ano, mes);
+        int clientes = demandaRepository.countDemandasConcluidasMes(ano, mes);
+
+        ArrayList leadUsuario = new ArrayList<>();
+        leadUsuario.add(leads);
+        leadUsuario.add(clientes);
+
+        return ResponseEntity.status(201).body(leadUsuario);
+    }
+
+    @GetMapping("/lead-instituicao/{ano}/{mes}")
+    @Operation(description = "Endpoint para pegar os leads instituição por mês")
+    public ResponseEntity countLeadInstituicaoPorMes(@PathVariable String ano, @PathVariable String mes) {
+
+        int visitantes = leadsRepository.countLeadInstituicaoPorMes(ano, mes);
+
+        return ResponseEntity.status(201).body(visitantes);
     }
 
     @PostMapping("/lead")

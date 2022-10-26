@@ -47,19 +47,21 @@
     box-sizing: border-box;
     align-items: center;
     justify-content: space-evenly;
+    cursor: pointer;
 }
 
 .chat-user-message-header {
     width: 100%;
     display: flex;
     flex-direction: row;
-    /* padding: 12px 24px; */
+    padding: 0px 24px;
     box-sizing: border-box;
     border-radius: 10px;
     background-color: #7E29B4;
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: flex;
+    gap: 10px;
     align-items: center;
     height: 8%;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
@@ -75,6 +77,7 @@
     width: fit-content;
     align-items: center;
     padding: 5px;
+    margin-left: auto;
 }
 
 .chat-user-demanda-action img {
@@ -91,17 +94,15 @@
     border-radius: 5px;
     background-color: #FFE8A8;
     text-transform: capitalize;
+    min-width: 30px;
 }
 
 .chat-user-message-receiver {
     display: flex;
-    justify-content: center;
-    align-items: center;
     padding: 5px;
     width: 40%;
     color: white;
     border-radius: 5px;
-    border: white 1px solid;
     background-color: transparent;
     font-weight: 600;
 }
@@ -197,6 +198,8 @@
     width: 85%;
     display: flex;
     justify-content: center;
+    align-content: center;
+    /* border: 1px solid black; */
 }
 
 .chat-user-demandas-btn-icon {
@@ -251,13 +254,25 @@
 }
 
 .qtd-status-green {
-    background-color: rgb(98, 253, 98);
+    background-color: #A0E800;
+    color: #6909A6;
 }
 
-.qtd-status-blue {
-    background-color: rgb(52, 33, 231);
+.qtd-status-yellow {
+    background-color: #F7CA00;
+    color: #6909A6;
 }
 
-.qtd-status-gray {
-    background-color: rgb(63, 63, 63);
+.qtd-status-purple {
+    background-color: #AF71D6;
+    /* border: 1px white solid; */
+    color: #6909A6;
+}
+
+.chat-user-demanda-action img[title]:hover::after {
+    background-color: white;
+    content: attr(title);
+    position: absolute;
+    top: -100%;
+    left: 0;
 }

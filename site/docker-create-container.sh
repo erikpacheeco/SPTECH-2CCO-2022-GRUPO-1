@@ -1,3 +1,6 @@
+#Making deploy log
+git log --oneline -n 1 | paste - - - > ../prod-log/deploy_3001.txt
+
 # removing existent container/images
 sudo docker stop ct-petfinder-static
 sudo docker rm ct-petfinder-static

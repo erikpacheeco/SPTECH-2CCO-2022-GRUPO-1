@@ -2,16 +2,12 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import FloatResgate from "../../Components/FloatResgate";
 import HeaderBasic from "../../Components/HeaderBasic"
 import "./cadastro-usuario.css"
 import api from "../../Api"
 import React from "react";
-import VLibras from "@djpfs/react-vlibras"
-import headerFunctions from "../../functions/headerFunctions";
-import SideBarItem from "../../Components/SideBarItem";
-import NavItem from "../../Components/NavItem";
-import HeaderApp from "../../Components/HeaderApp";
+import VLibras from "@djpfs/react-vlibras";
+import axios from "axios";
 
 function initialValuesUsuario() {
     return {
@@ -25,19 +21,16 @@ function initialValuesUsuario() {
 function initialValuesEndereco() {
     return {
         rua: "",
-        complemento: null,
+        complemento: "",
         num: "",
         bairro: "",
         cidade: "",
         uf: "",
         cep: ""
     }
-
 }
 
 function CadastroUsuario() {
-    const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
-
 
     const [valuesUsuario, setValuesUsuario] = useState(initialValuesUsuario)
     const [valuesEndereco, setValuesEndereco] = useState(initialValuesEndereco)
@@ -62,6 +55,36 @@ function CadastroUsuario() {
     function handleChangeEndereco(event) {
         const { value, name } = event.target
         setValuesEndereco({ ...valuesEndereco, [name]: value, })
+
+        if(name == "cep" && value.length == 8) {
+            axios.get(`https://viacep.com.br/ws/${value}/json/`)
+            .then(res => {
+                if(res.data.erro) {
+                    return Promise.reject("error");
+                }
+
+                // mudando estilo do input para informar o erro
+                document.querySelector("#idDivInputCep").classList.add("cadastro-usuario-input-container");
+                document.querySelector("#idDivInputCep").classList.remove("cadastro-usuario-input-container-error");
+
+                // atribuindo valores de endereço
+                setValuesEndereco({
+                    rua: res.data.logradouro,
+                    complemento: res.data.complemento,
+                    num: "",
+                    bairro: res.data.bairro,
+                    cidade: res.data.localidade,
+                    uf: res.data.uf,
+                    cep: res.data.cep.replace("-", "")
+                });
+
+            })
+            .catch(err => {
+                document.querySelector("#idDivInputCep").classList.remove("cadastro-usuario-input-container");
+                document.querySelector("#idDivInputCep").classList.add("cadastro-usuario-input-container-error");
+                console.warn("CEP não encontrado");
+            });
+        }
     }
 
     function handleSubmit(event) {
@@ -84,7 +107,6 @@ function CadastroUsuario() {
             },
             interesses: valuesInteresse
         }
-        console.log(json)
         api.post("/usuarios", json, {
             headers: {
                 'Content-Type': 'application/json'
@@ -109,7 +131,7 @@ function CadastroUsuario() {
     useEffect(() => {
         api.get("/pets/caracteristicas").then((res) => {
             try {
-                console.log(res.data)
+                // console.log(res.data)
                 setPreferencias(res.data)
             } catch (error) {
                 console.log(error)
@@ -118,12 +140,10 @@ function CadastroUsuario() {
 
         api.get("/usuarios/ultimo-usuario-cadastrado").then((res) => {
             setIdUltimoUsuario(res.data)
-            console.log("ultimo cadastro"+res.data)
         })
 
         api.get("/usuarios/ultimo-lead").then((res) => {
             setIdLead(res.data)
-            console.log(res.data)
         })
 
     }, [])
@@ -149,6 +169,16 @@ function CadastroUsuario() {
         setFormPreferencias(false);
     }
 
+    function handleChangeUserPreferencia() {
+        setFormPreferencias(true);
+        setFormUser(false);
+    }
+
+    function handleChangePreferenciaUser() {
+        setFormPreferencias(false);
+        setFormUser(true);
+    }
+
     function addingNewLead() {
         let lead = {
             id: idLead+1,
@@ -161,15 +191,15 @@ function CadastroUsuario() {
 
     return (
         <>
-            <HeaderBasic />
+            <HeaderBasic/>
             <div className="cadastro-usuario-container">
                 <form className="cadastro-usuario-form-container" onSubmit={handleSubmit}>
 
                     <div className={formUser ? ("cadastro-usuario-form") : ("cadastro-usuario-form cadastro-usuario-hide")}>
                         <div className="cadastro-usuario-btn">
                             <button type="button" className="cadastro-usuario-btn-paginas-selected"></button>
-                            <button type="button" className="cadastro-usuario-btn-paginas"></button>
-                            <button type="button" className="cadastro-usuario-btn-paginas"></button>
+                            <button type="button" className="cadastro-usuario-btn-paginas" onClick={handleChangeUserEndereco}></button>
+                            <button type="button" className="cadastro-usuario-btn-paginas" onClick={handleChangeUserPreferencia}></button>
                         </div>
 
                         <h1 className="cadastro-usuario-title">COMO SE CHAMA?</h1>
@@ -223,13 +253,13 @@ function CadastroUsuario() {
 
                     <div className={formEndereco ? ("cadastro-usuario-form") : ("cadastro-usuario-form cadastro-usuario-hide")}>
                         <div className="cadastro-usuario-btn">
-                            <button type="button" className="cadastro-usuario-btn-paginas"></button>
+                            <button type="button" className="cadastro-usuario-btn-paginas" onClick={handleChangeEnderecoUser}></button>
                             <button type="button" className="cadastro-usuario-btn-paginas-selected"></button>
-                            <button type="button" className="cadastro-usuario-btn-paginas"></button>
+                            <button type="button" className="cadastro-usuario-btn-paginas" onClick={handleChangeEnderecoPreferencia}></button>
                         </div>
 
                         <h1 className="cadastro-usuario-title">ONDE MORA?</h1>
-                        <div className="cadastro-usuario-input-container">
+                        <div className="cadastro-usuario-input-container" id="idDivInputCep">
                             <label html="cep">CEP: </label>
                             <input
                                 id="cep"
@@ -241,7 +271,7 @@ function CadastroUsuario() {
                                 pattern="[0-9]+"
                                 required
                                 onChange={handleChangeEndereco}
-                            />
+                                />
                         </div>
 
                         <div className="cadastro-usuario-input-container">
@@ -345,8 +375,8 @@ function CadastroUsuario() {
 
                     <div className={formPreferencias ? ("cadastro-usuario-form") : ("cadastro-usuario-form cadastro-usuario-hide")}>
                         <div className="cadastro-usuario-btn">
-                            <button type="button" className="cadastro-usuario-btn-paginas"></button>
-                            <button type="button" className="cadastro-usuario-btn-paginas"></button>
+                            <button type="button" className="cadastro-usuario-btn-paginas" onClick={handleChangePreferenciaUser}></button>
+                            <button type="button" className="cadastro-usuario-btn-paginas" onClick={handleChangePreferenciaEndereco}></button>
                             <button type="button" className="cadastro-usuario-btn-paginas-selected"></button>
                         </div>
 
@@ -354,14 +384,16 @@ function CadastroUsuario() {
                         <div className="cadastro-usuario-btn-preferencia-container">
                             {
                                 preferencias.map((pref) => (
-                                    <>
+                                    <div key={`div-pref-${pref.id}`}>
                                         <input
+                                            key={`input-pref-${pref.id}`}
                                             className="cadastro-usuario-hide"
                                             value={pref.caracteristica}
                                             type="checkbox"
                                             id={pref.id}
                                         />
                                         <button
+                                            key={`btn-pref-${pref.id}`}
                                             type="button"
                                             className="cadastro-usuario-btn-preferencia"
                                             id={pref.id + "-btn"}
@@ -384,7 +416,8 @@ function CadastroUsuario() {
                                         >
                                             {pref.caracteristica}
                                         </button>
-                                    </>
+                                    </div>
+                                    
                                 ))
                             }
                         </div>
@@ -413,7 +446,6 @@ function CadastroUsuario() {
 
                 </form>
             </div>
-            <FloatResgate />
 
             <VLibras forceOnload={true}></VLibras>
         </>

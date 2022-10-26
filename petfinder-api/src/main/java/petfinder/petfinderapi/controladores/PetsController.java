@@ -1,25 +1,29 @@
 package petfinder.petfinderapi.controladores;
 
+import static org.springframework.http.ResponseEntity.*;
+import org.springframework.http.ResponseEntity;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import petfinder.petfinderapi.controladores.util.HeaderConfig;
 import petfinder.petfinderapi.entidades.*;
 import petfinder.petfinderapi.repositorios.*;
-import petfinder.petfinderapi.requisicao.PetRequest;
 import petfinder.petfinderapi.resposta.Message;
 import petfinder.petfinderapi.resposta.PetPerfil;
 import petfinder.petfinderapi.resposta.PetPerfilEdicao;
+import petfinder.petfinderapi.resposta.PremioDto;
 import petfinder.petfinderapi.rest.ClienteCep;
 import petfinder.petfinderapi.rest.DistanciaResposta;
 import petfinder.petfinderapi.service.ServicePet;
 import petfinder.petfinderapi.utilitarios.FilaObj;
 import petfinder.petfinderapi.utilitarios.PilhaObj;
+import petfinder.petfinderapi.utilitarios.HashTable.HashTable;
+import petfinder.petfinderapi.utilitarios.HashTable.PetsInstituicao;
 import petfinder.petfinderapi.utilitarios.GerenciadorArquivos;
 import petfinder.petfinderapi.utilitarios.ListaObj;
 import javax.validation.Valid;
@@ -63,6 +67,12 @@ public class PetsController implements GerenciadorArquivos {
     // services
     @Autowired
     private ServicePet servicePet;
+
+    @PostMapping("/{id}/premios")
+    public ResponseEntity<PremioDto> postMimo(@PathVariable int id, @RequestParam("file") MultipartFile multipart) {
+        PremioDto res = servicePet.postMimo(id, multipart);
+        return created(HeaderConfig.getLocation(res.getId())).body(res);
+    }
 
     @GetMapping("/{id}/perfil")
     @Operation(description = "retorna dados do perfil do pet")
@@ -108,38 +118,55 @@ public class PetsController implements GerenciadorArquivos {
 
     @GetMapping("/instituicao/{id}")
     @Operation(description = "Endpoint que retorna uma lista de pets de uma instituição especifica")
-    ResponseEntity<List<PetPerfil>> getByInstituicaoId(@PathVariable int id) {
+    public ResponseEntity<List<PetPerfil>> getByInstituicaoId(@PathVariable int id) {
         return ResponseEntity.ok(servicePet.getPetPerfilByInstituicaoId(id));
     }
 
-    @PostMapping
-    @Operation(description = "Endpoint para cadastro de um novo pet em uma instituição especifica")
-    public ResponseEntity<PetPerfil> postPet(@RequestBody @Valid PetRequest novoPet) {
-        PetPerfil petCriado = servicePet.createPet(novoPet);
-        // return ResponseEntity.ok(petCriado);
-        return ResponseEntity.created(HeaderConfig.getLocation(petCriado.getId())).body(petCriado);
+    @GetMapping("/instituicao/hashTable/{id}")
+    @Operation(description = "Endpoint que retorna uma lista de pets de uma instituição utilizando HashTable")
+    public ResponseEntity<PetsInstituicao> getPetPerfilByInstituicaoHashTable(@PathVariable int id) {
+        return ok(servicePet.getPetPerfilByInstituicaoIdHashTable(id));
     }
 
-    // @PatchMapping(value = "/foto/{id}", consumes = "image/jpeg")
-    // @Operation(description = "EndPoint para cadastrar a foto de perfil do animal")
-    // public ResponseEntity<Void> patchFoto(@PathVariable int id, @RequestBody byte[] novaFoto) {
+    @GetMapping("/instituicao/pets/count/{id}")
+    ResponseEntity countByPetInstituicao(@PathVariable int id) {
+        int qtdPetInst = repositoryPet.findAllPetInstituicao(id);
+        return ResponseEntity.status(200).body(qtdPetInst);
+    }
 
-    //     Pet petEncontrado = repositoryPet.getById(id);
-    //     petEncontrado.setFotoPerfil(novaFoto);
-    //     repositoryPet.save(petEncontrado);
 
-    //     return ResponseEntity.status(200).build();
-    // }
-
-    // @GetMapping(value = "/foto/{codigo}", produces = "image/jpeg")
-    // @Operation(description = "EndPoint para ver as fotos dos animais")
-    // public ResponseEntity<byte[]> getFoto(@PathVariable int codigo) {
-    //     if (!repositoryPet.existsById(codigo)){
-    //         return ResponseEntity.status(404).build();
-    //     }
-    //     Pet petEncontrado = repositoryPet.getById(codigo);
-    //     return ResponseEntity.status(200).body(petEncontrado.getFotoPerfil());
-    // }
+    @PostMapping
+    @Operation(description = "Endpoint para cadastro de um novo pet em uma instituição especifica")
+    public ResponseEntity<PetPerfil> postPet(
+        @RequestParam("file") MultipartFile multipart, 
+        @RequestParam("instituicaoId") Integer instituicaoId,
+        @RequestParam("nome") String nome,
+        @RequestParam("doente") Boolean doente,
+        @RequestParam("dataNasc") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date dataNasc,
+        @RequestParam("especie") String especie,
+        @RequestParam("raca") String raca,
+        @RequestParam("porte") String porte,
+        @RequestParam("sexo") String sexo,
+        @RequestParam("descricao") String descricao,
+        @RequestParam("caracteristicas[]") Integer[] caracteristicas
+    ) {
+        // creating pet
+        PetPerfil petCriado = servicePet.createPet(
+            multipart,
+            instituicaoId,
+            nome,
+            doente,
+            dataNasc,
+            especie,
+            raca,
+            porte,
+            sexo,
+            descricao,
+            List.of(caracteristicas)
+        );
+        // 201 created
+        return ResponseEntity.created(HeaderConfig.getLocation(petCriado.getId())).body(petCriado);
+    }
 
     @PutMapping("/{id}")
     @Operation(description = "Endpoint para atualizar informações de um pet especifico")
@@ -252,7 +279,7 @@ public class PetsController implements GerenciadorArquivos {
         return ResponseEntity.status(400).build();
     }
 
-    @GetMapping("/premios")
+    @GetMapping("/static/img/premios")
     @Operation(description = "Endpoint que retorna uma lista de todos os premios")
     public ResponseEntity<Object> getPremios() {
         List<Premio> lista = repositoryPremio.findAll();
@@ -463,7 +490,7 @@ public class PetsController implements GerenciadorArquivos {
     }
 
     @GetMapping("/premios-instituicao/{idInstituicao}")
-    @Operation(description = "Endpoint para retornar todos os todos os mimos de determinada instituição")
+    @Operation(description = "Endpoint para retornar todos os mimos de determinada instituição")
     public ResponseEntity<Object> getByMimosInstituicao(@PathVariable int idInstituicao) {
 
         List<Pet> listaPet = repositoryPet.findByInstituicaoId(idInstituicao);
@@ -508,7 +535,7 @@ public class PetsController implements GerenciadorArquivos {
         return ResponseEntity.status(200).body(premios);
     }
 
-    @GetMapping("/premios/{idPet}")
+    @GetMapping("/static/img/premios/{idPet}")
     @Operation(description = "Endpoint para retornar todos os mimos de determinado pet")
     public ResponseEntity<List<Premio>> getByMimosPet(@PathVariable int idPet) {
         Optional<Pet> pet = repositoryPet.findById(idPet);
@@ -675,6 +702,39 @@ public class PetsController implements GerenciadorArquivos {
         List<PetPerfil> listaPet = new ArrayList<>();
         for (int i = 0; i < qtdPets && i < petsDoentes.size(); i++) {
             listaPet.add(petsDoentes.get(i));
+        }
+        return ResponseEntity.status(200).body(listaPet);
+    }
+
+    @GetMapping("/premios/get/{idPet}")
+    public ResponseEntity getPremiosByPetId(@PathVariable int idPet) {
+        List<PremioDto> premios = repositoryPremio.findByPetIdDto(idPet);
+        if (premios.isEmpty()) {
+            return ResponseEntity.status(204).build();
+        }
+        return ResponseEntity.status(200).body(premios);
+    }
+
+    @GetMapping("/apadrinhamentos/usuario/{idUser}")
+    public ResponseEntity getPetsApadrinhadosPorUser(@PathVariable int idUser) {
+        List<PetPerfil> pets = repositoryPet.findPetByDemandaApadrinhamentoAndUsuario(idUser);
+        if (pets.isEmpty()) {
+            return ResponseEntity.status(204).build();
+        }
+        return ResponseEntity.status(200).body(pets);
+    }
+
+    @GetMapping("qtd/{qtdPets}")
+    public ResponseEntity<List<PetPerfil>> getPetsQtdPets(@PathVariable int qtdPets) {
+        List<PetPerfil> pets = repositoryPet.findByAdotado();
+
+        if (pets.isEmpty()) {
+            return ResponseEntity.status(204).build();
+        }
+
+        List<PetPerfil> listaPet = new ArrayList<>();
+        for (int i = 0; i < qtdPets && i < pets.size(); i++) {
+            listaPet.add(pets.get(i));
         }
         return ResponseEntity.status(200).body(listaPet);
     }

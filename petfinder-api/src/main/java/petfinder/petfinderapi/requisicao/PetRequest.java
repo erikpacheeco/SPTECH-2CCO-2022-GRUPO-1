@@ -35,6 +35,33 @@ public class PetRequest {
     private String caminhoImagem;
     private List<Integer> caracteristicas;
 
+    // constructors
+    public PetRequest() {}
+    public PetRequest(
+            Integer instituicaoId,
+            String nome,
+            Boolean doente,
+            Date dataNasc,
+            String especie,
+            String raca,
+            String porte,
+            String sexo,
+            String descricao,
+            List<Integer> caracteristicas
+        ) {
+        this.instituicaoId = instituicaoId;
+        this.nome = nome;
+        this.doente = doente;
+        this.dataNasc = dataNasc;
+        this.especie = especie;
+        this.raca = raca;
+        this.porte = porte;
+        this.sexo = sexo;
+        this.descricao = descricao;
+        this.caminhoImagem = "";
+        this.caracteristicas = caracteristicas;
+    }
+
     // getters and setters
     public String getNome() {
         return nome;

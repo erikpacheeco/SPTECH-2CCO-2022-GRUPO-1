@@ -18,7 +18,7 @@ function ActionButton({type, demandaId, userId, handleChangeDemandaAtual}) {
         });
     }
 
-    return <img onClick={request} src={type === "accept" ? check : close_chat} alt={`${type} button`} />;
+    return <img onClick={request} src={type == "accept" ? check : close_chat} alt={`${type} button`} />;
 }
 
 export default ActionButton;

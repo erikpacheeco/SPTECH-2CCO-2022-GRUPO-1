@@ -14,7 +14,6 @@
 .premios-container-conteudo{
     display: flex;
     border-radius: 10px;
-    height: 75vh;
 }
 
 .premios-container-filtros{
@@ -22,7 +21,7 @@
    background-color: #7F2AB5;
    border-radius: 10px 0 0 10px;
    padding: 1%; 
-   box-shadow: 0 0 0.5em black;
+   box-shadow: 0 0 0.3em black;
 }
 
 .premios-container-filtros-titulo{
@@ -69,12 +68,11 @@
     width: 100%;
     background: linear-gradient(90deg, #7F2AB5 0%, #AF71D6 35%, #9449C3 100%);
     border-radius: 0 10px 10px 0;
-    box-shadow: 0 0 0.5em black;
+    box-shadow: 0 0 0.3em black;
 }
 
-.premios-img-animais{
+.cardPetSimples{
     margin-right: 22px;
-    margin-top: 22px;
     width: 206px;
     height: 206px;
     border-radius: 20px;    

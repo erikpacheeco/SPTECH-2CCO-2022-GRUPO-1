@@ -1,6 +1,5 @@
 import './EditarColaborador.css';
 import HeaderApp from "../../Components/HeaderApp";
-import NavItem from "../../Components/NavItem";
 import React, { useEffect, useState } from "react";
 import VLibras from "@djpfs/react-vlibras"
 import { useParams } from 'react-router-dom'
@@ -8,17 +7,14 @@ import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 import withReactContent from "sweetalert2-react-content";
 import api from '../../Api';
-import headerFunctions from "../../functions/headerFunctions";
 
 function resetValues() {
-    return { nome: "", cargo: "" }
+    return { nome: "", cargo: "adm" }
 }
 
 function EditarColaborador() {
     const [infoColaborador, setInfoColaborador] = useState([])
     const [values, setValues] = useState(resetValues)
-    
-    const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
 
     const idColaborador = useParams()
     const navigate = useNavigate()
@@ -46,16 +42,16 @@ function EditarColaborador() {
             email: infoColaborador.email,
             nivelAcesso: values.cargo,
             endereco: {
-                id: infoColaborador.endereco.id,
-                rua: infoColaborador.endereco.rua,
-                num: infoColaborador.endereco.num,
-                complemento: infoColaborador.endereco.complemento,
-                bairro: infoColaborador.endereco.bairro,
-                cidade: infoColaborador.endereco.cidade,
-                uf: infoColaborador.endereco.uf,
-                cep: infoColaborador.endereco.cep,
-                latitude: infoColaborador.endereco.latitude,
-                longitude: infoColaborador.endereco.longitude
+                id: null,
+                rua: null,
+                num: null,
+                complemento: null,
+                bairro: null,
+                cidade: null,
+                uf: null,
+                cep: null,
+                latitude: null,
+                longitude: null
             },
             fkInstituicao: {
                 id: infoColaborador.fkInstituicao.id,
@@ -101,10 +97,7 @@ function EditarColaborador() {
 
     return(
         <>
-            <HeaderApp
-                    sideItens={headerFunctions.sideBarNivelAcesso(objUser.nivelAcesso)}
-                    itens={headerFunctions.headerNivelAcesso(objUser.nivelnivelAcesso)}
-                />
+            <HeaderApp/>
             <div className="editar-colaborador-container">
                 <div className="editar-colaborador-form-container">
                     <form>

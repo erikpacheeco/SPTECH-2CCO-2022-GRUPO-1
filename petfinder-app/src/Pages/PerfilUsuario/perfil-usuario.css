@@ -1,0 +1,279 @@
+.perfil-usuario-root{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.perfil-usuario-root-container{
+    width: 95%;
+    height: 100%;
+}
+
+.perfil-usuario-box-titulo{
+    margin-top: 35px;
+}
+
+.perfil-usuario-box-titulo span {
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 66px;
+    color: #7F2AB5;
+}
+
+.perfil-usuario-box{
+    height: 90vh;
+    margin-top: 20px;
+    margin-bottom: 35px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.perfil-usuario-box form{
+    width: 49%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
+.perfil-usuario-card{
+    width: 100%;
+    min-height: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: #FFFFFF;
+    border: 1px solid rgba(175, 113, 214, 0.5);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+}
+
+.perfil-usuario-card-container{
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    row-gap: 6px;
+    margin: 10px 0px;
+}
+
+.perfil-usuario-pets-apadrinhado{
+    width: 49%;
+    height: 100%;
+    background: #FFFFFF;
+    border: 1px solid rgba(175, 113, 214, 0.5);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.perfil-usuario-pets-apadrinhado-container{
+    height: 95%;
+    width: 85%;
+}
+
+.perfil-usuario-box-lista{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.perfil-usuario-box-lista span {
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 40px;
+    color: #000000;
+}
+
+.perfil-usuario-box-lista-pet{
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    display: inline-flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    row-gap: 40px;
+    padding: 20px 0px;
+}
+
+.perfil-usuario-box-lista-pet::-webkit-scrollbar {
+    width: 12px;
+}
+
+.perfil-usuario-box-lista-pet::-webkit-scrollbar-track {
+    background-color: rgba(218, 218, 218, 0.5);
+    border-radius: 5px;
+}
+
+.perfil-usuario-box-lista-pet::-webkit-scrollbar-thumb {
+    background-color: rgba(127, 41, 180, 1);
+    border-radius: 20px;
+    border: 3px solid rgba(218, 218, 218);
+}
+
+.perfil-usuario-box-Nolista{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.perfil-usuario-box-Nolista span{
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 40px;
+    color: #000000;
+
+    margin-bottom: 80px;
+}
+
+.perfil-usuario-box-Nolista button {
+    margin-top: 80px;
+    border: 3px solid #FFD92E;
+    background-color: transparent;
+    border-radius: 90px;
+    width: 300px;
+    height: 95px;
+
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 32px;
+    cursor: pointer;
+    color: #000000;
+}
+
+.perfil-usuario-div-editar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.perfil-usuario-div-editar button{
+    display: flex;
+    width: fit-content;
+    height: fit-content;
+    background-color: transparent;
+    border: none;
+}
+.perfil-usuario-div-editar button span{
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    color: #7F2AB5;
+    margin-right: 5px;
+}
+
+.perfil-usuario-card-titulo{
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 32px;
+    color: #000000;
+}
+
+.perfil-usuario-card-texto{
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    color: #000000;
+}
+
+.perfil-usuario-input{
+    background-color: #eaeaea;
+    border: solid 2px #7F2AB5;
+    padding: 1px 5px;
+    border-radius: 5px;
+}
+
+.perfil-usuario-input:disabled{
+    background-color: transparent;
+    border: solid 2px #7F2AB5;
+}
+
+.perfil-usuario-input::placeholder{
+    color: #000000;
+}
+
+.perfil-usuario-input90{
+    width: 97%
+}
+
+.perfil-usuario-input70{
+    width: 70%
+}
+
+.perfil-usuario-input50{
+    width: 50%
+}
+
+.perfil-usuario-input35{
+    width: 35%
+}
+
+.perfil-usuario-input20{
+    width: 20%
+}
+
+.perfil-usuario-input15{
+    width: 15%
+}
+
+.perfil-usuario-input10{
+    width: 10%
+}
+
+.perfil-usuario-card-container-pontuacao{
+    width: 90%;
+    height: 300px;
+    display: flex;
+    margin: 10px 0px;
+}
+.perfil-usuario-box-dash{
+    height: 100%;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center
+    
+}
+
+.perfil-usuario-box-pontuacao{
+    height: 100%;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.perfil-usuario-box-pontuacao span{
+    font-family: 'Hind Madurai';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+
+    color: #000000;
+}
+
+.perfil-usuario-div-input{
+    width: 100%;
+    display: flex;
+    column-gap: 8px;
+}

@@ -1,29 +1,45 @@
 package petfinder.petfinderapi.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import petfinder.petfinderapi.entidades.Caracteristica;
 import petfinder.petfinderapi.entidades.Instituicao;
 import petfinder.petfinderapi.entidades.Pet;
 import petfinder.petfinderapi.entidades.PetHasCaracteristica;
+import petfinder.petfinderapi.entidades.Premio;
 import petfinder.petfinderapi.entidades.Usuario;
 import petfinder.petfinderapi.repositorios.CaracteristicaRepositorio;
 import petfinder.petfinderapi.repositorios.InstituicaoRepositorio;
 import petfinder.petfinderapi.repositorios.PetHasCaracteristicaRepositorio;
 import petfinder.petfinderapi.repositorios.PetRepositorio;
+import petfinder.petfinderapi.repositorios.PremioRepositorio;
 import petfinder.petfinderapi.repositorios.UsuarioRepositorio;
 import petfinder.petfinderapi.requisicao.PetRequest;
 import petfinder.petfinderapi.resposta.PetPerfil;
+import petfinder.petfinderapi.resposta.PremioDto;
 import petfinder.petfinderapi.rest.DistanciaResposta;
 import petfinder.petfinderapi.service.exceptions.EntityNotFoundException;
 import petfinder.petfinderapi.service.exceptions.IdNotFoundException;
+import petfinder.petfinderapi.service.exceptions.InvalidFieldException;
 import petfinder.petfinderapi.service.exceptions.NoContentException;
+import petfinder.petfinderapi.utilitarios.UploadFile;
+import petfinder.petfinderapi.utilitarios.HashTable.HashTable;
+import petfinder.petfinderapi.utilitarios.HashTable.PetsInstituicao;
 
 @Service
 public class ServicePet {
+
+    // active profile (dev or prod)
+    @Value("${spring.profiles.active}")
+    private String activeProfile;
     
     @Autowired
     private PetRepositorio petRepository;
@@ -39,6 +55,9 @@ public class ServicePet {
     
     @Autowired
     private PetHasCaracteristicaRepositorio petHasCaracteristicaRepository;
+
+    @Autowired
+    private PremioRepositorio premioRepositorio;
 
     @Autowired
     private ServiceCep serviceCep;
@@ -112,8 +131,48 @@ public class ServicePet {
         throw new EntityNotFoundException(id);
     }
 
+    public PetPerfil createPet(
+            MultipartFile multipart, 
+            Integer instituicaoId,
+            String nome,
+            Boolean doente,
+            Date dataNasc,
+            String especie,
+            String raca,
+            String porte,
+            String sexo,
+            String descricao,
+            List<Integer> caracteristicas
+        ) {
+        // creating pet
+        PetRequest novoPet = new PetRequest(instituicaoId,
+            nome,
+            doente,
+            dataNasc,
+            especie,
+            raca,
+            porte,
+            sexo,
+            descricao,
+            caracteristicas
+        );
+        Pet entity = createPet(novoPet);
+
+        // uploading pet profile image
+        try {
+            String fileName = UploadFile.uploadFile(activeProfile, "img\\pets\\" + multipart.getOriginalFilename(), multipart);
+            TimeUnit.SECONDS.sleep(1);
+            entity.setCaminhoImagem(fileName);
+        } catch(Exception ex) {
+            throw new InvalidFieldException("file", "arquivo inválido");
+        }
+
+        // 201 created
+        return new PetPerfil(petRepository.save(entity));
+    }
+
     // returns created pet
-    public PetPerfil createPet(PetRequest novoPet) {
+    private Pet createPet(PetRequest novoPet) {
         
         Optional<Instituicao> optionalInstituicao = instituicaoRepository.findById(novoPet.getInstituicaoId());
 
@@ -134,7 +193,7 @@ public class ServicePet {
             }
 
             // 201 created
-            return new PetPerfil(pet);
+            return pet;
         }
 
         // 404 instituicao not found
@@ -158,6 +217,42 @@ public class ServicePet {
         
         // falta lista de caracteristicas
         return pet;
+    }
+
+    public PremioDto postMimo(int id, MultipartFile multipart) {
+        try {
+            Pet pet = petRepository.findById(id).orElseThrow(() -> {
+                throw new EntityNotFoundException(id);
+            });
+            String fileName = UploadFile.uploadFile(activeProfile, "img\\premios\\" + multipart.getOriginalFilename(), multipart);
+            TimeUnit.SECONDS.sleep(1);
+            Premio premio = new Premio(pet, fileName);
+            PremioDto dto = new PremioDto(premioRepositorio.save(premio));
+            return dto;
+        } catch(Exception err) {
+            throw new EntityNotFoundException(id);
+        }
+    }
+
+    public PetsInstituicao getPetPerfilByInstituicaoIdHashTable(int id) {
+
+        // 200
+        if(instituicaoRepository.existsById(id)) {   
+            List<Pet> listaPet = petRepository.findAll();
+            HashTable hash = new HashTable(listaPet);
+            PetsInstituicao filtred = hash.find(id);
+
+            // 200
+            if(filtred != null) {
+                return filtred;
+            }
+            
+            // 204 no content
+            throw new NoContentException("pet");
+        }
+
+        // 404 not found
+        throw new EntityNotFoundException(id);
     }
 
 }

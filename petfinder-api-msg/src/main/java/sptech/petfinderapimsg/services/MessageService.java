@@ -2,9 +2,13 @@ package sptech.petfinderapimsg.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
+
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import sptech.petfinderapimsg.entities.Demanda;
 import sptech.petfinderapimsg.entities.Mensagem;
 import sptech.petfinderapimsg.entities.Usuario;
@@ -14,11 +18,17 @@ import sptech.petfinderapimsg.repositories.UsuarioRepository;
 import sptech.petfinderapimsg.req.DtoPostMessage;
 import sptech.petfinderapimsg.res.DtoMessageResponse;
 import sptech.petfinderapimsg.services.exceptions.EntityNotFoundException;
+import sptech.petfinderapimsg.services.exceptions.FileUploadException;
 import sptech.petfinderapimsg.services.exceptions.IdNotFoundException;
 import sptech.petfinderapimsg.services.exceptions.NoContentException;
+import sptech.petfinderapimsg.services.util.UploadFile;
 
 @Service
 public class MessageService {
+
+    // active profile (dev or prod)
+    @Value("${spring.profiles.active}")
+    private String activeProfile;
 
     // dependency injection
     @Autowired
@@ -50,6 +60,7 @@ public class MessageService {
         // 404 demanda not found
         throw new EntityNotFoundException(id);
     }
+
 
     // send message to demanda chat
     public DtoMessageResponse createMessage(@Valid DtoPostMessage dto) {
@@ -85,5 +96,25 @@ public class MessageService {
         mensagem.setDemanda(demanda.get());
         mensagem.setUsuario(usuario.get());
         return mensagem;
+    }
+
+    // create message with file
+    public DtoMessageResponse createMessageFile(
+        MultipartFile multipart, 
+        String tipo, 
+        Integer demandaId,
+        Integer remetenteId
+    ) {
+        String fileName = "";
+
+        try {
+            fileName = UploadFile.uploadFile(activeProfile, "img\\msg\\" + multipart.getOriginalFilename(), multipart);
+            TimeUnit.SECONDS.sleep(1);
+            DtoMessageResponse dto = createMessage(new DtoPostMessage(fileName, tipo, demandaId, remetenteId));
+            return dto;
+        } catch (Exception ex) {
+            throw new FileUploadException();
+        }
+
     }
 }

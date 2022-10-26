@@ -35,6 +35,7 @@
 }
 
 .header-app-p{
+    text-transform: capitalize;
     font-family: 'Hind Madurai';
     color: white;
     font-size: 24px;
@@ -45,4 +46,9 @@
     display: flex;
     font-size: 24px;
     height: 100%;
+}
+
+.header-app-container-perfil-nav {
+    display: flex;
+    cursor: pointer;
 }

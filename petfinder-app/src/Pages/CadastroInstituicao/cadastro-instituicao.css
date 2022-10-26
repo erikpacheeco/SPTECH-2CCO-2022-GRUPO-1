@@ -57,7 +57,7 @@
     justify-content: center;
 }
 
-.cadastro-instituicao-input-container{
+.cadastro-instituicao-input-container, .cadastro-instituicao-input-container-error{
     display: flex;
     flex-direction: column;
     margin-top: 16px;
@@ -72,12 +72,19 @@
     background-color: #F3F2F2;
 }
 
-.cadastro-instituicao-input-container label {
+.cadastro-instituicao-input-container-error input {
+    border-radius: 5px;
+    border: 1px solid red;
+    padding-left: 20px;
+    height: 37px;
+    background-color: #F3F2F2;
+}
+
+.cadastro-instituicao-input-container label, .cadastro-instituicao-input-container-error label {
     font-family: 'Hind Madurai';
     font-weight: 600;
     font-size: 18px;
     color: #7F2AB5;
-    background-color: #F3F2F2;
 }
 
 .cadastro-instituicao-separate-container{

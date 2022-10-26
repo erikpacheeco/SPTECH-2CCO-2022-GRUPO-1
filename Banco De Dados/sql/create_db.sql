@@ -1,5 +1,5 @@
 DROP DATABASE petfinder;
-CREATE DATABASE petfinder;
+CREATE DATABASE petfinder DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 USE petfinder;
 
 -- -----------------------------------------------------
@@ -50,7 +50,7 @@ CREATE TABLE pet (
   raca VARCHAR(30) NOT NULL,
   porte VARCHAR(30) NOT NULL,
   caminho_imagem TEXT NOT NULL,
-  sexo VARCHAR(6) NOT NULL,
+  sexo VARCHAR(30) NOT NULL,
   descricao TEXT NOT NULL,
   doente TINYINT NULL,
   adotado TINYINT NOT NULL,
@@ -76,7 +76,7 @@ CREATE TABLE usuario (
   nome VARCHAR(60) NOT NULL,
   email VARCHAR(40) NOT NULL,
   senha VARCHAR(16) NOT NULL,
-  nivel_acesso ENUM("SYSADM", "ADM", "PETOPS", "CHATOPS", "USER", "UNSIGNED") NOT NULL,
+  nivel_acesso ENUM("sysadm", "adm", "petops", "chatops", "user") NOT NULL,
   instituicao_id INT,
   endereco_id INT,
   logado TINYINT DEFAULT 0,
@@ -92,7 +92,7 @@ CREATE TABLE demanda (
   categoria ENUM("adocao", "pagamento", "resgate") NOT NULL,
   data_abertura DATETIME NOT NULL,
   data_fechamento DATETIME NULL,
-  status ENUM("aberto", "em_andamento", "concluido", "cancelado", "documento_valido", "pgto_realizado_user", "pgto_realizado_inst", "resgate_invalido", "resgate_valido") NOT NULL,
+  status ENUM("aberto", "em_andamento", "concluido", "cancelado", "aguardando_validacao_documento", "documento_valido", "pgto_realizado_user", "pgto_realizado_inst") NOT NULL,
   usuario_id INT NOT NULL,
   instituicao_id INT NOT NULL,
   colaborador_id INT,
@@ -109,7 +109,7 @@ CREATE TABLE demanda (
 CREATE TABLE demanda_hist (
   id INT PRIMARY KEY AUTO_INCREMENT,
   data DATETIME DEFAULT NOW(),
-  status ENUM("adocao", "pagamento", "resgate"),
+  status ENUM("aberto", "em_andamento", "concluido", "cancelado", "aguardando_validacao_documento", "documento_valido", "pgto_realizado_user", "pagamento_realizado_user", "pgto_realizado_inst", "pagamento_realizado_inst") NOT NULL,
   demanda_id INT NOT NULL
 );
 
@@ -119,7 +119,7 @@ CREATE TABLE demanda_hist (
 CREATE TABLE mensagem (
   id INT PRIMARY KEY AUTO_INCREMENT,
   conteudo TEXT NOT NULL,
-  tipo ENUM("texto", "arq_documento", "arq_imagem") NOT NULL,
+  tipo ENUM("texto", "doc", "img") NOT NULL,
   data_envio DATETIME NOT NULL,
   usuario_id INT NOT NULL,
   demanda_id INT NOT NULL,
@@ -155,7 +155,7 @@ CREATE TABLE demanda_has_pet (
 -- -----------------------------------------------------
 CREATE TABLE premio (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  img TEXT NOT NULL,
+  img TEXT,
   data_envio DATE,
   pet_id INT NOT NULL,
   FOREIGN KEY (pet_id) REFERENCES pet(id)
@@ -175,6 +175,7 @@ CREATE TABLE visitantes (
 CREATE TABLE leads (
   id INT PRIMARY KEY AUTO_INCREMENT,
   usuario_id INT NOT NULL,
+  tipo VARCHAR(45) NOT NULL,
   data_cadastro DATE
 );
 

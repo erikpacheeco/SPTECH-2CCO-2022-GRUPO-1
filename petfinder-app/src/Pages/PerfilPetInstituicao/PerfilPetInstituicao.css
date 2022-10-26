@@ -170,7 +170,7 @@
 .perfil-pet-instituicao-btn {
     display: flex;
     width: 90%;
-    justify-content: end;
+    justify-content: flex-end;
 }
 
 .perfil-pet-instituicao-btn button {
@@ -182,6 +182,7 @@
     border-width: 0px;
     border-radius: 10px;
     color: #50077E;
+    cursor: pointer;
 }
 
 .perfil-pet-instituicao-btn button:hover {
