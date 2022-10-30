@@ -48,7 +48,7 @@ const headerFunction = {
             listaSideBar = [
                 <SideBarItem icon={Home} label="Página Inicial" navigateTo={"/home-user"}/>,
                 <SideBarItem icon={Mensagem} label="Mensagens" navigateTo={"/chat"}/>,
-                <SideBarItem icon={MeuPerfil} label="Meu Perfil" navigateTo={"/perfil-usuario"}/>,
+                <SideBarItem icon={MeuPerfil} label="Meu Perfil" navigateTo={`/perfil-usuario/${infoUsuario.id}`}/>,
                 <SideBarItem icon={MeusPremios} label="Meus Prêmios" navigateTo={`/meus-premios/${infoUsuario.id}`}/>
             ]
         }

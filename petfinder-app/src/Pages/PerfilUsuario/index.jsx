@@ -1,36 +1,16 @@
 import './perfil-usuario.css';
-
+import axios from "axios";
 import HeaderApp from "../../Components/HeaderApp";
-import React, { useEffect, useState, useLayoutEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Chart } from "react-google-charts";
-
 import api from "../../Api";
 import CardPet from "../../Components/CardPet";
-// import Swal from 'sweetalert2';
-// import withReactContent from "sweetalert2-react-content";
+import Swal from 'sweetalert2';
+import withReactContent from "sweetalert2-react-content";
 
 // imagens
-import MedalhaBronzeIcon from "./../../Images/pet-friendly-bronze.svg";
-// import MedalhaPrataIcon from "./../../Images/pet-friendly-prata.svg";
-// import MedalhaOuroIcon from "./../../Images/pet-friendly-ouro.svg";
-// import MedalhaNoBronzeIcon from "./../../Images/pet-friendly-No-bronze.svg";
-import MedalhaNoPrataIcon from "./../../Images/pet-friendly-No-prata.svg";
-import MedalhaNoOuroIcon from "./../../Images/pet-friendly-No-ouro.svg";
 import noPet from "../../Images/png_img/gatinhu.png";
 import EditarIcon from "../../Images/edit-two.svg";
-
-export const options = {
-    pieHole: 0.7,
-    legend: "none",
-    width: "100%",
-    backgroundColor: "none",
-    slices: {
-        0: { color: '#FFE055'},
-        1: { color: '#BC9A00'}
-      },
-      pieSliceText: 'none',
-}
 
 function PerfilUsuario() {
 
@@ -76,112 +56,113 @@ function PerfilUsuario() {
             logado: true
         }
     );
-    // const navigate = useNavigate();
     const [editarInput, setEditarInput] = useState(true);
-    // const swal = withReactContent(Swal);
+    const swal = withReactContent(Swal);
 
-    useLayoutEffect(() => {
-        if (objUser.nivelAcesso == "user") {
-            setInfoPadrinho(objUser);
-        } else {
+    const [preferencias, setPreferencias] = useState([]);
+
+    const [nomeUser, setNomeUser] = useState("");
+    const [emailUser, setEmailUser] = useState("");
+    const [ruaUser, setRuaUser] = useState("");
+    const [numUser, setNumUser] = useState("");
+    const [complementoUser, setComplementoUser] = useState("");
+    const [bairroUser, setBairroUser] = useState("");
+    const [cidadeUser, setCidadeUser] = useState("");
+    const [ufUser, setUfUser] = useState("");
+    const [cepUser, setCepUser] = useState("");
+
+    useEffect(() => {
+       
             api.get(`/usuarios/${idUsuario}`).then((res) => {
                 setInfoPadrinho(res.data);
+                setNomeUser(res.data.nome);
+                setEmailUser(res.data.email);
+                setRuaUser(res.data.endereco.rua);
+                setNumUser(res.data.endereco.num);
+                setComplementoUser(res.data.endereco.complemento);
+                setBairroUser(res.data.endereco.bairro);
+                setCidadeUser(res.data.endereco.cidade);
+                setUfUser(res.data.endereco.uf);
+                setCepUser(res.data.endereco.cep);
             }).catch(error => { console.log(error) })
-        }
+
+            api.get(`/pets/apadrinhamentos/usuario/${idUsuario}`).then(res => {
+                if(res.status == 200) {
+                    setPets(res.data);
+                }
+            }).catch(error => {console.log(error)})
+
+            api.get(`/usuarios/interesse/${idUsuario}`).then((res) => {
+                setPreferencias(res.data.map(caracteristica => caracteristica.caracteristica))
+            }).catch(error => {console.log(error)})
+
+            
 
     }, []);
 
-   
-    useEffect(() => {
-        api.get(`/pets/apadrinhamentos/usuario/${infoPadrinho.id}`).then(res => {
-            if(res.status == 200) {
-                setPets(res.data);
-            }
-        }).catch(error => {console.log(error)})
-    }, [])
-        
-    // const [values, setValues] = useState();
 
-    // function resetValues(infoPadrinho) {
-    //     setValues( {
-    //             nome: infoPadrinho.nome, email: infoPadrinho.email, rua: infoPadrinho.endereco.rua, num: infoPadrinho.endereco.num, 
-    //             complemento: infoPadrinho.endereco.complemento, bairro: infoPadrinho.endereco.bairro, cidade: infoPadrinho.endereco.cidade, 
-    //             uf: infoPadrinho.endereco.uf, cep: infoPadrinho.endereco.cep}
-    //         )
-    // }
+    function handleChangeCep(event) {
+        setCepUser(event.target.value)
 
-
-    function handleChange(event) {
-        // const { value, name } = event.target;
-        // setValues({ ...values, [name]: value, })
+        if(event.target.value.length === 8){
+            axios.get(`https://viacep.com.br/ws/${event.target.value}/json/`).then((res) => {
+                console.log(res.data);
+                setRuaUser(res.data.logradouro)
+            })
+        }
     }
     
-    // function handleSubmitColaborador(event) {
-    //     event.preventDefault()
-    //     let json = {
-    //         id: infoPadrinho.id,
-    //         nome: infoPadrinho.nome,
-    //         email: infoPadrinho.email,
-    //         nivelAcesso: infoPadrinho.cargo,
-    //         endereco: {
-    //             id: infoPadrinho.endereco.id,
-    //             rua: infoPadrinho.endereco.rua,
-    //             num: infoPadrinho.endereco.num,
-    //             complemento: infoPadrinho.endereco.complemento,
-    //             bairro: infoPadrinho.endereco.bairro,
-    //             cidade: infoPadrinho.endereco.cidade,
-    //             uf: infoPadrinho.endereco.uf,
-    //             cep: infoPadrinho.endereco.cep,
-    //             latitude: infoPadrinho.endereco.latitude,
-    //             longitude: infoPadrinho.endereco.longitude
-    //         },
-    //         fkInstituicao: {
-    //             id: infoPadrinho.fkInstituicao.id,
-    //             nome: infoPadrinho.fkInstituicao.nome,
-    //             telefone: infoPadrinho.fkInstituicao.telefone,
-    //             termoAdocao: infoPadrinho.fkInstituicao.termoAdocao,
-    //             endereco: {
-    //               id: infoPadrinho.fkInstituicao.endereco.id,
-    //               rua: infoPadrinho.fkInstituicao.endereco.rua,
-    //               num: infoPadrinho.fkInstituicao.endereco.num,
-    //               complemento: infoPadrinho.fkInstituicao.endereco.complemento,
-    //               bairro: infoPadrinho.fkInstituicao.endereco.bairro,
-    //               cidade: infoPadrinho.fkInstituicao.endereco.cidade,
-    //               uf: infoPadrinho.fkInstituicao.endereco.uf,
-    //               cep: infoPadrinho.fkInstituicao.endereco.cep,
-    //               latitude: infoPadrinho.fkInstituicao.endereco.latitude,
-    //               longitude: infoPadrinho.fkInstituicao.endereco.longitude
-    //             }
-    //           },
-    //         logado: infoPadrinho.logado
-    //     }
-    //     api.put(`/usuarios/${infoPadrinho.id}`, json, {
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         }
-    //     })
-    //         .then((res) => {
-    //             swal.fire({
-    //                 icon: "success",
-    //                 title: <h2>Usuário atualizado com sucesso!</h2>,
-    //             })
-    //         }).catch((error) => {
-    //             swal.fire({
-    //                 icon: "error",
-    //                 title: <h2>Ops! Algo deu errado da nossa parte :(</h2>,
-    //                 text: "Por favor, tente novamente!"
-    //             });
-    //             console.log(error)
-    //         })
-    // }
+    function handleSubmitColaborador(event) {
+        event.preventDefault();
+        let json = {
+            id: infoPadrinho.id,
+            nome: nomeUser,
+            email: emailUser,
+            nivelAcesso: infoPadrinho.nivelAcesso,
+            endereco: {
+                id: infoPadrinho.endereco.id,
+                rua: ruaUser,
+                num: numUser,
+                complemento: complementoUser,
+                bairro: bairroUser,
+                cidade: cidadeUser,
+                uf: ufUser,
+                cep: cepUser,
+                latitude: infoPadrinho.endereco.latitude,
+                longitude: infoPadrinho.endereco.longitude
+            },
+            fkInstituicao: null,
+            logado: infoPadrinho.logado
+        }
+
+        console.log(json)
+
+        api.put(`/usuarios/${idUsuario}`, json, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((res) => {
+                swal.fire({
+                    icon: "success",
+                    title: <h2>Usuário atualizado com sucesso!</h2>,
+                })
+            }).catch((error) => {
+                swal.fire({
+                    icon: "error",
+                    title: <h2>Ops! Algo deu errado da nossa parte :(</h2>,
+                    text: "Por favor, tente novamente!"
+                });
+                console.log(error)
+            })
+    }
 
     function clicarEdicao(event) {
         event.preventDefault();
 
-        if(!editarInput){
-            // {handleSubmitColaborador}
+        if(!editarInput){ 
+            {handleSubmitColaborador(event)} 
         }
-
+        
         setEditarInput(!editarInput);
     }
 
@@ -220,31 +201,20 @@ function PerfilUsuario() {
         }
     }
 
-    function verificarUsuarioEditar(objUser) {
-        if (objUser.nivelAcesso == "user") {
+    function verificarUsuarioEditar() {
             return (
-                
                 editarInput ? 
-
                 <button onClick={(event) => clicarEdicao(event)}>
                     <span>Editar</span>
                     <img src={EditarIcon} alt="" />
                 </button>
-
                 : 
-
                 <button type="submit" id="salvar" onClick={(event) => clicarEdicao(event)}>
                     <span>Salvar</span>
                     <img src={EditarIcon} alt="" />
                 </button>
-
             )
-        }
     }
-
-    const [totalPontos, setTotalPontos] = useState(2200);
-    const [proximaMedalha, setProximaMedalha] = useState(3000);   
-    
 
     return (
         <>
@@ -259,15 +229,15 @@ function PerfilUsuario() {
                             <div className="perfil-usuario-card">
                                 <div className="perfil-usuario-card-container">
                                     <div className="perfil-usuario-div-editar">
-                                        <span className="perfil-usuario-card-titulo">Informação Pessoal</span>
-                                        {verificarUsuarioEditar(objUser)}
+                                        <span className="perfil-usuario-card-titulo">Informações Pessoais</span>
+                                        {objUser.nivelAcesso === "user" ? verificarUsuarioEditar() : ""}
                                     </div>
                                         <input
                                             id="nome"
                                             type="text"
                                             name="nome"
-                                            value={infoPadrinho.nome}
-                                            onChange={handleChange}
+                                            value={nomeUser}
+                                            onChange={(e) => setNomeUser(e.target.value)}
                                             className="perfil-usuario-card-texto perfil-usuario-input perfil-usuario-input90"
                                             disabled={editarInput}
                                         />
@@ -275,8 +245,8 @@ function PerfilUsuario() {
                                             id="email"
                                             type="text"
                                             name="email"
-                                            value={infoPadrinho.email}
-                                            onChange={handleChange}
+                                            value={emailUser}
+                                            onChange={(e) => setEmailUser(e.target.value)}
                                             className="perfil-usuario-card-texto perfil-usuario-input perfil-usuario-input90"
                                             disabled={editarInput}
                                         />
@@ -291,8 +261,8 @@ function PerfilUsuario() {
                                             id="rua"
                                             type="text"
                                             name="rua"
-                                            value={infoPadrinho.endereco.rua}
-                                            onChange={handleChange}
+                                            value={ruaUser}
+                                            onChange={(e) => setRuaUser(e.target.value)}
                                             className="perfil-usuario-card-texto perfil-usuario-input perfil-usuario-input70"
                                             disabled={editarInput}
                                         />
@@ -300,52 +270,39 @@ function PerfilUsuario() {
                                             id="num"
                                             type="text"
                                             name="num"
-                                            value={infoPadrinho.endereco.num}
-                                            onChange={handleChange}
+                                            value={numUser}
+                                            onChange={(e) => setNumUser(e.target.value)}
                                             className="perfil-usuario-card-texto perfil-usuario-input perfil-usuario-input10"
                                             disabled={editarInput}
                                         />
-                                        {infoPadrinho.endereco.complemento !== null ? 
-                                            <input
-                                                id="num"
-                                                type="text"
-                                                name="num"
-                                                value={infoPadrinho.endereco.complemento}
-                                                onChange={handleChange}
-                                                className="perfil-usuario-card-texto perfil-usuario-input perfil-usuario-input20"
-                                                disabled={editarInput}
-                                            />
-                                            :
-                                            <input
-                                                id="num"
-                                                type="text"
-                                                name="num"
-                                                value="    "
-                                                onChange={handleChange}
-                                                className="perfil-usuario-card-texto perfil-usuario-input perfil-usuario-input10"
-                                                disabled={editarInput}
-                                            />
-                                        }
+                                        <input
+                                            id="complemento"
+                                            type="text"
+                                            name="complemento"
+                                            value={complementoUser !== null ? complementoUser : ""}
+                                            onChange={(e) => setComplementoUser(e.target.value)}
+                                            className="perfil-usuario-card-texto perfil-usuario-input perfil-usuario-input20"
+                                            disabled={editarInput}
+                                            placeholder="Complemento"
+                                        />
                                     </div>
                                     <div className="perfil-usuario-div-input">
-                                       
-                                        
-                                        
                                         <input
                                             id="cep"
                                             type="text"
                                             name="cep"
-                                            value={infoPadrinho.endereco.cep}
-                                            onChange={handleChange}
+                                            value={cepUser}
+                                            onChange={handleChangeCep}
                                             className="perfil-usuario-card-texto perfil-usuario-input perfil-usuario-input15"
                                             disabled={editarInput}
+                                            maxLength={8}
                                         />
                                         <input
                                             id="bairro"
                                             type="text"
                                             name="bairro"
-                                            value={infoPadrinho.endereco.bairro}
-                                            onChange={handleChange}
+                                            value={bairroUser}
+                                            onChange={(e) => setBairroUser(e.target.value)}
                                             className="perfil-usuario-card-texto perfil-usuario-input perfil-usuario-input35"
                                             disabled={editarInput}
                                         />
@@ -356,8 +313,8 @@ function PerfilUsuario() {
                                             id="cidade"
                                             type="text"
                                             name="cidade"
-                                            value={infoPadrinho.endereco.cidade}
-                                            onChange={handleChange}
+                                            value={cidadeUser}
+                                            onChange={(e) => setCidadeUser(e.target.value)}
                                             className="perfil-usuario-card-texto perfil-usuario-input perfil-usuario-input35"
                                             disabled={editarInput}
                                         />
@@ -365,8 +322,8 @@ function PerfilUsuario() {
                                             id="uf"
                                             type="text"
                                             name="uf"
-                                            value={infoPadrinho.endereco.uf}
-                                            onChange={handleChange}
+                                            value={ufUser}
+                                            onChange={(e) => setUfUser(e.target.value)}
                                             className="perfil-usuario-card-texto perfil-usuario-input perfil-usuario-input15"
                                             disabled={editarInput}
                                         />
@@ -375,29 +332,31 @@ function PerfilUsuario() {
                             </div>
 
                             <div className="perfil-usuario-card">
-                                <div className="perfil-usuario-card-container-pontuacao">
-                                    <div className="perfil-usuario-box-dash">
-                                        <span className="perfil-usuario-card-titulo">Pontuação</span>
-                                        <Chart
-                                            chartType="PieChart"
-                                            data={[
-                                                ["", ""], 
-                                                ["Total Pontos", totalPontos], 
-                                                ["Próxima Medalha", proximaMedalha - totalPontos]
-                                            ]}
-                                            
-                                            options={options}
-                                            className="perfil-usuario-chat"                                            
-                                        />
-                                    </div>
-                                    <div className="perfil-usuario-box-pontuacao">
-                                        <span>Total Pontos: {totalPontos}</span>
-                                        <span>Próxima Medalha: {proximaMedalha}</span>
-                                        <div className="perfil-usuario-box-medalhas">
-                                            <img src={MedalhaBronzeIcon} alt="" />
-                                            <img src={MedalhaNoPrataIcon} alt="" />
-                                            <img src={MedalhaNoOuroIcon} alt="" />
-                                        </div>
+                                <div className="perfil-usuario-card-container-caracteristica">
+                                    <span className="perfil-usuario-card-titulo">Características</span>
+                                    <div className="perfil-usuario-box-caracteristica">
+                                        {
+                                            preferencias.map((pref) => (
+                                                <div key={`div-pref-${pref.id}`}>
+                                                    <input
+                                                        key={`input-pref-${pref.id}`}
+                                                        className="cadastro-usuario-hide"
+                                                        value={pref.caracteristica}
+                                                        type="checkbox"
+                                                        id={pref.id}
+                                                    />
+                                                    <button
+                                                        key={`btn-pref-${pref.id}`}
+                                                        type="button"
+                                                        className="cadastro-usuario-btn-preferencia"
+                                                        id={pref.id + "-btn"}
+                                                    >
+                                                        {pref.caracteristica}
+                                                    </button>
+                                                </div>
+                                                
+                                            ))
+                                        }
                                     </div>
                                 </div>
                             </div>

@@ -54,7 +54,7 @@ function HeaderApp() {
                     className="header-app-container-perfil-nav"
                     onClick={() => {
                         if (objUser.nivelAcesso == "user") {
-                            navigate(`/perfil-usuario`)
+                            navigate(`/perfil-usuario/${objUser.id}`)
                         } else {
                             navigate(`/perfil/${objUser.id}`)
                         }
