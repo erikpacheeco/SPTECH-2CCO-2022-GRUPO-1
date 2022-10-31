@@ -22,6 +22,7 @@
    border-radius: 10px 0 0 10px;
    padding: 1%; 
    box-shadow: 0 0 0.3em black;
+   height: 60vh;
 }
 
 .premios-container-filtros-titulo{
@@ -72,8 +73,43 @@
 }
 
 .cardPetSimples{
-    margin-right: 22px;
+    /* margin-right: 22px; */
     width: 206px;
     height: 206px;
     border-radius: 20px;    
+}
+
+.premios-fotos-container-sub{
+    height: 58vh;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
+    grid-template-rows: auto 1fr auto;
+    grid-row-gap: 20px;
+    grid-row-gap: 20px;
+    row-gap: 20px;
+    grid-column-gap: 5px;
+    grid-column-gap: 5px;
+    column-gap: 5px;
+    overflow-y: auto;
+}
+
+.premios-fotos-container-sub::-webkit-scrollbar, .premios-filtros::-webkit-scrollbar{
+    width: 12px;
+}
+
+.premios-fotos-container-sub::-webkit-scrollbar-track, .premios-filtros::-webkit-scrollbar-track{
+    background-color: rgba(218, 218, 218, 0.5);
+    border-radius: 5px;
+}
+
+.premios-fotos-container-sub::-webkit-scrollbar-thumb, .premios-filtros::-webkit-scrollbar-thumb{
+    background-color: rgba(127, 41, 180, 1);
+    border-radius: 20px;
+    border: 3px solid rgba(218, 218, 218);
+}
+
+.premios-filtros{
+    overflow: auto;
+    height: 90%;
 }

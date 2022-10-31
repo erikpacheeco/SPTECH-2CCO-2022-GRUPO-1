@@ -162,7 +162,7 @@ function PerfilUsuario() {
         if(!editarInput){ 
             {handleSubmitColaborador(event)} 
         }
-        
+
         setEditarInput(!editarInput);
     }
 
@@ -232,14 +232,16 @@ function PerfilUsuario() {
                                         <span className="perfil-usuario-card-titulo">Informações Pessoais</span>
                                         {objUser.nivelAcesso === "user" ? verificarUsuarioEditar() : ""}
                                     </div>
+                                    <div className="perfil-usuario-div-input-pessoal">
                                         <input
                                             id="nome"
                                             type="text"
                                             name="nome"
                                             value={nomeUser}
                                             onChange={(e) => setNomeUser(e.target.value)}
-                                            className="perfil-usuario-card-texto perfil-usuario-input perfil-usuario-input90"
+                                            className="perfil-usuario-card-texto perfil-usuario-input perfil-usuario-input98"
                                             disabled={editarInput}
+                                            placeholder="Nome"
                                         />
                                         <input
                                             id="email"
@@ -247,9 +249,11 @@ function PerfilUsuario() {
                                             name="email"
                                             value={emailUser}
                                             onChange={(e) => setEmailUser(e.target.value)}
-                                            className="perfil-usuario-card-texto perfil-usuario-input perfil-usuario-input90"
+                                            className="perfil-usuario-card-texto perfil-usuario-input perfil-usuario-input98"
                                             disabled={editarInput}
+                                            placeholder="E-mail"
                                         />
+                                    </div>
                                 </div>
                             </div>
 
@@ -263,17 +267,21 @@ function PerfilUsuario() {
                                             name="rua"
                                             value={ruaUser}
                                             onChange={(e) => setRuaUser(e.target.value)}
-                                            className="perfil-usuario-card-texto perfil-usuario-input perfil-usuario-input70"
+                                            className="perfil-usuario-card-texto perfil-usuario-input perfil-usuario-input98"
                                             disabled={editarInput}
+                                            placeholder="Logradouro"
                                         />
-                                         <input
+                                    </div>
+                                    <div className="perfil-usuario-div-input">
+                                        <input
                                             id="num"
                                             type="text"
                                             name="num"
                                             value={numUser}
                                             onChange={(e) => setNumUser(e.target.value)}
-                                            className="perfil-usuario-card-texto perfil-usuario-input perfil-usuario-input10"
+                                            className="perfil-usuario-card-texto perfil-usuario-input perfil-usuario-input30"
                                             disabled={editarInput}
+                                            placeholder="Número"
                                         />
                                         <input
                                             id="complemento"
@@ -281,42 +289,42 @@ function PerfilUsuario() {
                                             name="complemento"
                                             value={complementoUser !== null ? complementoUser : ""}
                                             onChange={(e) => setComplementoUser(e.target.value)}
-                                            className="perfil-usuario-card-texto perfil-usuario-input perfil-usuario-input20"
+                                            className="perfil-usuario-card-texto perfil-usuario-input perfil-usuario-input30"
                                             disabled={editarInput}
                                             placeholder="Complemento"
                                         />
-                                    </div>
-                                    <div className="perfil-usuario-div-input">
                                         <input
                                             id="cep"
                                             type="text"
                                             name="cep"
                                             value={cepUser}
                                             onChange={handleChangeCep}
-                                            className="perfil-usuario-card-texto perfil-usuario-input perfil-usuario-input15"
+                                            className="perfil-usuario-card-texto perfil-usuario-input perfil-usuario-input30"
                                             disabled={editarInput}
                                             maxLength={8}
+                                            placeholder="CEP"
                                         />
+                                    </div>
+                                    <div className="perfil-usuario-div-input">
                                         <input
                                             id="bairro"
                                             type="text"
                                             name="bairro"
                                             value={bairroUser}
                                             onChange={(e) => setBairroUser(e.target.value)}
-                                            className="perfil-usuario-card-texto perfil-usuario-input perfil-usuario-input35"
+                                            className="perfil-usuario-card-texto perfil-usuario-input perfil-usuario-input40"
                                             disabled={editarInput}
+                                            placeholder="Bairro"
                                         />
-                                    </div>
-                                    <div className="perfil-usuario-div-input">
-                                        
                                         <input
                                             id="cidade"
                                             type="text"
                                             name="cidade"
                                             value={cidadeUser}
                                             onChange={(e) => setCidadeUser(e.target.value)}
-                                            className="perfil-usuario-card-texto perfil-usuario-input perfil-usuario-input35"
+                                            className="perfil-usuario-card-texto perfil-usuario-input perfil-usuario-input40"
                                             disabled={editarInput}
+                                            placeholder="Cidade"
                                         />
                                         <input
                                             id="uf"
@@ -324,8 +332,10 @@ function PerfilUsuario() {
                                             name="uf"
                                             value={ufUser}
                                             onChange={(e) => setUfUser(e.target.value)}
-                                            className="perfil-usuario-card-texto perfil-usuario-input perfil-usuario-input15"
+                                            className="perfil-usuario-card-texto perfil-usuario-input perfil-usuario-input10"
                                             disabled={editarInput}
+                                            maxLength={2}
+                                            placeholder="UF"
                                         />
                                     </div>
                                 </div>
@@ -337,26 +347,18 @@ function PerfilUsuario() {
                                     <div className="perfil-usuario-box-caracteristica">
                                         {
                                             preferencias.map((pref) => (
-                                                <div key={`div-pref-${pref.id}`}>
-                                                    <input
-                                                        key={`input-pref-${pref.id}`}
-                                                        className="cadastro-usuario-hide"
-                                                        value={pref.caracteristica}
-                                                        type="checkbox"
-                                                        id={pref.id}
-                                                    />
-                                                    <button
-                                                        key={`btn-pref-${pref.id}`}
-                                                        type="button"
-                                                        className="cadastro-usuario-btn-preferencia"
-                                                        id={pref.id + "-btn"}
-                                                    >
-                                                        {pref.caracteristica}
-                                                    </button>
-                                                </div>
+                                                <button
+                                                    key={`btn-pref-${pref.id}`}
+                                                    type="button"
+                                                    className="perfil-usuario-btn-preferencia-checked"
+                                                    id={pref.id + "-btn"}
+                                                >
+                                                    {pref.caracteristica}
+                                                </button>
                                                 
                                             ))
                                         }
+                                        
                                     </div>
                                 </div>
                             </div>

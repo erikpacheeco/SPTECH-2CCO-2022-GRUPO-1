@@ -37,20 +37,23 @@ export default function meusPremios() {
               <h2 className="premios-h2-filtros">Filtros</h2>
               <img src={img} alt="meus-premios-icone-de-filtro"></img>
             </div>
-            <h2 className="premios-h2-filtros-titulos">Instituições</h2>
+            <div className="premios-filtros">
+              <h2 className="premios-h2-filtros-titulos">Instituições</h2>
 
-            <div className="premios-container-filtro-backend">
-              {instituicao.map((i) => (
-                <p className="ver-mais-p-filtro">{i.nome}</p>
+              <div className="premios-container-filtro-backend">
+                {instituicao.map((i) => (
+                  <p className="ver-mais-p-filtro">{i.nome}</p>
+                ))}
+              </div>
+
+              <h2 className="premios-h2-filtros-titulos">Pets</h2>
+              <div className="premios-container-filtro-backend">
+              {allPets.map((p) => (
+                <p className="ver-mais-p-filtro">{p.nome}</p>
               ))}
+              </div>
             </div>
-
-            <h2 className="premios-h2-filtros-titulos">Pets</h2>
-            <div className="premios-container-filtro-backend">
-            {allPets.map((p) => (
-              <p className="ver-mais-p-filtro">{p.nome}</p>
-            ))}
-            </div>
+            
           </div>
 
           <div className="premios-fotos-container">

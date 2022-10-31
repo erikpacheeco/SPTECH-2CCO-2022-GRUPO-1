@@ -47,27 +47,30 @@ export default function VerMais() {
               <h2 className="ver-mais-h2-filtros">Filtros</h2>
               <img src={img} alt="ver-mais-icone-de-filtro"></img>
             </div>
-            <h2 className="ver-mais-h2-filtros-titulos">Instituições</h2>
+            <div className="ver-mais-filtros">
+              <h2 className="ver-mais-h2-filtros-titulos">Instituições</h2>
 
-            <div className="ver-mais-container-filtro-backend">
-              {instituicao.map((i) => (
-                <p className="ver-mais-p-filtro">{i.nome}</p>
-              ))}
-            </div>
+              <div className="ver-mais-container-filtro-backend">
+                {instituicao.map((i) => (
+                  <p className="ver-mais-p-filtro">{i.nome}</p>
+                ))}
+              </div>
 
-            <h2 className="ver-mais-h2-filtros-titulos">Pets</h2>
-            <div className="ver-mais-container-filtro-backend">
-              {distinctPets.map((p) => (
-                <p className="ver-mais-p-filtro">{p}</p>
-              ))}
-            </div>
+              <h2 className="ver-mais-h2-filtros-titulos">Pets</h2>
+              <div className="ver-mais-container-filtro-backend">
+                {distinctPets.map((p) => (
+                  <p className="ver-mais-p-filtro">{p}</p>
+                ))}
+              </div>
 
-            <h2 className="ver-mais-h2-filtros-titulos">Características</h2>
-            <div className="ver-mais-container-filtro-backend">
-              {caracteristicas.map((c) => (
-                <p className="ver-mais-p-filtro">{c.caracteristica}</p>
-              ))}
+              <h2 className="ver-mais-h2-filtros-titulos">Características</h2>
+              <div className="ver-mais-container-filtro-backend">
+                {caracteristicas.map((c) => (
+                  <p className="ver-mais-p-filtro">{c.caracteristica}</p>
+                ))}
+              </div>
             </div>
+            
 
           </div>
 
