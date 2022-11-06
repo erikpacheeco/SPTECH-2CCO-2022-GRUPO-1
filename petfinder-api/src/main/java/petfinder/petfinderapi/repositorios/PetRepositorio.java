@@ -45,7 +45,7 @@ public interface PetRepositorio extends JpaRepository<Pet, Integer> {
     @Query("SELECT DISTINCT p.especie FROM Pet p")
     public List<String> findDistinctByEspecie();
 
-    @Query("SELECT DISTINCT new petfinder.petfinderapi.resposta.PetPerfil(d.pet) FROM Demanda d WHERE d.status = 'CONCLUIDO' AND d.dataFechamento LIKE '2022-08-%' AND d.usuario.id = ?1")
+    @Query("SELECT new petfinder.petfinderapi.resposta.PetPerfil(p) FROM Pet p WHERE p.id IN (SELECT DISTINCT d.pet.id FROM Demanda d WHERE d.categoria LIKE 'PAGAMENTO' AND d.pet.id IS NOT NULL AND d.status LIKE 'CONCLUIDO' AND d.usuario.id = ?1 AND DATEDIFF('DAY', d.dataFechamento, NOW()) <= 30)")
     public List<PetPerfil> findPetByDemandaApadrinhamentoAndUsuario(int idUser);
 
 
