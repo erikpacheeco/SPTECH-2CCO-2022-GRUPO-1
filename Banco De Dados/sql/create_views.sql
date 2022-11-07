@@ -44,12 +44,12 @@ GROUP BY categoria, data_fechamento
 ORDER BY data DESC;
 
 CREATE OR REPLACE VIEW view_demandas_ultimos_7_dias AS
-select sum(qtd_demandas) as qtd_demandas, categoria, data as data from view_demanda 
+select sum(qtd_demandas) as qtd_demandas, categoria, data as data from view_demandas 
 WHERE data BETWEEN (SELECT DATE_SUB(CURRENT_DATE, INTERVAL 6 DAY)) AND CURRENT_DATE
 GROUP BY categoria, data;
 
 CREATE OR REPLACE VIEW view_demandas_ultimos_6_meses AS
-select sum(qtd_demandas) as qtd_demandas, categoria, YEAR(data) as ano, MONTH(data) as mes FROM view_demanda 
+select sum(qtd_demandas) as qtd_demandas, categoria, YEAR(data) as ano, MONTH(data) as mes FROM view_demandas 
 WHERE data BETWEEN (SELECT DATE_SUB(CURRENT_DATE(), INTERVAL 5 MONTH)) AND CURRENT_DATE()
 GROUP BY categoria, ano, mes 
 ORDER BY ano, mes DESC;
