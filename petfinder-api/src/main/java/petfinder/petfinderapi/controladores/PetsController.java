@@ -60,6 +60,9 @@ public class PetsController implements GerenciadorArquivos {
     @Autowired
     private InstituicaoRepositorio repositoryInstituicao;
 
+    @Autowired
+    private PetInstituicaoRepositorio view;
+
     public static List<Pet> pets = new ArrayList<>();
     public static List<Premio> premios = new ArrayList<>();
     private FilaObj<Object> filaObj = new FilaObj<Object>(10);
@@ -67,6 +70,11 @@ public class PetsController implements GerenciadorArquivos {
     // services
     @Autowired
     private ServicePet servicePet;
+
+    @GetMapping("/view-test")
+    public ResponseEntity<List<PetInstituicao>> getView() {
+        return ok(view.findAll());
+    }
 
     @PostMapping("/{id}/premios")
     public ResponseEntity<PremioDto> postMimo(@PathVariable int id, @RequestParam("file") MultipartFile multipart) {

@@ -15,7 +15,6 @@ import petfinder.petfinderapi.utilitarios.GerenciadorArquivos;
 import petfinder.petfinderapi.utilitarios.ListaObj;
 import petfinder.petfinderapi.requisicao.CriacaoDemanda;
 import petfinder.petfinderapi.requisicao.DtoPatchDemanda;
-
 import javax.validation.Valid;
 import java.io.*;
 import java.text.DateFormat;
