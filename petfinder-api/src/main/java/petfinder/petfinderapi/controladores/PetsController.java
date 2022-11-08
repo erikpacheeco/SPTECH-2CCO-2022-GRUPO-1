@@ -732,7 +732,7 @@ public class PetsController implements GerenciadorArquivos {
         return ResponseEntity.status(200).body(pets);
     }
 
-    @GetMapping("qtd/{qtdPets}")
+    @GetMapping("/qtd/{qtdPets}")
     public ResponseEntity<List<PetPerfil>> getPetsQtdPets(@PathVariable int qtdPets) {
         List<PetPerfil> pets = repositoryPet.findByAdotado();
 
@@ -745,5 +745,15 @@ public class PetsController implements GerenciadorArquivos {
             listaPet.add(pets.get(i));
         }
         return ResponseEntity.status(200).body(listaPet);
+    }
+
+    @GetMapping("/userPreferences/{idUser}/{limit}")
+    public ResponseEntity<List<PetPerfil>> getPetsWithUserPreferences(@PathVariable int idUser, @PathVariable int limit){
+        List<PetPerfil> pets = repositoryPet.findByUserPreferences(idUser);
+        if(pets.size() < limit){
+            pets.addAll(repositoryPet.findNotByUserPreferences(idUser).subList(0, limit-pets.size()));
+        }
+
+        return ResponseEntity.status(200).body(pets);
     }
 }

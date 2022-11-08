@@ -48,5 +48,9 @@ public interface PetRepositorio extends JpaRepository<Pet, Integer> {
     @Query("SELECT new petfinder.petfinderapi.resposta.PetPerfil(p) FROM Pet p WHERE p.id IN (SELECT DISTINCT d.pet.id FROM Demanda d WHERE d.categoria LIKE 'PAGAMENTO' AND d.pet.id IS NOT NULL AND d.status LIKE 'CONCLUIDO' AND d.usuario.id = ?1 AND DATEDIFF('DAY', d.dataFechamento, NOW()) <= 30)")
     public List<PetPerfil> findPetByDemandaApadrinhamentoAndUsuario(int idUser);
 
+    @Query("SELECT new petfinder.petfinderapi.resposta.PetPerfil(p) FROM Pet p WHERE p.id IN (SELECT h.pet.id FROM PetHasCaracteristica h WHERE h.caracteristica.id IN (SELECT c.id FROM Caracteristica c WHERE c.id IN (SELECT u.caracteristica.id FROM UsuarioHasInteresse u WHERE u.usuario.id = ?1)))")
+    public List<PetPerfil> findByUserPreferences(int idUser);
 
+    @Query("SELECT new petfinder.petfinderapi.resposta.PetPerfil(p) FROM Pet p WHERE p.id NOT IN (SELECT h.pet.id FROM PetHasCaracteristica h WHERE h.caracteristica.id IN (SELECT c.id FROM Caracteristica c WHERE c.id IN (SELECT u.caracteristica.id FROM UsuarioHasInteresse u WHERE u.usuario.id = ?1)))")
+    public List<PetPerfil> findNotByUserPreferences(int idUser);
 }
