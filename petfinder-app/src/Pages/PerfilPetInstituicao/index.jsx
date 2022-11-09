@@ -33,11 +33,9 @@ function PerfilPetInstituicao() {
     const navigate = useNavigate()
     const swal = withReactContent(Swal);
 
-    console.log(values)
-
     useEffect(() => {
         if(values.descricao == "" && values.especie == "" && values.idade == "" && values.instituicao == "" &&
-        values.isDoente == "" && values.mimosPorMes == "" && values.nome == "" && values.porte == "" && values.raca == ""){
+        values.isDoente == "true" && values.mimosPorMes == "" && values.nome == "" && values.porte == "" && values.raca == ""){
             api.get(`/pets/${idPet.id}/perfil`).then((res) => {
                 setInfoPet(res.data)
                 setPreferencias(res.data.caracteristicas)
@@ -53,7 +51,6 @@ function PerfilPetInstituicao() {
                     porte: `${res.data.porte}`,
                     raca: `${res.data.raca}`
                 })
-                //console.log(res.data)
             })
         }
     }, [])
