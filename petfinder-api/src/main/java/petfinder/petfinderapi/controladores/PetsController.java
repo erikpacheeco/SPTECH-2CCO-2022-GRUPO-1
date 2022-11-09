@@ -28,6 +28,7 @@ import petfinder.petfinderapi.utilitarios.GerenciadorArquivos;
 import petfinder.petfinderapi.utilitarios.ListaObj;
 import javax.validation.Valid;
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -725,14 +726,18 @@ public class PetsController implements GerenciadorArquivos {
 
     @GetMapping("/apadrinhamentos/usuario/{idUser}")
     public ResponseEntity getPetsApadrinhadosPorUser(@PathVariable int idUser) {
-        List<PetPerfil> pets = repositoryPet.findPetByDemandaApadrinhamentoAndUsuario(idUser);
+        Date now = new Date();
+        Date thirtyDaysBefore = new Date();
+        thirtyDaysBefore.setDate(thirtyDaysBefore.getDate() - 30);
+
+        List<PetPerfil> pets = repositoryPet.findPetByDemandaApadrinhamentoAndUsuario(idUser, thirtyDaysBefore);
         if (pets.isEmpty()) {
             return ResponseEntity.status(204).build();
         }
         return ResponseEntity.status(200).body(pets);
     }
 
-    @GetMapping("qtd/{qtdPets}")
+    @GetMapping("/qtd/{qtdPets}")
     public ResponseEntity<List<PetPerfil>> getPetsQtdPets(@PathVariable int qtdPets) {
         List<PetPerfil> pets = repositoryPet.findByAdotado();
 
@@ -745,5 +750,15 @@ public class PetsController implements GerenciadorArquivos {
             listaPet.add(pets.get(i));
         }
         return ResponseEntity.status(200).body(listaPet);
+    }
+
+    @GetMapping("/userPreferences/{idUser}/{limit}")
+    public ResponseEntity<List<PetPerfil>> getPetsWithUserPreferences(@PathVariable int idUser, @PathVariable int limit){
+        List<PetPerfil> pets = repositoryPet.findByUserPreferences(idUser);
+        if(pets.size() < limit){
+            pets.addAll(repositoryPet.findNotByUserPreferences(idUser).subList(0, limit-pets.size()));
+        }
+
+        return ResponseEntity.status(200).body(pets);
     }
 }
