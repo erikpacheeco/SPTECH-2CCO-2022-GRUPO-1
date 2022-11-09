@@ -1,13 +1,19 @@
 package petfinder.petfinderapi.utilitarios;
 
+import java.awt.*;
+import java.io.*;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.Date;
+import net.coobird.thumbnailator.Thumbnails;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import software.amazon.awssdk.awscore.exception.AwsServiceException;
 import software.amazon.awssdk.core.exception.SdkClientException;
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -25,6 +31,7 @@ public class UploadFile {
     // upload file
     public static String uploadFile(String activeProfile, String fileName, MultipartFile multipart) throws S3Exception, AwsServiceException, SdkClientException, IOException {
         Timestamp timestamp = new Timestamp(new Date().getTime());
+
         fileName = fileName.replace(".", timestamp.getTime() + ".").replace(" ", "");
         if(activeProfile.equalsIgnoreCase("prod") || activeProfile.equalsIgnoreCase("qa")) {
             // s3 bucket
@@ -43,7 +50,21 @@ public class UploadFile {
             File path = new File(".\\src\\main\\resources\\static\\" + fileName);
             path.createNewFile();
             FileOutputStream output = new FileOutputStream(path);
-            output.write(multipart.getBytes());
+
+            // redimensionando img
+            BufferedImage originalImage = ImageIO.read(new ByteArrayInputStream(multipart.getBytes()));
+            Thumbnails.of(originalImage).size(250, 600).toFile(path);
+
+            // transformando em multipart
+            FileItem fileItem = new DiskFileItemFactory().createItem("file", "img", false, multipart.getName());
+            try (InputStream in = new FileInputStream(path); OutputStream out = fileItem.getOutputStream()) {
+                in.transferTo(out);
+            } catch (Exception e) {
+                throw new IllegalArgumentException("Invalid file: " + e, e);
+            }
+            CommonsMultipartFile multipartFile = new CommonsMultipartFile(fileItem);
+
+            output.write(multipartFile.getBytes());
             output.close();
             return "http://localhost:8080/" + fileName.replace("\\", "/");
         } catch (Exception e) {
@@ -55,7 +76,22 @@ public class UploadFile {
     // send file to bucket
     private static String uploadFileS3(String fileName, MultipartFile multipart) throws S3Exception, AwsServiceException, SdkClientException, IOException {
 
-        InputStream inputStream = multipart.getInputStream();
+        File path = new File(".\\img\\premios\\" + fileName);
+
+        // redimensionando img
+        BufferedImage originalImage = ImageIO.read(new ByteArrayInputStream(multipart.getBytes()));
+        Thumbnails.of(originalImage).size(250, 600).toFile(path);
+
+        // transformando em multipart
+        FileItem fileItem = new DiskFileItemFactory().createItem("file", "img", false, multipart.getName());
+        try (InputStream in = new FileInputStream(path); OutputStream out = fileItem.getOutputStream()) {
+            in.transferTo(out);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Invalid file: " + e, e);
+        }
+        CommonsMultipartFile multipartFile = new CommonsMultipartFile(fileItem);
+
+        InputStream inputStream = multipartFile.getInputStream();
 
         // building client
         S3Client client = S3Client
