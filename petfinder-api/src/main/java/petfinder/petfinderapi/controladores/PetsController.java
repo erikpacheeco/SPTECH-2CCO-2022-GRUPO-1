@@ -28,6 +28,7 @@ import petfinder.petfinderapi.utilitarios.GerenciadorArquivos;
 import petfinder.petfinderapi.utilitarios.ListaObj;
 import javax.validation.Valid;
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -725,7 +726,11 @@ public class PetsController implements GerenciadorArquivos {
 
     @GetMapping("/apadrinhamentos/usuario/{idUser}")
     public ResponseEntity getPetsApadrinhadosPorUser(@PathVariable int idUser) {
-        List<PetPerfil> pets = repositoryPet.findPetByDemandaApadrinhamentoAndUsuario(idUser);
+        Date now = new Date();
+        Date thirtyDaysBefore = new Date();
+        thirtyDaysBefore.setDate(thirtyDaysBefore.getDate() - 30);
+
+        List<PetPerfil> pets = repositoryPet.findPetByDemandaApadrinhamentoAndUsuario(idUser, thirtyDaysBefore);
         if (pets.isEmpty()) {
             return ResponseEntity.status(204).build();
         }

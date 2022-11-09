@@ -4,6 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import petfinder.petfinderapi.entidades.Pet;
 import petfinder.petfinderapi.resposta.PetPerfil;
+
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,8 +47,8 @@ public interface PetRepositorio extends JpaRepository<Pet, Integer> {
     @Query("SELECT DISTINCT p.especie FROM Pet p")
     public List<String> findDistinctByEspecie();
 
-    @Query("SELECT new petfinder.petfinderapi.resposta.PetPerfil(p) FROM Pet p WHERE p.id IN (SELECT DISTINCT d.pet.id FROM Demanda d WHERE d.categoria LIKE 'PAGAMENTO' AND d.pet.id IS NOT NULL AND d.status LIKE 'CONCLUIDO' AND d.usuario.id = ?1 AND DATEDIFF('DAY', d.dataFechamento, NOW()) <= 30)")
-    public List<PetPerfil> findPetByDemandaApadrinhamentoAndUsuario(int idUser);
+    @Query("SELECT new petfinder.petfinderapi.resposta.PetPerfil(p) FROM Pet p WHERE p.id IN (SELECT DISTINCT d.pet.id FROM Demanda d WHERE d.categoria LIKE 'PAGAMENTO' AND d.pet.id IS NOT NULL AND d.status LIKE 'CONCLUIDO' AND d.usuario.id = ?1 AND d.dataFechamento >= ?2)")
+    public List<PetPerfil> findPetByDemandaApadrinhamentoAndUsuario(int idUser, Date date);
 
 
 }
