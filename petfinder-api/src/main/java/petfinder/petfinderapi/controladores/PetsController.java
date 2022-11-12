@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import petfinder.petfinderapi.controladores.util.HeaderConfig;
 import petfinder.petfinderapi.entidades.*;
 import petfinder.petfinderapi.repositorios.*;
+import petfinder.petfinderapi.requisicao.DtoFilterRequest;
 import petfinder.petfinderapi.resposta.Message;
 import petfinder.petfinderapi.resposta.PetPerfil;
 import petfinder.petfinderapi.resposta.PetPerfilEdicao;
