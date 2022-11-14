@@ -260,11 +260,21 @@ function DashboardAdmin() {
                                         Mês
                                     </button>
                                 </div>
-                                <div className="dashboard-admin-metricas-grafico-container">                            
+                                <div className="dashboard-admin-metricas-grafico-container">     
+                                {console.log(valorDataPadrinho)}                       
                                     <Chart
                                         id="chart-padrinho"
                                         chartType="Bar"
-                                        data={valorDataPadrinho}
+                                        data={[
+                                            ["Dia", "Adoção", "Pagamento"],
+                                            [10, 20, 21],
+                                            [11, 19, 15],
+                                            [12, 21, 9],
+                                            [13, 26, 15],
+                                            [14, 24, 18],
+                                            [15, 22, 14],
+                                            [16, 18, 21],
+                                        ]}
                                         width="100%"
                                         height="100%"
                                         legendToggle
@@ -319,9 +329,19 @@ function DashboardAdmin() {
                                 </div>
 
                                 <div className="dashboard-admin-metricas-grafico-container">
+                                    {console.log(valorDataDemanda)}
                                     <Chart
                                         chartType="Bar"
-                                        data={valorDataDemanda}
+                                        data={[
+                                            ["Mês", "Adoção", "Pagamento"],
+                                            ["06", 7, 10],
+                                            ["06", 8, 9],
+                                            ["06", 7, 11],
+                                            ["06", 6, 12],
+                                            ["06", 7, 10],
+                                            ["06", 8, 12],
+                                            ["06", 7, 11],
+                                        ]}
                                         width="100%"
                                         height="100%"
                                         legendToggle
@@ -377,11 +397,20 @@ function DashboardAdmin() {
                                         Mês
                                     </button>
                                 </div>
-                                <div className="dashboard-admin-metricas-grafico-container">                            
+                                <div className="dashboard-admin-metricas-grafico-container">     
                                     <Chart
                                         id="chart-premio"
                                         chartType="Bar"
-                                        data={valorDataPremio}
+                                        data={[
+                                            ["Dia", "Premios"],
+                                            [10, 20],
+                                            [11, 13],
+                                            [12, 16],
+                                            [13, 12],
+                                            [14, 15],
+                                            [15, 14],
+                                            [16, 19],
+                                        ]}
                                         width="100%"
                                         height="100%"
                                         legendToggle
