@@ -7,7 +7,7 @@ import petfinder.petfinderapi.repositorios.DemandaRepositorio;
 import petfinder.petfinderapi.repositorios.InstituicaoRepositorio;
 import petfinder.petfinderapi.repositorios.PetRepositorio;
 import petfinder.petfinderapi.repositorios.UsuarioRepositorio;
-import petfinder.petfinderapi.resposta.DashboardSysadmBI;
+import petfinder.petfinderapi.resposta.dashboard.DashboardSysadmBI;
 import petfinder.petfinderapi.service.exceptions.EntityNotFoundException;
 
 import java.util.Optional;

@@ -7,14 +7,15 @@ USE petfinder;
 -- padrinhos
 
 CREATE OR REPLACE VIEW view_padrinhos AS
-(SELECT count(id) as qtd_padrinhos, data_fechamento as data FROM demanda
+(SELECT instituicao_id, count(id) as qtd_padrinhos, data_fechamento as data FROM demanda
 WHERE status = 'pgto_realizado_inst' OR status = 'concluido' 
-GROUP BY data_fechamento) ORDER BY data DESC;
+GROUP BY instituicao_id, data_fechamento) ORDER BY data DESC;
 
 CREATE OR REPLACE VIEW view_padrinhos_ultimos_7_dias AS
-(select sum(qtd_padrinhos) as qtd_padrinhos, data from view_padrinhos 
+(select instituicao_id, sum(qtd_padrinhos) as qtd_padrinhos, data from view_padrinhos 
 WHERE data BETWEEN (SELECT DATE_SUB(CURRENT_DATE, INTERVAL 6 DAY)) AND CURRENT_DATE
-GROUP BY data) ORDER BY data DESC;
+GROUP BY instituicao_id, data) 
+ORDER BY data DESC;
 
 CREATE OR REPLACE VIEW view_padrinhos_ultimos_6_meses AS
 select sum(qtd_padrinhos) as qtd_padrinhos, YEAR(data) as ano, MONTH(data) as mes FROM view_padrinhos 

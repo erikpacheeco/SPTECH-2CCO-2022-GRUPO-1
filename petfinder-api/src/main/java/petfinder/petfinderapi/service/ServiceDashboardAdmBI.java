@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import petfinder.petfinderapi.entidades.Usuario;
 import petfinder.petfinderapi.repositorios.*;
-import petfinder.petfinderapi.resposta.DashboardAdmBI;
+import petfinder.petfinderapi.resposta.dashboard.DtoAdminResponse;
 import petfinder.petfinderapi.service.exceptions.EntityNotFoundException;
 
 import java.util.Optional;
@@ -24,7 +24,7 @@ public class ServiceDashboardAdmBI {
     @Autowired
     private PremioRepositorio premioRepositorio;
 
-    public DashboardAdmBI getDashboardAdminBI(int idUsuario){
+    public DtoAdminResponse getDashboardAdminBI(int idUsuario){
 
         Optional<Usuario> usuario = usuarioRepositorio.findById(idUsuario);
 
@@ -40,7 +40,7 @@ public class ServiceDashboardAdmBI {
         Integer qtdPetSemPremioInstiuicao = petRepositorio.findAllPetInstituicao(usuario.get().getInstituicao().getId()) -
                 premioRepositorio.countPetSemPremioInstituicao(usuario.get().getInstituicao().getId());
 
-        return new DashboardAdmBI(qtdPadrinhoInstituicao, qtdResgatePendenteInstituicao, qtdPetAdotado,
+        return new DtoAdminResponse(qtdPadrinhoInstituicao, qtdResgatePendenteInstituicao, qtdPetAdotado,
                 qtdPremioPorPetInstituicao, qtdPetSemPremioInstiuicao);
 
     }

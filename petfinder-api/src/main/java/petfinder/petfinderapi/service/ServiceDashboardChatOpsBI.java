@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import petfinder.petfinderapi.entidades.Usuario;
 import petfinder.petfinderapi.repositorios.DemandaRepositorio;
 import petfinder.petfinderapi.repositorios.UsuarioRepositorio;
-import petfinder.petfinderapi.resposta.DashboardChatOpsBI;
+import petfinder.petfinderapi.resposta.dashboard.DashboardChatOpsBI;
 import petfinder.petfinderapi.service.exceptions.EntityNotFoundException;
 
 import java.util.Optional;

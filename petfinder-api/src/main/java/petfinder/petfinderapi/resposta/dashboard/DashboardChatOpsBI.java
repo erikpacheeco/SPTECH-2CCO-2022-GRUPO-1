@@ -1,4 +1,4 @@
-package petfinder.petfinderapi.resposta;
+package petfinder.petfinderapi.resposta.dashboard;
 
 public class DashboardChatOpsBI {
 
