@@ -187,6 +187,15 @@ CREATE TABLE clientes (
   usuario_id INT NOT NULL,
   tipo VARCHAR(45) NOT NULL,
   data_cliente DATE
-)
+);
 
 
+-- -----------------------------------------------------
+-- Table locais_petfrindly
+-- -----------------------------------------------------
+CREATE TABLE locais_petfrindly (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  nome VARCHAR(45),
+  endereco VARCHAR(100) NOT NULL,
+  cep CHAR(9)
+);

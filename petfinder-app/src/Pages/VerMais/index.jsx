@@ -16,6 +16,14 @@ export default function VerMais() {
   const [distinctPets, setAllDistinctPets] = useState([]);
 
   const [allPets, setAllPets] = useState([]);
+  const [itensPerPage, setItensPerPage] = useState(15);
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const pages = Math.ceil(allPets.length / itensPerPage);
+  const startIndex = currentPage * itensPerPage;
+  const endIndex = startIndex + itensPerPage;
+  const currentPets = allPets.slice(startIndex, endIndex);
+
   // const [sickPets, setSickPets] = useState([]);
 
   useEffect(() => {
@@ -38,7 +46,8 @@ export default function VerMais() {
 
   return (
     <>
-      <HeaderApp/>
+
+      <HeaderApp />
       <div class="ver-mais-container-geral">
         <h1 className="ver-mais-h1-titulo">Todos os Pet´s</h1>
         <div className="ver-mais-container-conteudo">
@@ -70,13 +79,13 @@ export default function VerMais() {
                 ))}
               </div>
             </div>
-            
+
 
           </div>
 
           <div className="ver-mais-fotos-container">
             <div className="ver-mais-fotos-container-sub">
-              {allPets.map((p) => (
+              {currentPets.map((p) => (
                 <CardPet
                   id={p.id}
                   nome={p.nome}
@@ -85,6 +94,11 @@ export default function VerMais() {
                   onClick={() => navigate(`/perfil-pet-usuario/${p.id}`)}
                 />
               ))}
+            </div>
+            <div className="ver-mais-container-botao-paginacao">
+              {Array.from(Array(pages), (allPets, index) => {
+                return <button className="lista-pet-botao-paginacao" value={index} onClick={(e) => setCurrentPage(Number(e.target.value))}>{index + 1}</button>
+              })}
             </div>
           </div>
         </div>
