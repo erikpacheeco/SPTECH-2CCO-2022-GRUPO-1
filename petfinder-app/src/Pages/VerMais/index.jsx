@@ -6,6 +6,10 @@ import api from "../../Api";
 import CardPet from "../../Components/CardPet";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from 'react';
+import Slider from 'react-slick';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { GoChevronLeft, GoChevronRight } from "react-icons/go"
 
 export default function VerMais() {
   const [instituicao, setInstituicao] = useState([]);
@@ -16,7 +20,7 @@ export default function VerMais() {
   const [distinctPets, setAllDistinctPets] = useState([]);
 
   const [allPets, setAllPets] = useState([]);
-  const [itensPerPage, setItensPerPage] = useState(15);
+  const [itensPerPage, setItensPerPage] = useState(30);
   const [currentPage, setCurrentPage] = useState(0);
 
   const pages = Math.ceil(allPets.length / itensPerPage);
@@ -24,7 +28,13 @@ export default function VerMais() {
   const endIndex = startIndex + itensPerPage;
   const currentPets = allPets.slice(startIndex, endIndex);
 
-  // const [sickPets, setSickPets] = useState([]);
+  const settings = {
+    slidesToShow: 5,
+    slidesToScroll: 1,
+    nextArrow: <GoChevronRight color="#7F2AB5" />,
+    prevArrow: <GoChevronLeft color="#7F2AB5" />,
+    infinite: false
+  }
 
   useEffect(() => {
     api.get("/instituicoes").then((res) => {
@@ -36,9 +46,6 @@ export default function VerMais() {
     api.get("/pets").then((res) => {
       setAllPets(res.data);
     });
-    // api.get(`/pets/doentes/${8}`).then((res) => {
-    //   setSickPets(res.data);
-    // });
     api.get("/pets/distinct").then((res) => {
       setAllDistinctPets(res.data);
     });
@@ -79,8 +86,6 @@ export default function VerMais() {
                 ))}
               </div>
             </div>
-
-
           </div>
 
           <div className="ver-mais-fotos-container">
@@ -96,9 +101,13 @@ export default function VerMais() {
               ))}
             </div>
             <div className="ver-mais-container-botao-paginacao">
-              {Array.from(Array(pages), (allPets, index) => {
-                return <button className="lista-pet-botao-paginacao" value={index} onClick={(e) => setCurrentPage(Number(e.target.value))}>{index + 1}</button>
-              })}
+              <Slider {...settings}>
+                {
+                  Array.from(Array(pages), (allPets, index) => {
+                    return <button className="ver-mais-botao-paginacao" value={index} onClick={(e) => setCurrentPage(Number(e.target.value))}>{index + 1}</button>
+                  })
+                }
+              </Slider>
             </div>
           </div>
         </div>

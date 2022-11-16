@@ -15,17 +15,6 @@ import {GoChevronLeft, GoChevronRight} from "react-icons/go"
 
 export default function HomeUser() {
 
-    // function Arrow(props) {
-    //     let className = props.type == "next" ? "nextArrow" : "prevArrow";
-    //     className += " arrow";
-    //     const char = props.type == "next" ? right_arrow : left_arrow;
-    //     return (
-    //         <span className={className} onClick={props.onClick}>
-    //             <img src={char}/>
-    //         </span>
-    //     );
-    // }
-
     const settings = {
         slidesToShow: 5,
         slidesToScroll: 1,
@@ -39,7 +28,7 @@ export default function HomeUser() {
     const navigate = useNavigate()
 
     useEffect(() => {
-        api.get("/pets/qtd/18").then((res) => {
+        api.get(`/pets/userPreferences/${JSON.parse(localStorage.getItem("petfinder_user")).id}/${20}`).then((res) => {
             setAllPets(res.data);
         })
         api.get(`/pets/doentes/${8}`).then((res) => {
