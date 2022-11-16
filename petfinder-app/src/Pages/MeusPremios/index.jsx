@@ -18,7 +18,7 @@ export default function meusPremios() {
         setInstituicao(res.data);
       });
     api.get(`/pets/apadrinhamentos/usuario/${infoUsuario.id}`).then((res) => {
-      setAllPets(res.data);
+      if(res.status === 200) setAllPets(res.data);
     });
     api.get(`/demandas/premios/get/${infoUsuario.id}`).then((res) => {
       setAllPremios(res.data);
@@ -27,7 +27,7 @@ export default function meusPremios() {
 
   return (
     <>
-      <HeaderApp />
+      <HeaderApp/>
 
       <div class="premios-container-geral">
         <h1 className="premios-h1-titulo">Meus Prêmios</h1>
@@ -48,20 +48,19 @@ export default function meusPremios() {
 
               <h2 className="premios-h2-filtros-titulos">Pets</h2>
               <div className="premios-container-filtro-backend">
-              {allPets.map((p) => (
-                <p className="ver-mais-p-filtro">{p.nome}</p>
-              ))}
+                {allPets.map((p) => (
+                  <p className="ver-mais-p-filtro">{p.nome}</p>
+                ))}
               </div>
             </div>
-            
           </div>
 
           <div className="premios-fotos-container">
             <div className="premios-fotos-container-sub" >
-            {allPremios.map(p => (
-              <CardPetSimplesPremios srcImg={p.img} />
-            ))}
-          </div>
+              {allPremios.map(p => (
+                <CardPetSimplesPremios srcImg={p.img} />
+              ))}
+            </div>
           </div>
         </div>
       </div>

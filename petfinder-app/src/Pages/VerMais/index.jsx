@@ -6,6 +6,11 @@ import api from "../../Api";
 import CardPet from "../../Components/CardPet";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from 'react';
+import Slider from 'react-slick';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { GoChevronLeft, GoChevronRight } from "react-icons/go"
+import FilterButton from "../../Components/FilterButton";
 
 export default function VerMais() {
   const [instituicao, setInstituicao] = useState([]);
@@ -16,7 +21,7 @@ export default function VerMais() {
   const [distinctPets, setAllDistinctPets] = useState([]);
 
   const [allPets, setAllPets] = useState([]);
-  const [itensPerPage, setItensPerPage] = useState(15);
+  const [itensPerPage, setItensPerPage] = useState(30);
   const [currentPage, setCurrentPage] = useState(0);
 
   const pages = Math.ceil(allPets.length / itensPerPage);
@@ -24,63 +29,72 @@ export default function VerMais() {
   const endIndex = startIndex + itensPerPage;
   const currentPets = allPets.slice(startIndex, endIndex);
 
-  // const [sickPets, setSickPets] = useState([]);
+  const settings = {
+    slidesToShow: 5,
+    slidesToScroll: 1,
+    nextArrow: <GoChevronRight color="#7F2AB5" />,
+    prevArrow: <GoChevronLeft color="#7F2AB5" />,
+    infinite: false
+  }
 
   useEffect(() => {
-    api.get("/instituicoes").then((res) => {
-      setInstituicao(res.data);
-    });
     api.get("/pets/caracteristicas").then((res) => {
       setCaracteristicas(res.data);
     });
-    api.get("/pets").then((res) => {
+    api.get(`/pets/userPreferences/${JSON.parse(localStorage.getItem("petfinder_user")).id}/${999}`).then((res) => {
       setAllPets(res.data);
     });
-    // api.get(`/pets/doentes/${8}`).then((res) => {
-    //   setSickPets(res.data);
-    // });
     api.get("/pets/distinct").then((res) => {
       setAllDistinctPets(res.data);
     });
   }, []);
 
+  function clearAllFilters(){
+    let allFiltersSelected = document.querySelectorAll(".btn-filtro-input")
+    for (let i = 0; i < allFiltersSelected.length; i++) {
+      const element = allFiltersSelected[i];
+      element.checked = false;
+      let button = document.getElementById("btn-" + element.id)
+      let img = document.getElementById("img-" + element.id)
+      button.classList.remove("btn-filtro-checkbox-active")
+      button.classList.add("btn-filtro-checkbox");
+      img.classList.add("btn-filtro-hide")
+    }
+
+  }
+
   return (
     <>
 
       <HeaderApp />
-      <div class="ver-mais-container-geral">
+      <div className="ver-mais-container-geral">
         <h1 className="ver-mais-h1-titulo">Todos os Pet´s</h1>
         <div className="ver-mais-container-conteudo">
           <div className="ver-mais-container-filtros">
             <div className="ver-mais-container-filtros-titulo">
               <h2 className="ver-mais-h2-filtros">Filtros</h2>
-              <img src={img} alt="ver-mais-icone-de-filtro"></img>
+              <img src={img} alt="ver-mais-icone-de-filtro" onClick={clearAllFilters}/>
             </div>
             <div className="ver-mais-filtros">
-              <h2 className="ver-mais-h2-filtros-titulos">Instituições</h2>
 
+              <h2 className="ver-mais-h2-filtros-titulos">Espécie</h2>
               <div className="ver-mais-container-filtro-backend">
-                {instituicao.map((i) => (
-                  <p className="ver-mais-p-filtro">{i.nome}</p>
+                {distinctPets.map((p, index) => (
+                  <div className="ver-mais-botao-filtro">
+                    <FilterButton id={index} value={p} label={p} />
+                  </div>
                 ))}
-              </div>
 
-              <h2 className="ver-mais-h2-filtros-titulos">Pets</h2>
-              <div className="ver-mais-container-filtro-backend">
-                {distinctPets.map((p) => (
-                  <p className="ver-mais-p-filtro">{p}</p>
-                ))}
               </div>
-
               <h2 className="ver-mais-h2-filtros-titulos">Características</h2>
               <div className="ver-mais-container-filtro-backend">
-                {caracteristicas.map((c) => (
-                  <p className="ver-mais-p-filtro">{c.caracteristica}</p>
+                {caracteristicas.map((c, index) => (
+                  <div className="ver-mais-botao-filtro">
+                    <FilterButton id={index} value={c.caracteristica} label={c.caracteristica} />
+                  </div>
                 ))}
               </div>
             </div>
-
-
           </div>
 
           <div className="ver-mais-fotos-container">
@@ -96,9 +110,13 @@ export default function VerMais() {
               ))}
             </div>
             <div className="ver-mais-container-botao-paginacao">
-              {Array.from(Array(pages), (allPets, index) => {
-                return <button className="lista-pet-botao-paginacao" value={index} onClick={(e) => setCurrentPage(Number(e.target.value))}>{index + 1}</button>
-              })}
+              <Slider {...settings}>
+                {
+                  Array.from(Array(pages), (allPets, index) => {
+                    return <button className="ver-mais-botao-paginacao" value={index} onClick={(e) => setCurrentPage(Number(e.target.value))}>{index + 1}</button>
+                  })
+                }
+              </Slider>
             </div>
           </div>
         </div>

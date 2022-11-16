@@ -14,6 +14,7 @@
 .ver-mais-container-conteudo{
     display: flex;
     border-radius: 10px;
+    height: 75vh;
 }
 
 .ver-mais-container-filtros{
@@ -21,7 +22,6 @@
     background-color: #7F2AB5;
     border-radius: 10px 0 0 10px;
     padding: 2% 0 1% 1%;
-    height: 64vh;
 }
 
 .ver-mais-container-filtros-titulo{
@@ -60,7 +60,10 @@
 }
 
 .ver-mais-fotos-container {
-    padding: 2% 0 1% 1%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
     width: 100%;
     background: linear-gradient(90deg, #7F2AB5 0%, #AF71D6 35%, #9449C3 100%);
     border-radius: 0 10px 10px 0;
@@ -75,7 +78,7 @@
 }
 
 .ver-mais-fotos-container-sub{
-    height: 60vh;
+    height: 85%;
     width: 100%;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
@@ -109,20 +112,29 @@
     border: 3px solid rgba(218, 218, 218);
 }
 
-.lista-pet-botao-paginacao {
+.ver-mais-botao-paginacao {
     padding: 3px;
     background-color: transparent;
+    border: 1px #9449C3;
+    border-style: none none solid none;
     color: white;
-    border: 1px solid white;
-    margin-right: 5px;
-    margin-left: 5px;
-    margin-top: 5px;
+    margin: 0px 5px 0px 5px;
     cursor: pointer;
-    border-radius: 10px;
+    width: 30% !important;
+    text-align: center;
+}
+
+.ver-mais-botao-paginacao:hover{
+    border: 2px #7e29b4;
+    border-style: none none solid none;
 }
 
 .ver-mais-container-botao-paginacao {
+    width: 20%;
+    height: 5%;
+}
+
+.ver-mais-botao-filtro{
     display: flex;
-    text-align: center;
-    justify-content: center;
+    align-items: center;
 }

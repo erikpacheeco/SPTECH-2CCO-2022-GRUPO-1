@@ -1,0 +1,39 @@
+.btn-filtro-checkbox{
+    width: 18px;
+    height: 18px;
+    margin: 5px;
+    background-color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.btn-filtro-checkbox:hover{
+    background-color: lightgray;
+}
+
+.btn-filtro-checkbox-active{
+    width: 18px;
+    height: 18px;
+    margin: 5px;
+    background-color: #B4F12C;
+    border: none;
+    border-radius: 5px;
+}
+
+.btn-filtro-checkbox-active:hover{
+    background-color: #9ed428;
+}
+
+.btn-filtro-label{
+    color: white;
+}
+
+.btn-filtro-hide{
+    display: none;
+}
+
+.btn-filtro-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
