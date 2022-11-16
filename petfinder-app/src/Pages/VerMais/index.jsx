@@ -37,13 +37,10 @@ export default function VerMais() {
   }
 
   useEffect(() => {
-    api.get("/instituicoes").then((res) => {
-      setInstituicao(res.data);
-    });
     api.get("/pets/caracteristicas").then((res) => {
       setCaracteristicas(res.data);
     });
-    api.get("/pets").then((res) => {
+    api.get(`/pets/userPreferences/${JSON.parse(localStorage.getItem("petfinder_user")).id}/${999}`).then((res) => {
       setAllPets(res.data);
     });
     api.get("/pets/distinct").then((res) => {
@@ -55,7 +52,7 @@ export default function VerMais() {
     <>
 
       <HeaderApp />
-      <div class="ver-mais-container-geral">
+      <div className="ver-mais-container-geral">
         <h1 className="ver-mais-h1-titulo">Todos os Pet´s</h1>
         <div className="ver-mais-container-conteudo">
           <div className="ver-mais-container-filtros">
@@ -64,15 +61,15 @@ export default function VerMais() {
               <img src={img} alt="ver-mais-icone-de-filtro"></img>
             </div>
             <div className="ver-mais-filtros">
-              <h2 className="ver-mais-h2-filtros-titulos">Instituições</h2>
+              {/* <h2 className="ver-mais-h2-filtros-titulos">Instituições</h2>
 
               <div className="ver-mais-container-filtro-backend">
                 {instituicao.map((i) => (
                   <p className="ver-mais-p-filtro">{i.nome}</p>
                 ))}
-              </div>
+              </div> */}
 
-              <h2 className="ver-mais-h2-filtros-titulos">Pets</h2>
+              <h2 className="ver-mais-h2-filtros-titulos">Espécie</h2>
               <div className="ver-mais-container-filtro-backend">
                 {distinctPets.map((p) => (
                   <p className="ver-mais-p-filtro">{p}</p>
