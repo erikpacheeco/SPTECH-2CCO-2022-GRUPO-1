@@ -133,3 +133,8 @@
     width: 20%;
     height: 5%;
 }
+
+.ver-mais-botao-filtro{
+    display: flex;
+    align-items: center;
+}

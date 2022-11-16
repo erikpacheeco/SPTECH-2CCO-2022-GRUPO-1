@@ -10,6 +10,7 @@ import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { GoChevronLeft, GoChevronRight } from "react-icons/go"
+import FilterButton from "../../Components/FilterButton";
 
 export default function VerMais() {
   const [instituicao, setInstituicao] = useState([]);
@@ -48,6 +49,20 @@ export default function VerMais() {
     });
   }, []);
 
+  function clearAllFilters(){
+    let allFiltersSelected = document.querySelectorAll(".btn-filtro-input")
+    for (let i = 0; i < allFiltersSelected.length; i++) {
+      const element = allFiltersSelected[i];
+      element.checked = false;
+      let button = document.getElementById("btn-" + element.id)
+      let img = document.getElementById("img-" + element.id)
+      button.classList.remove("btn-filtro-checkbox-active")
+      button.classList.add("btn-filtro-checkbox");
+      img.classList.add("btn-filtro-hide")
+    }
+
+  }
+
   return (
     <>
 
@@ -58,28 +73,25 @@ export default function VerMais() {
           <div className="ver-mais-container-filtros">
             <div className="ver-mais-container-filtros-titulo">
               <h2 className="ver-mais-h2-filtros">Filtros</h2>
-              <img src={img} alt="ver-mais-icone-de-filtro"></img>
+              <img src={img} alt="ver-mais-icone-de-filtro" onClick={clearAllFilters}/>
             </div>
             <div className="ver-mais-filtros">
-              {/* <h2 className="ver-mais-h2-filtros-titulos">Instituições</h2>
-
-              <div className="ver-mais-container-filtro-backend">
-                {instituicao.map((i) => (
-                  <p className="ver-mais-p-filtro">{i.nome}</p>
-                ))}
-              </div> */}
 
               <h2 className="ver-mais-h2-filtros-titulos">Espécie</h2>
               <div className="ver-mais-container-filtro-backend">
-                {distinctPets.map((p) => (
-                  <p className="ver-mais-p-filtro">{p}</p>
+                {distinctPets.map((p, index) => (
+                  <div className="ver-mais-botao-filtro">
+                    <FilterButton id={index} value={p} label={p} />
+                  </div>
                 ))}
-              </div>
 
+              </div>
               <h2 className="ver-mais-h2-filtros-titulos">Características</h2>
               <div className="ver-mais-container-filtro-backend">
-                {caracteristicas.map((c) => (
-                  <p className="ver-mais-p-filtro">{c.caracteristica}</p>
+                {caracteristicas.map((c, index) => (
+                  <div className="ver-mais-botao-filtro">
+                    <FilterButton id={index} value={c.caracteristica} label={c.caracteristica} />
+                  </div>
                 ))}
               </div>
             </div>
