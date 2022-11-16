@@ -13,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 import petfinder.petfinderapi.controladores.util.HeaderConfig;
 import petfinder.petfinderapi.entidades.*;
 import petfinder.petfinderapi.repositorios.*;
-import petfinder.petfinderapi.requisicao.DtoFilterRequest;
 import petfinder.petfinderapi.resposta.Message;
 import petfinder.petfinderapi.resposta.PetPerfil;
 import petfinder.petfinderapi.resposta.PetPerfilEdicao;
@@ -756,7 +755,10 @@ public class PetsController implements GerenciadorArquivos {
     @GetMapping("/userPreferences/{idUser}/{limit}")
     public ResponseEntity<List<PetPerfil>> getPetsWithUserPreferences(@PathVariable int idUser, @PathVariable int limit){
         List<PetPerfil> pets = repositoryPet.findByUserPreferences(idUser);
-        if(pets.size() < limit){
+        if(limit == 999){
+            pets.addAll(repositoryPet.findNotByUserPreferences(idUser));
+        }
+        else if(pets.size() < limit){
             pets.addAll(repositoryPet.findNotByUserPreferences(idUser).subList(0, limit-pets.size()));
         }
 
