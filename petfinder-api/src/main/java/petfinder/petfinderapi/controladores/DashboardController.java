@@ -1,6 +1,9 @@
 package petfinder.petfinderapi.controladores;
 
 import static org.springframework.http.ResponseEntity.*;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -10,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import petfinder.petfinderapi.entidades.dashboard.ViewPadrinhosUltimos6Meses;
+import petfinder.petfinderapi.repositorios.dashboard.ViewPadrinhosUltimos6MesesRepository;
 import petfinder.petfinderapi.resposta.dashboard.DtoAdminResponse;
 import petfinder.petfinderapi.service.dashboard.AdminService;
 
@@ -23,11 +28,14 @@ public class DashboardController {
     @Autowired
     private AdminService service;
 
+    @Autowired
+    private ViewPadrinhosUltimos6MesesRepository repo;
+
     // Endpoints
     @GetMapping("/test")
     @Operation(description = "")
-    public ResponseEntity<String> getTest(){
-        return ok("success");
+    public ResponseEntity<List<ViewPadrinhosUltimos6Meses>> getTest(){
+        return ok(repo.findAll());
     }
 
     // Endpoints

@@ -1,0 +1,19 @@
+.btn-dashboard {
+    background-color: white;
+    color: #7F2AB5;
+    cursor: pointer;
+    width: 110px;
+    height: 30px;
+    border-radius: 50px;
+    border: 1px solid #7F2AB5;
+    font-size: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+}
+
+.btn-dashboard:hover, .btn-dashboard-active {
+    background-color: #7F2AB5;
+    color: white;
+}

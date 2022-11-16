@@ -18,9 +18,9 @@ GROUP BY instituicao_id, data)
 ORDER BY data DESC;
 
 CREATE OR REPLACE VIEW view_padrinhos_ultimos_6_meses AS
-select sum(qtd_padrinhos) as qtd_padrinhos, YEAR(data) as ano, MONTH(data) as mes FROM view_padrinhos 
+select instituicao_id, sum(qtd_padrinhos) as qtd_padrinhos, YEAR(data) as ano, MONTH(data) as mes FROM view_padrinhos 
 WHERE data BETWEEN (SELECT DATE_SUB(CURRENT_DATE(), INTERVAL 5 MONTH)) AND CURRENT_DATE()
-GROUP BY ano, mes ORDER BY ano, mes DESC;
+GROUP BY instituicao_id, ano, mes ORDER BY ano, mes DESC;
 
 -- premios
 

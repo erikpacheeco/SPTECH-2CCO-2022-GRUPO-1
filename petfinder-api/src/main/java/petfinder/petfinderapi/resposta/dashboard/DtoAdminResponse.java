@@ -1,5 +1,6 @@
 package petfinder.petfinderapi.resposta.dashboard;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DtoAdminResponse {
@@ -9,12 +10,12 @@ public class DtoAdminResponse {
     private Integer petsAdotados;
     private Integer premiosPorPet;
     private Integer petsSemPremio;
-    private DtoChart chartPadrinhosPorSemana;
-    private DtoChart chartPadrinhosPorMes;
-    private DtoChart chartCategoriasPorSemana;
-    private DtoChart chartCategoriasPorMes;
-    private DtoChart chartPremiosAdicionadosPorSemana;
-    private DtoChart chartPremiosAdicionadosPorMes;
+    private List<List<String>> chartPadrinhosPorSemana;
+    private List<List<String>> chartPadrinhosPorMes;
+    private List<List<String>> chartCategoriasPorSemana;
+    private List<List<String>> chartCategoriasPorMes;
+    private List<List<String>> chartPremiosAdicionadosPorSemana;
+    private List<List<String>> chartPremiosAdicionadosPorMes;
 
     // constructor
     public DtoAdminResponse() {
@@ -22,12 +23,18 @@ public class DtoAdminResponse {
         this.petsAdotados = 0;
         this.premiosPorPet = 0;
         this.petsSemPremio = 0;
-        chartPadrinhosPorSemana = new DtoChart(List.of("Dia", "Adoção", "Pagamento"));
-        chartPadrinhosPorMes = new DtoChart(List.of("Mês", "Adoção", "Pagamento"));
-        chartCategoriasPorSemana = new DtoChart(List.of("Dia", "Adoção", "Pagamento"));
-        chartCategoriasPorMes = new DtoChart(List.of("Mês", "Adoção", "Pagamento"));
-        chartPremiosAdicionadosPorSemana = new DtoChart(List.of("Dia", "Prêmios"));
-        chartPremiosAdicionadosPorMes = new DtoChart(List.of("Mês", "Prêmios"));
+        chartPadrinhosPorSemana = new ArrayList<List<String>>();
+        chartPadrinhosPorMes = new ArrayList<List<String>>();
+        chartCategoriasPorSemana = new ArrayList<List<String>>();
+        chartCategoriasPorMes = new ArrayList<List<String>>();
+        chartPremiosAdicionadosPorSemana = new ArrayList<List<String>>();
+        chartPremiosAdicionadosPorMes = new ArrayList<List<String>>();
+        chartPadrinhosPorSemana.add(List.of("Dia", "Padrinhos"));
+        chartPadrinhosPorMes.add(List.of("Mês", "Padrinhos"));
+        chartCategoriasPorSemana.add(List.of("Dia", "Adoção", "Pagamento"));
+        chartCategoriasPorMes.add(List.of("Mês", "Adoção", "Pagamento"));
+        chartPremiosAdicionadosPorSemana.add(List.of("Dia", "Prêmios"));
+        chartPremiosAdicionadosPorMes.add(List.of("Mês", "Prêmios")); 
     }
 
     // ====================================
@@ -46,8 +53,8 @@ public class DtoAdminResponse {
     public Integer getPetsAdotados() {
         return petsAdotados;
     }
-    public void setPetsAdotados(Integer petAdotados) {
-        this.petsAdotados = petAdotados;
+    public void setPetsAdotados(Integer petsAdotados) {
+        this.petsAdotados = petsAdotados;
     }
     public Integer getPremiosPorPet() {
         return premiosPorPet;
@@ -61,40 +68,40 @@ public class DtoAdminResponse {
     public void setPetsSemPremio(Integer petsSemPremio) {
         this.petsSemPremio = petsSemPremio;
     }
-    public DtoChart getChartPadrinhosPorSemana() {
+    public List<List<String>> getChartPadrinhosPorSemana() {
         return chartPadrinhosPorSemana;
     }
-    public void setChartPadrinhosPorSemana(DtoChart chartPadrinhosPorSemana) {
+    public void setChartPadrinhosPorSemana(List<List<String>> chartPadrinhosPorSemana) {
         this.chartPadrinhosPorSemana = chartPadrinhosPorSemana;
     }
-    public DtoChart getChartPadrinhosPorMes() {
+    public List<List<String>> getChartPadrinhosPorMes() {
         return chartPadrinhosPorMes;
     }
-    public void setChartPadrinhosPorMes(DtoChart chartPadrinhosPorMes) {
+    public void setChartPadrinhosPorMes(List<List<String>> chartPadrinhosPorMes) {
         this.chartPadrinhosPorMes = chartPadrinhosPorMes;
     }
-    public DtoChart getChartCategoriasPorSemana() {
+    public List<List<String>> getChartCategoriasPorSemana() {
         return chartCategoriasPorSemana;
     }
-    public void setChartCategoriasPorSemana(DtoChart chartCategoriasPorSemana) {
+    public void setChartCategoriasPorSemana(List<List<String>> chartCategoriasPorSemana) {
         this.chartCategoriasPorSemana = chartCategoriasPorSemana;
     }
-    public DtoChart getChartCategoriasPorMes() {
+    public List<List<String>> getChartCategoriasPorMes() {
         return chartCategoriasPorMes;
     }
-    public void setChartCategoriasPorMes(DtoChart chartCategoriasPorMes) {
+    public void setChartCategoriasPorMes(List<List<String>> chartCategoriasPorMes) {
         this.chartCategoriasPorMes = chartCategoriasPorMes;
     }
-    public DtoChart getChartPremiosAdicionadosPorSemana() {
+    public List<List<String>> getChartPremiosAdicionadosPorSemana() {
         return chartPremiosAdicionadosPorSemana;
     }
-    public void setChartPremiosAdicionadosPorSemana(DtoChart chartPremiosAdicionadosPorSemana) {
+    public void setChartPremiosAdicionadosPorSemana(List<List<String>> chartPremiosAdicionadosPorSemana) {
         this.chartPremiosAdicionadosPorSemana = chartPremiosAdicionadosPorSemana;
     }
-    public DtoChart getChartPremiosAdicionadosPorMes() {
+    public List<List<String>> getChartPremiosAdicionadosPorMes() {
         return chartPremiosAdicionadosPorMes;
     }
-    public void setChartPremiosAdicionadosPorMes(DtoChart chartPremiosAdicionadosPorMes) {
+    public void setChartPremiosAdicionadosPorMes(List<List<String>> chartPremiosAdicionadosPorMes) {
         this.chartPremiosAdicionadosPorMes = chartPremiosAdicionadosPorMes;
-    }
+    }   
 }

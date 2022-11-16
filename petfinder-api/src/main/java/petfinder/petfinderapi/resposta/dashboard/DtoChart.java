@@ -6,30 +6,22 @@ import java.util.List;
 public class DtoChart {
 
     // attributes
-    private List<String> titles;
-    private List<List<Double>> values;
+    private List<List<String>> values;
 
     // constructor
     public DtoChart() {
-        this.titles = new ArrayList<String>();
-        this.values = new ArrayList<List<Double>>();
+        this.values = new ArrayList<List<String>>();
     }
     public DtoChart(List<String> titles) {
         this();
-        this.titles = titles;
+        values.add(titles);
     }
 
     // getters and setters
-    public List<String> getTitles() {
-        return titles;
-    }
-    public void setTitles(List<String> titles) {
-        this.titles = titles;
-    }
-    public List<List<Double>> getValues() {
+    public List<List<String>> getValues() {
         return values;
     }
-    public void setValues(List<List<Double>> values) {
+    public void setValues(List<List<String>> values) {
         this.values = values;
     }
 }
