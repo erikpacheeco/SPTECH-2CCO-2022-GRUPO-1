@@ -13,17 +13,18 @@ function DashboardAdmin() {
     const [pageValues, setPageValues] = useState({});
     const [qtdPadrinhos, setQtdPadrinhos] = useState(0);
     const [qtdPetsAdotados, setPetsAdotados] = useState(0);
-    const [chartPadrinhosPor, setChartPadrinhosPor] = useState([
-        ["Dia", "Padrinhos"],
-        [0, 0]
-    ]);
+    const [chartPadrinhosPor, setChartPadrinhosPor] = useState();
+    const [chartCategoriasPor, setChartCategoriasPor] = useState();
 
     // selected active
-    let [isPadrinhosSemana, setIsPadrinhosSemana] = useState(true);
+    const [isPadrinhosSemana, setIsPadrinhosSemana] = useState(true);
+    const [isCategoriasSemana, setIsCategoriasSemana] = useState(true);
 
     function toNumberAndInvert(values) {
         return [values[0], ...values.slice(1).reverse().map(value => {
-            return [value[0], Number(value[1])]
+            return [value[0], ...value.slice(1).map(numericValue => {
+                return Number(numericValue);
+            })]
         })];
     }
 
@@ -33,6 +34,8 @@ function DashboardAdmin() {
         .then((res) => {
             res.data.chartPadrinhosPorSemana = toNumberAndInvert(res.data.chartPadrinhosPorSemana);
             res.data.chartPadrinhosPorMes = toNumberAndInvert(res.data.chartPadrinhosPorMes);
+            res.data.chartCategoriasPorSemana = toNumberAndInvert(res.data.chartCategoriasPorSemana);
+            res.data.chartCategoriasPorMes = toNumberAndInvert(res.data.chartCategoriasPorMes);
             setPageValues(res.data);
         })
         .catch((err) => {
@@ -42,10 +45,10 @@ function DashboardAdmin() {
     }, []);
 
     useEffect(() => {
-        console.log(pageValues);
         setQtdPadrinhos(pageValues.padrinhos);
         setPetsAdotados(pageValues.petsAdotados);
         setChartPadrinhosPor(pageValues.chartPadrinhosPorSemana);
+        setChartCategoriasPor(pageValues.chartCategoriasPorSemana);
     }, [pageValues]);
 
     return (
@@ -93,6 +96,7 @@ function DashboardAdmin() {
                                         click={() => {
                                             if (!isPadrinhosSemana) {
                                                 setIsPadrinhosSemana(true);
+                                                setChartPadrinhosPor(pageValues.chartPadrinhosPorSemana);
                                             }
                                         }}
                                     />
@@ -103,13 +107,14 @@ function DashboardAdmin() {
                                         click={() => {
                                             if (isPadrinhosSemana) {
                                                 setIsPadrinhosSemana(false);
+                                                setChartPadrinhosPor(pageValues.chartPadrinhosPorMes);
                                             }
                                         }}
                                     />
 
                                 </div>
                                 <div className="dashboard-admin-metricas-grafico-container">     
-                                {console.log(chartPadrinhosPor)}                       
+                                {/* {console.log(chartPadrinhosPor)}                        */}
                                     <Chart
                                         id="chart-padrinho"
                                         chartType="Bar"
@@ -129,60 +134,37 @@ function DashboardAdmin() {
 
                                 <div className="dashboard-admin-metricas-grafico-botoes">
 
-                                    <button
-                                        type="button"
-                                        className="btn-semana-demanda"
-                                        id='btn-semana-demanda'
-                                        onClick={() => {
-                                            if(false){
-                                                let btnSemanaDemanda = document.getElementById("btn-semana-demanda");
-                                                btnSemanaDemanda.style.backgroundColor = "#7F2AB5";
-                                                btnSemanaDemanda.style.color = "white";
-
-                                                let btnMesDemanda = document.getElementById("btn-mes-demanda");
-                                                btnMesDemanda.style.backgroundColor = "white";
-                                                btnMesDemanda.style.color = "#7F2AB5";
+                                    <BtnDashboard 
+                                        value="Semana" 
+                                        active={isCategoriasSemana}
+                                        click={() => {
+                                            if(!isCategoriasSemana) {
+                                                setIsCategoriasSemana(true);
+                                                setChartCategoriasPor(pageValues.chartCategoriasPorSemana);
                                             }
-                                            // setValorDataDemanda(dataDemandaSemana);
                                         }}
-                                    >
-                                        Semana
-                                    </button>
+                                    />
 
-                                    <button
-                                        type="button"
-                                        className="btn-mes-demanda"
-                                        id='btn-mes-demanda'
-                                        onClick={() => {
-                                            if(false){
-                                                let btnSemanaDemanda = document.getElementById("btn-semana-demanda");
-                                                btnSemanaDemanda.style.backgroundColor = "white";
-                                                btnSemanaDemanda.style.color = "#7F2AB5";
-
-                                                let btnMesDemanda = document.getElementById("btn-mes-demanda");
-                                                btnMesDemanda.style.backgroundColor = "#7F2AB5";
-                                                btnMesDemanda.style.color = "white";
+                                    <BtnDashboard 
+                                        value="Mês" 
+                                        active={!isCategoriasSemana}
+                                        click={() => {
+                                            if(isCategoriasSemana) {
+                                                setIsCategoriasSemana(false);
+                                                setChartCategoriasPor(pageValues.chartCategoriasPorMes);
                                             }
-                                            // setValorDataDemanda(dataDemandaMes);
                                         }}
-                                    >
-                                        Mês
-                                    </button>
+                                    />
+
                                 </div>
 
                                 <div className="dashboard-admin-metricas-grafico-container">
                                     {/* {console.log(valorDataDemanda)} */}
                                     <Chart
                                         chartType="Bar"
-                                        data={[
-                                            ["Mês", "Adoção", "Pagamento"],
-                                            ["06", 7, 10],
-                                            ["06", 8, 9],
-                                            ["06", 7, 11],
-                                            ["06", 6, 12],
-                                            ["06", 7, 10],
-                                            ["06", 8, 12],
-                                            ["06", 7, 11],
+                                        data={chartCategoriasPor || [
+                                            ["Dia", "Adoção", "Pagamentos"],
+                                            ["01/11", 0, 0]
                                         ]}
                                         width="100%"
                                         height="100%"
