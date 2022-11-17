@@ -11,7 +11,7 @@ export default function CardPet(props) {
 
     return (
         <figure className="card-pet-img-pet" onClick={props.onClick} style={{backgroundImage: `url("${props.backgroundImage}")`}}>
-            <p style={{'text-transform': "Capitalize"}}>{props.nome}</p>
+            <p style={{'textTransform': "Capitalize"}}>{props.nome}</p>
             <img
                 className={
                     props.isDoente ? ("card-pet-info") : ("card-pet-hide")

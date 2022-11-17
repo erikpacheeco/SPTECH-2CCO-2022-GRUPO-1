@@ -8,7 +8,6 @@ export default function FilterButton(props) {
     FilterButton.defaultProps = {
         id: '',
         label: 'filter',
-        value: ''
     }
 
     function handleChangeCheckbox() {
@@ -26,6 +25,8 @@ export default function FilterButton(props) {
             img.classList.add("btn-filtro-hide")
             input.checked = false;
         }
+
+        props.onChange(input.checked)
     }
 
     return (

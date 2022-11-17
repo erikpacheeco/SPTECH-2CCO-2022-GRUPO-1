@@ -49,7 +49,7 @@ export default function VerMais() {
     });
   }, []);
 
-  function clearAllFilters(){
+  function clearAllFilters() {
     let allFiltersSelected = document.querySelectorAll(".btn-filtro-input")
     for (let i = 0; i < allFiltersSelected.length; i++) {
       const element = allFiltersSelected[i];
@@ -61,19 +61,33 @@ export default function VerMais() {
       img.classList.add("btn-filtro-hide")
     }
 
+    setFiltersCaracteristica([])
+    setFiltersEspecie([])
+
   }
+
+  const [filtersEspecie, setFiltersEspecie] = useState([])
+  const [filtersCaracteristica, setFiltersCaracteristica] = useState([])
+
+  const [allFiltersSelected, setFiltersSelected] = useState({
+    caracteristicas: [],
+    especies: []
+  })
 
   return (
     <>
 
       <HeaderApp />
+
+      <button onClick={()=>{console.log(allFiltersSelected)}}>asdas</button>
+
       <div className="ver-mais-container-geral">
         <h1 className="ver-mais-h1-titulo">Todos os Pet´s</h1>
         <div className="ver-mais-container-conteudo">
           <div className="ver-mais-container-filtros">
             <div className="ver-mais-container-filtros-titulo">
               <h2 className="ver-mais-h2-filtros">Filtros</h2>
-              <img src={img} alt="ver-mais-icone-de-filtro" onClick={clearAllFilters}/>
+              <img src={img} alt="ver-mais-icone-de-filtro" onClick={clearAllFilters} />
             </div>
             <div className="ver-mais-filtros">
 
@@ -81,7 +95,14 @@ export default function VerMais() {
               <div className="ver-mais-container-filtro-backend">
                 {distinctPets.map((p, index) => (
                   <div className="ver-mais-botao-filtro">
-                    <FilterButton id={index} value={p} label={p} />
+                    <FilterButton id={index} label={p} onChange={(inputState) => {
+                      if (inputState) {
+                        setFiltersEspecie([...filtersEspecie, p])
+                      } else {
+                        setFiltersEspecie(filtersEspecie.filter((e) => e !== p))
+                      }
+                      setFiltersSelected({caracteristicas: filtersCaracteristica, especies: filtersEspecie})
+                    }} />
                   </div>
                 ))}
 
@@ -90,7 +111,14 @@ export default function VerMais() {
               <div className="ver-mais-container-filtro-backend">
                 {caracteristicas.map((c, index) => (
                   <div className="ver-mais-botao-filtro">
-                    <FilterButton id={index} value={c.caracteristica} label={c.caracteristica} />
+                    <FilterButton id={index} label={c.caracteristica} onChange={(inputState) => {
+                      if (inputState) {
+                        setFiltersCaracteristica([...filtersCaracteristica, c.caracteristica])
+                      } else {
+                        setFiltersCaracteristica(filtersCaracteristica.filter((e) => e !== c.caracteristica))
+                      }
+                      setFiltersSelected({caracteristicas: filtersCaracteristica, especies: filtersEspecie})
+                    }} />
                   </div>
                 ))}
               </div>
