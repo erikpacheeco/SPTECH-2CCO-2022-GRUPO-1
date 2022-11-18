@@ -10,6 +10,7 @@ import petfinder.petfinderapi.entidades.dashboard.ViewDemandasUltimos6Meses;
 import petfinder.petfinderapi.entidades.dashboard.ViewDemandasUltimos7Dias;
 import petfinder.petfinderapi.entidades.dashboard.ViewPadrinhosUltimos6Meses;
 import petfinder.petfinderapi.entidades.dashboard.ViewPadrinhosUltimos7Dias;
+import petfinder.petfinderapi.entidades.dashboard.ViewPremiosMes;
 import petfinder.petfinderapi.entidades.dashboard.ViewPremiosUltimos7Dias;
 import petfinder.petfinderapi.repositorios.PetRepositorio;
 import petfinder.petfinderapi.repositorios.UsuarioRepositorio;
@@ -18,6 +19,7 @@ import petfinder.petfinderapi.repositorios.dashboard.ViewDemandasUltimos7DiasRep
 import petfinder.petfinderapi.repositorios.dashboard.ViewPadrinhosRepository;
 import petfinder.petfinderapi.repositorios.dashboard.ViewPadrinhosUltimos6MesesRepository;
 import petfinder.petfinderapi.repositorios.dashboard.ViewPadrinhosUltimos7DiasRepository;
+import petfinder.petfinderapi.repositorios.dashboard.ViewPremiosMesRepository;
 import petfinder.petfinderapi.repositorios.dashboard.ViewPremiosUltimos7DiasRepository;
 import petfinder.petfinderapi.resposta.dashboard.DtoAdminResponse;
 import petfinder.petfinderapi.service.exceptions.EntityNotFoundException;
@@ -48,10 +50,13 @@ public class AdminService {
     private ViewDemandasUltimos7DiasRepository viewDemandasUltimos7DiasRepo;
 
     @Autowired
-    private ViewDemandasUltimos6MesesRepository viewDemandasUltimos6Meses;
+    private ViewDemandasUltimos6MesesRepository viewDemandasUltimos6MesesRepo;
 
     @Autowired
-    private ViewPremiosUltimos7DiasRepository viewPremiosSem;
+    private ViewPremiosUltimos7DiasRepository viewPremiosSemRepo;
+
+    @Autowired
+    private ViewPremiosMesRepository viewPremiosMesRepo;
 
     // methods
     public DtoAdminResponse getAdminDashboard(int id) {
@@ -72,11 +77,12 @@ public class AdminService {
         // categorias de demanda
         List<ViewDemandasUltimos7Dias> chartCategoriasPagamentoSem = viewDemandasUltimos7DiasRepo.findPagamentosByInstituicaoId(usuario.getInstituicao().getId());
         List<ViewDemandasUltimos7Dias> chartCategoriasAdocoesSem = viewDemandasUltimos7DiasRepo.findAdocoesByInstituicaoId(usuario.getInstituicao().getId());
-        List<ViewDemandasUltimos6Meses> chartDemandasPagamentosMes = viewDemandasUltimos6Meses.findPagamentosByInstituicaoId(usuario.getInstituicao().getId());
-        List<ViewDemandasUltimos6Meses> chartDemandasAdocoesMes = viewDemandasUltimos6Meses.findAdocoesByInstituicaoId(usuario.getInstituicao().getId());
+        List<ViewDemandasUltimos6Meses> chartDemandasPagamentosMes = viewDemandasUltimos6MesesRepo.findPagamentosByInstituicaoId(usuario.getInstituicao().getId());
+        List<ViewDemandasUltimos6Meses> chartDemandasAdocoesMes = viewDemandasUltimos6MesesRepo.findAdocoesByInstituicaoId(usuario.getInstituicao().getId());
 
         // premios
-        List<ViewPremiosUltimos7Dias> chartPremiosSem = viewPremiosSem.findSemByInstituicaoId(usuario.getInstituicao().getId());
+        List<ViewPremiosUltimos7Dias> chartPremiosSem = viewPremiosSemRepo.findSemByInstituicaoId(usuario.getInstituicao().getId());
+        List<ViewPremiosMes> chartPremiosMes = viewPremiosMesRepo.findByInstituicaoId(usuario.getInstituicao().getId());
 
         // building
         DtoAdminResponse res = new DtoAdminResponse();
@@ -95,12 +101,14 @@ public class AdminService {
         for(Date date = new Date(); new Date().getMonth() - date.getMonth() < 6; date.setMonth(date.getMonth() - 1)) {
             res.getChartPadrinhosPorMes().add(findPadrinhoPorMesByDate(Conversor.dateToYearMonthString(date), chartPadrinhosMes));
             res.getChartCategoriasPorMes().add(findCategoriasPorMesByDate(Conversor.dateToYearMonthString(date), chartDemandasPagamentosMes, chartDemandasAdocoesMes));
+            res.getChartPremiosAdicionadosPorMes().add(findPremiosMes(Conversor.dateToYearMonthString(date), chartPremiosMes));
         }
 
         // 200 ok
         return res;
     }
 
+    // premios por semana
     public List<String> findPremiosSem(String actual, List<ViewPremiosUltimos7Dias> premios) {
         for(int i = 0; i < premios.size(); i++) {
             if(Conversor.dateToDayMonthString(premios.get(i).getData()).equals(actual)) {
@@ -176,6 +184,21 @@ public class AdminService {
                     List.of(
                         actual,
                         String.valueOf(v.getQtdPadrinhos())
+                    );
+            }
+        }
+
+        return List.of(actual, "0");
+    }
+
+    // premios por mes
+    private List<String> findPremiosMes(String actual, List<ViewPremiosMes> premios) {
+        for(ViewPremiosMes v : premios) {
+            if(v.getStringDate().equals(actual)) {
+                return 
+                    List.of(
+                        actual,
+                        String.valueOf(v.getQtdPremios())
                     );
             }
         }
