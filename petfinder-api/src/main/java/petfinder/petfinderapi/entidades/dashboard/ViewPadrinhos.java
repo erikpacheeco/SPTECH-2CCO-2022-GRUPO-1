@@ -4,10 +4,12 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import org.hibernate.annotations.Immutable;
+import petfinder.petfinderapi.service.dashboard.interfaces.DateHole;
+import petfinder.petfinderapi.utilitarios.Conversor;
 
 @Entity
 @Immutable
-public class ViewPadrinhos {
+public class ViewPadrinhos implements DateHole {
     
     // attributes
     private Integer instituicaoId;
@@ -17,6 +19,17 @@ public class ViewPadrinhos {
 
     // constructor
     public ViewPadrinhos() {}
+
+    // methods
+    @Override
+    public String getValue() {
+        return String.valueOf(qtdPadrinhos);
+    }
+
+    @Override
+    public String getStringDate() {
+        return Conversor.dateToDayMonthString(data);
+    }
 
     // getters and setters
     public Integer getQtdPadrinhos() {

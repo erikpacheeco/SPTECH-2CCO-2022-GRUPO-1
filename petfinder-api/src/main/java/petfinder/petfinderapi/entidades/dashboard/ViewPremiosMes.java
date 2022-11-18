@@ -8,38 +8,46 @@ import petfinder.petfinderapi.service.dashboard.interfaces.DateHole;
 
 @Entity
 @Immutable
-@Table(name = "view_padrinhos_ultimos_6_meses")
-public class ViewPadrinhosUltimos6Meses implements DateHole {
+@Table(name = "view_premios_ultimos_6_meses")
+public class ViewPremiosMes implements DateHole {
     
     // attributes
-    private Integer instituicaoId;
     @Id
-    private Integer qtdPadrinhos;
+    public String id;
+    private Integer instituicaoId;
+    private Integer qtdPremios;
     private Integer ano;
     private Integer mes;
 
     // methods
     @Override
     public String getStringDate() {
-        return String.valueOf(ano) + "/" + String.valueOf(mes);
+        return ano + "/" + mes;
     }
+
     @Override
     public String getValue() {
-        return String.valueOf(getQtdPadrinhos());
+        return String.valueOf(qtdPremios);
     }
 
     // getters and setters
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
+    }
     public Integer getInstituicaoId() {
         return instituicaoId;
     }
     public void setInstituicaoId(Integer instituicaoId) {
         this.instituicaoId = instituicaoId;
     }
-    public Integer getQtdPadrinhos() {
-        return qtdPadrinhos;
+    public Integer getQtdPremios() {
+        return qtdPremios;
     }
-    public void setQtdPadrinhos(Integer qtdPadrinhos) {
-        this.qtdPadrinhos = qtdPadrinhos;
+    public void setQtdPremios(Integer qtdPremios) {
+        this.qtdPremios = qtdPremios;
     }
     public Integer getAno() {
         return ano;
