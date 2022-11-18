@@ -22,6 +22,7 @@ import petfinder.petfinderapi.repositorios.dashboard.ViewPadrinhosUltimos7DiasRe
 import petfinder.petfinderapi.repositorios.dashboard.ViewPremiosMesRepository;
 import petfinder.petfinderapi.repositorios.dashboard.ViewPremiosUltimos7DiasRepository;
 import petfinder.petfinderapi.resposta.dashboard.DtoAdminResponse;
+import petfinder.petfinderapi.service.dashboard.interfaces.DateHole;
 import petfinder.petfinderapi.service.exceptions.EntityNotFoundException;
 import petfinder.petfinderapi.service.exceptions.InvalidFieldException;
 import petfinder.petfinderapi.utilitarios.Conversor;
@@ -71,18 +72,18 @@ public class AdminService {
         Integer petsAdotados = petRepo.findAllAdotadoInstituicao(usuario.getInstituicao().getId());
 
         // padrinhos
-        List<ViewPadrinhosUltimos7Dias> chartPadrinhosSem = viewPadrinhosUltimos7DiasRepo.findByInstituicaoId(usuario.getInstituicao().getId());
-        List<ViewPadrinhosUltimos6Meses> chartPadrinhosMes = viewPadrinhosUltimos6MesesRepo.findByInstituicaoId(usuario.getInstituicao().getId());
+        List<DateHole> chartPadrinhosSem = viewPadrinhosUltimos7DiasRepo.findByInstituicaoId(usuario.getInstituicao().getId());
+        List<DateHole> chartPadrinhosMes = viewPadrinhosUltimos6MesesRepo.findByInstituicaoId(usuario.getInstituicao().getId());
 
         // categorias de demanda
-        List<ViewDemandasUltimos7Dias> chartCategoriasPagamentoSem = viewDemandasUltimos7DiasRepo.findPagamentosByInstituicaoId(usuario.getInstituicao().getId());
-        List<ViewDemandasUltimos7Dias> chartCategoriasAdocoesSem = viewDemandasUltimos7DiasRepo.findAdocoesByInstituicaoId(usuario.getInstituicao().getId());
-        List<ViewDemandasUltimos6Meses> chartDemandasPagamentosMes = viewDemandasUltimos6MesesRepo.findPagamentosByInstituicaoId(usuario.getInstituicao().getId());
-        List<ViewDemandasUltimos6Meses> chartDemandasAdocoesMes = viewDemandasUltimos6MesesRepo.findAdocoesByInstituicaoId(usuario.getInstituicao().getId());
+        List<DateHole> chartCategoriasPagamentoSem = viewDemandasUltimos7DiasRepo.findPagamentosByInstituicaoId(usuario.getInstituicao().getId());
+        List<DateHole> chartCategoriasAdocoesSem = viewDemandasUltimos7DiasRepo.findAdocoesByInstituicaoId(usuario.getInstituicao().getId());
+        List<DateHole> chartDemandasPagamentosMes = viewDemandasUltimos6MesesRepo.findPagamentosByInstituicaoId(usuario.getInstituicao().getId());
+        List<DateHole> chartDemandasAdocoesMes = viewDemandasUltimos6MesesRepo.findAdocoesByInstituicaoId(usuario.getInstituicao().getId());
 
         // premios
-        List<ViewPremiosUltimos7Dias> chartPremiosSem = viewPremiosSemRepo.findSemByInstituicaoId(usuario.getInstituicao().getId());
-        List<ViewPremiosMes> chartPremiosMes = viewPremiosMesRepo.findByInstituicaoId(usuario.getInstituicao().getId());
+        List<DateHole> chartPremiosSem = viewPremiosSemRepo.findSemByInstituicaoId(usuario.getInstituicao().getId());
+        List<DateHole> chartPremiosMes = viewPremiosMesRepo.findByInstituicaoId(usuario.getInstituicao().getId());
 
         // building
         DtoAdminResponse res = new DtoAdminResponse();
@@ -92,20 +93,55 @@ public class AdminService {
         // building weekly charts
         for(Date date = new Date(); new Date().getDate() - date.getDate() < 7; date.setDate(date.getDate() - 1)) {
             String actual = Conversor.dateToDayMonthString(date);
-            res.getChartPadrinhosPorSemana().add(findPadrinhoPorSemByDate(actual, chartPadrinhosSem));
-            res.getChartCategoriasPorSemana().add(findCategoriaPorSemByDate(actual, chartCategoriasAdocoesSem, chartCategoriasPagamentoSem));
-            res.getChartPremiosAdicionadosPorSemana().add(findPremiosSem(actual, chartPremiosSem));
+            res.getChartPadrinhosPorSemana().add(addDateHole(actual, chartPadrinhosSem));
+            res.getChartCategoriasPorSemana().add(addDateHole(actual, chartCategoriasAdocoesSem, chartCategoriasPagamentoSem));
+            res.getChartPremiosAdicionadosPorSemana().add(addDateHole(actual, chartPremiosSem));
         }
 
         // building monthly charts
         for(Date date = new Date(); new Date().getMonth() - date.getMonth() < 6; date.setMonth(date.getMonth() - 1)) {
-            res.getChartPadrinhosPorMes().add(findPadrinhoPorMesByDate(Conversor.dateToYearMonthString(date), chartPadrinhosMes));
-            res.getChartCategoriasPorMes().add(findCategoriasPorMesByDate(Conversor.dateToYearMonthString(date), chartDemandasPagamentosMes, chartDemandasAdocoesMes));
-            res.getChartPremiosAdicionadosPorMes().add(findPremiosMes(Conversor.dateToYearMonthString(date), chartPremiosMes));
+            String actualDate = Conversor.dateToYearMonthString(date);
+            res.getChartPadrinhosPorMes().add(addDateHole(actualDate, chartPadrinhosMes));
+            res.getChartCategoriasPorMes().add(addDateHole(Conversor.dateToYearMonthString(date), chartDemandasPagamentosMes, chartDemandasAdocoesMes));
+            res.getChartPremiosAdicionadosPorMes().add(addDateHole(Conversor.dateToYearMonthString(date), chartPremiosMes));
         }
 
         // 200 ok
         return res;
+    }
+
+    // adding single value hole dates
+    public static List<String> addDateHole(String actualDate, List<DateHole> list) {
+        for(int i = 0; i < list.size(); i++) {
+            if(list.get(i).getStringDate().equals(actualDate)) {
+                return 
+                    List.of(
+                        actualDate,
+                        String.valueOf(list.remove(i).getValue())
+                    );
+            }
+        }
+
+        return List.of(actualDate, "0");
+    }
+
+    // adding double value void dates
+    public static List<String> addDateHole(String actualDate, List<DateHole> list1, List<DateHole> list2) {
+        List<String> values = new ArrayList<String>(List.of(actualDate, "0", "0"));
+
+        for(int i = 0; i < list1.size(); i++) {
+            if(list1.get(i).getStringDate().equals(actualDate)) {
+                values.set(1, String.valueOf(list1.remove(i).getValue()));
+            }
+        }
+
+        for(int i = 0; i < list2.size(); i++) {
+            if(list2.get(i).getStringDate().equals(actualDate)) {
+                values.set(2, String.valueOf(list2.remove(i).getValue()));
+            }
+        }
+
+        return values;
     }
 
     // premios por semana
@@ -159,36 +195,6 @@ public class AdminService {
         }
 
         return values;
-    }
-
-    // padrinho por semana
-    private List<String> findPadrinhoPorSemByDate(String actual, List<ViewPadrinhosUltimos7Dias> chart) {
-        for(int i = 0; i < chart.size(); i++) {
-            if(Conversor.dateToDayMonthString(chart.get(i).getData()).equals(actual)) {
-                return 
-                    List.of(
-                        actual,
-                        String.valueOf(chart.remove(i).getQtdPadrinhos())
-                    );
-            }
-        }
-
-        return List.of(actual, "0");
-    }
-
-    // padrinho por mes
-    private List<String> findPadrinhoPorMesByDate(String actual, List<ViewPadrinhosUltimos6Meses> chart) {
-        for(ViewPadrinhosUltimos6Meses v : chart) {
-            if(v.getStringDate().equals(actual)) {
-                return 
-                    List.of(
-                        actual,
-                        String.valueOf(v.getQtdPadrinhos())
-                    );
-            }
-        }
-
-        return List.of(actual, "0");
     }
 
     // premios por mes

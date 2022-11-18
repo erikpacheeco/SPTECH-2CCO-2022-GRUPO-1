@@ -4,11 +4,12 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import org.hibernate.annotations.Immutable;
+import petfinder.petfinderapi.service.dashboard.interfaces.DateHole;
 
 @Entity
 @Immutable
 @Table(name = "view_demandas_ultimos_6_meses")
-public class ViewDemandasUltimos6Meses {
+public class ViewDemandasUltimos6Meses implements DateHole {
     
     // attributes
     @Id
@@ -19,10 +20,18 @@ public class ViewDemandasUltimos6Meses {
     private Integer ano;
     private Integer mes;
 
-    // getters and setters
+    // methods
+    @Override
+    public String getValue() {
+        return String.valueOf(qtdDemandas);
+    }
+
+    @Override
     public String getStringDate() {
         return this.ano + "/" + this.mes;
     }
+    
+    // getters and setters
     public String getId() {
         return id;
     }
