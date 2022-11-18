@@ -10,6 +10,7 @@ import petfinder.petfinderapi.entidades.dashboard.ViewDemandasUltimos6Meses;
 import petfinder.petfinderapi.entidades.dashboard.ViewDemandasUltimos7Dias;
 import petfinder.petfinderapi.entidades.dashboard.ViewPadrinhosUltimos6Meses;
 import petfinder.petfinderapi.entidades.dashboard.ViewPadrinhosUltimos7Dias;
+import petfinder.petfinderapi.entidades.dashboard.ViewPremiosUltimos7Dias;
 import petfinder.petfinderapi.repositorios.PetRepositorio;
 import petfinder.petfinderapi.repositorios.UsuarioRepositorio;
 import petfinder.petfinderapi.repositorios.dashboard.ViewDemandasUltimos6MesesRepository;
@@ -17,6 +18,7 @@ import petfinder.petfinderapi.repositorios.dashboard.ViewDemandasUltimos7DiasRep
 import petfinder.petfinderapi.repositorios.dashboard.ViewPadrinhosRepository;
 import petfinder.petfinderapi.repositorios.dashboard.ViewPadrinhosUltimos6MesesRepository;
 import petfinder.petfinderapi.repositorios.dashboard.ViewPadrinhosUltimos7DiasRepository;
+import petfinder.petfinderapi.repositorios.dashboard.ViewPremiosUltimos7DiasRepository;
 import petfinder.petfinderapi.resposta.dashboard.DtoAdminResponse;
 import petfinder.petfinderapi.service.exceptions.EntityNotFoundException;
 import petfinder.petfinderapi.service.exceptions.InvalidFieldException;
@@ -48,6 +50,9 @@ public class AdminService {
     @Autowired
     private ViewDemandasUltimos6MesesRepository viewDemandasUltimos6Meses;
 
+    @Autowired
+    private ViewPremiosUltimos7DiasRepository viewPremiosSem;
+
     // methods
     public DtoAdminResponse getAdminDashboard(int id) {
         Usuario admin = validateAdmin(id);
@@ -56,15 +61,22 @@ public class AdminService {
 
     // build response
     private DtoAdminResponse getAdminValues(Usuario usuario) {
-        // getting values
+        // cards
         Integer qtdPadrinhos = viewPadrinhosRepo.getCountPadrinhosByInstituicao(usuario.getInstituicao().getId());
         Integer petsAdotados = petRepo.findAllAdotadoInstituicao(usuario.getInstituicao().getId());
+
+        // padrinhos
         List<ViewPadrinhosUltimos7Dias> chartPadrinhosSem = viewPadrinhosUltimos7DiasRepo.findByInstituicaoId(usuario.getInstituicao().getId());
         List<ViewPadrinhosUltimos6Meses> chartPadrinhosMes = viewPadrinhosUltimos6MesesRepo.findByInstituicaoId(usuario.getInstituicao().getId());
+
+        // categorias de demanda
         List<ViewDemandasUltimos7Dias> chartCategoriasPagamentoSem = viewDemandasUltimos7DiasRepo.findPagamentosByInstituicaoId(usuario.getInstituicao().getId());
         List<ViewDemandasUltimos7Dias> chartCategoriasAdocoesSem = viewDemandasUltimos7DiasRepo.findAdocoesByInstituicaoId(usuario.getInstituicao().getId());
         List<ViewDemandasUltimos6Meses> chartDemandasPagamentosMes = viewDemandasUltimos6Meses.findPagamentosByInstituicaoId(usuario.getInstituicao().getId());
         List<ViewDemandasUltimos6Meses> chartDemandasAdocoesMes = viewDemandasUltimos6Meses.findAdocoesByInstituicaoId(usuario.getInstituicao().getId());
+
+        // premios
+        List<ViewPremiosUltimos7Dias> chartPremiosSem = viewPremiosSem.findSemByInstituicaoId(usuario.getInstituicao().getId());
 
         // building
         DtoAdminResponse res = new DtoAdminResponse();
@@ -76,6 +88,7 @@ public class AdminService {
             String actual = Conversor.dateToDayMonthString(date);
             res.getChartPadrinhosPorSemana().add(findPadrinhoPorSemByDate(actual, chartPadrinhosSem));
             res.getChartCategoriasPorSemana().add(findCategoriaPorSemByDate(actual, chartCategoriasAdocoesSem, chartCategoriasPagamentoSem));
+            res.getChartPremiosAdicionadosPorSemana().add(findPremiosSem(actual, chartPremiosSem));
         }
 
         // building monthly charts
@@ -86,6 +99,20 @@ public class AdminService {
 
         // 200 ok
         return res;
+    }
+
+    public List<String> findPremiosSem(String actual, List<ViewPremiosUltimos7Dias> premios) {
+        for(int i = 0; i < premios.size(); i++) {
+            if(Conversor.dateToDayMonthString(premios.get(i).getData()).equals(actual)) {
+                return 
+                    List.of(
+                        actual,
+                        String.valueOf(premios.remove(i).getQtdPremios())
+                    );
+            }
+        }
+
+        return List.of(actual, "0");
     }
 
     // categorias por semana
