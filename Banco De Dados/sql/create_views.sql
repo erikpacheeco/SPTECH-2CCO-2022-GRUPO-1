@@ -38,9 +38,11 @@ GROUP BY instituicao_id, data)
 ORDER BY data DESC;
 
 CREATE OR REPLACE VIEW view_premios_ultimos_6_meses AS
-select UUID() as id, sum(qtd_premios) as qtd_premios, YEAR(data) as ano, MONTH(data) as mes FROM view_premios_por_data 
+select UUID() as id, instituicao_id, sum(qtd_premios) as qtd_premios, YEAR(data) as ano, MONTH(data) as mes 
+FROM view_premios_por_data 
 WHERE data BETWEEN (SELECT DATE_SUB(CURRENT_DATE(), INTERVAL 5 MONTH)) AND CURRENT_DATE()
-GROUP BY ano, mes ORDER BY ano, mes DESC;
+GROUP BY instituicao_id, ano, mes 
+ORDER BY ano, mes DESC;
 
 CREATE OR REPLACE VIEW view_premios_por_pet AS
 SELECT p.id as pet_id, p.instituicao_id, count(pr.id) as qtd_premios FROM premio AS pr INNER JOIN pet AS p 
