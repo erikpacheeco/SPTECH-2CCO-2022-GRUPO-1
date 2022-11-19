@@ -9,4 +9,7 @@ public interface ViewPremiosPorPetRepository extends JpaRepository<ViewPremiosPo
     @Query("SELECT AVG(v.qtdPremios) FROM ViewPremiosPorPet v WHERE v.instituicaoId = ?1")
     public Double findPremiosPorPetByInstituicaoId(Integer id);
 
+    @Query("SELECT count(v.petId) FROM ViewPremiosPorPet v WHERE v.instituicaoId = ?1 AND v.qtdPremios = 0")
+    public Integer findPetsSemPremiosByInstituicaoId(Integer id);
+
 }

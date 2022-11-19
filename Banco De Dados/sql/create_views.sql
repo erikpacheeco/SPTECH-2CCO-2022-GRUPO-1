@@ -45,8 +45,9 @@ GROUP BY instituicao_id, ano, mes
 ORDER BY ano, mes DESC;
 
 CREATE OR REPLACE VIEW view_premios_por_pet AS
-SELECT p.id as pet_id, p.instituicao_id, count(pr.id) as qtd_premios FROM premio AS pr INNER JOIN pet AS p 
-ON pr.pet_id = p.id
+SELECT p.id as pet_id, p.instituicao_id, count(pr.id) as qtd_premios 
+FROM premio AS pr 
+RIGHT OUTER JOIN pet AS p ON pr.pet_id = p.id
 GROUP BY p.id;
 
 -- demandas

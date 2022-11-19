@@ -74,6 +74,7 @@ public class AdminService {
         Integer qtdPadrinhos = viewPadrinhosRepo.getCountPadrinhosByInstituicao(usuario.getInstituicao().getId());
         Integer petsAdotados = petRepo.findAllAdotadoInstituicao(usuario.getInstituicao().getId());
         Double premiosPorPet = viewPremiosPorPetRepo.findPremiosPorPetByInstituicaoId(usuario.getInstituicao().getId());
+        Integer qtdPetsSemPremios = viewPremiosPorPetRepo.findPetsSemPremiosByInstituicaoId(usuario.getInstituicao().getId());
 
         // padrinhos
         List<DateHole> chartPadrinhosSem = viewPadrinhosUltimos7DiasRepo.findByInstituicaoId(usuario.getInstituicao().getId());
@@ -94,6 +95,7 @@ public class AdminService {
         res.setPadrinhos(qtdPadrinhos);
         res.setPetsAdotados(petsAdotados);
         res.setPremiosPorPet(premiosPorPet);
+        res.setPetsSemPremio(qtdPetsSemPremios);
 
         // building weekly charts
         for(Date date = new Date(); new Date().getDate() - date.getDate() < 7; date.setDate(date.getDate() - 1)) {
