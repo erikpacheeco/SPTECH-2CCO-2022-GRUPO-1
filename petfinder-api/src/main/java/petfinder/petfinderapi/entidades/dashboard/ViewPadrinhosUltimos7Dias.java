@@ -14,9 +14,10 @@ import petfinder.petfinderapi.utilitarios.Conversor;
 public class ViewPadrinhosUltimos7Dias implements DateHole {
     
     // attributes
+    @Id
+    private String id;
     private Integer instituicaoId;
     private Integer qtdPadrinhos;
-    @Id
     private Date data;
 
     // methods

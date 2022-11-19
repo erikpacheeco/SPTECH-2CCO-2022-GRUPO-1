@@ -12,9 +12,10 @@ import petfinder.petfinderapi.utilitarios.Conversor;
 public class ViewPadrinhos implements DateHole {
     
     // attributes
+    @Id
+    private String id;
     private Integer instituicaoId;
     private Integer qtdPadrinhos;
-    @Id
     private Date data;
 
     // constructor

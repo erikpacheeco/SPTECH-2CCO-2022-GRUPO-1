@@ -12,8 +12,9 @@ import petfinder.petfinderapi.service.dashboard.interfaces.DateHole;
 public class ViewPadrinhosUltimos6Meses implements DateHole {
     
     // attributes
-    private Integer instituicaoId;
     @Id
+    private String id;
+    private Integer instituicaoId;
     private Integer qtdPadrinhos;
     private Integer ano;
     private Integer mes;
@@ -52,5 +53,11 @@ public class ViewPadrinhosUltimos6Meses implements DateHole {
     }
     public void setMes(Integer mes) {
         this.mes = mes;
+    }
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
     }
 }

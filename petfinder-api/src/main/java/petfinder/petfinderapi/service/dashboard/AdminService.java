@@ -1,11 +1,13 @@
 package petfinder.petfinderapi.service.dashboard;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import petfinder.petfinderapi.entidades.Usuario;
 import petfinder.petfinderapi.repositorios.PetRepositorio;
+import petfinder.petfinderapi.repositorios.PremioRepositorio;
 import petfinder.petfinderapi.repositorios.UsuarioRepositorio;
 import petfinder.petfinderapi.repositorios.dashboard.ViewDemandasUltimos6MesesRepository;
 import petfinder.petfinderapi.repositorios.dashboard.ViewDemandasUltimos7DiasRepository;
@@ -13,6 +15,7 @@ import petfinder.petfinderapi.repositorios.dashboard.ViewPadrinhosRepository;
 import petfinder.petfinderapi.repositorios.dashboard.ViewPadrinhosUltimos6MesesRepository;
 import petfinder.petfinderapi.repositorios.dashboard.ViewPadrinhosUltimos7DiasRepository;
 import petfinder.petfinderapi.repositorios.dashboard.ViewPremiosMesRepository;
+import petfinder.petfinderapi.repositorios.dashboard.ViewPremiosPorPetRepository;
 import petfinder.petfinderapi.repositorios.dashboard.ViewPremiosUltimos7DiasRepository;
 import petfinder.petfinderapi.resposta.dashboard.DtoAdminResponse;
 import petfinder.petfinderapi.service.dashboard.interfaces.DateHole;
@@ -31,6 +34,9 @@ public class AdminService {
 
     @Autowired
     private PetRepositorio petRepo;
+
+    @Autowired
+    private PremioRepositorio premioRepo;
 
     @Autowired
     private ViewPadrinhosRepository viewPadrinhosRepo;
@@ -53,6 +59,9 @@ public class AdminService {
     @Autowired
     private ViewPremiosMesRepository viewPremiosMesRepo;
 
+    @Autowired
+    private ViewPremiosPorPetRepository viewPremiosPorPetRepo;
+
     // methods
     public DtoAdminResponse getAdminDashboard(int id) {
         Usuario admin = validateAdmin(id);
@@ -64,6 +73,7 @@ public class AdminService {
         // cards
         Integer qtdPadrinhos = viewPadrinhosRepo.getCountPadrinhosByInstituicao(usuario.getInstituicao().getId());
         Integer petsAdotados = petRepo.findAllAdotadoInstituicao(usuario.getInstituicao().getId());
+        Double premiosPorPet = viewPremiosPorPetRepo.findPremiosPorPetByInstituicaoId(usuario.getInstituicao().getId());
 
         // padrinhos
         List<DateHole> chartPadrinhosSem = viewPadrinhosUltimos7DiasRepo.findByInstituicaoId(usuario.getInstituicao().getId());
@@ -83,6 +93,7 @@ public class AdminService {
         DtoAdminResponse res = new DtoAdminResponse();
         res.setPadrinhos(qtdPadrinhos);
         res.setPetsAdotados(petsAdotados);
+        res.setPremiosPorPet(premiosPorPet);
 
         // building weekly charts
         for(Date date = new Date(); new Date().getDate() - date.getDate() < 7; date.setDate(date.getDate() - 1)) {

@@ -42,6 +42,11 @@ select UUID() as id, sum(qtd_premios) as qtd_premios, YEAR(data) as ano, MONTH(d
 WHERE data BETWEEN (SELECT DATE_SUB(CURRENT_DATE(), INTERVAL 5 MONTH)) AND CURRENT_DATE()
 GROUP BY ano, mes ORDER BY ano, mes DESC;
 
+CREATE OR REPLACE VIEW view_premios_por_pet AS
+SELECT p.id as pet_id, p.instituicao_id, count(pr.id) as qtd_premios FROM premio AS pr INNER JOIN pet AS p 
+ON pr.pet_id = p.id
+GROUP BY p.id;
+
 -- demandas
 
 CREATE OR REPLACE VIEW view_demandas AS

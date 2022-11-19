@@ -2,13 +2,14 @@ package petfinder.petfinderapi.resposta.dashboard;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class DtoAdminResponse {
 
     // attributes
     private Integer padrinhos;
     private Integer petsAdotados;
-    private Integer premiosPorPet;
+    private Double premiosPorPet;
     private Integer petsSemPremio;
     private List<List<String>> chartPadrinhosPorSemana;
     private List<List<String>> chartPadrinhosPorMes;
@@ -21,7 +22,7 @@ public class DtoAdminResponse {
     public DtoAdminResponse() {
         this.padrinhos = 0;
         this.petsAdotados = 0;
-        this.premiosPorPet = 0;
+        this.premiosPorPet = 0d;
         this.petsSemPremio = 0;
         chartPadrinhosPorSemana = new ArrayList<List<String>>();
         chartPadrinhosPorMes = new ArrayList<List<String>>();
@@ -56,11 +57,11 @@ public class DtoAdminResponse {
     public void setPetsAdotados(Integer petsAdotados) {
         this.petsAdotados = petsAdotados;
     }
-    public Integer getPremiosPorPet() {
+    public Double getPremiosPorPet() {
         return premiosPorPet;
     }
-    public void setPremiosPorPet(Integer premiosPorPet) {
-        this.premiosPorPet = premiosPorPet;
+    public void setPremiosPorPet(Double premiosPorPet) {
+        this.premiosPorPet = Double.valueOf(String.format(Locale.US, "%.1f", premiosPorPet));
     }
     public Integer getPetsSemPremio() {
         return petsSemPremio;
