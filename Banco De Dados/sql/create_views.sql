@@ -91,8 +91,10 @@ GROUP BY colaborador_id, categoria, data
 ORDER BY data DESC;
 
 CREATE OR REPLACE VIEW view_demandas_por_semana AS
-SELECT * FROM demanda
+SELECT UUID() as id, d.data_fechamento as fechamento, d.instituicao_id, count(d.instituicao_id) as qtd_demandas 
+FROM demanda as d
 WHERE data_fechamento BETWEEN (SELECT DATE_SUB(CURRENT_DATE(), INTERVAL 6 DAY)) AND CURRENT_DATE()
+GROUP BY d.data_fechamento, d.instituicao_id
 ORDER BY data_fechamento DESC;
 
 -- =======================================================

@@ -1,13 +1,11 @@
 package petfinder.petfinderapi.service.dashboard;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import petfinder.petfinderapi.entidades.Usuario;
 import petfinder.petfinderapi.repositorios.PetRepositorio;
-import petfinder.petfinderapi.repositorios.PremioRepositorio;
 import petfinder.petfinderapi.repositorios.UsuarioRepositorio;
 import petfinder.petfinderapi.repositorios.dashboard.ViewDemandasUltimos6MesesRepository;
 import petfinder.petfinderapi.repositorios.dashboard.ViewDemandasUltimos7DiasRepository;
@@ -34,9 +32,6 @@ public class AdminService {
 
     @Autowired
     private PetRepositorio petRepo;
-
-    @Autowired
-    private PremioRepositorio premioRepo;
 
     @Autowired
     private ViewPadrinhosRepository viewPadrinhosRepo;
