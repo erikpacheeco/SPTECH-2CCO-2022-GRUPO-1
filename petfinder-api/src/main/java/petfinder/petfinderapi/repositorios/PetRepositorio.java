@@ -1,7 +1,10 @@
 package petfinder.petfinderapi.repositorios;
 
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.lang.Nullable;
+
 import petfinder.petfinderapi.entidades.Pet;
 import petfinder.petfinderapi.resposta.PetPerfil;
 
@@ -9,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-public interface PetRepositorio extends JpaRepository<Pet, Integer> {
+public interface PetRepositorio extends JpaRepository<Pet, Integer>, JpaSpecificationExecutor<PetPerfil> {
 
     List<Pet> findAll();
   
@@ -55,5 +58,4 @@ public interface PetRepositorio extends JpaRepository<Pet, Integer> {
 
     @Query("SELECT new petfinder.petfinderapi.resposta.PetPerfil(p) FROM Pet p WHERE p.adotado = false AND p.id NOT IN (SELECT h.pet.id FROM PetHasCaracteristica h WHERE h.caracteristica.id IN (SELECT c.id FROM Caracteristica c WHERE c.id IN (SELECT u.caracteristica.id FROM UsuarioHasInteresse u WHERE u.usuario.id = ?1)))")
     public List<PetPerfil> findNotByUserPreferences(int idUser);
-
 }

@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +21,7 @@ import petfinder.petfinderapi.resposta.PremioDto;
 import petfinder.petfinderapi.rest.ClienteCep;
 import petfinder.petfinderapi.rest.DistanciaResposta;
 import petfinder.petfinderapi.service.ServicePet;
+import petfinder.petfinderapi.specifications.PetSpecification;
 import petfinder.petfinderapi.utilitarios.FilaObj;
 import petfinder.petfinderapi.utilitarios.PilhaObj;
 import petfinder.petfinderapi.utilitarios.HashTable.HashTable;
@@ -763,5 +765,16 @@ public class PetsController implements GerenciadorArquivos {
         }
 
         return ResponseEntity.status(200).body(pets);
+    }
+
+    @GetMapping("/filter")
+    public ResponseEntity<List<PetPerfil>> getPetsByFilters(){
+        List<String> porte = new ArrayList<String>();
+        porte.add(0, "Grande");
+        porte.add(1, "Pequeno");
+        
+        Specification<PetPerfil> spec = Specification.where(porte != null ? PetSpecification.porteIn(porte) : null);
+
+        return ResponseEntity.status(200).body(repositoryPet.findAll(spec));
     }
 }
