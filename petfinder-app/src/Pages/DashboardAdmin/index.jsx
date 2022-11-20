@@ -13,12 +13,16 @@ function DashboardAdmin() {
     const [pageValues, setPageValues] = useState({});
     const [qtdPadrinhos, setQtdPadrinhos] = useState(0);
     const [qtdPetsAdotados, setPetsAdotados] = useState(0);
+    const [qtdPremiosPorPet, setPremiosPorPet] = useState(0);
+    const [qtdPetsSemPremios, setPetsSemPremios] = useState(0);
     const [chartPadrinhosPor, setChartPadrinhosPor] = useState();
     const [chartCategoriasPor, setChartCategoriasPor] = useState();
+    const [chartPremiosAdicionadosPor, setChartPremiosAdicionadosPor] = useState();
 
     // selected active
     const [isPadrinhosSemana, setIsPadrinhosSemana] = useState(true);
     const [isCategoriasSemana, setIsCategoriasSemana] = useState(true);
+    const [isPremiosSemana, setIsPremiosSemana] = useState(true);
 
     function toNumberAndInvert(values) {
         return [values[0], ...values.slice(1).reverse().map(value => {
@@ -36,6 +40,8 @@ function DashboardAdmin() {
             res.data.chartPadrinhosPorMes = toNumberAndInvert(res.data.chartPadrinhosPorMes);
             res.data.chartCategoriasPorSemana = toNumberAndInvert(res.data.chartCategoriasPorSemana);
             res.data.chartCategoriasPorMes = toNumberAndInvert(res.data.chartCategoriasPorMes);
+            res.data.chartPremiosAdicionadosPorSemana = toNumberAndInvert(res.data.chartPremiosAdicionadosPorSemana);
+            res.data.chartPremiosAdicionadosPorMes = toNumberAndInvert(res.data.chartPremiosAdicionadosPorMes);
             setPageValues(res.data);
         })
         .catch((err) => {
@@ -47,8 +53,11 @@ function DashboardAdmin() {
     useEffect(() => {
         setQtdPadrinhos(pageValues.padrinhos);
         setPetsAdotados(pageValues.petsAdotados);
+        setPremiosPorPet(pageValues.premiosPorPet);
+        setPetsSemPremios(pageValues.petsSemPremio);
         setChartPadrinhosPor(pageValues.chartPadrinhosPorSemana);
         setChartCategoriasPor(pageValues.chartCategoriasPorSemana);
+        setChartPremiosAdicionadosPor(pageValues.chartPremiosAdicionadosPorSemana);
     }, [pageValues]);
 
     return (
@@ -71,12 +80,12 @@ function DashboardAdmin() {
                             </div>
 
                             <div className="dashboard-admin-metricas-card">
-                                <p>{0}</p>
+                                <p>{qtdPremiosPorPet}</p>
                                 <p>Prêmios por Pet</p>
                             </div>
 
                             <div className="dashboard-admin-metricas-card">
-                                <p>{0}</p>
+                                <p>{qtdPetsSemPremios}</p>
                                 <p>Pet's sem Prêmio</p>
                             </div>
                         </div>
@@ -114,7 +123,6 @@ function DashboardAdmin() {
 
                                 </div>
                                 <div className="dashboard-admin-metricas-grafico-container">     
-                                {/* {console.log(chartPadrinhosPor)}                        */}
                                     <Chart
                                         id="chart-padrinho"
                                         chartType="Bar"
@@ -181,59 +189,39 @@ function DashboardAdmin() {
                             <h2>Prêmios adicionados por</h2>
                                 <div className="dashboard-admin-metricas-grafico-botoes">
 
-                                    <button
-                                        type="button"
-                                        className="btn-semana-premio"
-                                        id='btn-semana-premio'
-                                        onClick={() => {
-                                            if(false){
-                                                let btnSemanaPremio = document.getElementById("btn-semana-premio");
-                                                btnSemanaPremio.style.backgroundColor = "#7F2AB5";
-                                                btnSemanaPremio.style.color = "white";
+                                <BtnDashboard 
+                                    value="Semana" 
+                                    active={isPremiosSemana}
+                                    click={() => {
+                                        if(!isPremiosSemana) {
+                                            setIsPremiosSemana(true);
+                                            setChartPremiosAdicionadosPor(pageValues.chartPremiosAdicionadosPorSemana);
+                                        }
+                                    }}
+                                />
 
-                                                let btnMesPremio = document.getElementById("btn-mes-premio");
-                                                btnMesPremio.style.backgroundColor = "white";
-                                                btnMesPremio.style.color = "#7F2AB5";
-                                            }
-                                            // setValorDataPremio(dataPremioSemana)
-                                        }}
-                                    >
-                                        Semana
-                                    </button>
+                                <BtnDashboard 
+                                    value="Mês" 
+                                    active={!isPremiosSemana}
+                                    click={() => {
+                                        if(isPremiosSemana) {
+                                            setIsPremiosSemana(false);
+                                            setChartPremiosAdicionadosPor(pageValues.chartPremiosAdicionadosPorMes);
+                                        }
+                                    }}
+                                />
 
-                                    <button
-                                        type="button"
-                                        className="btn-mes-premio"
-                                        id='btn-mes-premio'
-                                        onClick={() => {
-                                            if(false){
-                                                let btnSemanaPremio = document.getElementById("btn-semana-premio");
-                                                btnSemanaPremio.style.backgroundColor = "white";
-                                                btnSemanaPremio.style.color = "#7F2AB5";
-
-                                                let btnMesPremio = document.getElementById("btn-mes-premio");
-                                                btnMesPremio.style.backgroundColor = "#7F2AB5";
-                                                btnMesPremio.style.color = "white";
-                                            }
-                                            // setValorDataPremio(dataPremioMes);
-                                        }}
-                                    >
-                                        Mês
-                                    </button>
                                 </div>
                                 <div className="dashboard-admin-metricas-grafico-container">     
                                     <Chart
                                         id="chart-premio"
                                         chartType="Bar"
-                                        data={[
-                                            ["Dia", "Premios"],
-                                            [10, 20],
-                                            [11, 13],
-                                            [12, 16],
-                                            [13, 12],
-                                            [14, 15],
-                                            [15, 14],
-                                            [16, 19],
+                                        data={chartPremiosAdicionadosPor || [
+                                            ["Mês", "Prêmios"],
+                                            ["10/11", 0],
+                                            ["10/11", 0],
+                                            ["10/11", 0],
+                                            ["10/11", 0],
                                         ]}
                                         width="100%"
                                         height="100%"
