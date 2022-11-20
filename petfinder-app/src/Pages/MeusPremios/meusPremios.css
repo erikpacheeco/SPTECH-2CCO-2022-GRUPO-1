@@ -14,6 +14,7 @@
 .premios-container-conteudo{
     display: flex;
     border-radius: 10px;
+    height: 75vh;
 }
 
 .premios-container-filtros{
@@ -22,7 +23,6 @@
    border-radius: 10px 0 0 10px;
    padding: 1%; 
    box-shadow: 0 0 0.3em black;
-   height: 60vh;
 }
 
 .premios-container-filtros-titulo{
@@ -64,12 +64,13 @@
 }
 
 .premios-fotos-container {
-    margin-left: 0.5%;
-    padding: 2% 0 1% 1%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
     width: 100%;
     background: linear-gradient(90deg, #7F2AB5 0%, #AF71D6 35%, #9449C3 100%);
     border-radius: 0 10px 10px 0;
-    box-shadow: 0 0 0.3em black;
 }
 
 .cardPetSimples{
@@ -80,7 +81,7 @@
 }
 
 .premios-fotos-container-sub{
-    height: 58vh;
+    height: 85%;
     width: 100%;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
@@ -91,7 +92,8 @@
     grid-column-gap: 5px;
     grid-column-gap: 5px;
     column-gap: 5px;
-    overflow-y: auto;
+    overflow: auto;
+    justify-items: center
 }
 
 .premios-fotos-container-sub::-webkit-scrollbar, .premios-filtros::-webkit-scrollbar{
@@ -112,4 +114,26 @@
 .premios-filtros{
     overflow: auto;
     height: 90%;
+}
+
+.premios-botao-paginacao {
+    padding: 3px;
+    background-color: transparent;
+    border: 1px #9449C3;
+    border-style: none none solid none;
+    color: white;
+    margin: 0px 5px 0px 5px;
+    cursor: pointer;
+    width: 30% !important;
+    text-align: center;
+}
+
+.premios-botao-paginacao:hover{
+    border: 2px #7e29b4;
+    border-style: none none solid none;
+}
+
+.premios-container-botao-paginacao {
+    width: 20%;
+    height: 5%;
 }

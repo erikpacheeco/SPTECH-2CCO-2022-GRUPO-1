@@ -5,12 +5,30 @@ import img from "../../Images/erase.svg";
 import VLibras from "@djpfs/react-vlibras";
 import api from "../../Api";
 import CardPetSimplesPremios from "../../Components/CardPetSimplesPremios";
+import { GoChevronLeft, GoChevronRight } from "react-icons/go"
+import Slider from 'react-slick';
 
 export default function meusPremios() {
   const infoUsuario = JSON.parse(localStorage.getItem("petfinder_user"));
   const [instituicao, setInstituicao] = useState([]);
   const [allPets, setAllPets] = useState([]);
   const [allPremios, setAllPremios] = useState([]);
+
+  const [itensPerPage, setItensPerPage] = useState(30);
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const pages = Math.ceil(allPremios.length / itensPerPage);
+  const startIndex = currentPage * itensPerPage;
+  const endIndex = startIndex + itensPerPage;
+  const currentPets = allPremios.slice(startIndex, endIndex);
+
+  const settings = {
+    slidesToShow: 5,
+    slidesToScroll: 1,
+    nextArrow: <GoChevronRight color="#7F2AB5" />,
+    prevArrow: <GoChevronLeft color="#7F2AB5" />,
+    infinite: false
+  }
 
   useEffect(() => {
     api.get(`/instituicoes/apadrinhamentos/usuario/${infoUsuario.id}`)
@@ -57,9 +75,18 @@ export default function meusPremios() {
 
           <div className="premios-fotos-container">
             <div className="premios-fotos-container-sub" >
-              {allPremios.map(p => (
+              {currentPets.map(p => (
                 <CardPetSimplesPremios srcImg={p.img} />
               ))}
+            </div>
+            <div className="premios-container-botao-paginacao">
+              <Slider {...settings}>
+                {
+                  Array.from(Array(pages), (allPremios, index) => {
+                    return <button className="premios-botao-paginacao" value={index} onClick={(e) => setCurrentPage(Number(e.target.value))}>{index + 1}</button>
+                  })
+                }
+              </Slider>
             </div>
           </div>
         </div>
