@@ -1,7 +1,6 @@
 package petfinder.petfinderapi.controladores;
 
 import static org.springframework.http.ResponseEntity.*;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -11,12 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import petfinder.petfinderapi.entidades.dashboard.ViewPadrinhosUltimos6Meses;
-import petfinder.petfinderapi.repositorios.dashboard.ViewPadrinhosUltimos6MesesRepository;
 import petfinder.petfinderapi.resposta.dashboard.DtoAdminResponse;
 import petfinder.petfinderapi.resposta.dashboard.DtoChatopsResponse;
+import petfinder.petfinderapi.resposta.dashboard.DtoSysadminResponse;
 import petfinder.petfinderapi.service.dashboard.AdminService;
 import petfinder.petfinderapi.service.dashboard.ChatopsService;
+import petfinder.petfinderapi.service.dashboard.SysadminService;
 
 @RestController
 @RequestMapping("/dashboard")
@@ -31,6 +30,9 @@ public class DashboardController {
     @Autowired
     private ChatopsService chatopsService;
 
+    @Autowired
+    private SysadminService sysadminService;
+
     // Endpoints
     @GetMapping("/admin/{id}")
     @Operation(description = "")
@@ -42,6 +44,12 @@ public class DashboardController {
     @Operation(description = "")
     public ResponseEntity<DtoChatopsResponse> getChatopsDashboard(@PathVariable int id){
         return ok(chatopsService.getChatopsDashboard(id));
+    }
+
+    @GetMapping("/sysadmin/{id}")
+    @Operation(description = "")
+    public ResponseEntity<DtoSysadminResponse> getSysadminDashboard(@PathVariable int id){
+        return ok(sysadminService.getSysadminDashboard(id));
     }
 
 }

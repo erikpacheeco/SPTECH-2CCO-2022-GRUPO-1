@@ -52,15 +52,6 @@ public class DemandaController implements GerenciadorArquivos{
     private DemandaService service;
 
     @Autowired
-    private ServiceDashboardSysadmBI serviceDashboardSysadmBI;
-
-    @Autowired
-    private ServiceDashboardAdmBI serviceDashboardAdmBI;
-
-    @Autowired
-    private ServiceDashboardChatOpsBI serviceDashboardChatOpsBI;
-
-    @Autowired
     private ServiceUsuario serviceUsuario;
 
     @Autowired

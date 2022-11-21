@@ -3,12 +3,14 @@ package petfinder.petfinderapi.entidades.dashboard;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import org.hibernate.annotations.Immutable;
 import petfinder.petfinderapi.service.dashboard.interfaces.DateHole;
 import petfinder.petfinderapi.utilitarios.Conversor;
 
 @Entity
 @Immutable
+@Table(name = "view_padrinhos")
 public class ViewPadrinhos implements DateHole {
     
     // attributes

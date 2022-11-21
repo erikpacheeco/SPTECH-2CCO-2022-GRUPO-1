@@ -8,5 +8,8 @@ public interface ViewPadrinhosRepository extends JpaRepository<ViewPadrinhos, St
 
     @Query("SELECT sum(v.qtdPadrinhos) FROM ViewPadrinhos v WHERE v.instituicaoId = ?1")
     public Integer getCountPadrinhosByInstituicao(int instituicaoId);
+
+    @Query("SELECT sum(v.qtdPadrinhos) FROM ViewPadrinhos v")
+    public Integer countPadrinhos();
     
 }

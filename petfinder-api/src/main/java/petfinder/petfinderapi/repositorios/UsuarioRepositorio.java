@@ -30,6 +30,9 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, Integer>{
     @Query("SELECT DISTINCT new petfinder.petfinderapi.resposta.UsuarioSemSenha(d.usuario) FROM Demanda d WHERE d.instituicao.id = ?1 AND d.categoria = 'PAGAMENTO'")
     public List<UsuarioSemSenha> getPadrinhos(Integer id);
 
+    @Query("SELECT COUNT(DISTINCT d.usuario.id) FROM Demanda d WHERE d.categoria = 'PAGAMENTO'")
+    public Integer countPadrinhos();
+
     @Query("SELECT new petfinder.petfinderapi.resposta.ColaboradorSimples(u) FROM Usuario u WHERE u.instituicao.id = ?1 AND u.nivelAcesso = ?2")
     public List<ColaboradorSimples> findColaboradorByInstituicaoAndCategoria(int id, String categoria);
 
@@ -41,5 +44,11 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, Integer>{
 
     @Query("SELECT COUNT(u) FROM Usuario u WHERE u.nivelAcesso = 'sysadm'")
     public Integer findAllUsuarioSysAdmin();
+
+    @Query("SELECT COUNT(u) FROM Usuario u WHERE u.nivelAcesso = 'adm'")
+    public Integer countAdmin();
+
+    @Query("SELECT COUNT(u) FROM Usuario u WHERE u.nivelAcesso = 'user'")
+    public Integer countUsuario();
 
 }
