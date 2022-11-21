@@ -1,5 +1,6 @@
 package petfinder.petfinderapi.resposta.dashboard;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DtoChatopsResponse {
@@ -10,6 +11,16 @@ public class DtoChatopsResponse {
     private List<List<String>> chartDemandasPorSemana;
     private List<List<String>> chartDemandasMaisFrequentesSemana;
     private List<List<String>> chartDemandasMaisFrequentesMes;
+
+    // constructor
+    public DtoChatopsResponse() {
+        chartDemandasPorSemana = new ArrayList<List<String>>();
+        chartDemandasMaisFrequentesSemana = new ArrayList<List<String>>();
+        chartDemandasMaisFrequentesMes = new ArrayList<List<String>>();
+        chartDemandasPorSemana.add(List.of("Dia", "Demandas"));
+        chartDemandasMaisFrequentesSemana.add(List.of("Dia", "Adoção", "Pagamento"));
+        chartDemandasMaisFrequentesMes.add(List.of("Mês", "Adoção", "Pagamento"));
+    }
 
     // getters and setters
     public Integer getEmEspera() {

@@ -41,7 +41,7 @@ public class DashboardController {
     @GetMapping("/chatops/{id}")
     @Operation(description = "")
     public ResponseEntity<DtoChatopsResponse> getChatopsDashboard(@PathVariable int id){
-        return ok(chatopsService.getAdminDashboard(id));
+        return ok(chatopsService.getChatopsDashboard(id));
     }
 
 }
