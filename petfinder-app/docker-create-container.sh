@@ -8,4 +8,4 @@ sudo docker rmi petfinder/petfinder-app
 
 # building image and container
 sudo docker build -t petfinder/petfinder-app . 
-sudo docker run -it --name ct-petfinder-app -d -p 3000:3000 --network petfinder-network petfinder/petfinder-app
+sudo docker run -it --name ct-petfinder-app -d -p 3000:3000 --vnetwork petfinder-network petfinder/petfinder-app

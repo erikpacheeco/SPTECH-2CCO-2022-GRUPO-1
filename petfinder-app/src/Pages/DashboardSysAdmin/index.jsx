@@ -248,14 +248,15 @@ function DashboardSysAdmin() {
                                     <Chart
                                         chartType="PieChart"
                                         data={[
-                                            ["", ""],
-                                            ["Instituição Ativa", infoLeadInstituicaoAtivo],
-                                            ["Instituição Inativa", infoTotalLeadInstituicao - infoLeadInstituicaoAtivo]
+                                            ["Task", "Hours per Day"],
+                                            ["Work", 11],
+                                            ["Eat", 2],
                                         ]}
-                                        options={options}
-                                        width="100%"
-                                        height="100%"
-                                        legendToggle
+                                        options={{
+                                            title: "",
+                                        }}
+                                        width={"100%"}
+                                        height={"100%"}
                                     />
                                 </div>
                             </div>

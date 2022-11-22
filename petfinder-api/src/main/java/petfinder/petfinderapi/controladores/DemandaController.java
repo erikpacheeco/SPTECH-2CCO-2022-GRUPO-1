@@ -52,15 +52,6 @@ public class DemandaController implements GerenciadorArquivos{
     private DemandaService service;
 
     @Autowired
-    private ServiceDashboardSysadmBI serviceDashboardSysadmBI;
-
-    @Autowired
-    private ServiceDashboardAdmBI serviceDashboardAdmBI;
-
-    @Autowired
-    private ServiceDashboardChatOpsBI serviceDashboardChatOpsBI;
-
-    @Autowired
     private ServiceUsuario serviceUsuario;
 
     @Autowired
@@ -85,48 +76,6 @@ public class DemandaController implements GerenciadorArquivos{
     @Operation(description = "Endpoint para atualizar o status de uma demanda especifica pelo ID")
     public ResponseEntity<DtoDemanda> patchDemandaStatus(@PathVariable int idDemanda, @RequestBody @Valid DtoPatchDemanda dto) {
         return ResponseEntity.ok(service.patchDemandaStatus(idDemanda, dto));
-    }
-
-    @GetMapping("/dashboard/{idUsuario}")
-    @Operation(description = "Endpoint que retorna dados BI para as dashboard, utilizando de uma DTO")
-    public ResponseEntity<Object> getDashboardBI(@PathVariable int idUsuario){
-
-        Optional<Usuario> usuario = usuarioRepositorio.findById(idUsuario);
-
-        if(usuario.isPresent()){
-
-            if (usuario.get().getNivelAcesso().equalsIgnoreCase("sysadm")){
-
-                if(Objects.isNull(serviceDashboardSysadmBI.getDashboardSysadminBI(idUsuario))){
-                    return ResponseEntity.status(204).build();
-                }
-
-                return ResponseEntity.status(200).body(serviceDashboardSysadmBI.getDashboardSysadminBI(idUsuario));
-
-            } else if (usuario.get().getNivelAcesso().equalsIgnoreCase("adm")){
-
-                if(Objects.isNull(serviceDashboardAdmBI.getDashboardAdminBI(idUsuario))){
-                    return ResponseEntity.status(204).build();
-                }
-
-                return ResponseEntity.status(200).body(serviceDashboardAdmBI.getDashboardAdminBI(idUsuario));
-
-            } else if (usuario.get().getNivelAcesso().equalsIgnoreCase("chatops")){
-
-                if(Objects.isNull(serviceDashboardChatOpsBI.getDashboardChatOpsBI(idUsuario))){
-                    return ResponseEntity.status(204).build();
-                }
-
-                return ResponseEntity.status(200).body(serviceDashboardChatOpsBI.getDashboardChatOpsBI(idUsuario));
-
-            } else {
-                return ResponseEntity.status(404).build();
-            }
-
-        }
-
-        // 404 usuario not found
-        return ResponseEntity.status(404).build();
     }
 
     @PostMapping

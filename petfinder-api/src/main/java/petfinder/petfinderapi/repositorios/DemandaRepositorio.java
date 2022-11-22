@@ -130,4 +130,10 @@ public interface DemandaRepositorio extends JpaRepository<Demanda, Integer> {
     @Query( "SELECT COUNT(dataFechamento) FROM Demanda d WHERE d.colaborador.id = ?1 AND d.dataFechamento like CONCAT(?2,'-',?3,'-',?4,'%') AND d.categoria = 'ADOCAO'")
     public int countDemandaAdocaoUltimaSemanaUsuario(int idUsuario, String ano, String mes, String dia);
 
+    @Query("SELECT COUNT(d.id) FROM Demanda d WHERE d.instituicao.id = ?1 AND d.status = 'concluido'")
+    public Integer countConcluidoByInstituicaoId(Integer id);
+
+    @Query("SELECT COUNT(d.id) FROM Demanda d WHERE d.instituicao.id = ?1 AND d.status = 'aberto'")
+    public Integer countEmEsperaByInstituicaoId(Integer id);
+
 }
