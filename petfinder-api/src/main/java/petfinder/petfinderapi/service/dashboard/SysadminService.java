@@ -1,5 +1,6 @@
 package petfinder.petfinderapi.service.dashboard;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -11,6 +12,8 @@ import petfinder.petfinderapi.repositorios.InstituicaoRepositorio;
 import petfinder.petfinderapi.repositorios.PetRepositorio;
 import petfinder.petfinderapi.repositorios.UsuarioRepositorio;
 import petfinder.petfinderapi.repositorios.dashboard.ViewClientesRepository;
+import petfinder.petfinderapi.repositorios.dashboard.ViewInstituicoesAtivasRepository;
+import petfinder.petfinderapi.repositorios.dashboard.ViewInstituicoesCadastradasRepository;
 import petfinder.petfinderapi.repositorios.dashboard.ViewPadrinhosRepository;
 import petfinder.petfinderapi.repositorios.dashboard.ViewUsuariosCadastradosUltimos6MesesRepository;
 import petfinder.petfinderapi.repositorios.dashboard.ViewVisitantesRepository;
@@ -47,12 +50,18 @@ public class SysadminService {
     @Autowired
     private ViewClientesRepository clientesRepo;
 
+    @Autowired
+    private ViewInstituicoesCadastradasRepository instituicoesCadastradas;
+
+    @Autowired
+    private ViewInstituicoesAtivasRepository instituicoesAtivas;
+
     // methods
 
     public DtoSysadminResponse getSysadminDashboard(int id) {
 
         // validate
-        Usuario usuario = validateSysadmin(id);
+        validateSysadmin(id);
 
         // building values
         DtoSysadminResponse res = new DtoSysadminResponse();
@@ -69,6 +78,13 @@ public class SysadminService {
         List<DateHole> cadastrados = usuariosCadastradosRepo.findAllCadastros();
         List<DateHole> cadastrados2 = usuariosCadastradosRepo.findAllCadastros();
         List<DateHole> clientes = clientesRepo.findAllClientes();
+
+        // PieChart
+        Integer ativas = instituicoesAtivas.countAtivas();
+        Integer cadastradas = instituicoesCadastradas.countCadastradas();
+
+        res.getChartLeadsClientesInstituicao().add(List.of("Ativas", String.valueOf(ativas)));
+        res.getChartLeadsClientesInstituicao().add(List.of("Inativas", String.valueOf(cadastradas - ativas)));
 
         // building monthly charts
         for(Date date = new Date(); new Date().getMonth() - date.getMonth() < 6; date.setMonth(date.getMonth() - 1)) {

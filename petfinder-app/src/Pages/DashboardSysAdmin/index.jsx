@@ -12,16 +12,6 @@ export const options = {
 
 function DashboardSysAdmin() {
 
-    const data = [
-        ["Task", "Hours per Day"],
-        ["Work", 11],
-        ["Eat", 2],
-    ];
-      
-    const options = {
-        title: "My Daily Activities",
-    };
-
     const infoUsuario = JSON.parse(localStorage.getItem('petfinder_user'));
 
     const [infoDashboard, setInfoDashboard] = useState([]);
@@ -258,16 +248,15 @@ function DashboardSysAdmin() {
                                     <Chart
                                         chartType="PieChart"
                                         data={[
-                                            ["Ei", "Ou"]
-                                            ["Ativos", 5],
-                                            ["Inativos", 6],
-                                            ["Inativos", 6],
-                                            ["Inativos", 6],
+                                            ["Task", "Hours per Day"],
+                                            ["Work", 11],
+                                            ["Eat", 2],
                                         ]}
-                                        options={options}
-                                        width="100%"
-                                        height="100%"
-                                        legendToggle
+                                        options={{
+                                            title: "",
+                                        }}
+                                        width={"100%"}
+                                        height={"100%"}
                                     />
                                 </div>
                             </div>
@@ -277,14 +266,6 @@ function DashboardSysAdmin() {
 
                 </div>
             </div>
-
-            <Chart
-                chartType="PieChart"
-                data={data}
-                options={options}
-                width={"100%"}
-                height={"400px"}
-            />
 
             <VLibras forceOnload={true}></VLibras>
         </>
