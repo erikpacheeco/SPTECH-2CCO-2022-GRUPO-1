@@ -12,6 +12,16 @@ export const options = {
 
 function DashboardSysAdmin() {
 
+    const data = [
+        ["Task", "Hours per Day"],
+        ["Work", 11],
+        ["Eat", 2],
+    ];
+      
+    const options = {
+        title: "My Daily Activities",
+    };
+
     const infoUsuario = JSON.parse(localStorage.getItem('petfinder_user'));
 
     const [infoDashboard, setInfoDashboard] = useState([]);
@@ -248,9 +258,11 @@ function DashboardSysAdmin() {
                                     <Chart
                                         chartType="PieChart"
                                         data={[
-                                            ["", ""],
-                                            ["Instituição Ativa", infoLeadInstituicaoAtivo],
-                                            ["Instituição Inativa", infoTotalLeadInstituicao - infoLeadInstituicaoAtivo]
+                                            ["Ei", "Ou"]
+                                            ["Ativos", 5],
+                                            ["Inativos", 6],
+                                            ["Inativos", 6],
+                                            ["Inativos", 6],
                                         ]}
                                         options={options}
                                         width="100%"
@@ -265,6 +277,14 @@ function DashboardSysAdmin() {
 
                 </div>
             </div>
+
+            <Chart
+                chartType="PieChart"
+                data={data}
+                options={options}
+                width={"100%"}
+                height={"400px"}
+            />
 
             <VLibras forceOnload={true}></VLibras>
         </>
