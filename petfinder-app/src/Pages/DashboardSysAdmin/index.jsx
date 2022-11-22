@@ -248,9 +248,9 @@ function DashboardSysAdmin() {
                                     <Chart
                                         chartType="PieChart"
                                         data={[
-                                            ["Task", "Hours per Day"],
-                                            ["Work", 11],
-                                            ["Eat", 2],
+                                            ["Ativas", "Inativas"],
+                                            ["Ativas", 4],
+                                            ["Inativas", 0],
                                         ]}
                                         options={{
                                             title: "",

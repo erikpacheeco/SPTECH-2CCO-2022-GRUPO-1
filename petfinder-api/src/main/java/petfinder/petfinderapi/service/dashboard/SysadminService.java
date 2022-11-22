@@ -1,13 +1,10 @@
 package petfinder.petfinderapi.service.dashboard;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import petfinder.petfinderapi.entidades.Usuario;
-import petfinder.petfinderapi.entidades.dashboard.ViewUsuariosCadastradosUltimos6Meses;
 import petfinder.petfinderapi.repositorios.InstituicaoRepositorio;
 import petfinder.petfinderapi.repositorios.PetRepositorio;
 import petfinder.petfinderapi.repositorios.UsuarioRepositorio;

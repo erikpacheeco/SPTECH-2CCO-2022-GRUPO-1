@@ -17,7 +17,6 @@ import petfinder.petfinderapi.requisicao.CriacaoDemanda;
 import petfinder.petfinderapi.requisicao.DtoPatchDemanda;
 import javax.validation.Valid;
 import java.io.*;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -134,13 +133,6 @@ public class DemandaController implements GerenciadorArquivos{
     private void gerarHistoricoDemanda(Demanda demanda){
         DemandaHist demandaHist = new DemandaHist(demanda);
         demandaHistRepository.save(demandaHist);
-    }
-
-    private String gerarDataAtual(){
-        Date date = Calendar.getInstance().getTime();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String strDate = dateFormat.format(date);
-        return strDate;
     }
 
     // endpoints
