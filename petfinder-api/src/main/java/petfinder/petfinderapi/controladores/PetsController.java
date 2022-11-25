@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import petfinder.petfinderapi.controladores.util.HeaderConfig;
 import petfinder.petfinderapi.entidades.*;
 import petfinder.petfinderapi.repositorios.*;
+import petfinder.petfinderapi.requisicao.FilterRequest;
 import petfinder.petfinderapi.resposta.Message;
 import petfinder.petfinderapi.resposta.PetPerfil;
 import petfinder.petfinderapi.resposta.PetPerfilEdicao;
@@ -762,25 +763,29 @@ public class PetsController implements GerenciadorArquivos {
     }
 
     @GetMapping("/filter")
-    public ResponseEntity<List<PetPerfil>> getPetsByFilters(
-            @RequestParam(required = false) List<String> porte,
-            @RequestParam(required = false) List<String> caracteristicas,
-            @RequestParam(required = false) List<String> sexo,
-            @RequestParam(required = false) List<Boolean> isDoente,
-            @RequestParam(required = false) List<String> especie) {
+    public ResponseEntity<List<PetPerfil>> getPetsByFilters(FilterRequest filters) {
 
-        Specification<Pet> spec = Specification.where(porte != null ? PetSpecification.porteIn(porte) : null)
-                .and(sexo != null ? PetSpecification.sexoIn(sexo) : null)
-                .and(especie != null ? PetSpecification.especieIn(especie) : null)
-                .and(isDoente != null ? PetSpecification.isDoenteIn(isDoente) : null)
-                .and(PetSpecification.adotado());
+        Specification<Pet> spec = Specification.where(filters.getPorte() != null ? PetSpecification.porteIn(filters.getPorte()) : null)
+                .and(filters.getSexo() != null ? PetSpecification.sexoIn(filters.getSexo()) : null)
+                .and(filters.getEspecie() != null ? PetSpecification.especieIn(filters.getEspecie()) : null)
+                .and(filters.getIsDoente() != null ? PetSpecification.isDoenteIn(filters.getIsDoente()) : null)
+                .and(PetSpecification.adotado()); 
 
         List<Pet> pets = repositoryPet.findAll(spec);
-        List<PetPerfil> petsPetfil = new ArrayList<PetPerfil>();
-        for (Pet pet : pets) {
-            petsPetfil.add(new PetPerfil(pet));
+        List<PetPerfil> petPerfil = new ArrayList<PetPerfil>();
+        if(Objects.nonNull(filters.getCaracteristicas())){
+            List<Integer> petsId = new ArrayList<Integer>();
+            for (Pet pet : pets) {
+                petsId.add(new PetPerfil(pet).getId());
+            }
+            return ResponseEntity.status(200).body(repositoryPet.findByFilterAndCaracteristica(petsId, filters.getCaracteristicas()));
+        }else{
+            for (Pet pet : pets) {
+                petPerfil.add(new PetPerfil(pet));
+            }
+            return ResponseEntity.status(200).body(petPerfil);
         }
 
-        return ResponseEntity.status(200).body(petsPetfil);
+
     }
 }

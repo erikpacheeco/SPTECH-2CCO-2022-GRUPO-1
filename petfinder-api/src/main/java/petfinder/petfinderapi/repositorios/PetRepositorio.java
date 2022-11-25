@@ -58,6 +58,6 @@ public interface PetRepositorio extends JpaRepository<Pet, Integer>, JpaSpecific
     @Query("SELECT new petfinder.petfinderapi.resposta.PetPerfil(p) FROM Pet p WHERE p.adotado = false AND p.id NOT IN (SELECT h.pet.id FROM PetHasCaracteristica h WHERE h.caracteristica.id IN (SELECT c.id FROM Caracteristica c WHERE c.id IN (SELECT u.caracteristica.id FROM UsuarioHasInteresse u WHERE u.usuario.id = ?1)))")
     public List<PetPerfil> findNotByUserPreferences(int idUser);
 
-    // @Query("SELECT new petfinder.petfinderapi.resposta.PetPerfil(p) FROM Pet p WHERE p.id = IN (SELECT h.pet.id FROM PetHasCaracteristica h WHERE h.caracteristica.id in (SELECT c.id FROM Caracteristica c WHERE c.id IN ?1))")
-    // public List<PetPerfil> findByCaracteristicasFilter(List<String> caracteristicas);
+    @Query("SELECT new petfinder.petfinderapi.resposta.PetPerfil(p) FROM Pet p WHERE p.id IN (?1) AND p.id IN (SELECT h.pet.id FROM PetHasCaracteristica h WHERE h.caracteristica.id IN (SELECT c.id FROM Caracteristica c WHERE c.caracteristica IN (?2)))")
+    public List<PetPerfil> findByFilterAndCaracteristica(List<Integer> filterPets, List<String> caracteristicas);
 }
