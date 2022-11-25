@@ -5,12 +5,50 @@ import { Chart } from "react-google-charts";
 import VLibras from "@djpfs/react-vlibras"
 import { useEffect, useState } from "react";
 import api from "../../Api";
+import {toNumberAndInvert} from "../../functions/util";
 
 export const options = {
     is3D: true
 };
 
 function DashboardSysAdmin() {
+
+    const authedUser = JSON.parse(localStorage.getItem('petfinder_user')); 
+
+    // cards
+    const [instituicoes, setInstituicoes] = useState(0);
+    const [usuarios, setUsuarios] = useState(0);
+    const [pets, setPets] = useState(0);
+    const [padrinhos, setPadrinhos] = useState(0);
+    const [administradores, setAdministradores] = useState(0);
+
+    // charts
+    const [chartVisitantesPorMes, setChartVisitantesPorMes] = useState(null);
+    const [chartLeadsClientes, setChartLeadsClientes] = useState(null);
+    const [chartLeadsClientesInst, setChartLeadsClientesInst] = useState(null);
+
+    // request
+    useEffect(() => {
+        api.get(`/dashboard/sysadmin/${authedUser.id}`)
+        .then(({status, data}) => {
+            if(status == 200) {
+                // cards
+                setInstituicoes(data.instituicoes);
+                setUsuarios(data.usuarios);
+                setPets(data.pets);
+                setPadrinhos(data.padrinhos);
+                setAdministradores(data.administradores);
+
+                // charts
+                setChartVisitantesPorMes(toNumberAndInvert(data.chartVisitantesUsuarios));
+                setChartLeadsClientes(toNumberAndInvert(data.chartLeadsClientes));
+                setChartLeadsClientesInst(toNumberAndInvert(data.chartLeadsClientesInstituicao));
+            } 
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }, []);
 
     return (
         <>
@@ -22,27 +60,27 @@ function DashboardSysAdmin() {
                         <h2>Métricas de cadastro</h2>
                         <div className="dashboard-sysadmin-metricas-card-container">
                             <div className="dashboard-sysadmin-metricas-card">
-                                <p>{10}</p>
+                                <p>{instituicoes}</p>
                                 <p>Instituições</p>
                             </div>
 
                             <div className="dashboard-sysadmin-metricas-card">
-                                <p>{20}</p>
+                                <p>{usuarios}</p>
                                 <p>Usuários</p>
                             </div>
 
                             <div className="dashboard-sysadmin-metricas-card">
-                                <p>{21}</p>
+                                <p>{pets}</p>
                                 <p>Animais</p>
                             </div>
 
                             <div className="dashboard-sysadmin-metricas-card">
-                                <p>{24}</p>
+                                <p>{padrinhos}</p>
                                 <p>Padrinhos</p>
                             </div>
 
                             <div className="dashboard-sysadmin-metricas-card">
-                                <p>{44}</p>
+                                <p>{administradores}</p>
                                 <p>Administradores</p>
                             </div>
                         </div>
@@ -56,14 +94,14 @@ function DashboardSysAdmin() {
                                 <div className="dashboard-sysadmin-metricas-grafico-container">
                                     <Chart
                                         chartType="Bar"
-                                        data={[
+                                        data={chartVisitantesPorMes || [
                                             ["Mês", "Qtd Visitantes", "Qtd Usuários"],
-                                            ["2022/06", 10, 15],
-                                            ["2022/07", 12, 12],
-                                            ["2022/08", 15, 16],
-                                            ["2022/09", 11, 11],
-                                            ["2022/10", 14, 15],
-                                            ["2022/11", 12, 14]
+                                            ["2022/06", 0, 0],
+                                            ["2022/07", 0, 0],
+                                            ["2022/08", 0, 0],
+                                            ["2022/09", 0, 0],
+                                            ["2022/10", 0, 0],
+                                            ["2022/11", 0, 0]
                                         ]}
                                         width="100%"
                                         height="100%"
@@ -77,14 +115,14 @@ function DashboardSysAdmin() {
                                 <div className="dashboard-sysadmin-metricas-grafico-container">
                                     <Chart
                                         chartType="Bar"
-                                        data={[
+                                        data={chartLeadsClientes || [
                                             ["Mês", "Qtd Leads", "Qtd Clientes"],
-                                            ["2022/06", 10, 15],
-                                            ["2022/07", 12, 14],
-                                            ["2022/08", 15, 11],
-                                            ["2022/09", 11, 16],
-                                            ["2022/10", 12, 15],
-                                            ["2022/11", 13, 12]
+                                            ["2022/06", 0, 0],
+                                            ["2022/07", 0, 0],
+                                            ["2022/08", 0, 0],
+                                            ["2022/09", 0, 0],
+                                            ["2022/10", 0, 0],
+                                            ["2022/11", 0, 0]
                                         ]}
                                         width="100%"
                                         height="100%"
@@ -101,10 +139,10 @@ function DashboardSysAdmin() {
                                 <div className="dashboard-sysadmin-metricas-grafico-container">
                                     <Chart
                                         chartType="PieChart"
-                                        data={[
+                                        data={chartLeadsClientesInst || [
                                             ["Ativas", "Inativas"],
-                                            ["Ativas", 4],
-                                            ["Inativas", 1],
+                                            ["Ativas", 0],
+                                            ["Inativas", 0],
                                         ]}
                                         options={{
                                             title: "",
