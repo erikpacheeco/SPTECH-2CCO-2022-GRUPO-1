@@ -6,6 +6,7 @@ import VLibras from "@djpfs/react-vlibras"
 import { useEffect, useState } from "react";
 import api from "../../Api";
 import BtnDashboard from "../../Components/BtnDashboard";
+import { toNumberAndInvert } from "../../functions/util";
 
 export const options = {
     is3D: true
@@ -39,15 +40,19 @@ function DashboardChatOps() {
                 setConcluido(data.concluidos);
 
                 // chart
-                setChartCategoriaSem(data.chartDemandasMaisFrequentesSemana);
-                setChartCategoriaMes(data.chartDemandasMaisFrequentesMes);
-                setChartCategoria(chartCategoriaSem);
+                setChartCategoriaSem(toNumberAndInvert(data.chartDemandasMaisFrequentesSemana));
+                setChartCategoriaMes(toNumberAndInvert(data.chartDemandasMaisFrequentesMes));
+                setChartDemandasPorSemana(toNumberAndInvert(data.chartDemandasPorSemana));
             }
         })
         .catch(err => {
             console.log(err);
         });
     }, []);
+
+    useEffect(() => {
+        setChartCategoria(chartCategoriaSem);
+    }, [chartCategoriaSem, chartCategoriaMes]);
 
     return(
         <>
@@ -79,11 +84,11 @@ function DashboardChatOps() {
                                 <div className="dashboard-chatops-metricas-grafico-container-1">
                                     <Chart
                                         chartType="PieChart"
-                                        data={[
+                                        data={chartDemandasPorSemana || [
                                             ["", "Demanda"], 
-                                            ["Sua equipe (com sucesso)", 2], 
-                                            ["Você (com sucesso)", 10], 
-                                            ["Sem sucesso", 3]
+                                            ["Sua equipe (com sucesso)", 1], 
+                                            ["Você (com sucesso)", 1], 
+                                            ["Sem sucesso", 10]
                                         ]}
                                         width="100%"
                                         height="100%"
@@ -126,11 +131,11 @@ function DashboardChatOps() {
                                         chartType="Bar"
                                         data={chartCategoria || [
                                             ["Dia", "Pagamento", "Adoção"],
-                                            ["11/18", 20, 18],
-                                            ["11/19", 10, 12],
-                                            ["11/20", 15, 14],
-                                            ["11/21", 14, 12],
-                                            ["11/22", 17, 20],
+                                            ["11/18", 0, 0],
+                                            ["11/19", 0, 0],
+                                            ["11/20", 0, 0],
+                                            ["11/21", 0, 0],
+                                            ["11/22", 0, 0],
                                         ]}
                                         width="100%"
                                         height="100%"

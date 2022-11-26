@@ -4,17 +4,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import petfinder.petfinderapi.entidades.Demanda;
 import petfinder.petfinderapi.resposta.DtoDemanda;
-
 import java.util.List;
 import java.util.Optional;
 
 public interface DemandaRepositorio extends JpaRepository<Demanda, Integer> {
 
-
     List<Demanda> findAllByUsuarioId(Integer id);
 
-//    List<Demanda> findAllByColaboradorId(Integer id); saber se são iguais
-    // Traz todas as demandas dos colaboradores sem filtro por status
     @Query("SELECT d FROM Demanda d WHERE d.colaborador.id = ?1")
     List<Demanda> findAllDemandaColaborador(int idUsuario);
 
@@ -40,8 +36,6 @@ public interface DemandaRepositorio extends JpaRepository<Demanda, Integer> {
     // Traz todas demadas concluidas do usuário
     @Query("SELECT d from Demanda d WHERE d.usuario.id = ?1 AND d.status IN ('CONCLUIDO','CANCELADO')")
     List<Demanda> findAllStatusConcluidoUsuario(int idUsuario);
-
-
 
     // Traz todas demadas abertas da instituição
     @Query("SELECT d FROM Demanda d WHERE d.status = 'ABERTO' AND d.instituicao.id = ?1")
@@ -135,5 +129,14 @@ public interface DemandaRepositorio extends JpaRepository<Demanda, Integer> {
 
     @Query("SELECT COUNT(d.id) FROM Demanda d WHERE d.instituicao.id = ?1 AND d.status = 'aberto'")
     public Integer countEmEsperaByInstituicaoId(Integer id);
+
+    @Query("SELECT count(d) FROM Demanda d WHERE d.instituicao.id = ?1 AND d.colaborador.id <> ?2 AND d.dataFechamento > '2022-10-26' AND d.status = 'concluido'")
+    Integer findSuaEquipe(Integer instituicaoId, Integer usuarioId);
+
+    @Query("SELECT count(d) FROM Demanda d WHERE d.colaborador.id <> ?1 AND d.dataFechamento > '2022-10-26' AND d.status = 'concluido'")
+    Integer findVoce(Integer usuarioId);
+
+    @Query("SELECT count(d) FROM Demanda d WHERE d.instituicao.id <> ?1 AND d.dataFechamento > '2022-10-26' AND d.status = 'cancelado'")
+    Integer findSemSucesso(Integer instituicaoId);
 
 }

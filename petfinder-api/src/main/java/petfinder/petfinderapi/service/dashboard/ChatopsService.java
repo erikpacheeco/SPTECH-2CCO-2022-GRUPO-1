@@ -51,7 +51,14 @@ public class ChatopsService {
         res.setConcluidos(demandaRepo.countConcluidoByInstituicaoId(usuario.getInstituicao().getId()));
 
         // charts
-        List<DateHole> demandaPorSemana = viewDemandasPorSemanaRepo.findDemandasPorSemana(usuario.getInstituicao().getId());
+        Integer suaEquipe = demandaRepo.findSuaEquipe(usuario.getInstituicao().getId(), usuario.getId());
+        Integer voce = demandaRepo.findVoce(usuario.getId());
+        Integer semSucesso = demandaRepo.findSemSucesso(usuario.getInstituicao().getId());
+
+        res.getChartDemandasPorSemana().add(List.of("Sua equipe (com sucesso)", String.valueOf(suaEquipe)));
+        res.getChartDemandasPorSemana().add(List.of("Você (com sucesso)", String.valueOf(voce)));
+        res.getChartDemandasPorSemana().add(List.of("Sem sucesso", String.valueOf(semSucesso)));
+
         List<DateHole> pagamentos7Dias = viewDemandas7Dias.findPagamentosByInstituicaoId(usuario.getInstituicao().getId());
         List<DateHole> apadrinhamentos7Dias = viewDemandas7Dias.findAdocoesByInstituicaoId(usuario.getInstituicao().getId());
         List<DateHole> pagamentos6Mes = viewDemandas6Meses.findPagamentosByInstituicaoId(usuario.getInstituicao().getId());
@@ -60,7 +67,6 @@ public class ChatopsService {
         // building weekly charts
         for(Date date = new Date(); new Date().getDate() - date.getDate() < 7; date.setDate(date.getDate() - 1)) {
             String actual = Conversor.dateToDayMonthString(date);
-            res.getChartDemandasPorSemana().add(DashboardUtils.addDateHole(actual, demandaPorSemana));
             res.getChartDemandasMaisFrequentesSemana().add(DashboardUtils.addDateHole(actual, apadrinhamentos7Dias, pagamentos7Dias));
         }
 

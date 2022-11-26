@@ -17,9 +17,9 @@ public class DtoChatopsResponse {
         chartDemandasPorSemana = new ArrayList<List<String>>();
         chartDemandasMaisFrequentesSemana = new ArrayList<List<String>>();
         chartDemandasMaisFrequentesMes = new ArrayList<List<String>>();
-        chartDemandasPorSemana.add(List.of("Dia", "Demandas"));
-        chartDemandasMaisFrequentesSemana.add(List.of("Dia", "Adoção", "Pagamento"));
-        chartDemandasMaisFrequentesMes.add(List.of("Mês", "Adoção", "Pagamento"));
+        chartDemandasPorSemana.add(List.of("", "Demanda"));
+        chartDemandasMaisFrequentesSemana.add(List.of("Dia", "Adoção", "Contribuições"));
+        chartDemandasMaisFrequentesMes.add(List.of("Mês", "Adoção", "Contribuições"));
     }
 
     // getters and setters
