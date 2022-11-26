@@ -4,7 +4,8 @@ import React from "react";
 import { Chart } from "react-google-charts";
 import VLibras from "@djpfs/react-vlibras"
 import { useEffect, useState } from "react";
-import api from "../../Api"
+import api from "../../Api";
+import BtnDashboard from "../../Components/BtnDashboard";
 
 export const options = {
     is3D: true
@@ -14,7 +15,39 @@ function DashboardChatOps() {
 
     const infoUsuario = JSON.parse(localStorage.getItem('petfinder_user'));
 
-    var trocaBtnDemanda = true;
+    const [btnPadrinhosSem, setBtnPadrinhosSem] = useState(true);
+
+    // cards
+    const [emEspera, setEmEspera] = useState(0);
+    const [concluido, setConcluido] = useState(0);
+
+    // charts
+    const [chartDemandasPorSemana, setChartDemandasPorSemana] = useState(null);
+    const [chartCategoriaSem, setChartCategoriaSem] = useState(null);
+    const [chartCategoriaMes, setChartCategoriaMes] = useState(null);
+    const [chartCategoria, setChartCategoria] = useState(null);
+
+    // requesting
+    useEffect(() => {
+        api.get(`/dashboard/chatops/${infoUsuario.id}`)
+        .then(({status, data}) => {
+            if(status == 200) {
+                console.log(data);
+
+                // card
+                setEmEspera(data.emEspera);
+                setConcluido(data.concluidos);
+
+                // chart
+                setChartCategoriaSem(data.chartDemandasMaisFrequentesSemana);
+                setChartCategoriaMes(data.chartDemandasMaisFrequentesMes);
+                setChartCategoria(chartCategoriaSem);
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    }, []);
 
     return(
         <>
@@ -26,12 +59,12 @@ function DashboardChatOps() {
                         <h2>Métricas de cadastro</h2>
                         <div className="dashboard-chatops-metricas-card-container">
                             <div className="dashboard-chatops-metricas-card">
-                                <p>{15}</p>
+                                <p>{emEspera}</p>
                                 <p>Em espera</p>
                             </div>
 
                             <div className="dashboard-chatops-metricas-card">
-                                <p>{20}</p>
+                                <p>{concluido}</p>
                                 <p>Concluídas</p>
                             </div>
 
@@ -65,29 +98,33 @@ function DashboardChatOps() {
 
                                 <div className="dashboard-chatops-metricas-grafico-botoes">
 
-                                    <button
-                                        type="button"
-                                        className="btn-semana-demanda"
-                                        id='btn-semana-demanda'
-                                        onClick={() => {}}
-                                    >
-                                        Semana
-                                    </button>
+                                    <BtnDashboard 
+                                        value="Semana" 
+                                        active={btnPadrinhosSem}
+                                        click={() => {
+                                            if (!btnPadrinhosSem) {
+                                                setChartCategoria(chartCategoriaSem);
+                                                setBtnPadrinhosSem(true);
+                                            }
+                                        }}
+                                    />
 
-                                    <button
-                                        type="button"
-                                        className="btn-mes-demanda"
-                                        id='btn-mes-demanda'
-                                        onClick={() => {}}
-                                    >
-                                        Mês
-                                    </button>
+                                    <BtnDashboard 
+                                        value="Mês" 
+                                        active={!btnPadrinhosSem}
+                                        click={() => {
+                                            if (btnPadrinhosSem) {
+                                                setChartCategoria(chartCategoriaMes);
+                                                setBtnPadrinhosSem(false);
+                                            }
+                                        }}
+                                    />
                                 </div>
 
                                 <div className="dashboard-chatops-metricas-grafico-container">
                                     <Chart
                                         chartType="Bar"
-                                        data={[
+                                        data={chartCategoria || [
                                             ["Dia", "Pagamento", "Adoção"],
                                             ["11/18", 20, 18],
                                             ["11/19", 10, 12],
