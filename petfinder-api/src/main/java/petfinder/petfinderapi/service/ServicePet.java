@@ -164,7 +164,7 @@ public class ServicePet {
             TimeUnit.SECONDS.sleep(1);
             entity.setCaminhoImagem(fileName);
         } catch(Exception ex) {
-            throw new InvalidFieldException("file", "arquivo inválido");
+            throw new InvalidFieldException("file", ex.getMessage());
         }
 
         // 201 created
