@@ -117,8 +117,8 @@ public class PetsController implements GerenciadorArquivos {
         return ResponseEntity.status(200).body(lista);
     }
 
-    @GetMapping("/distinct")
-    @Operation(description = "Endpoint que retorna uma lista de pets onde a especie tem que ser diferente")
+    @GetMapping("/especie")
+    @Operation(description = "Endpoint que retorna uma lista com todas as espécies de pet")
     public ResponseEntity<List<String>> getPetsEspecie() {
         List<String> lista = repositoryPet.findDistinctByEspecie();
 
@@ -762,8 +762,8 @@ public class PetsController implements GerenciadorArquivos {
         return ResponseEntity.status(200).body(pets);
     }
 
-    @GetMapping("/filter")
-    public ResponseEntity<List<PetPerfil>> getPetsByFilters(FilterRequest filters) {
+    @PostMapping("/filter")
+    public ResponseEntity<List<PetPerfil>> getPetsByFilters(@RequestBody FilterRequest filters) {
 
         Specification<Pet> spec = Specification.where(filters.getPorte() != null ? PetSpecification.porteIn(filters.getPorte()) : null)
                 .and(filters.getSexo() != null ? PetSpecification.sexoIn(filters.getSexo()) : null)
@@ -773,6 +773,7 @@ public class PetsController implements GerenciadorArquivos {
 
         List<Pet> pets = repositoryPet.findAll(spec);
         List<PetPerfil> petPerfil = new ArrayList<PetPerfil>();
+        
         if(Objects.nonNull(filters.getCaracteristicas())){
             List<Integer> petsId = new ArrayList<Integer>();
             for (Pet pet : pets) {
@@ -786,6 +787,41 @@ public class PetsController implements GerenciadorArquivos {
             return ResponseEntity.status(200).body(petPerfil);
         }
 
+    }
 
+    @GetMapping("/sexo")
+    @Operation(description = "Endpoint que retorna uma lista de todos os sexos de pet")
+    public ResponseEntity<List<String>> getPetsSexo() {
+        List<String> lista = repositoryPet.findDistinctBySexo();
+
+        if (lista.isEmpty()) {
+            return ResponseEntity.status(204).body(lista);
+        }
+
+        return ResponseEntity.status(200).body(lista);
+    }
+
+    @GetMapping("/porte")
+    @Operation(description = "Endpoint que retorna uma lista de todos os portes de pet")
+    public ResponseEntity<List<String>> getPetsPorte() {
+        List<String> lista = repositoryPet.findDistinctByPorte();
+
+        if (lista.isEmpty()) {
+            return ResponseEntity.status(204).body(lista);
+        }
+
+        return ResponseEntity.status(200).body(lista);
+    }
+
+    @GetMapping("/doente")
+    @Operation(description = "Endpoint que retorna uma lista de todos os portes de pet")
+    public ResponseEntity<List<String>> getPetsDoente() {
+        List<String> lista = repositoryPet.findDistinctByDoente();
+
+        if (lista.isEmpty()) {
+            return ResponseEntity.status(204).body(lista);
+        }
+
+        return ResponseEntity.status(200).body(lista);
     }
 }

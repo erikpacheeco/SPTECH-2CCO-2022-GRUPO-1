@@ -20,6 +20,10 @@ public class FilterRequest {
         this.especie = especie;
     }
 
+    public Boolean hasFilter(){
+        return getEspecie() != null && getCaracteristicas() != null && getSexo() != null && getPorte() != null && getIsDoente() != null;
+    }
+
     public List<String> getPorte() {
         return porte;
     }
