@@ -64,13 +64,13 @@ const headerFunction = {
         if(nivelAcesso == "sysadm"){
             listaHeader = [
                 <NavItem isSelected={paginaAtual == "/dashboard-sysadmin" ? true : false} label="Dashboard" navigateTo={"/dashboard-sysadmin"}/>,
-                <NavItem isSelected={paginaAtual == "" ? true : false} label="Admin Cadastrados" navigateTo={`/lista-adm/${infoUsuario.id}`}/>,
-                <NavItem isSelected={paginaAtual == "" ? true : false} label="Instituições Cadastradas" navigateTo={"/lista-instituicao"}/>
+                <NavItem isSelected={paginaAtual == `/lista-adm/${infoUsuario.id}` ? true : false} label="Admin Cadastrados" navigateTo={`/lista-adm/${infoUsuario.id}`}/>,
+                <NavItem isSelected={paginaAtual == "/lista-instituicao" ? true : false} label="Instituições Cadastradas" navigateTo={"/lista-instituicao"}/>
             ]
         } else if(nivelAcesso == "adm"){
             listaHeader = [
                 <NavItem isSelected={paginaAtual == "/dashboard-admin" ? true : false} label="Dashboard" navigateTo={"/dashboard-admin"}/>,
-                <NavItem isSelected={paginaAtual == "" ? true : false} label="Padrinhos" navigateTo={"/lista-padrinho"}/>,
+                <NavItem isSelected={paginaAtual == "/lista-padrinho" ? true : false} label="Padrinhos" navigateTo={"/lista-padrinho"}/>,
                 <NavItem isSelected={paginaAtual == "/chat" ? true : false}label="Demandas" navigateTo={"/chat"}/>
             ]
         } else if(nivelAcesso == "chatops"){

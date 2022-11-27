@@ -17,8 +17,6 @@ import petfinder.petfinderapi.requisicao.CriacaoDemanda;
 import petfinder.petfinderapi.requisicao.DtoPatchDemanda;
 import javax.validation.Valid;
 import java.io.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -52,19 +50,13 @@ public class DemandaController implements GerenciadorArquivos{
     private DemandaService service;
 
     @Autowired
-    private ServiceDashboardSysadmBI serviceDashboardSysadmBI;
-
-    @Autowired
-    private ServiceDashboardAdmBI serviceDashboardAdmBI;
-
-    @Autowired
-    private ServiceDashboardChatOpsBI serviceDashboardChatOpsBI;
-
-    @Autowired
     private ServiceUsuario serviceUsuario;
 
     @Autowired
     private PremioRepositorio premioRepositorio;
+
+    @Autowired
+    private ServiceRequest serviceRequest; 
 
 
     // enums
@@ -78,60 +70,21 @@ public class DemandaController implements GerenciadorArquivos{
     @GetMapping("/{demandaId}/historico")
     @Operation(description = "Endpoint que retorna uma lista do hisórico de alguma demanda")
     public ResponseEntity<List<DtoDemandaHist>> getHistDemanda(@PathVariable int demandaId){
+        serviceRequest.saveRequest();
         return ResponseEntity.ok(service.getHistDemandas(demandaId));
     }
 
     @PatchMapping("/status/{idDemanda}")
     @Operation(description = "Endpoint para atualizar o status de uma demanda especifica pelo ID")
     public ResponseEntity<DtoDemanda> patchDemandaStatus(@PathVariable int idDemanda, @RequestBody @Valid DtoPatchDemanda dto) {
+        serviceRequest.saveRequest();
         return ResponseEntity.ok(service.patchDemandaStatus(idDemanda, dto));
-    }
-
-    @GetMapping("/dashboard/{idUsuario}")
-    @Operation(description = "Endpoint que retorna dados BI para as dashboard, utilizando de uma DTO")
-    public ResponseEntity<Object> getDashboardBI(@PathVariable int idUsuario){
-
-        Optional<Usuario> usuario = usuarioRepositorio.findById(idUsuario);
-
-        if(usuario.isPresent()){
-
-            if (usuario.get().getNivelAcesso().equalsIgnoreCase("sysadm")){
-
-                if(Objects.isNull(serviceDashboardSysadmBI.getDashboardSysadminBI(idUsuario))){
-                    return ResponseEntity.status(204).build();
-                }
-
-                return ResponseEntity.status(200).body(serviceDashboardSysadmBI.getDashboardSysadminBI(idUsuario));
-
-            } else if (usuario.get().getNivelAcesso().equalsIgnoreCase("adm")){
-
-                if(Objects.isNull(serviceDashboardAdmBI.getDashboardAdminBI(idUsuario))){
-                    return ResponseEntity.status(204).build();
-                }
-
-                return ResponseEntity.status(200).body(serviceDashboardAdmBI.getDashboardAdminBI(idUsuario));
-
-            } else if (usuario.get().getNivelAcesso().equalsIgnoreCase("chatops")){
-
-                if(Objects.isNull(serviceDashboardChatOpsBI.getDashboardChatOpsBI(idUsuario))){
-                    return ResponseEntity.status(204).build();
-                }
-
-                return ResponseEntity.status(200).body(serviceDashboardChatOpsBI.getDashboardChatOpsBI(idUsuario));
-
-            } else {
-                return ResponseEntity.status(404).build();
-            }
-
-        }
-
-        // 404 usuario not found
-        return ResponseEntity.status(404).build();
     }
 
     @PostMapping
     @Operation(description = "Endpoint de criação de novas demandas, utilizando de uma DTO")
     public ResponseEntity<DtoDemanda> postDemanda(@RequestBody @Valid CriacaoDemanda novaDemanda){
+        serviceRequest.saveRequest();
 
         Optional<Usuario> usuario = usuarioRepositorio.findById(novaDemanda.getFkUsuario());
         Optional<Instituicao> instituicao = instituicaoRepositorio.findById(novaDemanda.getFkIntituicao());
@@ -167,31 +120,28 @@ public class DemandaController implements GerenciadorArquivos{
     @GetMapping
     @Operation(description = "Endpoint que retorna uma lista de demandas sem filtro")
     public ResponseEntity<List<DtoDemanda>> getDemanda(){
+        serviceRequest.saveRequest();
         return ResponseEntity.ok(service.getDemandas());
     }
 
     @GetMapping("/{idDemanda}")
     @Operation(description = "Endpoint que retorna uma demanda filtrada pelo ID")
     public ResponseEntity<DtoDemanda> getDemandaById(@PathVariable int idDemanda){
+        serviceRequest.saveRequest();
         return ResponseEntity.ok(service.getDemandaById(idDemanda));
     }
 
     @GetMapping("/chats/{userId}")
     @Operation(description = "Lista demandas no formato de chats")
     public ResponseEntity<DtoDemandaChats> getDemandaChats(@PathVariable Integer userId) {
+        serviceRequest.saveRequest();
         return ResponseEntity.ok(service.getChats(userId));
     }
 
     private void gerarHistoricoDemanda(Demanda demanda){
+        serviceRequest.saveRequest();
         DemandaHist demandaHist = new DemandaHist(demanda);
         demandaHistRepository.save(demandaHist);
-    }
-
-    private String gerarDataAtual(){
-        Date date = Calendar.getInstance().getTime();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String strDate = dateFormat.format(date);
-        return strDate;
     }
 
     // endpoints
@@ -199,6 +149,7 @@ public class DemandaController implements GerenciadorArquivos{
     @GetMapping("/user/{idUsuario}")
     @Operation(description = "Endpoint que retorna uma lista de demandas filtradas pelo ID do Usuário")
     public ResponseEntity<List<Demanda>> getDemandaUserById(@PathVariable int idUsuario){
+        serviceRequest.saveRequest();
         Optional<Usuario> usuario = usuarioRepositorio.findById(idUsuario);
         // verificando se usuario existe
         if (usuario.isPresent()) {
@@ -233,6 +184,7 @@ public class DemandaController implements GerenciadorArquivos{
     @GetMapping("/user/{idUsuario}/grupoStatus")
     @Operation(description = "Endpoint que retorna uma lista de demandas de acordo com o status e filtrada pelo tipo de usuário")
     public ResponseEntity<DemandaUsuario> getDemandaColaboradorStatus(@PathVariable int idUsuario){
+        serviceRequest.saveRequest();
         Optional<Usuario> usuario = usuarioRepositorio.findById(idUsuario);
         if (usuario.isPresent()){
             if (usuario.get().getNivelAcesso().equalsIgnoreCase("USER")){
@@ -277,6 +229,7 @@ public class DemandaController implements GerenciadorArquivos{
     @GetMapping("/instituicao/{idInstituicao}")
     @Operation(description = "Endpoint que retorna uma lista de demandas de uma instituição")
     public ResponseEntity<List<Demanda>> getDemandaByInstituicao(@PathVariable int idInstituicao){
+        serviceRequest.saveRequest();
         if (instituicaoRepositorio.existsById(idInstituicao)){
             List<Demanda> lista = demandaRepositorio.findAllByInstituicaoId(idInstituicao);
             if (lista.isEmpty()){
@@ -291,6 +244,7 @@ public class DemandaController implements GerenciadorArquivos{
     @GetMapping("/instituicao/{idInstituicao}/{status}")
     @Operation(description = "Endpoint que retorna uma lista de demandas filtradas pela instituição e pelo status da demanda")
     public ResponseEntity<List<Demanda>> getDemandaByInstituicaoAndStatus(@PathVariable int idInstituicao, @PathVariable String status){
+        serviceRequest.saveRequest();
         if (instituicaoRepositorio.existsById(idInstituicao)){
 
             if (!statusPossiveis.elementoExiste(status)) {
@@ -313,6 +267,7 @@ public class DemandaController implements GerenciadorArquivos{
     @PutMapping("/{idDemanda}")
     @Operation(description = "Endpoint para atualizar por completo uma demanda")
     public ResponseEntity<Demanda> putDemanda(@PathVariable int idDemanda, @RequestBody @Valid Demanda demandaAtualizar){
+        serviceRequest.saveRequest();
         // verificando se demanda existe
         if (demandaRepositorio.existsById(idDemanda)){
 
@@ -346,6 +301,7 @@ public class DemandaController implements GerenciadorArquivos{
     @PatchMapping("/colaborador-abrir/{idDemanda}/{idColaborador}")
     @Operation(description = "Endpoint que insere um colaborador na demanda")
     public ResponseEntity<Object> patchDemandaColaborador(@PathVariable int idDemanda, @PathVariable int idColaborador){
+        serviceRequest.saveRequest();
         Optional<Demanda> demanda = demandaRepositorio.findById(idDemanda);
         Optional<Usuario> colaborador = usuarioRepositorio.findById(idColaborador);
 
@@ -373,6 +329,8 @@ public class DemandaController implements GerenciadorArquivos{
     @Operation(description = "Enpoint que deleta uma demanda especifica filtrada pelo ID")
     public ResponseEntity<Object> deleteDemanda(@PathVariable int idDemanda){
 
+        serviceRequest.saveRequest();
+
         // verificando se demanda existe
         if (demandaRepositorio.existsById(idDemanda)){
             // deletando demanda
@@ -388,6 +346,8 @@ public class DemandaController implements GerenciadorArquivos{
     @PostMapping("/mensagem")
     @Operation(description = "Endpoint que cria as mensagens relacionadas a uma demanda")
     public ResponseEntity<Mensagem> postMensagem(@RequestBody @Valid Mensagem mensagem){
+
+        serviceRequest.saveRequest();
 
         Optional<Demanda> demanda = demandaRepositorio.findById(mensagem.getDemanda().getId());
         Optional<Usuario> usuario = usuarioRepositorio.findById(mensagem.getUsuario().getId());
@@ -408,6 +368,8 @@ public class DemandaController implements GerenciadorArquivos{
     @GetMapping("/mensagem/{idDemanda}")
     @Operation(description = "Endpoint que retorna as mensagens da mais recente a mais antiga")
     public ResponseEntity<List<Mensagem>> getMensagemDecredcente(@PathVariable Integer idDemanda){
+
+        serviceRequest.saveRequest();
         if (demandaRepositorio.existsById(idDemanda)){
             List<Mensagem> lista = mensagemRepository.findAllMensagemDemandaDecrescente(idDemanda);
 
@@ -423,6 +385,8 @@ public class DemandaController implements GerenciadorArquivos{
     @GetMapping("/download/{idInstituicao}/{status}")
     @Operation(description = "Endpoint responsável por fazer o download do log de demandas com um tipo de status e de uma unica instiuição filtrada pelo seu ID")
     public ResponseEntity<Object> getDemandaCSV(@PathVariable int idInstituicao, @PathVariable String status){
+        serviceRequest.saveRequest();
+
         List<Demanda> listaRepositorio = demandaRepositorio.findAllByInstituicaoAndStatus(idInstituicao,status);
         ListaObj<Demanda> listaDemandas = new ListaObj<>(listaRepositorio.size());
         for(Demanda d : listaRepositorio){
@@ -443,6 +407,8 @@ public class DemandaController implements GerenciadorArquivos{
 
     @Override
     public void gravaArquivoCSV(ListaObj lista, String nomeArquivo) {
+        serviceRequest.saveRequest();
+
         FileWriter arq = null;
         Formatter saida = null;
         boolean deuRuim = false;
@@ -497,6 +463,8 @@ public class DemandaController implements GerenciadorArquivos{
 
     @Override
     public String leArquivoCSV(String nomeArq) {
+        serviceRequest.saveRequest();
+
         FileReader arq = null;
         Scanner entrada = null;
         boolean deuRuim = false;
@@ -551,6 +519,8 @@ public class DemandaController implements GerenciadorArquivos{
 
     @Override
     public void gravaRegistro(String registro, String nomeArq) {
+        serviceRequest.saveRequest();
+
         BufferedWriter saida = null;
 
         // try-catch para abrir o arquivo
@@ -574,6 +544,8 @@ public class DemandaController implements GerenciadorArquivos{
     @Override
     public <T> T gravaArquivoTxt(List<Demanda> listaDemanda, List<Usuario> listaUsuario,
                                  List<Instituicao> listaInstituicao, List<Pet> listaPet, String nomeArq) {
+        serviceRequest.saveRequest();
+
         int contaRegCorpo = 0;
 
         // Monta o registro de header
@@ -631,6 +603,8 @@ public class DemandaController implements GerenciadorArquivos{
 
     @GetMapping("/export-demandas")
     public ResponseEntity getPetsGravarDoc(){
+        serviceRequest.saveRequest();
+
         List<Demanda> demanda = demandaRepositorio.findAll();
         List<Demanda> listaDemanda = new ArrayList<>();
 
@@ -668,339 +642,21 @@ public class DemandaController implements GerenciadorArquivos{
 
     @GetMapping("/count/apadrinhamentos/{idInstituicao}")
     ResponseEntity countApadrinhamentosByIntituicao(@PathVariable int idInstituicao) {
+        serviceRequest.saveRequest();
+
         int qtdApadrinhamentos = demandaRepositorio.countAllApadrinhamentos(idInstituicao);
         return ResponseEntity.status(200).body(qtdApadrinhamentos);
     }
 
     @GetMapping("/premios/get/{idUser}")
     public ResponseEntity getPetsApadrinhadosPorUser(@PathVariable int idUser) {
+        serviceRequest.saveRequest();
+
         List<PremioDto> pets = premioRepositorio.findByUsuarioIdDto(idUser);
         if (pets.isEmpty()) {
             return ResponseEntity.status(204).build();
         }
         return ResponseEntity.status(200).body(pets);
-    }
-
-    @GetMapping("/premios/get/instituicao/{idInst}")
-    public ResponseEntity findPremiosByInstituicaoIdDto(@PathVariable int idInst) {
-
-        LocalDateTime dataAtual = LocalDateTime.now();
-
-        String ano = Integer.toString(dataAtual.getYear());
-        String mes6 = Integer.toString(dataAtual.getMonthValue());
-        String mes5 = "0"+Integer.toString(dataAtual.getMonthValue()-1);
-        String mes4 = "0"+Integer.toString(dataAtual.getMonthValue()-2);
-        String mes3 = "0"+Integer.toString(dataAtual.getMonthValue()-3);
-        String mes2 = "0"+Integer.toString(dataAtual.getMonthValue()-4);
-        String mes1 = "0"+Integer.toString(dataAtual.getMonthValue()-5);
-
-        String dia7 = Integer.toString(dataAtual.getDayOfMonth());
-        String dia6 = Integer.toString(dataAtual.getDayOfMonth()-1);
-        String dia5 = Integer.toString(dataAtual.getDayOfMonth()-2);
-        String dia4 = Integer.toString(dataAtual.getDayOfMonth()-3);
-        String dia3 = Integer.toString(dataAtual.getDayOfMonth()-4);
-        String dia2 = Integer.toString(dataAtual.getDayOfMonth()-5);
-        String dia1 = Integer.toString(dataAtual.getDayOfMonth()-6);
-
-        List<PremioDtoData> premiosSemana7 = premioRepositorio.findByInstituicaoIdSemana(idInst, ano, mes6, dia7);
-        List<PremioDtoData> premiosSemana6 = premioRepositorio.findByInstituicaoIdSemana(idInst, ano, mes6, dia6);
-        List<PremioDtoData> premiosSemana5 = premioRepositorio.findByInstituicaoIdSemana(idInst, ano, mes6, dia5);
-        List<PremioDtoData> premiosSemana4 = premioRepositorio.findByInstituicaoIdSemana(idInst, ano, mes6, dia4);
-        List<PremioDtoData> premiosSemana3 = premioRepositorio.findByInstituicaoIdSemana(idInst, ano, mes6, dia3);
-        List<PremioDtoData> premiosSemana2 = premioRepositorio.findByInstituicaoIdSemana(idInst, ano, mes6, dia2);
-        List<PremioDtoData> premiosSemana1 = premioRepositorio.findByInstituicaoIdSemana(idInst, ano, mes6, dia1);
-
-        List<PremioDtoData> premiosMes6 = premioRepositorio.findByInstituicaoIdMes(idInst, ano, mes6);
-        List<PremioDtoData> premiosMes5 = premioRepositorio.findByInstituicaoIdMes(idInst, ano, mes5);
-        List<PremioDtoData> premiosMes4 = premioRepositorio.findByInstituicaoIdMes(idInst, ano, mes4);
-        List<PremioDtoData> premiosMes3 = premioRepositorio.findByInstituicaoIdMes(idInst,ano, mes3);
-        List<PremioDtoData> premiosMes2 = premioRepositorio.findByInstituicaoIdMes(idInst, ano, mes2);
-        List<PremioDtoData> premiosMes1 = premioRepositorio.findByInstituicaoIdMes(idInst, ano, mes1);
-
-
-        ArrayList premiosMes = new ArrayList<>();
-        premiosMes.add(premiosMes1.size());
-        premiosMes.add(premiosMes2.size());
-        premiosMes.add(premiosMes3.size());
-        premiosMes.add(premiosMes4.size());
-        premiosMes.add(premiosMes5.size());
-        premiosMes.add(premiosMes6.size());
-
-        ArrayList premiosSemana = new ArrayList<>();
-        premiosSemana.add(premiosSemana1.size());
-        premiosSemana.add(premiosSemana2.size());
-        premiosSemana.add(premiosSemana3.size());
-        premiosSemana.add(premiosSemana4.size());
-        premiosSemana.add(premiosSemana5.size());
-        premiosSemana.add(premiosSemana6.size());
-        premiosSemana.add(premiosSemana7.size());
-
-        ArrayList premios = new ArrayList<>();
-        premios.add(premiosSemana);
-        premios.add(premiosMes);
-
-        return ResponseEntity.status(200).body(premios);
-    }
-
-    @GetMapping("/dashboard/instituicao/{idInst}")
-    public ResponseEntity findDemandasByInstituicao(@PathVariable int idInst) {
-
-        LocalDateTime dataAtual = LocalDateTime.now();
-
-        String ano = Integer.toString(dataAtual.getYear());
-        String mes6 = Integer.toString(dataAtual.getMonthValue());
-        String mes5 = "0"+Integer.toString(dataAtual.getMonthValue()-1);
-        String mes4 = "0"+Integer.toString(dataAtual.getMonthValue()-2);
-        String mes3 = "0"+Integer.toString(dataAtual.getMonthValue()-3);
-        String mes2 = "0"+Integer.toString(dataAtual.getMonthValue()-4);
-        String mes1 = "0"+Integer.toString(dataAtual.getMonthValue()-5);
-
-        String dia7 = Integer.toString(dataAtual.getDayOfMonth());
-        String dia6 = Integer.toString(dataAtual.getDayOfMonth()-1);
-        String dia5 = Integer.toString(dataAtual.getDayOfMonth()-2);
-        String dia4 = Integer.toString(dataAtual.getDayOfMonth()-3);
-        String dia3 = Integer.toString(dataAtual.getDayOfMonth()-4);
-        String dia2 = Integer.toString(dataAtual.getDayOfMonth()-5);
-        String dia1 = Integer.toString(dataAtual.getDayOfMonth()-6);
-
-        int demandasSemanaAdocao7 = demandaRepositorio.countDemandaAdocaoUltimaSemana(idInst, ano, mes6, dia7);
-        int demandasSemanaAdocao6 = demandaRepositorio.countDemandaAdocaoUltimaSemana(idInst, ano, mes6, dia6);
-        int demandasSemanaAdocao5 = demandaRepositorio.countDemandaAdocaoUltimaSemana(idInst, ano, mes6, dia5);
-        int demandasSemanaAdocao4 = demandaRepositorio.countDemandaAdocaoUltimaSemana(idInst, ano, mes6, dia4);
-        int demandasSemanaAdocao3 = demandaRepositorio.countDemandaAdocaoUltimaSemana(idInst, ano, mes6, dia3);
-        int demandasSemanaAdocao2 = demandaRepositorio.countDemandaAdocaoUltimaSemana(idInst, ano, mes6, dia2);
-        int demandasSemanaAdocao1 = demandaRepositorio.countDemandaAdocaoUltimaSemana(idInst, ano, mes6, dia1);
-
-        int demandasSemanaPagamento7 = demandaRepositorio.countDemandaAdocaoUltimaSemana(idInst, ano, mes6, dia7);
-        int demandasSemanaPagamento6 = demandaRepositorio.countDemandaAdocaoUltimaSemana(idInst, ano, mes6, dia6);
-        int demandasSemanaPagamento5 = demandaRepositorio.countDemandaAdocaoUltimaSemana(idInst, ano, mes6, dia5);
-        int demandasSemanaPagamento4 = demandaRepositorio.countDemandaAdocaoUltimaSemana(idInst, ano, mes6, dia4);
-        int demandasSemanaPagamento3 = demandaRepositorio.countDemandaAdocaoUltimaSemana(idInst, ano, mes6, dia3);
-        int demandasSemanaPagamento2 = demandaRepositorio.countDemandaAdocaoUltimaSemana(idInst, ano, mes6, dia2);
-        int demandasSemanaPagamento1 = demandaRepositorio.countDemandaAdocaoUltimaSemana(idInst, ano, mes6, dia1);
-
-        int demandasMesAdocao6 = demandaRepositorio.countDemandasAdocaoMes(idInst, ano, mes6);
-        int demandasMesAdocao5 = demandaRepositorio.countDemandasAdocaoMes(idInst, ano, mes5);
-        int demandasMesAdocao4 = demandaRepositorio.countDemandasAdocaoMes(idInst, ano, mes4);
-        int demandasMesAdocao3 = demandaRepositorio.countDemandasAdocaoMes(idInst,ano, mes3);
-        int demandasMesAdocao2 = demandaRepositorio.countDemandasAdocaoMes(idInst, ano, mes2);
-        int demandasMesAdocao1 = demandaRepositorio.countDemandasAdocaoMes(idInst, ano, mes1);
-
-        int demandasMesPagamento6 = demandaRepositorio.countDemandasPagamentoMes(idInst, ano, mes6);
-        int demandasMesPagamento5 = demandaRepositorio.countDemandasPagamentoMes(idInst, ano, mes5);
-        int demandasMesPagamento4 = demandaRepositorio.countDemandasPagamentoMes(idInst, ano, mes4);
-        int demandasMesPagamento3 = demandaRepositorio.countDemandasPagamentoMes(idInst,ano, mes3);
-        int demandasMesPagamento2 = demandaRepositorio.countDemandasPagamentoMes(idInst, ano, mes2);
-        int demandasMesPagamento1 = demandaRepositorio.countDemandasPagamentoMes(idInst, ano, mes1);
-
-
-        ArrayList demandaAdocaoSemana = new ArrayList<>();
-        demandaAdocaoSemana.add(demandasSemanaAdocao1);
-        demandaAdocaoSemana.add(demandasSemanaAdocao2);
-        demandaAdocaoSemana.add(demandasSemanaAdocao3);
-        demandaAdocaoSemana.add(demandasSemanaAdocao4);
-        demandaAdocaoSemana.add(demandasSemanaAdocao5);
-        demandaAdocaoSemana.add(demandasSemanaAdocao6);
-        demandaAdocaoSemana.add(demandasSemanaAdocao7);
-
-        ArrayList demandaPagamentoSemana = new ArrayList<>();
-        demandaPagamentoSemana.add(demandasSemanaPagamento1);
-        demandaPagamentoSemana.add(demandasSemanaPagamento2);
-        demandaPagamentoSemana.add(demandasSemanaPagamento3);
-        demandaPagamentoSemana.add(demandasSemanaPagamento4);
-        demandaPagamentoSemana.add(demandasSemanaPagamento5);
-        demandaPagamentoSemana.add(demandasSemanaPagamento6);
-        demandaPagamentoSemana.add(demandasSemanaPagamento7);
-
-        ArrayList demandaAdocaoMes = new ArrayList<>();
-        demandaAdocaoMes.add(demandasMesAdocao1);
-        demandaAdocaoMes.add(demandasMesAdocao2);
-        demandaAdocaoMes.add(demandasMesAdocao3);
-        demandaAdocaoMes.add(demandasMesAdocao4);
-        demandaAdocaoMes.add(demandasMesAdocao5);
-        demandaAdocaoMes.add(demandasMesAdocao6);
-
-        ArrayList demandaPagamentoMes = new ArrayList<>();
-        demandaPagamentoMes.add(demandasMesPagamento1);
-        demandaPagamentoMes.add(demandasMesPagamento2);
-        demandaPagamentoMes.add(demandasMesPagamento3);
-        demandaPagamentoMes.add(demandasMesPagamento4);
-        demandaPagamentoMes.add(demandasMesPagamento5);
-        demandaPagamentoMes.add(demandasMesPagamento6);
-
-
-        TipoDemandaDto tipoDemandaDto = new TipoDemandaDto();
-        tipoDemandaDto.setDemandaAdocaoSemana(demandaAdocaoSemana);
-        tipoDemandaDto.setDemandaPagamentoSemana(demandaPagamentoSemana);
-        tipoDemandaDto.setDemandaAdocaoMes(demandaAdocaoMes);
-        tipoDemandaDto.setDemandaPagamentoMes(demandaPagamentoMes);
-
-        return ResponseEntity.status(200).body(tipoDemandaDto);
-    }
-    @GetMapping("/dashboard/usuario/{idInst}/{idUsuario}")
-    public ResponseEntity findDemandasByInstituicao(@PathVariable int idInst, @PathVariable int idUsuario) {
-
-        LocalDateTime dataAtual = LocalDateTime.now();
-
-        String ano = Integer.toString(dataAtual.getYear());
-        String mes6 = Integer.toString(dataAtual.getMonthValue());
-        String mes5 = "0"+Integer.toString(dataAtual.getMonthValue()-1);
-        String mes4 = "0"+Integer.toString(dataAtual.getMonthValue()-2);
-        String mes3 = "0"+Integer.toString(dataAtual.getMonthValue()-3);
-        String mes2 = "0"+Integer.toString(dataAtual.getMonthValue()-4);
-        String mes1 = "0"+Integer.toString(dataAtual.getMonthValue()-5);
-
-        String dia7 = Integer.toString(dataAtual.getDayOfMonth());
-        String dia6 = Integer.toString(dataAtual.getDayOfMonth()-1);
-        String dia5 = Integer.toString(dataAtual.getDayOfMonth()-2);
-        String dia4 = Integer.toString(dataAtual.getDayOfMonth()-3);
-        String dia3 = Integer.toString(dataAtual.getDayOfMonth()-4);
-        String dia2 = Integer.toString(dataAtual.getDayOfMonth()-5);
-        String dia1 = Integer.toString(dataAtual.getDayOfMonth()-6);
-
-        int demandasSemanaAdocao7 = demandaRepositorio.countDemandaAdocaoUltimaSemanaUsuario(idUsuario, ano, mes6, dia7);
-        int demandasSemanaAdocao6 = demandaRepositorio.countDemandaAdocaoUltimaSemanaUsuario(idUsuario, ano, mes6, dia6);
-        int demandasSemanaAdocao5 = demandaRepositorio.countDemandaAdocaoUltimaSemanaUsuario(idUsuario, ano, mes6, dia5);
-        int demandasSemanaAdocao4 = demandaRepositorio.countDemandaAdocaoUltimaSemanaUsuario(idUsuario, ano, mes6, dia4);
-        int demandasSemanaAdocao3 = demandaRepositorio.countDemandaAdocaoUltimaSemanaUsuario(idUsuario, ano, mes6, dia3);
-        int demandasSemanaAdocao2 = demandaRepositorio.countDemandaAdocaoUltimaSemanaUsuario(idUsuario, ano, mes6, dia2);
-        int demandasSemanaAdocao1 = demandaRepositorio.countDemandaAdocaoUltimaSemanaUsuario(idUsuario, ano, mes6, dia1);
-
-        int demandasSemanaPagamento7 = demandaRepositorio.countDemandaPagamentoUltimaSemana(idUsuario, ano, mes6, dia7);
-        int demandasSemanaPagamento6 = demandaRepositorio.countDemandaPagamentoUltimaSemana(idUsuario, ano, mes6, dia6);
-        int demandasSemanaPagamento5 = demandaRepositorio.countDemandaPagamentoUltimaSemana(idUsuario, ano, mes6, dia5);
-        int demandasSemanaPagamento4 = demandaRepositorio.countDemandaPagamentoUltimaSemana(idUsuario, ano, mes6, dia4);
-        int demandasSemanaPagamento3 = demandaRepositorio.countDemandaPagamentoUltimaSemana(idUsuario, ano, mes6, dia3);
-        int demandasSemanaPagamento2 = demandaRepositorio.countDemandaPagamentoUltimaSemana(idUsuario, ano, mes6, dia2);
-        int demandasSemanaPagamento1 = demandaRepositorio.countDemandaPagamentoUltimaSemana(idUsuario, ano, mes6, dia1);
-
-        int demandasMesAdocao6 = demandaRepositorio.countDemandasAdocaoMesUsuario(idInst, idUsuario, ano, mes6);
-        int demandasMesAdocao5 = demandaRepositorio.countDemandasAdocaoMesUsuario(idInst, idUsuario, ano, mes5);
-        int demandasMesAdocao4 = demandaRepositorio.countDemandasAdocaoMesUsuario(idInst, idUsuario, ano, mes4);
-        int demandasMesAdocao3 = demandaRepositorio.countDemandasAdocaoMesUsuario(idInst, idUsuario,ano, mes3);
-        int demandasMesAdocao2 = demandaRepositorio.countDemandasAdocaoMesUsuario(idInst, idUsuario, ano, mes2);
-        int demandasMesAdocao1 = demandaRepositorio.countDemandasAdocaoMesUsuario(idInst, idUsuario, ano, mes1);
-
-        int demandasMesPagamento6 = demandaRepositorio.countDemandasPagamentoMesUsuario(idInst, idUsuario, ano, mes6);
-        int demandasMesPagamento5 = demandaRepositorio.countDemandasPagamentoMesUsuario(idInst, idUsuario, ano, mes5);
-        int demandasMesPagamento4 = demandaRepositorio.countDemandasPagamentoMesUsuario(idInst, idUsuario, ano, mes4);
-        int demandasMesPagamento3 = demandaRepositorio.countDemandasPagamentoMesUsuario(idInst, idUsuario,ano, mes3);
-        int demandasMesPagamento2 = demandaRepositorio.countDemandasPagamentoMesUsuario(idInst, idUsuario, ano, mes2);
-        int demandasMesPagamento1 = demandaRepositorio.countDemandasPagamentoMesUsuario(idInst, idUsuario, ano, mes1);
-
-
-        ArrayList demandaAdocaoSemana = new ArrayList<>();
-        demandaAdocaoSemana.add(demandasSemanaAdocao1);
-        demandaAdocaoSemana.add(demandasSemanaAdocao2);
-        demandaAdocaoSemana.add(demandasSemanaAdocao3);
-        demandaAdocaoSemana.add(demandasSemanaAdocao4);
-        demandaAdocaoSemana.add(demandasSemanaAdocao5);
-        demandaAdocaoSemana.add(demandasSemanaAdocao6);
-        demandaAdocaoSemana.add(demandasSemanaAdocao7);
-
-        ArrayList demandaPagamentoSemana = new ArrayList<>();
-        demandaPagamentoSemana.add(demandasSemanaPagamento1);
-        demandaPagamentoSemana.add(demandasSemanaPagamento2);
-        demandaPagamentoSemana.add(demandasSemanaPagamento3);
-        demandaPagamentoSemana.add(demandasSemanaPagamento4);
-        demandaPagamentoSemana.add(demandasSemanaPagamento5);
-        demandaPagamentoSemana.add(demandasSemanaPagamento6);
-        demandaPagamentoSemana.add(demandasSemanaPagamento7);
-
-        ArrayList demandaAdocaoMes = new ArrayList<>();
-        demandaAdocaoMes.add(demandasMesAdocao1);
-        demandaAdocaoMes.add(demandasMesAdocao2);
-        demandaAdocaoMes.add(demandasMesAdocao3);
-        demandaAdocaoMes.add(demandasMesAdocao4);
-        demandaAdocaoMes.add(demandasMesAdocao5);
-        demandaAdocaoMes.add(demandasMesAdocao6);
-
-        ArrayList demandaPagamentoMes = new ArrayList<>();
-        demandaPagamentoMes.add(demandasMesPagamento1);
-        demandaPagamentoMes.add(demandasMesPagamento2);
-        demandaPagamentoMes.add(demandasMesPagamento3);
-        demandaPagamentoMes.add(demandasMesPagamento4);
-        demandaPagamentoMes.add(demandasMesPagamento5);
-        demandaPagamentoMes.add(demandasMesPagamento6);
-
-
-        TipoDemandaDto tipoDemandaDto = new TipoDemandaDto();
-        tipoDemandaDto.setDemandaAdocaoSemana(demandaAdocaoSemana);
-        tipoDemandaDto.setDemandaPagamentoSemana(demandaPagamentoSemana);
-        tipoDemandaDto.setDemandaAdocaoMes(demandaAdocaoMes);
-        tipoDemandaDto.setDemandaPagamentoMes(demandaPagamentoMes);
-
-        return ResponseEntity.status(200).body(tipoDemandaDto);
-    }
-
-    @GetMapping("/padrinhos/{idInstituicao}")
-    @Operation(description = "retorna lista de padrinhos de uma instituicao")
-    @ApiResponse(responseCode = "200", description = "Ok")
-    @ApiResponse(responseCode = "204", description = "No Content", content = @Content)
-    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
-    public ResponseEntity countPadrinhosPorMes(@PathVariable Integer idInstituicao) {
-
-        LocalDateTime dataAtual = LocalDateTime.now();
-
-        String ano = Integer.toString(dataAtual.getYear());
-        String mes6 = Integer.toString(dataAtual.getMonthValue());
-        String mes5 = "0"+Integer.toString(dataAtual.getMonthValue()-1);
-        String mes4 = "0"+Integer.toString(dataAtual.getMonthValue()-2);
-        String mes3 = "0"+Integer.toString(dataAtual.getMonthValue()-3);
-        String mes2 = "0"+Integer.toString(dataAtual.getMonthValue()-4);
-        String mes1 = "0"+Integer.toString(dataAtual.getMonthValue()-5);
-
-        String dia7 = Integer.toString(dataAtual.getDayOfMonth());
-        String dia6 = Integer.toString(dataAtual.getDayOfMonth()-1);
-        String dia5 = Integer.toString(dataAtual.getDayOfMonth()-2);
-        String dia4 = Integer.toString(dataAtual.getDayOfMonth()-3);
-        String dia3 = Integer.toString(dataAtual.getDayOfMonth()-4);
-        String dia2 = Integer.toString(dataAtual.getDayOfMonth()-5);
-        String dia1 = Integer.toString(dataAtual.getDayOfMonth()-6);
-
-        List allPadrinhos = serviceUsuario.getPadrinhos(idInstituicao);
-
-        if (allPadrinhos.size() == 0) {
-            return ResponseEntity.status(204).build();
-        }
-
-        Integer padrinhosMes6 = demandaRepositorio.countPadrinhosMes(idInstituicao, ano, mes6);
-        Integer padrinhosMes5 = demandaRepositorio.countPadrinhosMes(idInstituicao, ano, mes5);
-        Integer padrinhosMes4 = demandaRepositorio.countPadrinhosMes(idInstituicao, ano, mes4);
-        Integer padrinhosMes3 = demandaRepositorio.countPadrinhosMes(idInstituicao, ano, mes3);
-        Integer padrinhosMes2 = demandaRepositorio.countPadrinhosMes(idInstituicao, ano, mes2);
-        Integer padrinhosMes1 = demandaRepositorio.countPadrinhosMes(idInstituicao, ano, mes1);
-
-        int padrinhoSemana7 = demandaRepositorio.countPadrinhosUltimaSemana(ano, mes6, dia7);
-        int padrinhoSemana6 = demandaRepositorio.countPadrinhosUltimaSemana(ano, mes6, dia6);
-        int padrinhoSemana5 = demandaRepositorio.countPadrinhosUltimaSemana(ano, mes6, dia5);
-        int padrinhoSemana4 = demandaRepositorio.countPadrinhosUltimaSemana(ano, mes6, dia4);
-        int padrinhoSemana3 = demandaRepositorio.countPadrinhosUltimaSemana(ano, mes6, dia3);
-        int padrinhoSemana2 = demandaRepositorio.countPadrinhosUltimaSemana(ano, mes6, dia2);
-        int padrinhoSemana1 = demandaRepositorio.countPadrinhosUltimaSemana(ano, mes6, dia1);
-
-        ArrayList demandaPadrinhoSemana = new ArrayList<>();
-        demandaPadrinhoSemana.add(padrinhoSemana1);
-        demandaPadrinhoSemana.add(padrinhoSemana2);
-        demandaPadrinhoSemana.add(padrinhoSemana3);
-        demandaPadrinhoSemana.add(padrinhoSemana4);
-        demandaPadrinhoSemana.add(padrinhoSemana5);
-        demandaPadrinhoSemana.add(padrinhoSemana6);
-        demandaPadrinhoSemana.add(padrinhoSemana7);
-
-        ArrayList demandaPadrinhoMes = new ArrayList<>();
-        demandaPadrinhoMes.add(padrinhosMes1);
-        demandaPadrinhoMes.add(padrinhosMes2);
-        demandaPadrinhoMes.add(padrinhosMes3);
-        demandaPadrinhoMes.add(padrinhosMes4);
-        demandaPadrinhoMes.add(padrinhosMes5);
-        demandaPadrinhoMes.add(padrinhosMes6);
-
-        ArrayList padrinhos = new ArrayList<>();
-        padrinhos.add(demandaPadrinhoSemana);
-        padrinhos.add(demandaPadrinhoMes);
-
-        return ResponseEntity.status(200).body(padrinhos);
     }
 
 }

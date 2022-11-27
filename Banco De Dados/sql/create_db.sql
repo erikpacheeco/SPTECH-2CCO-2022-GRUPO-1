@@ -197,5 +197,16 @@ CREATE TABLE locais_petfrindly (
   id INT PRIMARY KEY AUTO_INCREMENT,
   nome VARCHAR(45),
   endereco VARCHAR(100) NOT NULL,
-  cep CHAR(9)
+  cep CHAR(9),
+  latitude VARCHAR(20) NOT NULL,
+  longitude VARCHAR(20) NOT NULL
+);
+
+-- -----------------------------------------------------
+-- Table requests
+-- -----------------------------------------------------
+CREATE TABLE requests(
+	id INT PRIMARY KEY AUTO_INCREMENT,
+  request VARCHAR(100) NOT NULL,
+  data DATETIME NOT NULL
 );

@@ -4,12 +4,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import petfinder.petfinderapi.entidades.Pet;
 import petfinder.petfinderapi.resposta.PetPerfil;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 public interface PetRepositorio extends JpaRepository<Pet, Integer> {
+
+    @Query("SELECT COUNT(p) FROM Pet p WHERE p.adotado = 0")
+    public Integer countPets();
 
     List<Pet> findAll();
   
@@ -35,7 +37,7 @@ public interface PetRepositorio extends JpaRepository<Pet, Integer> {
     @Query("SELECT new petfinder.petfinderapi.resposta.PetPerfil(p) FROM Pet p WHERE p.instituicao.id = ?1")
     List<PetPerfil> findPetPerfilByInstituicao(int id);
 
-    @Query("SELECT count(p) FROM Pet p WHERE p.adotado <> 'true'")
+    @Query("SELECT count(p) FROM Pet p WHERE p.adotado <> 0")
     public Integer findAllPet();
 
     @Query("SELECT count(p) FROM Demanda p WHERE p.categoria = 'ADOCAO' AND p.instituicao.id = ?1 AND p.status = 'CONCLUIDO'")

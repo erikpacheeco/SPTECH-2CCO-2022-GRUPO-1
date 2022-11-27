@@ -20,15 +20,14 @@ import petfinder.petfinderapi.resposta.PremioDto;
 import petfinder.petfinderapi.rest.ClienteCep;
 import petfinder.petfinderapi.rest.DistanciaResposta;
 import petfinder.petfinderapi.service.ServicePet;
+import petfinder.petfinderapi.service.ServiceRequest;
 import petfinder.petfinderapi.utilitarios.FilaObj;
 import petfinder.petfinderapi.utilitarios.PilhaObj;
-import petfinder.petfinderapi.utilitarios.HashTable.HashTable;
 import petfinder.petfinderapi.utilitarios.HashTable.PetsInstituicao;
 import petfinder.petfinderapi.utilitarios.GerenciadorArquivos;
 import petfinder.petfinderapi.utilitarios.ListaObj;
 import javax.validation.Valid;
 import java.io.*;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -64,6 +63,9 @@ public class PetsController implements GerenciadorArquivos {
     @Autowired
     private PetInstituicaoRepositorio view;
 
+    @Autowired
+    private ServiceRequest requestService;
+
     public static List<Pet> pets = new ArrayList<>();
     public static List<Premio> premios = new ArrayList<>();
     private FilaObj<Object> filaObj = new FilaObj<Object>(10);
@@ -74,11 +76,13 @@ public class PetsController implements GerenciadorArquivos {
 
     @GetMapping("/view-test")
     public ResponseEntity<List<PetInstituicao>> getView() {
+        requestService.saveRequest();
         return ok(view.findAll());
     }
 
     @PostMapping("/{id}/premios")
     public ResponseEntity<PremioDto> postMimo(@PathVariable int id, @RequestParam("file") MultipartFile multipart) {
+        requestService.saveRequest();
         PremioDto res = servicePet.postMimo(id, multipart);
         return created(HeaderConfig.getLocation(res.getId())).body(res);
     }
@@ -88,6 +92,7 @@ public class PetsController implements GerenciadorArquivos {
     @ApiResponse(responseCode = "200", description = "Ok")
     @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
     public ResponseEntity<PetPerfil> getPetPerfil(@PathVariable Integer id, @RequestParam(required = false) Integer userId) {
+        requestService.saveRequest();
         return ResponseEntity.ok(servicePet.getPetPerfil(id, userId));
     }
 
@@ -96,6 +101,7 @@ public class PetsController implements GerenciadorArquivos {
     @ApiResponse(responseCode = "200", description = "Ok")
     @ApiResponse(responseCode = "404", description = "Not Found", content = @Content)
     ResponseEntity<PetPerfil> getPetById(@PathVariable int id, @RequestParam(required = false) Integer userId) {
+        requestService.saveRequest();
         return ResponseEntity.ok(servicePet.getPetPerfil(id, userId));
     }
 
@@ -104,11 +110,16 @@ public class PetsController implements GerenciadorArquivos {
     @ApiResponse(responseCode = "200", description = "Ok")
     @ApiResponse(responseCode = "204", description = "Not Content", content = @Content)
     public ResponseEntity<List<PetPerfil>> getPets() {
+        requestService.saveRequest();
         List<PetPerfil> lista = repositoryPet.findAllPetPerfil();
 
         if (lista.isEmpty()) {
             return ResponseEntity.status(204).body(lista);
         }
+
+        lista.stream().forEach((pet) -> {
+            pet.setMimosPorMes(servicePet.mediaPremiosByPetId(pet));
+        });
 
         return ResponseEntity.status(200).body(lista);
     }
@@ -116,6 +127,7 @@ public class PetsController implements GerenciadorArquivos {
     @GetMapping("/distinct")
     @Operation(description = "Endpoint que retorna uma lista de pets onde a especie tem que ser diferente")
     public ResponseEntity<List<String>> getPetsEspecie() {
+        requestService.saveRequest();
         List<String> lista = repositoryPet.findDistinctByEspecie();
 
         if (lista.isEmpty()) {
@@ -128,17 +140,20 @@ public class PetsController implements GerenciadorArquivos {
     @GetMapping("/instituicao/{id}")
     @Operation(description = "Endpoint que retorna uma lista de pets de uma instituição especifica")
     public ResponseEntity<List<PetPerfil>> getByInstituicaoId(@PathVariable int id) {
+        requestService.saveRequest();
         return ResponseEntity.ok(servicePet.getPetPerfilByInstituicaoId(id));
     }
 
     @GetMapping("/instituicao/hashTable/{id}")
     @Operation(description = "Endpoint que retorna uma lista de pets de uma instituição utilizando HashTable")
     public ResponseEntity<PetsInstituicao> getPetPerfilByInstituicaoHashTable(@PathVariable int id) {
+        requestService.saveRequest();
         return ok(servicePet.getPetPerfilByInstituicaoIdHashTable(id));
     }
 
     @GetMapping("/instituicao/pets/count/{id}")
     ResponseEntity countByPetInstituicao(@PathVariable int id) {
+        requestService.saveRequest();
         int qtdPetInst = repositoryPet.findAllPetInstituicao(id);
         return ResponseEntity.status(200).body(qtdPetInst);
     }
@@ -159,6 +174,7 @@ public class PetsController implements GerenciadorArquivos {
         @RequestParam("descricao") String descricao,
         @RequestParam("caracteristicas[]") Integer[] caracteristicas
     ) {
+        requestService.saveRequest();
         // creating pet
         PetPerfil petCriado = servicePet.createPet(
             multipart,
@@ -180,6 +196,7 @@ public class PetsController implements GerenciadorArquivos {
     @PutMapping("/{id}")
     @Operation(description = "Endpoint para atualizar informações de um pet especifico")
     public ResponseEntity<Void> putPet(@RequestBody PetPerfilEdicao petAtualizado, @PathVariable int id) {
+        requestService.saveRequest();
         Pet petAtual = repositoryPet.getById(id);
 
         if (repositoryPet.existsById(id)) {
@@ -199,6 +216,7 @@ public class PetsController implements GerenciadorArquivos {
     @DeleteMapping("/{id}")
     @Operation(description = "Muda valor de 'adotado' para true")
     ResponseEntity<Pet> deletePet(@PathVariable int id) {
+        requestService.saveRequest();
         
         if (repositoryPet.existsById(id)) {
 
@@ -218,6 +236,7 @@ public class PetsController implements GerenciadorArquivos {
     @DeleteMapping("/permanent/{id}")
     @Operation(description = "Endpoint que deleta um pet especifico e seus premios pelo ID")
     ResponseEntity<Pet> deletePermanentByIdpet(@PathVariable int id) {  
+        requestService.saveRequest();
         
         if (repositoryPet.existsById(id)) {
 
@@ -258,6 +277,7 @@ public class PetsController implements GerenciadorArquivos {
     @GetMapping(value = "/premio/foto/{codigo}", produces = "image/jpeg")
     @Operation(description = "Endpoint pegar foto do premio por id do premio")
     public ResponseEntity<String> getFotoPremio(@PathVariable int codigo) {
+        requestService.saveRequest();
         if (!repositoryPremio.existsById(codigo)){
             return ResponseEntity.status(404).build();
         }
@@ -269,6 +289,8 @@ public class PetsController implements GerenciadorArquivos {
     @Operation(description = "Endpoint para cadastrar um novo premio")
     public ResponseEntity<Object> postPremio(
             @RequestBody @Valid Premio novoPremio) {
+        
+        requestService.saveRequest();
 
         if (Objects.nonNull(novoPremio)) {
             repositoryPremio.save(novoPremio);
@@ -280,6 +302,7 @@ public class PetsController implements GerenciadorArquivos {
     @PutMapping("/premio/{id}")
     @Operation(description = "Endpoint que atualiza um premio especifico filtrado pelo ID")
     public ResponseEntity<Object> putPremio(@RequestBody Premio premioAtualizado, @PathVariable int id) {
+        requestService.saveRequest();
         if (repositoryPremio.existsById(id)) {
             premioAtualizado.setId(id);
             repositoryPremio.save(premioAtualizado);
@@ -291,6 +314,8 @@ public class PetsController implements GerenciadorArquivos {
     @GetMapping("/static/img/premios")
     @Operation(description = "Endpoint que retorna uma lista de todos os premios")
     public ResponseEntity<Object> getPremios() {
+        requestService.saveRequest();
+
         List<Premio> lista = repositoryPremio.findAll();
 
         if (lista.isEmpty()) {
@@ -303,6 +328,8 @@ public class PetsController implements GerenciadorArquivos {
     @GetMapping("/premio/{id}")
     @Operation(description = "Endpoint que retorna um premio filtrado pelo ID")
     ResponseEntity<Object> getByidPremios(@PathVariable int id) {
+        requestService.saveRequest();
+
         if (repositoryPremio.existsById(id)) {
             List<Premio> lista = repositoryPremio.findById(id);
             return ResponseEntity.status(200).body(lista);
@@ -313,6 +340,8 @@ public class PetsController implements GerenciadorArquivos {
     @GetMapping("/caracteristicas/pet/{id}")
     @Operation(description = "Endpoint que retorna um premio filtrado pelo ID")
     ResponseEntity<List<Caracteristica>> getCaracteristicasByPetId(@PathVariable int id) {
+
+        requestService.saveRequest();
 
         Optional<Pet> pet = repositoryPet.findById(id);
 
@@ -335,6 +364,8 @@ public class PetsController implements GerenciadorArquivos {
     @DeleteMapping("/premio/{id}")
     @Operation(description = "Endpoint que deleta um premio especifico filtrado pelo ID")
     ResponseEntity<Object> deleteByIdPremio(@PathVariable int id) {
+        requestService.saveRequest();
+
         if (repositoryPremio.existsById(id)) {
             repositoryPremio.deleteById(id);
             return ResponseEntity.status(200).build();
@@ -350,6 +381,9 @@ public class PetsController implements GerenciadorArquivos {
     @Operation(description = "Endpoint para cadastrar uma caracteristica")
     public ResponseEntity<Object> postCaracteristica(
             @RequestBody @Valid Caracteristica novaCaracteristica) {
+        
+        requestService.saveRequest();
+
         if (Objects.nonNull(novaCaracteristica)) {
             repositoryCaracteristica.save(novaCaracteristica);
             return ResponseEntity.status(201).build();
@@ -360,6 +394,9 @@ public class PetsController implements GerenciadorArquivos {
     @PutMapping("/caracteristica/{id}")
     @Operation(description = "Endpoint para atualizar uma caracteristica especifica filtrada pelo ID ")
     public ResponseEntity<Object> putCaracteristica(@RequestBody Caracteristica caracteristicaAtualizada, @PathVariable int id) {
+        
+        requestService.saveRequest();
+
         if (repositoryCaracteristica.existsById(id)) {
             caracteristicaAtualizada.setId(id);
             repositoryCaracteristica.save(caracteristicaAtualizada);
@@ -371,6 +408,8 @@ public class PetsController implements GerenciadorArquivos {
     @GetMapping("/caracteristicas")
     @Operation(description = "Endpoint que retorna uma lista com todas as caracteristicas")
     public ResponseEntity<List<Caracteristica>> getCaracteristica() {
+        requestService.saveRequest();
+
         List<Caracteristica> lista = repositoryCaracteristica.findAll();
 
         if (lista.isEmpty()) {
@@ -383,6 +422,8 @@ public class PetsController implements GerenciadorArquivos {
     @GetMapping("/caracteristica/{id}")
     @Operation(description = "Endpoint que retorna uma caracteristica especifica filtrada pelo ID")
     ResponseEntity<Caracteristica> getByidCaracteristca(@PathVariable int id) {
+        requestService.saveRequest();
+
         if (repositoryCaracteristica.existsById(id)) {
             Optional<Caracteristica> caracteristica = repositoryCaracteristica.findById(id);
             return ResponseEntity.status(200).body(caracteristica.get());
@@ -394,6 +435,8 @@ public class PetsController implements GerenciadorArquivos {
     @DeleteMapping("/caracteristica/{id}")
     @Operation(description = "Endpoint que deleta uma caracteristica especifica filtrada pelo ID")
     ResponseEntity<Object> deleteByIdCaracteristica(@PathVariable int id) {
+        requestService.saveRequest();
+
         if (repositoryCaracteristica.existsById(id)) {
             repositoryCaracteristica.deleteById(id);
             return ResponseEntity.status(200).build();
@@ -408,6 +451,8 @@ public class PetsController implements GerenciadorArquivos {
     @PostMapping("/has-caracteristica/{idPet}")
     @Operation(description = "Endpoint para cadastrar um relacionamento de uma caracteristica")
     public ResponseEntity<List<Caracteristica>> postHasCaracteristica(@RequestBody List<Caracteristica> caracteristicas, @PathVariable int idPet) {
+
+        requestService.saveRequest();
 
         Optional<Pet> pet = repositoryPet.findById(idPet); 
 
@@ -455,6 +500,9 @@ public class PetsController implements GerenciadorArquivos {
     @GetMapping("/has-caracteristicas")
     @Operation(description = "Endpoint para retornar todos os registros de relacionamentos")
     public ResponseEntity<Object> getHasCaracteristica() {
+
+        requestService.saveRequest();
+
         List<PetHasCaracteristica> lista = repositoryHasCaracteristica.findAll();
 
         if (lista.isEmpty()) {
@@ -468,6 +516,9 @@ public class PetsController implements GerenciadorArquivos {
     @Operation(description = "Endpoint para atualização do relacionamente de uma caracteristica")
     public ResponseEntity<Object> putHasCaracteristica(@RequestBody PetHasCaracteristica hasCaracteristicaAtualizada,
                                                @PathVariable int indice) {
+
+        requestService.saveRequest();
+
         if (repositoryHasCaracteristica.existsById(indice)) {
             hasCaracteristicaAtualizada.setId(indice);
             repositoryHasCaracteristica.save(hasCaracteristicaAtualizada);
@@ -480,6 +531,9 @@ public class PetsController implements GerenciadorArquivos {
     @GetMapping("/distancias/{cepUsuario}/{distanciaMax}")
     public ResponseEntity<Object> getListaDistanciasPet(@PathVariable String cepUsuario,
                                                           @PathVariable Integer distanciaMax) {
+
+        requestService.saveRequest();
+
         List<Pet> lista = repositoryPet.findAll();
 
         if (lista.isEmpty()) {
@@ -501,6 +555,8 @@ public class PetsController implements GerenciadorArquivos {
     @GetMapping("/premios-instituicao/{idInstituicao}")
     @Operation(description = "Endpoint para retornar todos os mimos de determinada instituição")
     public ResponseEntity<Object> getByMimosInstituicao(@PathVariable int idInstituicao) {
+
+        requestService.saveRequest();
 
         List<Pet> listaPet = repositoryPet.findByInstituicaoId(idInstituicao);
 
@@ -525,6 +581,9 @@ public class PetsController implements GerenciadorArquivos {
     @GetMapping("/premios-especie/{especie}")
     @Operation(description = "Endpoint para retornar todos os mimos de determinada espécie")
     public ResponseEntity<Object> getByMimosEspecie(@PathVariable String especie) {
+
+        requestService.saveRequest();
+
         List<PetPerfil> listaPet = repositoryPet.findByEspecieIgnoreCase(especie);
 
         for (int i = 0; i < listaPet.size(); i++) {
@@ -547,6 +606,9 @@ public class PetsController implements GerenciadorArquivos {
     @GetMapping("/static/img/premios/{idPet}")
     @Operation(description = "Endpoint para retornar todos os mimos de determinado pet")
     public ResponseEntity<List<Premio>> getByMimosPet(@PathVariable int idPet) {
+
+        requestService.saveRequest();
+
         Optional<Pet> pet = repositoryPet.findById(idPet);
 
         if (pet.isPresent()) {
@@ -567,6 +629,9 @@ public class PetsController implements GerenciadorArquivos {
     @GetMapping("/caracteristicas/{idCaracteristica}")
     @Operation(description = "Endpoint para retornar uma lista de pets com determinada caracteristica")
     public ResponseEntity<Object> getByCaracteristicasPet(@PathVariable int idCaracteristica) {
+
+        requestService.saveRequest();
+
         List<PetHasCaracteristica> lista = repositoryHasCaracteristica.findByFkCaracteriticaId(idCaracteristica);
 
         if (lista.isEmpty()) {
@@ -577,15 +642,20 @@ public class PetsController implements GerenciadorArquivos {
 
     @Override
     public void gravaArquivoCSV(ListaObj lista, String nomeArquivo) {
+        requestService.saveRequest();
     }
 
     @Override
     public String leArquivoCSV(String nomeArq) {
+        requestService.saveRequest();
         return null;
     }
 
     @Override
     public boolean leArquivoTxt(String nomeArq, Instituicao instituicao) {
+
+        requestService.saveRequest();
+
         BufferedReader entrada = null;
         String registro, tipoRegistro;
         String nome, dataNasc, especie, raca, porte, descricao, sexo, caracteristica;
@@ -683,15 +753,18 @@ public class PetsController implements GerenciadorArquivos {
 
     @Override
     public void gravaRegistro(String registro, String nomeArq) {
+        requestService.saveRequest();
     }
 
     @Override
     public <T> T gravaArquivoTxt(List<Demanda> listaDemanda, List<Usuario> listaUsuario, List<Instituicao> listaInstituicao, List<Pet> listaPet, String nomeArq) {
+        requestService.saveRequest();
         return null;
     }
 
     @PostMapping(value = "/import-pet/{idInstituicao}", consumes = "multipart/form-data")
     public ResponseEntity postNovoPet(@RequestBody MultipartFile novoPet, @PathVariable int idInstituicao) {
+        requestService.saveRequest();
         String nomeArq = novoPet.getResource().getFilename();
         Instituicao instituicao = repositoryInstituicao.getById(idInstituicao);
         if (leArquivoTxt(nomeArq, instituicao)) {
@@ -702,6 +775,7 @@ public class PetsController implements GerenciadorArquivos {
 
     @GetMapping("/doentes/{qtdPets}")
     public ResponseEntity<List<PetPerfil>> getPetsDoentes(@PathVariable int qtdPets) {
+        requestService.saveRequest();
         List<PetPerfil> petsDoentes = repositoryPet.findByDoenteAndAdotado();
 
         if (petsDoentes.isEmpty()) {
@@ -717,6 +791,7 @@ public class PetsController implements GerenciadorArquivos {
 
     @GetMapping("/premios/get/{idPet}")
     public ResponseEntity getPremiosByPetId(@PathVariable int idPet) {
+        requestService.saveRequest();
         List<PremioDto> premios = repositoryPremio.findByPetIdDto(idPet);
         if (premios.isEmpty()) {
             return ResponseEntity.status(204).build();
@@ -726,6 +801,7 @@ public class PetsController implements GerenciadorArquivos {
 
     @GetMapping("/apadrinhamentos/usuario/{idUser}")
     public ResponseEntity getPetsApadrinhadosPorUser(@PathVariable int idUser) {
+        requestService.saveRequest();
         Date now = new Date();
         Date thirtyDaysBefore = new Date();
         thirtyDaysBefore.setDate(thirtyDaysBefore.getDate() - 30);
@@ -734,11 +810,17 @@ public class PetsController implements GerenciadorArquivos {
         if (pets.isEmpty()) {
             return ResponseEntity.status(204).build();
         }
+
+        pets.stream().forEach((pet) -> {
+            pet.setMimosPorMes(servicePet.mediaPremiosByPetId(pet));
+        });
+
         return ResponseEntity.status(200).body(pets);
     }
 
     @GetMapping("/qtd/{qtdPets}")
     public ResponseEntity<List<PetPerfil>> getPetsQtdPets(@PathVariable int qtdPets) {
+        requestService.saveRequest();
         List<PetPerfil> pets = repositoryPet.findByAdotado();
 
         if (pets.isEmpty()) {
@@ -749,11 +831,17 @@ public class PetsController implements GerenciadorArquivos {
         for (int i = 0; i < qtdPets && i < pets.size(); i++) {
             listaPet.add(pets.get(i));
         }
+
+        listaPet.stream().forEach((pet) -> {
+            pet.setMimosPorMes(servicePet.mediaPremiosByPetId(pet));
+        });
+
         return ResponseEntity.status(200).body(listaPet);
     }
 
     @GetMapping("/userPreferences/{idUser}/{limit}")
     public ResponseEntity<List<PetPerfil>> getPetsWithUserPreferences(@PathVariable int idUser, @PathVariable int limit){
+        requestService.saveRequest();
         List<PetPerfil> pets = repositoryPet.findByUserPreferences(idUser);
         if(limit == 999){
             pets.addAll(repositoryPet.findNotByUserPreferences(idUser));
@@ -761,6 +849,10 @@ public class PetsController implements GerenciadorArquivos {
         else if(pets.size() < limit){
             pets.addAll(repositoryPet.findNotByUserPreferences(idUser).subList(0, limit-pets.size()));
         }
+
+        pets.stream().forEach((pet) -> {
+            pet.setMimosPorMes(servicePet.mediaPremiosByPetId(pet));
+        });
 
         return ResponseEntity.status(200).body(pets);
     }

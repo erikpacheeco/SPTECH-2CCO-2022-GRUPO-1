@@ -39,7 +39,7 @@ function CadastroPet() {
             } catch (error) {
                 console.log(error)
             }
-        })
+        });
     }, [])
 
     function handleChangePageBase(event) {

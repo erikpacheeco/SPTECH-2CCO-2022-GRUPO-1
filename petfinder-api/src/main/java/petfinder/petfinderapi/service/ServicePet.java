@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -22,6 +21,7 @@ import petfinder.petfinderapi.repositorios.PetHasCaracteristicaRepositorio;
 import petfinder.petfinderapi.repositorios.PetRepositorio;
 import petfinder.petfinderapi.repositorios.PremioRepositorio;
 import petfinder.petfinderapi.repositorios.UsuarioRepositorio;
+import petfinder.petfinderapi.repositorios.dashboard.ViewPremiosPetDataRepository;
 import petfinder.petfinderapi.requisicao.PetRequest;
 import petfinder.petfinderapi.resposta.PetPerfil;
 import petfinder.petfinderapi.resposta.PremioDto;
@@ -62,6 +62,9 @@ public class ServicePet {
     @Autowired
     private ServiceCep serviceCep;
 
+    @Autowired 
+    ViewPremiosPetDataRepository viewPremiosRepo;
+
     // success:     return pet profile data
     // fail:        throw IdNotFoundException
     public PetPerfil getPetPerfil(int petId, Integer userId) {
@@ -73,11 +76,17 @@ public class ServicePet {
         if (optional.isPresent()) {
             PetPerfil petPerfil = optional.get();
             petPerfil.setDistancia(getDistanceBetweenPetAndUser(petPerfil.getCepInstituicao(), userId));
+            petPerfil.setMimosPorMes(mediaPremiosByPetId(petPerfil));
             return petPerfil;
         }
 
         // 404 not found
         throw new EntityNotFoundException(petId);
+    }
+
+    public Double mediaPremiosByPetId(PetPerfil dto) {
+        Double media = viewPremiosRepo.findMediaPremiosByPetId(dto.getId());
+        return media == null ? 0 : media;
     }
 
     // return Integer value who represents distance between pet and user
@@ -120,6 +129,9 @@ public class ServicePet {
 
             // 200 ok
             if (list.size() > 0) {
+                list.stream().forEach((pet) -> {
+                    pet.setMimosPorMes(mediaPremiosByPetId(pet));
+                });
                 return list;
             }
 
@@ -164,7 +176,7 @@ public class ServicePet {
             TimeUnit.SECONDS.sleep(1);
             entity.setCaminhoImagem(fileName);
         } catch(Exception ex) {
-            throw new InvalidFieldException("file", "arquivo inválido");
+            throw new InvalidFieldException("file", ex.getMessage());
         }
 
         // 201 created
