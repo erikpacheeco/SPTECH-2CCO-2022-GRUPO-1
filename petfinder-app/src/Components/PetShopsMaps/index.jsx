@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import { useEffect } from 'react';
 
 export default function PetShopMaps() {
