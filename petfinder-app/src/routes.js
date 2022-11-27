@@ -22,9 +22,9 @@ import PerfilUsuario from "./Pages/PerfilUsuario";
 import ListaInstituicao from "./Pages/ListaInstituicao";
 import Perfil from "./Pages/Perfil";
 import ListaPadrinho from "./Pages/ListaPadrinho";
+import AdicionarMimos from "./Pages/AdicionarMimos";
 import React from "react";
 import './global.css';
-import AdicionarMimos from "./Pages/AdicionarMimos";
 
 function Rotas() {
     return (

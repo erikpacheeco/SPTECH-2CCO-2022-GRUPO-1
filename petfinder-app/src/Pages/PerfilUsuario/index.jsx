@@ -9,7 +9,9 @@ import Swal from 'sweetalert2';
 import withReactContent from "sweetalert2-react-content";
 
 // imagens
-import noPet from "../../Images/png_img/gatinhu.png";
+// import noPet from "../../Images/png_img/no-pets.gif";
+import noPet from "../../Images/png_img/no-pets-box.gif";
+// import noPet from "../../Images/png_img/gatinhu.png";
 import EditarIcon from "../../Images/edit-two.svg";
 
 function PerfilUsuario() {
@@ -194,7 +196,7 @@ function PerfilUsuario() {
             return (
                 <div className="perfil-usuario-box-Nolista">
                     <span>Ainda não ajudou algum pet</span>
-                    <img src={noPet} alt="Gato triste" />
+                    <img className='perfil-usuario-box-Nolista-img' src={noPet} alt="Gato triste" />
                     {objUser.nivelAcesso == "user" ? <button onClick={() => navigate("/home-user")}>Ajude Aqui!</button> : ""}
                 </div>
             )
@@ -343,7 +345,7 @@ function PerfilUsuario() {
 
                             <div className="perfil-usuario-card">
                                 <div className="perfil-usuario-card-container-caracteristica">
-                                    <span className="perfil-usuario-card-titulo">Características</span>
+                                    <span className="perfil-usuario-card-titulo">O que gosto nos meus pets:</span>
                                     <div className="perfil-usuario-box-caracteristica">
                                         {
                                             preferencias.map((pref) => (
