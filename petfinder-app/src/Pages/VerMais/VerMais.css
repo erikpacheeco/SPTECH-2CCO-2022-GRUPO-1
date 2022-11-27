@@ -90,6 +90,7 @@
     grid-column-gap: 5px;
     column-gap: 5px;
     overflow: auto;
+    padding-top: 5%;
 }
 
 .ver-mais-filtros{
