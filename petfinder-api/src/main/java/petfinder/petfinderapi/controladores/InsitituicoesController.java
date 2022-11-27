@@ -13,11 +13,12 @@ import petfinder.petfinderapi.repositorios.EnderecoRepositorio;
 import petfinder.petfinderapi.repositorios.InstituicaoRepositorio;
 import petfinder.petfinderapi.repositorios.UsuarioRepositorio;
 import petfinder.petfinderapi.requisicao.DtoAdmRequest;
-import petfinder.petfinderapi.resposta.PetPerfil;
 import petfinder.petfinderapi.rest.ClienteCep;
 import petfinder.petfinderapi.rest.Distancep;
 import petfinder.petfinderapi.rest.DistanciaResposta;
 import petfinder.petfinderapi.service.ServiceInstituicao;
+import petfinder.petfinderapi.service.ServiceRequest;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -45,12 +46,16 @@ public class InsitituicoesController {
     @Autowired
     private ServiceInstituicao service;
 
+    @Autowired
+    private ServiceRequest serviceRequest;
+
     // endpoints
 
     // retorna todas as instituições
     @GetMapping
     @Operation(description = "Endpoint que retorna uma lista de todas as suas instituições")
     public ResponseEntity<List<Instituicao>> listarInstituicoes(){
+        serviceRequest.saveRequest();
 
         List<Instituicao> instituicoes = instituicaoRepositorio.findAll();
 
@@ -69,6 +74,7 @@ public class InsitituicoesController {
     @GetMapping("/{id}")
     @Operation(description = "Enpoint que retorna uma unica instituição filtrada pelo seu ID")
     public ResponseEntity<Instituicao> getInstituicaoById(@PathVariable int id) {
+        serviceRequest.saveRequest();
 
         Optional<Instituicao> instituicao = instituicaoRepositorio.findById(id);
 
@@ -87,6 +93,7 @@ public class InsitituicoesController {
     @PostMapping
     @Operation(description = "Endpoint para cadastro de instituição, juntamente com seu endereço e primeiro usuário admin")
     public ResponseEntity<Usuario> postInstituicao(@RequestBody @Valid DtoAdmRequest req){
+        serviceRequest.saveRequest();
         Usuario body = service.createInstituicao(req);
         return ResponseEntity.created(HeaderConfig.getLocation(body.getId())).body(body);
     }
@@ -95,6 +102,7 @@ public class InsitituicoesController {
     @PutMapping("/{id}")
     @Operation(description = "Endpoint para edição das informações da instituição")
     public ResponseEntity<Object> putInstituicao(@RequestBody @Valid Instituicao instituicaoAtualizada, @PathVariable int id){
+        serviceRequest.saveRequest();
 
         // verificando se instituicao existe
         if(instituicaoRepositorio.existsById(id)){
@@ -115,6 +123,7 @@ public class InsitituicoesController {
     @GetMapping("/endereco")
     @Operation(description = "Endpoint que retorna uma lista com todos os endereços")
     public ResponseEntity<List<Endereco>> getAllEndereco() {
+        serviceRequest.saveRequest();
 
         List<Endereco> enderecos = enderecoRepositorio.findAll();
 
@@ -133,6 +142,7 @@ public class InsitituicoesController {
     @GetMapping("/endereco/{id}")
     @Operation(description = "Endpoint que retorna um endereço especifico pelo seu ID")
     public ResponseEntity<Endereco> getEndereco(@PathVariable int id) {
+        serviceRequest.saveRequest();
         Optional<Endereco> endereco = enderecoRepositorio.findById(id);
 
         // verifica se endereço é válido
@@ -150,16 +160,18 @@ public class InsitituicoesController {
     @PostMapping("/endereco")
     @Operation(description = "Endpoint para cadastro de Endereço")
     public ResponseEntity<Object> postEndereco(@RequestBody @Valid Endereco endereco) {
-            enderecoRepositorio.save(endereco);
+        serviceRequest.saveRequest();
+        enderecoRepositorio.save(endereco);
 
-            // 201
-            return ResponseEntity.status(201).build();
+        // 201
+        return ResponseEntity.status(201).build();
     }
 
     // edita um endereco especifico
     @PutMapping("/endereco/{id}")
     @Operation(description = "Endpoint para edição de um endereço filtrado pelo ID")
     public ResponseEntity<Object> putEndereco(@RequestBody @Valid Endereco endereco, @PathVariable int id) {
+        serviceRequest.saveRequest();
 
         // verificando se endereço existe
         if (enderecoRepositorio.findById(id).isPresent()) {
@@ -180,6 +192,7 @@ public class InsitituicoesController {
     @Operation(description = "Endpoint para obter a distância entre o Usuário e a Instituição")
     public ResponseEntity getDistancia(@PathVariable String cepUsuario,
                                @PathVariable String cepInstituicao) {
+        serviceRequest.saveRequest();
 
         DistanciaResposta clienteDistancia = clienteCep.getDistancia(cepUsuario, cepInstituicao);
 
@@ -193,6 +206,8 @@ public class InsitituicoesController {
     public ResponseEntity<List<Instituicao>> getListaDistanciasInstituicaoes(
         @PathVariable String cepUsuario,
         @PathVariable Integer distanciaMax) {
+        
+        serviceRequest.saveRequest();
 
         // listas
         List<Instituicao> lista = instituicaoRepositorio.findAll();
@@ -232,6 +247,8 @@ public class InsitituicoesController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteInstituicao(@PathVariable int id) {
 
+        serviceRequest.saveRequest();
+
         // instituicao existe
         if (instituicaoRepositorio.existsById(id)) {
             Instituicao instituicao = instituicaoRepositorio.findById(id).get();
@@ -252,12 +269,14 @@ public class InsitituicoesController {
 
     @GetMapping("/instituicao/colaborador/count/{id}")
     ResponseEntity countByPetInstituicao(@PathVariable int id) {
+        serviceRequest.saveRequest();
         int qtdIntituicaoInst = instituicaoRepositorio.findAllColaboradoresInstituicao(id);
         return ResponseEntity.status(200).body(qtdIntituicaoInst);
     }
 
     @GetMapping("/apadrinhamentos/usuario/{idUser}")
     public ResponseEntity getPetsApadrinhadosPorUser(@PathVariable int idUser) {
+        serviceRequest.saveRequest();
         List<Instituicao> instituicao = instituicaoRepositorio.findInstituicaoByDemandaApadrinhamentoAndUsuario(idUser);
         if (instituicao.isEmpty()) {
             return ResponseEntity.status(204).build();
