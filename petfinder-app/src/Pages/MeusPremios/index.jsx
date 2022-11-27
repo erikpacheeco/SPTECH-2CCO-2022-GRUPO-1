@@ -8,7 +8,7 @@ import CardPetSimplesPremios from "../../Components/CardPetSimplesPremios";
 import { GoChevronLeft, GoChevronRight } from "react-icons/go"
 import Slider from 'react-slick';
 
-export default function meusPremios() {
+export default function MeusPremios() {
   const infoUsuario = JSON.parse(localStorage.getItem("petfinder_user"));
   const [instituicao, setInstituicao] = useState([]);
   const [allPets, setAllPets] = useState([]);

@@ -14,6 +14,8 @@ import EditarIcon from "../../Images/edit-two.svg";
 
 function PerfilUsuario() {
 
+    const navigate = useNavigate()
+
     const objUser = JSON.parse(localStorage.getItem("petfinder_user"));
     const [pets, setPets] = useState([]);
     const idUsuario = useParams().id;
@@ -167,7 +169,6 @@ function PerfilUsuario() {
     }
 
     function verificarApadrinhado(pets, objUser) {
-        const navigate = useNavigate()
         if (pets.length > 0) {
             return (
                 <div className="perfil-usuario-box-lista">
