@@ -18,7 +18,10 @@ export default function VerMais() {
 
   const navigate = useNavigate();
 
-  const [distinctPets, setAllDistinctPets] = useState([]);
+  const [sexoPets, setAllSexoPets] = useState([]);
+  const [portePets, setAllPortePets] = useState([]);
+  const [doentePets, setAllDoentePets] = useState([]);
+  const [especiePets, setAllEspeciePets] = useState([]);
 
   const [allPets, setAllPets] = useState([]);
   const [itensPerPage, setItensPerPage] = useState(30);
@@ -37,18 +40,6 @@ export default function VerMais() {
     infinite: false
   }
 
-  useEffect(() => {
-    api.get("/pets/caracteristicas").then((res) => {
-      setCaracteristicas(res.data);
-    });
-    api.get(`/pets/userPreferences/${JSON.parse(localStorage.getItem("petfinder_user")).id}/${999}`).then((res) => {
-      setAllPets(res.data);
-    });
-    api.get("/pets/distinct").then((res) => {
-      setAllDistinctPets(res.data);
-    });
-  }, []);
-
   function clearAllFilters() {
     let allFiltersSelected = document.querySelectorAll(".btn-filtro-input")
     for (let i = 0; i < allFiltersSelected.length; i++) {
@@ -61,26 +52,62 @@ export default function VerMais() {
       img.classList.add("btn-filtro-hide")
     }
 
-    setFiltersCaracteristica([])
+    setFiltersSexo([])
+    setFiltersPorte([])
+    setFiltersDoente([])
     setFiltersEspecie([])
-
+    setFiltersCaracteristicas([])
   }
 
+  const [filtersSexo, setFiltersSexo] = useState([])
+  const [filtersPorte, setFiltersPorte] = useState([])
+  const [filtersDoente, setFiltersDoente] = useState([])
   const [filtersEspecie, setFiltersEspecie] = useState([])
-  const [filtersCaracteristica, setFiltersCaracteristica] = useState([])
+  const [filtersCaracteristicas, setFiltersCaracteristicas] = useState([])
 
-  const [allFiltersSelected, setFiltersSelected] = useState({
-    caracteristicas: [],
-    especies: []
-  })
+  useEffect(() => {
+    api.get("/pets/sexo").then((res) => {
+      setAllSexoPets(res.data);
+    });
+    api.get("/pets/porte").then((res) => {
+      setAllPortePets(res.data);
+    });
+    api.get("/pets/doente").then((res) => {
+      setAllDoentePets([{key: true, alias: "Sim"},{key: false, alias: "Não"}]);
+    });
+    api.get("/pets/especie").then((res) => {
+      setAllEspeciePets(res.data);
+    });
+    api.get("/pets/caracteristicas").then((res) => {
+      setCaracteristicas(res.data);
+    });
+  }, []);
+
+  useEffect(() => {
+    let json = {
+      sexo: filtersSexo.length === 0 ? null : filtersSexo,
+      porte: filtersPorte.length === 0 ? null : filtersPorte,
+      doente: filtersDoente.length === 0 ? null : filtersDoente,
+      especie: filtersEspecie.length === 0 ? null : filtersEspecie,
+      caracteristicas: filtersCaracteristicas.length === 0 ? null : filtersCaracteristicas
+    }
+    if (json.caracteristicas == null && json.especie == null && json.doente == null && json.porte == null && json.sexo == null) {
+      api.get(`/pets/userPreferences/${JSON.parse(localStorage.getItem("petfinder_user")).id}/${999}`).then((res) => {
+        setAllPets(res.data);
+      });
+    } else {
+      api.post("/pets/filter", json, { headers: { 'Content-Type': 'application/json' } }).then((res) => {
+        setAllPets(res.data);
+      });
+
+    }
+
+  }, [filtersSexo, filtersPorte, filtersDoente, filtersEspecie, filtersCaracteristicas])
 
   return (
     <>
 
       <HeaderApp />
-
-      <button onClick={()=>{console.log(allFiltersSelected)}}>asdas</button>
-
       <div className="ver-mais-container-geral">
         <h1 className="ver-mais-h1-titulo">Todos os Pet´s</h1>
         <div className="ver-mais-container-conteudo">
@@ -91,9 +118,41 @@ export default function VerMais() {
             </div>
             <div className="ver-mais-filtros">
 
+              <h2 className="ver-mais-h2-filtros-titulos">Doente</h2>
+              <div className="ver-mais-container-filtro-backend">
+                {doentePets.map((p, index) => (
+                  <div className="ver-mais-botao-filtro">
+                    <FilterButton id={index} label={p.alias} onChange={(inputState) => {
+                      if (inputState) {
+                        setFiltersDoente([...filtersDoente, p.key])
+                      } else {
+                        setFiltersDoente(filtersDoente.filter((e) => e !== p.key))
+                      }
+                    }} />
+                  </div>
+                ))}
+
+              </div>
+
+              <h2 className="ver-mais-h2-filtros-titulos">Sexo</h2>
+              <div className="ver-mais-container-filtro-backend">
+                {sexoPets.map((p, index) => (
+                  <div className="ver-mais-botao-filtro">
+                    <FilterButton id={index} label={p} onChange={(inputState) => {
+                      if (inputState) {
+                        setFiltersSexo([...filtersSexo, p])
+                      } else {
+                        setFiltersSexo(filtersSexo.filter((e) => e !== p))
+                      }
+                    }} />
+                  </div>
+                ))}
+
+              </div>
+
               <h2 className="ver-mais-h2-filtros-titulos">Espécie</h2>
               <div className="ver-mais-container-filtro-backend">
-                {distinctPets.map((p, index) => (
+                {especiePets.map((p, index) => (
                   <div className="ver-mais-botao-filtro">
                     <FilterButton id={index} label={p} onChange={(inputState) => {
                       if (inputState) {
@@ -101,23 +160,38 @@ export default function VerMais() {
                       } else {
                         setFiltersEspecie(filtersEspecie.filter((e) => e !== p))
                       }
-                      setFiltersSelected({caracteristicas: filtersCaracteristica, especies: filtersEspecie})
                     }} />
                   </div>
                 ))}
 
               </div>
+
+              <h2 className="ver-mais-h2-filtros-titulos">Porte</h2>
+              <div className="ver-mais-container-filtro-backend">
+                {portePets.map((p, index) => (
+                  <div className="ver-mais-botao-filtro">
+                    <FilterButton id={index} label={p} onChange={(inputState) => {
+                      if (inputState) {
+                        setFiltersPorte([...filtersPorte, p])
+                      } else {
+                        setFiltersPorte(filtersPorte.filter((e) => e !== p))
+                      }
+                    }} />
+                  </div>
+                ))}
+
+              </div>
+
               <h2 className="ver-mais-h2-filtros-titulos">Características</h2>
               <div className="ver-mais-container-filtro-backend">
                 {caracteristicas.map((c, index) => (
                   <div className="ver-mais-botao-filtro">
                     <FilterButton id={index} label={c.caracteristica} onChange={(inputState) => {
                       if (inputState) {
-                        setFiltersCaracteristica([...filtersCaracteristica, c.caracteristica])
+                        setFiltersCaracteristicas([...filtersCaracteristicas, c.caracteristica])
                       } else {
-                        setFiltersCaracteristica(filtersCaracteristica.filter((e) => e !== c.caracteristica))
+                        setFiltersCaracteristicas(filtersCaracteristicas.filter((e) => e !== c.caracteristica))
                       }
-                      setFiltersSelected({caracteristicas: filtersCaracteristica, especies: filtersEspecie})
                     }} />
                   </div>
                 ))}
@@ -131,7 +205,7 @@ export default function VerMais() {
                 <CardPet
                   id={p.id}
                   nome={p.nome}
-                  isDoente={p.doente}
+                  isDoente={p.isDoente}
                   backgroundImage={p.caminhoImagem}
                   onClick={() => navigate(`/perfil-pet-usuario/${p.id}`)}
                 />
@@ -149,7 +223,9 @@ export default function VerMais() {
           </div>
         </div>
       </div>
+
       <VLibras forceOnload={true}></VLibras>
     </>
   );
 }
+

@@ -7,12 +7,14 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import petfinder.petfinderapi.controladores.util.HeaderConfig;
 import petfinder.petfinderapi.entidades.*;
 import petfinder.petfinderapi.repositorios.*;
+import petfinder.petfinderapi.requisicao.FilterRequest;
 import petfinder.petfinderapi.resposta.Message;
 import petfinder.petfinderapi.resposta.PetPerfil;
 import petfinder.petfinderapi.resposta.PetPerfilEdicao;
@@ -21,6 +23,7 @@ import petfinder.petfinderapi.rest.ClienteCep;
 import petfinder.petfinderapi.rest.DistanciaResposta;
 import petfinder.petfinderapi.service.ServicePet;
 import petfinder.petfinderapi.service.ServiceRequest;
+import petfinder.petfinderapi.specifications.PetSpecification;
 import petfinder.petfinderapi.utilitarios.FilaObj;
 import petfinder.petfinderapi.utilitarios.PilhaObj;
 import petfinder.petfinderapi.utilitarios.HashTable.PetsInstituicao;
@@ -37,11 +40,11 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/pets")
 @CrossOrigin
-@Tag(name = "Pet",description = "API para controlar os pets, os prêmios e as caracteristicas")
+@Tag(name = "Pet", description = "API para controlar os pets, os prêmios e as caracteristicas")
 public class PetsController implements GerenciadorArquivos {
 
     // repositories
-    
+
     @Autowired
     private PetRepositorio repositoryPet;
 
@@ -124,8 +127,8 @@ public class PetsController implements GerenciadorArquivos {
         return ResponseEntity.status(200).body(lista);
     }
 
-    @GetMapping("/distinct")
-    @Operation(description = "Endpoint que retorna uma lista de pets onde a especie tem que ser diferente")
+    @GetMapping("/especie")
+    @Operation(description = "Endpoint que retorna uma lista com todas as espécies de pet")
     public ResponseEntity<List<String>> getPetsEspecie() {
         requestService.saveRequest();
         List<String> lista = repositoryPet.findDistinctByEspecie();
@@ -158,7 +161,6 @@ public class PetsController implements GerenciadorArquivos {
         return ResponseEntity.status(200).body(qtdPetInst);
     }
 
-
     @PostMapping
     @Operation(description = "Endpoint para cadastro de um novo pet em uma instituição especifica")
     public ResponseEntity<PetPerfil> postPet(
@@ -177,18 +179,17 @@ public class PetsController implements GerenciadorArquivos {
         requestService.saveRequest();
         // creating pet
         PetPerfil petCriado = servicePet.createPet(
-            multipart,
-            instituicaoId,
-            nome,
-            doente,
-            dataNasc,
-            especie,
-            raca,
-            porte,
-            sexo,
-            descricao,
-            List.of(caracteristicas)
-        );
+                multipart,
+                instituicaoId,
+                nome,
+                doente,
+                dataNasc,
+                especie,
+                raca,
+                porte,
+                sexo,
+                descricao,
+                List.of(caracteristicas));
         // 201 created
         return ResponseEntity.created(HeaderConfig.getLocation(petCriado.getId())).body(petCriado);
     }
@@ -265,13 +266,14 @@ public class PetsController implements GerenciadorArquivos {
 
     // @PatchMapping(value = "/premio/foto/{id}", consumes = "image/jpeg")
     // @Operation(description = "Inserir imagem no premio")
-    // public ResponseEntity<Object> patchFotoPremio(@PathVariable int id, @RequestBody byte[] novaFoto) {
+    // public ResponseEntity<Object> patchFotoPremio(@PathVariable int id,
+    // @RequestBody byte[] novaFoto) {
 
-    //     Premio premioEncontrado = repositoryPremio.getById(id);
-    //     premioEncontrado.setImg(novaFoto);
-    //     repositoryPremio.save(premioEncontrado);
+    // Premio premioEncontrado = repositoryPremio.getById(id);
+    // premioEncontrado.setImg(novaFoto);
+    // repositoryPremio.save(premioEncontrado);
 
-    //     return ResponseEntity.status(200).build();
+    // return ResponseEntity.status(200).build();
     // }
 
     @GetMapping(value = "/premio/foto/{codigo}", produces = "image/jpeg")
@@ -431,7 +433,6 @@ public class PetsController implements GerenciadorArquivos {
         return ResponseEntity.status(404).build();
     }
 
-
     @DeleteMapping("/caracteristica/{id}")
     @Operation(description = "Endpoint que deleta uma caracteristica especifica filtrada pelo ID")
     ResponseEntity<Object> deleteByIdCaracteristica(@PathVariable int id) {
@@ -450,7 +451,8 @@ public class PetsController implements GerenciadorArquivos {
     // !! REVISAR ESSA DESCRIÇÃO
     @PostMapping("/has-caracteristica/{idPet}")
     @Operation(description = "Endpoint para cadastrar um relacionamento de uma caracteristica")
-    public ResponseEntity<List<Caracteristica>> postHasCaracteristica(@RequestBody List<Caracteristica> caracteristicas, @PathVariable int idPet) {
+    public ResponseEntity<List<Caracteristica>> postHasCaracteristica(@RequestBody List<Caracteristica> caracteristicas,
+            @PathVariable int idPet) {
 
         requestService.saveRequest();
 
@@ -459,14 +461,14 @@ public class PetsController implements GerenciadorArquivos {
         // pet encontrado
         if (pet.isPresent()) {
 
-            PilhaObj<Caracteristica> caracteristicasValidas = new PilhaObj<Caracteristica>(caracteristicas.size()); 
+            PilhaObj<Caracteristica> caracteristicasValidas = new PilhaObj<Caracteristica>(caracteristicas.size());
             List<Caracteristica> caracteristicasRegistradas = new ArrayList<Caracteristica>();
 
             // validando caracteristicas
             for (Caracteristica c : caracteristicas) {
                 Optional<Caracteristica> caracteristica = repositoryCaracteristica.findById(c.getId());
 
-                if(caracteristica.isPresent()) {
+                if (caracteristica.isPresent()) {
                     // verifica se pet já tem aquela caracteristica
                     caracteristicasValidas.push(c);
                 }
@@ -488,13 +490,13 @@ public class PetsController implements GerenciadorArquivos {
             }
 
             // retorna todas as caracteristicas cadastradas
-            return ResponseEntity.status(200).body(caracteristicasRegistradas);    
+            return ResponseEntity.status(200).body(caracteristicasRegistradas);
 
         }
 
         // 404 pet não encontrado
         return ResponseEntity.status(404).build();
-        
+
     }
 
     @GetMapping("/has-caracteristicas")
@@ -526,7 +528,6 @@ public class PetsController implements GerenciadorArquivos {
         }
         return ResponseEntity.status(400).build();
     }
-
 
     @GetMapping("/distancias/{cepUsuario}/{distanciaMax}")
     public ResponseEntity<Object> getListaDistanciasPet(@PathVariable String cepUsuario,
@@ -615,7 +616,7 @@ public class PetsController implements GerenciadorArquivos {
             Integer id = pet.get().getId();
 
             List<Premio> premios = repositoryPremio.findByPetId(id);
-            
+
             if (premios.isEmpty()) {
                 return ResponseEntity.status(204).build();
             }
@@ -668,8 +669,7 @@ public class PetsController implements GerenciadorArquivos {
 
         try {
             entrada = new BufferedReader(new FileReader(nomeArq));
-        }
-        catch (IOException erro) {
+        } catch (IOException erro) {
             System.out.println("Erro ao abrir o arquivo: " + erro);
         }
 
@@ -677,48 +677,45 @@ public class PetsController implements GerenciadorArquivos {
             registro = entrada.readLine();
 
             while (registro != null) {
-                tipoRegistro = registro.substring(0,2);
+                tipoRegistro = registro.substring(0, 2);
                 if (tipoRegistro.equals("00")) {
                     System.out.println("É um registro de header");
-                    System.out.println("Tipo de arquivo: " + registro.substring(2,6));
-                    System.out.println("Ano e semestre: " + registro.substring(6,11));
-                    System.out.println("Data e hora da gravação: " + registro.substring(11,30));
-                    System.out.println("Versão do documento: " + registro.substring(30,33));
-                }
-                else if (tipoRegistro.equals("01")) {
+                    System.out.println("Tipo de arquivo: " + registro.substring(2, 6));
+                    System.out.println("Ano e semestre: " + registro.substring(6, 11));
+                    System.out.println("Data e hora da gravação: " + registro.substring(11, 30));
+                    System.out.println("Versão do documento: " + registro.substring(30, 33));
+                } else if (tipoRegistro.equals("01")) {
                     System.out.println("É um registro de trailer");
-                    qtdRegCorpoGravado = Integer.parseInt(registro.substring(2,5));
+                    qtdRegCorpoGravado = Integer.parseInt(registro.substring(2, 5));
                     if (contaRegCorpoLido == qtdRegCorpoGravado) {
                         System.out.println("Quantidade de registros lidos é compatível " +
                                 "com a quantidade de registros gravados");
-                    }
-                    else {
+                    } else {
                         System.out.println("Quantidade de registros lidos não é compatível " +
                                 "com a quantidade de registros gravados");
                     }
-                }
-                else if (tipoRegistro.equals("02")) {
+                } else if (tipoRegistro.equals("02")) {
                     System.out.println("É um registro de corpo");
-                    nome = registro.substring(2,32).trim();
+                    nome = registro.substring(2, 32).trim();
                     dataNasc = registro.substring(32, 42).trim();
-                    especie = registro.substring(42,72).trim();
-                    raca = registro.substring(72,102).trim();
-                    porte = registro.substring(102,122).trim();
-                    sexo = registro.substring(122,127).trim();
-                    descricao = registro.substring(127,377).trim();
-                    doente = Boolean.valueOf(registro.substring(378,383));
-                    adotado = Boolean.valueOf(registro.substring(384,389));
+                    especie = registro.substring(42, 72).trim();
+                    raca = registro.substring(72, 102).trim();
+                    porte = registro.substring(102, 122).trim();
+                    sexo = registro.substring(122, 127).trim();
+                    descricao = registro.substring(127, 377).trim();
+                    doente = Boolean.valueOf(registro.substring(378, 383));
+                    adotado = Boolean.valueOf(registro.substring(384, 389));
                     contaRegCorpoLido++;
 
-                    Pet pet = new Pet(nome,new Date(),especie,raca,porte,sexo,descricao,doente,adotado,instituicao);
+                    Pet pet = new Pet(nome, new Date(), especie, raca, porte, sexo, descricao, doente, adotado,
+                            instituicao);
 
                     repositoryPet.save(pet);
 
                     listaLida.add(pet);
-                }
-                else if (tipoRegistro.equals("03")) {
+                } else if (tipoRegistro.equals("03")) {
                     System.out.println("É um registro do segundo corpo");
-                    caracteristica = registro.substring(2,20).trim();
+                    caracteristica = registro.substring(2, 20).trim();
                     contaRegCorpoLido++;
 
                     Caracteristica c = new Caracteristica(caracteristica);
@@ -726,8 +723,7 @@ public class PetsController implements GerenciadorArquivos {
                     repositoryCaracteristica.save(c);
 
                     listaLida2.add(c);
-                }
-                else {
+                } else {
                     System.out.println("Tipo de registro inválido!");
                 }
 
@@ -735,8 +731,7 @@ public class PetsController implements GerenciadorArquivos {
             }
 
             entrada.close();
-        }
-        catch (IOException erro) {
+        } catch (IOException erro) {
             System.out.println("Erro ao ler o arquivo: " + erro);
             return false;
         }
@@ -843,11 +838,10 @@ public class PetsController implements GerenciadorArquivos {
     public ResponseEntity<List<PetPerfil>> getPetsWithUserPreferences(@PathVariable int idUser, @PathVariable int limit){
         requestService.saveRequest();
         List<PetPerfil> pets = repositoryPet.findByUserPreferences(idUser);
-        if(limit == 999){
+        if (limit == 999) {
             pets.addAll(repositoryPet.findNotByUserPreferences(idUser));
-        }
-        else if(pets.size() < limit){
-            pets.addAll(repositoryPet.findNotByUserPreferences(idUser).subList(0, limit-pets.size()));
+        } else if (pets.size() < limit) {
+            pets.addAll(repositoryPet.findNotByUserPreferences(idUser).subList(0, limit - pets.size()));
         }
 
         pets.stream().forEach((pet) -> {
@@ -855,5 +849,71 @@ public class PetsController implements GerenciadorArquivos {
         });
 
         return ResponseEntity.status(200).body(pets);
+    }
+
+    @PostMapping("/filter")
+    public ResponseEntity<List<PetPerfil>> getPetsByFilters(@RequestBody FilterRequest filters) {
+        requestService.saveRequest();
+        Specification<Pet> spec = Specification.where(filters.getPorte() != null ? PetSpecification.porteIn(filters.getPorte()) : null)
+                .and(filters.getSexo() != null ? PetSpecification.sexoIn(filters.getSexo()) : null)
+                .and(filters.getEspecie() != null ? PetSpecification.especieIn(filters.getEspecie()) : null)
+                .and(filters.getIsDoente() != null ? PetSpecification.isDoenteIn(filters.getIsDoente()) : null)
+                .and(PetSpecification.adotado()); 
+
+        List<Pet> pets = repositoryPet.findAll(spec);
+        List<PetPerfil> petPerfil = new ArrayList<PetPerfil>();
+        
+        if(Objects.nonNull(filters.getCaracteristicas())){
+            List<Integer> petsId = new ArrayList<Integer>();
+            for (Pet pet : pets) {
+                petsId.add(new PetPerfil(pet).getId());
+            }
+            return ResponseEntity.status(200).body(repositoryPet.findByFilterAndCaracteristica(petsId, filters.getCaracteristicas()));
+        }else{
+            for (Pet pet : pets) {
+                petPerfil.add(new PetPerfil(pet));
+            }
+            return ResponseEntity.status(200).body(petPerfil);
+        }
+
+    }
+
+    @GetMapping("/sexo")
+    @Operation(description = "Endpoint que retorna uma lista de todos os sexos de pet")
+    public ResponseEntity<List<String>> getPetsSexo() {
+        requestService.saveRequest();
+        List<String> lista = repositoryPet.findDistinctBySexo();
+
+        if (lista.isEmpty()) {
+            return ResponseEntity.status(204).body(lista);
+        }
+
+        return ResponseEntity.status(200).body(lista);
+    }
+
+    @GetMapping("/porte")
+    @Operation(description = "Endpoint que retorna uma lista de todos os portes de pet")
+    public ResponseEntity<List<String>> getPetsPorte() {
+        requestService.saveRequest();
+        List<String> lista = repositoryPet.findDistinctByPorte();
+
+        if (lista.isEmpty()) {
+            return ResponseEntity.status(204).body(lista);
+        }
+
+        return ResponseEntity.status(200).body(lista);
+    }
+
+    @GetMapping("/doente")
+    @Operation(description = "Endpoint que retorna uma lista de todos os portes de pet")
+    public ResponseEntity<List<String>> getPetsDoente() {
+        requestService.saveRequest();
+        List<String> lista = repositoryPet.findDistinctByDoente();
+
+        if (lista.isEmpty()) {
+            return ResponseEntity.status(204).body(lista);
+        }
+
+        return ResponseEntity.status(200).body(lista);
     }
 }
