@@ -61,7 +61,7 @@ export default function ChatUsuario() {
             proximaAcao: JSON.parse(localStorage.getItem("petfinder_user")).nivelAcesso.toLowerCase() == "user" ? demanda.proximaAcaoUsuario : demanda.proximaAcaoColaborador,
             status: demanda.status,
             idUsuario: demanda.idUsuario
-        })
+        });
     }
 
     function newDemandaItem(demanda) {
@@ -90,23 +90,29 @@ export default function ChatUsuario() {
     }
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            if (demandaAtual.id !== "") {
+        api.get(`/demandas/chats/${JSON.parse(localStorage.getItem('petfinder_user')).id}`).then((res) => {
+            setListaDemandaAberta(res.data.abertas)
+            setListaDemandaAndamento(res.data.emAndamento)
+            setListaDemandaConcluida(res.data.fechadas)
+        });
+    });
+
+    useEffect(() => {
+        if (demandaAtual.id !== "") {
+            const interval = setInterval(() => {
                 api_msg.get(`/message/${demandaAtual.id}`).then((res) => {
+                    console.log("demanda atual: ", demandaAtual.id);
+                    console.log("mensagens: ", res.data.length);
                     if (res.status == 200) {
                         setMessages(res.data)
                     } else if (res.status == 204) {
                         setMessages([]);
                     }
                 });
-            }
-            api.get(`/demandas/chats/${JSON.parse(localStorage.getItem('petfinder_user')).id}`).then((res) => {
-                setListaDemandaAberta(res.data.abertas)
-                setListaDemandaAndamento(res.data.emAndamento)
-                setListaDemandaConcluida(res.data.fechadas)
-            });
-        }, 500);
-        return () => clearInterval(interval);
+            }, 100);
+            return(() => clearInterval(interval));
+        }
+
     }, [demandaAtual]);
 
     useEffect(() => {
