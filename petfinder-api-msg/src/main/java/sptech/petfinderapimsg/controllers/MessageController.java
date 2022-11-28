@@ -21,6 +21,7 @@ import sptech.petfinderapimsg.controllers.util.HeaderConfig;
 import sptech.petfinderapimsg.req.DtoPostMessage;
 import sptech.petfinderapimsg.res.DtoMessageResponse;
 import sptech.petfinderapimsg.services.MessageService;
+import sptech.petfinderapimsg.services.ServiceRequest;
 
 @RestController
 @RequestMapping("/message")
@@ -31,6 +32,9 @@ public class MessageController {
     @Autowired
     private MessageService service;
 
+    @Autowired
+    private ServiceRequest serviceRequest; 
+
     // endpoints
 
     @GetMapping("/{demandaId}")
@@ -38,6 +42,7 @@ public class MessageController {
     @ApiResponse(responseCode = "201", description = "Created")
     @ApiResponse(responseCode = "204", description = "No Content", content = @Content)
     public ResponseEntity<List<DtoMessageResponse>> listMessages(@PathVariable Integer demandaId) {
+        serviceRequest.saveRequest();
         return ok(service.getMessageListByDemandaId(demandaId));
     }
 
@@ -47,6 +52,7 @@ public class MessageController {
     @ApiResponse(responseCode = "404", description = "Not Found", content = @Content)
     @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content)
     public ResponseEntity<DtoMessageResponse> postMessage(@RequestBody @Valid DtoPostMessage dto) {
+        serviceRequest.saveRequest();
         DtoMessageResponse created = service.createMessage(dto);
         return created(HeaderConfig.getLocation(created.getId())).body(created);
     }
@@ -62,7 +68,7 @@ public class MessageController {
         @RequestParam("demandaId") Integer demandaId,
         @RequestParam("remetenteId") Integer remetenteId
     ) {
-
+        serviceRequest.saveRequest();
         DtoMessageResponse created = service.createMessageFile(
             multipart,
             tipo,
