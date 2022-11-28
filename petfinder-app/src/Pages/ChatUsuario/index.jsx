@@ -115,7 +115,7 @@ export default function ChatUsuario() {
                         setMessages([]);
                     }
                 });
-            }, 100);
+            }, 1000);
             return(() => clearInterval(interval));
         }
 
