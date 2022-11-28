@@ -1,0 +1,27 @@
+.card-simples-loader-container {
+    width: 206px;
+    height: 206px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 50;
+    border-radius: 10px;
+}
+
+.card-simples-spinner {
+    width: 10px;
+    height: 10px;
+    border: 5px solid;
+    border-color: #FFFFFF transparent #FFFFFF transparent;
+    border-radius: 50%;
+    animation: spin-anim 1.2s linear infinite;
+}
+
+@keyframes spin-anim {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

@@ -24,9 +24,38 @@
     position: absolute;
     bottom: 192px;
     left: 192px;
-
 }
 
 .card-pet-hide {
     display: none;
+}
+
+.card-loader-container {
+    width: 206px;
+    height: 206px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #FFFFFF;
+    /* background:  linear-gradient( -110grad, #86828990, #bdb7c18e, #faf3ff8a ); */
+    opacity: 50;
+    border-radius: 10px;
+}
+
+.card-spinner {
+    width: 10px;
+    height: 10px;
+    border: 5px solid;
+    border-color: #7F2AB5 transparent #7F2AB5 transparent;
+    border-radius: 50%;
+    animation: spin-anim 1.2s linear infinite;
+}
+
+@keyframes spin-anim {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
