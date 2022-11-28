@@ -104,6 +104,7 @@ export default function ChatUsuario() {
     });
 
     useEffect(() => {
+        setMessages([]);
         if (demandaAtual.id !== "") {
             const interval = setInterval(() => {
                 api_msg.get(`/message/${demandaAtual.id}`).then((res) => {
