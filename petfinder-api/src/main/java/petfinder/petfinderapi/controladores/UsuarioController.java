@@ -22,6 +22,7 @@ import petfinder.petfinderapi.resposta.ColaboradorSimples;
 import petfinder.petfinderapi.resposta.Message;
 import petfinder.petfinderapi.resposta.SysadmSimples;
 import petfinder.petfinderapi.resposta.UsuarioSemSenha;
+import petfinder.petfinderapi.service.ServiceRequest;
 import petfinder.petfinderapi.service.ServiceUsuario;
 import java.util.*;
 import javax.validation.Valid;
@@ -63,6 +64,9 @@ public class UsuarioController {
     @Autowired
     private ServiceUsuario serviceUsuario;
 
+    @Autowired
+    private ServiceRequest serviceRequest;
+
     // enums
     ListaObj<String> nivelAcesso = new ListaObj<String>(
         new String[]{
@@ -75,6 +79,7 @@ public class UsuarioController {
     @PutMapping("/{id}")
     @Operation(description = "Endpoint que atualiza as informações de um usuario especifico filtrado pelo ID")
     public ResponseEntity<UsuarioSemSenha> updateUsuario(@PathVariable int id, @RequestBody @Valid UsuarioSemSenha novoUsuario) {
+        serviceRequest.saveRequest();
 
         // verificando se usuário existe
         if (usuarioRepository.existsById(id)) {
@@ -110,6 +115,7 @@ public class UsuarioController {
     @Operation(description = "retorna colaboradores de uma instituicao")
     @ApiResponse(responseCode = "201", description = "Created")
     public ResponseEntity<SysadmSimples> postSysadm(@RequestBody @Valid DtoSysadmRequest dto) {
+        serviceRequest.saveRequest();
         SysadmSimples body = serviceUsuario.postSysadm(dto);
         return ResponseEntity.created(HeaderConfig.getLocation(body.getId())).body(body);
     }
@@ -120,6 +126,7 @@ public class UsuarioController {
     @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content)
     @ApiResponse(responseCode = "409", description = "Conflict", content = @Content)
     public ResponseEntity<ColaboradorSimples> postColaborador(@RequestBody @Valid DtoColaboradorRequest dto) {
+        serviceRequest.saveRequest();
         ColaboradorSimples body = serviceUsuario.postColaborador(dto);
         return ResponseEntity.created(HeaderConfig.getLocation(body.getId())).body(body);
     }
@@ -128,6 +135,7 @@ public class UsuarioController {
     @PutMapping("/colaborador/{id}")
     @Operation(description = "Endpoint que atualiza as informações de um usuario especifico filtrado pelo ID")
     public ResponseEntity<UsuarioSemSenha> updateUsuario(@PathVariable int id, @RequestBody @Valid DtoColaboradorSelfRequest dto){
+        serviceRequest.saveRequest();
         return ResponseEntity.ok(serviceUsuario.putUsuario(id, dto));
     }
 
@@ -137,6 +145,7 @@ public class UsuarioController {
     @ApiResponse(responseCode = "204", description = "No Content", content = @Content)
     @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
     public ResponseEntity<List<ColaboradorSimples>> getColaboradorByInstituicao(@PathVariable int id, @RequestParam(required = false) String categoria) {
+        serviceRequest.saveRequest();
         return ResponseEntity.ok(serviceUsuario.getColaboradorByInstituicaoId(id, categoria));
     }
 
@@ -146,6 +155,7 @@ public class UsuarioController {
     @ApiResponse(responseCode = "204", description = "No Content", content = @Content)
     @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
     public ResponseEntity<List<UsuarioSemSenha>> getUsuarioByNivelAcesso(@PathVariable String nivelAcesso) {
+        serviceRequest.saveRequest();
         return ResponseEntity.ok(serviceUsuario.getUsuarioByNivelAcesso(nivelAcesso));
     }
 
@@ -155,6 +165,7 @@ public class UsuarioController {
     @ApiResponse(responseCode = "204", description = "No Content", content = @Content)
     @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
     public ResponseEntity<List<UsuarioSemSenha>> getPadrinhos(@PathVariable Integer idInstituicao) {
+        serviceRequest.saveRequest();
         return ResponseEntity.ok(serviceUsuario.getPadrinhos(idInstituicao));
     }
 
@@ -164,6 +175,7 @@ public class UsuarioController {
     @ApiResponse(responseCode = "204", description = "No Content", content = @Content)
     @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
     public ResponseEntity countDemandaPorMesComparacaoUsuario(@PathVariable Integer idInstituicao, @PathVariable Integer idUsuario, @PathVariable String ano, @PathVariable String mes) {
+            serviceRequest.saveRequest();
             Integer countDemandasConcluidasMesInstituicao = demandaRepository.countDemandasConcluidasMesInstituicao(idInstituicao, ano, mes);
             Integer countDemandasConcluidasMesColaborador = demandaRepository.countDemandasConcluidasMesColaborador(idUsuario, ano, mes);
             Integer countDemandasCanceladasMesInstituicao = demandaRepository.countDemandasCanceladasMesInstituicao(idInstituicao, ano, mes);
@@ -181,6 +193,7 @@ public class UsuarioController {
     @GetMapping
     @Operation(description = "Endpoint que retorna uma lista com todos os usuários")
     public ResponseEntity<List<UsuarioSemSenha>> getUsuario() {
+        serviceRequest.saveRequest();
         List<Usuario> listaUsuario = usuarioRepository.findAll();
 
         // verificando se lista de usuários está vazia
@@ -206,6 +219,7 @@ public class UsuarioController {
     @GetMapping("/{id}")
     @Operation(description = "Endpoint que retona um usuario especifico filtrado pelo ID")
     public ResponseEntity<UsuarioSemSenha> getUsuarioById(@PathVariable int id) {
+        serviceRequest.saveRequest();
         Optional<Usuario> usuario = usuarioRepository.findById(id);
 
         // verificando se usuário existe
@@ -225,6 +239,7 @@ public class UsuarioController {
     @GetMapping("/completo/{id}")
     @Operation(description = "Endpoint que retona um usuario especifico filtrado pelo ID")
     public ResponseEntity<Usuario> getUsuarioByIdSenha(@PathVariable int id) {
+        serviceRequest.saveRequest();
         Optional<Usuario> usuario = usuarioRepository.findById(id);
 
         // verificando se usuário existe
@@ -245,7 +260,7 @@ public class UsuarioController {
     @PostMapping
     @Operation(description = "Endpoint que cadastra um novo usuário")
     public ResponseEntity<UsuarioSemSenha> postUsuario(@RequestBody @Valid CriacaoUsuario criacaoUsuario) {
-
+        serviceRequest.saveRequest();
         Usuario novoUsuario = criacaoUsuario.getUsuario();              
 
         // verificando se algum usuário já possui o email fornecido
@@ -291,6 +306,7 @@ public class UsuarioController {
     @DeleteMapping("/{id}")
     @Operation(description = "Endpoint que deleta um usuario filtrado pelo ID")
     public ResponseEntity<Object> deleteUsuario(@PathVariable int id) {
+        serviceRequest.saveRequest();
 
         // verificando se usuário existe
         if (usuarioRepository.existsById(id)) {
@@ -314,6 +330,7 @@ public class UsuarioController {
     @PostMapping("/autenticacao")
     @Operation(description = "Endpoint que faz a autenticação e login do usuário")
     public ResponseEntity<UsuarioSemSenha> login(@RequestBody @Valid UsuarioLogin usuarioLogin) {
+        serviceRequest.saveRequest();
 
         // verificando se usuário existe
         List<Usuario> listaUsuario = usuarioRepository.findByEmailESenha(usuarioLogin.getEmail(), usuarioLogin.getSenha());
@@ -341,6 +358,7 @@ public class UsuarioController {
     @DeleteMapping("/autenticacao/{id}")
     @Operation(description = "Endpoint que faz o logoff de um usuario especifico filtrado pelo ID")
     public ResponseEntity<Object> deleteLogoff(@PathVariable int id) {
+        serviceRequest.saveRequest();
 
         // verificando se usuário existe
         if (usuarioRepository.existsById(id)) {
@@ -371,6 +389,7 @@ public class UsuarioController {
     @Operation(description = "Endpoint que retorna uma lista de usuários de uma instituição com o mesmo nivel de acesso")
     public ResponseEntity<Object> getUsuarioByNivelAcesso(@PathVariable Integer fkInstituicao,
                                                           @PathVariable String nivelAcessoReq) {
+        serviceRequest.saveRequest();
         nivelAcessoReq = nivelAcessoReq.toLowerCase();
 
         // verificando se instituicao existe
@@ -409,6 +428,7 @@ public class UsuarioController {
 
     // retorna endereco baseado no id
     private Endereco getEnderecoById(Integer id) {
+        serviceRequest.saveRequest();
 
         // se id for null, retorna null
         if (Objects.nonNull(id)) {
@@ -429,6 +449,7 @@ public class UsuarioController {
     @GetMapping("/interesse/{idUsuario}")
     @Operation(description = "Endpoint que retorna a lista de interesses de um usuário")
     public ResponseEntity<List<UsuarioHasInteresse>> getUsuarioInteresse(@PathVariable Integer idUsuario) {
+        serviceRequest.saveRequest();
 
         Optional<Usuario> usuario = usuarioRepository.findById(idUsuario);
 
@@ -461,6 +482,8 @@ public class UsuarioController {
     @Operation(description = "Endpoint que retorna a lista de interesses disponívies para serem usados")
     public ResponseEntity postUsuarioInteresse(@RequestBody @Valid InteresseUsuario novoInteresse) {
 
+        serviceRequest.saveRequest();
+
         if (!caracteristicaRepository.findById(novoInteresse.getFkCaracteristica()).isPresent() ||
                 !usuarioRepository.findById(novoInteresse.getFkUsuario()).isPresent()) {
             //404 - Not found
@@ -483,6 +506,8 @@ public class UsuarioController {
     @PostMapping("/endereco")
     @Operation(description = "Endpoint que cadastra o endereço de um usuário")
     public ResponseEntity<Object> postEndereco(@RequestBody @Valid Endereco novoEndereco) {
+        serviceRequest.saveRequest();
+
         List<Endereco> lista = enderecoRepository.findAll();
 
         if (lista.contains(novoEndereco)) {
@@ -499,6 +524,7 @@ public class UsuarioController {
     @GetMapping("/pontucacao/{idUsuario}")
     @Operation(description = "Endpoint que retorna a pontuação de um usuário")
     public ResponseEntity getPontuacao(@PathVariable int idUsuario) {
+        serviceRequest.saveRequest();
 
         if (usuarioRepository.existsById(idUsuario)) {
 
@@ -552,6 +578,7 @@ public class UsuarioController {
 
     @PostMapping("/usuario-resgate")
     public ResponseEntity postUsuarioResgate(@RequestBody Endereco novoEndereco) {
+        serviceRequest.saveRequest();
 
         if (novoEndereco == null) {
             return ResponseEntity.status(404).build();
@@ -573,6 +600,7 @@ public class UsuarioController {
     @GetMapping("/ultimo-visitante")
     @Operation(description = "Endpoint para pegar ultimo id visitante")
     public ResponseEntity getUltimoUsuarioVisitante() {
+        serviceRequest.saveRequest();
 
         long ultimoId = visitantesRepository.count();
 
@@ -582,6 +610,7 @@ public class UsuarioController {
     @GetMapping("/visitante")
     @Operation(description = "Endpoint para pegar os visitantes")
     public ResponseEntity getUsuarioVisitante() {
+        serviceRequest.saveRequest();
 
         List visitantes = visitantesRepository.findAll();
 
@@ -591,6 +620,7 @@ public class UsuarioController {
     @GetMapping("/grafico-visitante/{ano}/{mes}")
     @Operation(description = "Endpoint para pegar os visitantes por mês")
     public ResponseEntity countUsuarioVisitantePorMes(@PathVariable String ano, @PathVariable String mes) {
+        serviceRequest.saveRequest();
 
         int visitantes = visitantesRepository.countVisitantesPorMes(ano, mes);
         int lead = leadsRepository.countLeadPorMes(ano, mes);
@@ -605,6 +635,7 @@ public class UsuarioController {
     @PostMapping("/visitante")
     @Operation(description = "Endpoint para inserir novo visitante")
     public ResponseEntity postUsuarioVisitante(@RequestBody Visitantes novoVisitante) {
+        serviceRequest.saveRequest();
 
         if (novoVisitante.getDataVisita() == null) {
             return ResponseEntity.status(404).build();
@@ -618,6 +649,7 @@ public class UsuarioController {
     @GetMapping("/ultimo-lead")
     @Operation(description = "Endpoint para pegar ultimo id lead")
     public ResponseEntity getUltimoUsuarioLead() {
+        serviceRequest.saveRequest();
 
         long ultimoId = leadsRepository.count();
 
@@ -627,6 +659,7 @@ public class UsuarioController {
     @GetMapping("/lead-instituicao")
     @Operation(description = "Endpoint para pegar os leads do ultimo mês")
     public ResponseEntity getLeadListaUltimoMes() {
+        serviceRequest.saveRequest();
 
         List<Integer> lead = leadsRepository.getUltimoLeadInstituicaoMes();
 
@@ -653,6 +686,7 @@ public class UsuarioController {
     @GetMapping("/lead-usuario/{ano}/{mes}")
     @Operation(description = "Endpoint para pegar os leads usuários por mês")
     public ResponseEntity countLeadUsuarioPorMes(@PathVariable String ano, @PathVariable String mes) {
+        serviceRequest.saveRequest();
 
         int leads = leadsRepository.countLeadUsuarioPorMes(ano, mes);
         int clientes = demandaRepository.countDemandasConcluidasMes(ano, mes);
@@ -667,6 +701,7 @@ public class UsuarioController {
     @GetMapping("/lead-instituicao/{ano}/{mes}")
     @Operation(description = "Endpoint para pegar os leads instituição por mês")
     public ResponseEntity countLeadInstituicaoPorMes(@PathVariable String ano, @PathVariable String mes) {
+        serviceRequest.saveRequest();
 
         int visitantes = leadsRepository.countLeadInstituicaoPorMes(ano, mes);
 
@@ -676,6 +711,7 @@ public class UsuarioController {
     @PostMapping("/lead")
     @Operation(description = "Endpoint para inserir novo lead")
     public ResponseEntity postUsuarioLead(@RequestBody Leads novoLead) {
+        serviceRequest.saveRequest();
 
         if (novoLead.getDataCadastro() == null) {
             return ResponseEntity.status(404).build();
@@ -689,6 +725,7 @@ public class UsuarioController {
     @GetMapping("/ultimo-usuario-cadastrado")
     @Operation(description = "Endpoint para pegar ultimo id usuario cadastrado")
     public ResponseEntity getUltimoUsuarioCadastrado() {
+        serviceRequest.saveRequest();
 
         long ultimoId = usuarioRepository.count();
 
@@ -698,6 +735,7 @@ public class UsuarioController {
     @GetMapping("/ultimo-cliente")
     @Operation(description = "Endpoint para pegar ultimo id cliente")
     public ResponseEntity getUltimoUsuarioCliente() {
+        serviceRequest.saveRequest();
 
         long ultimoId = clientesRepository.count();
 
@@ -707,6 +745,7 @@ public class UsuarioController {
     @PostMapping("/cliente")
     @Operation(description = "Endpoint para inserir novo cliente")
     public ResponseEntity postUsuarioCliente(@RequestBody Clientes novoCliente) {
+        serviceRequest.saveRequest();
 
         if (novoCliente.getDataCliente() == null) {
             return ResponseEntity.status(404).build();

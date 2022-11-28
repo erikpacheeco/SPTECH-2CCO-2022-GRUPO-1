@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import org.springframework.beans.factory.annotation.Autowired;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import petfinder.petfinderapi.entidades.Pet;
 import petfinder.petfinderapi.entidades.PetHasCaracteristica;
@@ -19,7 +20,7 @@ public class PetPerfil {
     private String especie;
     private String porte;
     private String raca;
-    private Integer mimosPorMes;
+    private Double mimosPorMes;
     private String descricao;
     private String caminhoImagem;
     private List<String> caracteristicas;
@@ -31,7 +32,12 @@ public class PetPerfil {
     public PetPerfil() {
         this.caracteristicas = new ArrayList<String>();
     }
+
+    @Autowired
     public PetPerfil(Pet entity) {
+        this(entity, 0d);
+    } 
+    public PetPerfil(Pet entity, Double mimosPorMes) {
         this.id = entity.getId();
         this.instituicao = entity.getInstituicao().getNome();
         this.nome = entity.getNome();
@@ -44,9 +50,7 @@ public class PetPerfil {
         this.idade = getIdadeFromDataNasc(entity.getDataNasc());
         this.cepInstituicao = entity.getInstituicao().getEndereco().getCep();
         this.isDoente = entity.getDoente();
-        
-        // não dinamico por enquanto
-        this.mimosPorMes = 10;
+        this.mimosPorMes = mimosPorMes;
     }
 
     // methods
@@ -145,10 +149,10 @@ public class PetPerfil {
     public void setRaca(String raca) {
         this.raca = raca;
     }
-    public Integer getMimosPorMes() {
-        return mimosPorMes;
+    public Double getMimosPorMes() {
+        return this.mimosPorMes;
     }
-    public void setMimosPorMes(Integer mimosPorMes) {
+    public void setMimosPorMes(Double mimosPorMes) {
         this.mimosPorMes = mimosPorMes;
     }
     public String getDescricao() {

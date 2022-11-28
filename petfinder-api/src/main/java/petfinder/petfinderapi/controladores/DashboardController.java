@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import petfinder.petfinderapi.resposta.dashboard.DtoAdminResponse;
 import petfinder.petfinderapi.resposta.dashboard.DtoChatopsResponse;
 import petfinder.petfinderapi.resposta.dashboard.DtoSysadminResponse;
+import petfinder.petfinderapi.service.ServiceRequest;
 import petfinder.petfinderapi.service.dashboard.AdminService;
 import petfinder.petfinderapi.service.dashboard.ChatopsService;
 import petfinder.petfinderapi.service.dashboard.SysadminService;
@@ -33,22 +34,28 @@ public class DashboardController {
     @Autowired
     private SysadminService sysadminService;
 
+    @Autowired
+    private ServiceRequest serviceRequest;
+
     // Endpoints
     @GetMapping("/admin/{id}")
     @Operation(description = "")
     public ResponseEntity<DtoAdminResponse> getAdminDashboard(@PathVariable int id){
+        serviceRequest.saveRequest();
         return ok(adminService.getAdminDashboard(id));
     }
 
     @GetMapping("/chatops/{id}")
     @Operation(description = "")
     public ResponseEntity<DtoChatopsResponse> getChatopsDashboard(@PathVariable int id){
+        serviceRequest.saveRequest();
         return ok(chatopsService.getChatopsDashboard(id));
     }
 
     @GetMapping("/sysadmin/{id}")
     @Operation(description = "")
     public ResponseEntity<DtoSysadminResponse> getSysadminDashboard(@PathVariable int id){
+        serviceRequest.saveRequest();
         return ok(sysadminService.getSysadminDashboard(id));
     }
 

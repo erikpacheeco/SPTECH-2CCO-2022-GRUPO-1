@@ -51,8 +51,8 @@
 
 .premios-container-filtro-backend{
     display: flex;
+    align-items: center;
     margin-left: 10%;
-    justify-content: space-between;
 }
 
 .premios-p-filtro{

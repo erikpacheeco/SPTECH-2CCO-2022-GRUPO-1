@@ -50,6 +50,12 @@ FROM premio AS pr
 RIGHT OUTER JOIN pet AS p ON pr.pet_id = p.id
 GROUP BY p.id;
 
+CREATE OR REPLACE VIEW view_premios_pet_data AS
+SELECT UUID() as id, p.id as pet_id, YEAR(pr.data_envio) as ano, MONTH(pr.datA_envio) as mes, count(pr.id) as premios 
+FROM premio as pr 
+INNER JOIN pet p ON pr.pet_id = p.id
+GROUP BY ano, mes, pet_id;
+
 -- demandas
 
 CREATE OR REPLACE VIEW view_demandas AS

@@ -201,3 +201,12 @@ CREATE TABLE locais_petfrindly (
   latitude VARCHAR(20) NOT NULL,
   longitude VARCHAR(20) NOT NULL
 );
+
+-- -----------------------------------------------------
+-- Table requests
+-- -----------------------------------------------------
+CREATE TABLE requests(
+	id INT PRIMARY KEY AUTO_INCREMENT,
+  request VARCHAR(100) NOT NULL,
+  data DATETIME NOT NULL
+);

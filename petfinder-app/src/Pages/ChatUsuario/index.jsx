@@ -8,11 +8,17 @@ import check from "../../Images/check.svg"
 import ask from "../../Images/ask.svg"
 import paperclip from "../../Images/paperclip.svg"
 import send from "../../Images/send-one.svg"
+import map from "../../Images/map-draw.svg"
 import api from '../../Api.js'
 import api_msg from '../../ApiMsg.js'
 import DemandaItem from "../../Components/DemandaItem";
 import ActionButton from "../../Components/ActionButton";
 import FileUploadModal from "../../Components/FileUploadModal";
+import PetShopsMaps from "../../Components/PetShopsMaps";
+
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+import { redirect } from "react-router-dom";
 
 export default function ChatUsuario() {
 
@@ -61,7 +67,7 @@ export default function ChatUsuario() {
             proximaAcao: JSON.parse(localStorage.getItem("petfinder_user")).nivelAcesso.toLowerCase() == "user" ? demanda.proximaAcaoUsuario : demanda.proximaAcaoColaborador,
             status: demanda.status,
             idUsuario: demanda.idUsuario
-        })
+        });
     }
 
     function newDemandaItem(demanda) {
@@ -90,28 +96,34 @@ export default function ChatUsuario() {
     }
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            if (demandaAtual.id !== "") {
+        api.get(`/demandas/chats/${JSON.parse(localStorage.getItem('petfinder_user')).id}`).then((res) => {
+            setListaDemandaAberta(res.data.abertas)
+            setListaDemandaAndamento(res.data.emAndamento)
+            setListaDemandaConcluida(res.data.fechadas)
+        });
+    });
+
+    useEffect(() => {
+        if (demandaAtual.id !== "") {
+            const interval = setInterval(() => {
                 api_msg.get(`/message/${demandaAtual.id}`).then((res) => {
+                    console.log("demanda atual: ", demandaAtual.id);
+                    console.log("mensagens: ", res.data.length);
                     if (res.status == 200) {
                         setMessages(res.data)
                     } else if (res.status == 204) {
                         setMessages([]);
                     }
                 });
-            }
-            api.get(`/demandas/chats/${JSON.parse(localStorage.getItem('petfinder_user')).id}`).then((res) => {
-                setListaDemandaAberta(res.data.abertas)
-                setListaDemandaAndamento(res.data.emAndamento)
-                setListaDemandaConcluida(res.data.fechadas)
-            });
-        }, 500);
-        return () => clearInterval(interval);
+            }, 100);
+            return(() => clearInterval(interval));
+        }
+
     }, [demandaAtual]);
 
     useEffect(() => {
         api.get("/usuarios/ultimo-cliente").then((res) => {
-            setIdUltimoCliente("ultimo cadastro cliente "+res.data)
+            setIdUltimoCliente("ultimo cadastro cliente " + res.data)
             console.log(res.data)
         })
     }, [])
@@ -134,19 +146,31 @@ export default function ChatUsuario() {
     function addingNewCliente() {
         if (("concluir demada".localeCompare(demandaAtual.proximaAcao.acao) && usuarioLogado.nivelAcesso == "adm") || usuarioLogado.nivelAcesso == "chatops") {
             let cliente = {
-                id: idUltimoCliente+1,
+                id: idUltimoCliente + 1,
                 usuario_id: demandaAtual.idUsuario,
                 tipo: "adm",
                 dataCliente: new Date().toISOString()
             }
-    
+
             api.post('/usuarios/cliente', cliente, { headers: { 'Content-Type': 'application/json' } })
         }
     }
 
+    const MySwal = withReactContent(Swal)
+
+    function openMap() {
+        MySwal.fire({
+            title: <p>PetShops mais pertos de você</p>,
+            html: <PetShopsMaps/>,
+            showCloseButton: true,
+            showConfirmButton: false,
+            width: "50%"
+        })
+    }
+
     return (
         <>
-            <HeaderApp/>
+            <HeaderApp />
             <div className="chat-user-centralizer">
                 <div className="chat-user-container">
 
@@ -165,7 +189,7 @@ export default function ChatUsuario() {
                             }
                         </div>
 
-                        <div className="chat-user-demandas-header"  onClick={handleChangeAbertas}>
+                        <div className="chat-user-demandas-header" onClick={handleChangeAbertas}>
                             <div className={`qtd-status qtd-status-${listaDemandaAberta.length == 0 ? "purple" : "green"}`}>{listaDemandaAberta.length}</div>
                             <p className="chat-user-demandas-header-title">Abertas</p>
                             <div className="chat-user-demandas-header-actions">
@@ -192,9 +216,9 @@ export default function ChatUsuario() {
                     </div>
 
                     <div className="chat-user-container-chat">
-                        <FileUploadModal 
-                            isOpen={modalIsOpen} 
-                            setModalIsOpen={setModalIsOpen} 
+                        <FileUploadModal
+                            isOpen={modalIsOpen}
+                            setModalIsOpen={setModalIsOpen}
                             remetenteId={JSON.parse(localStorage.getItem('petfinder_user')).id}
                             demandaId={demandaAtual.id}
                         />
@@ -206,29 +230,32 @@ export default function ChatUsuario() {
                                 <img className="chat-user-hidden" src={check} alt="" />
                                 {demandaAtual.proximaAcao.tipoBotao == "accept" ? <ActionButton type="accept" demandaId={demandaAtual.id} userId={usuarioLogado.id} handleChangeDemandaAtual={handleChangeDemandaAtual} /> : ""}
                                 {demandaAtual.proximaAcao.tipoBotao == "accept/decline" ? <>
-                                    <ActionButton type="accept" demandaId={demandaAtual.id} userId={usuarioLogado.id} handleChangeDemandaAtual={handleChangeDemandaAtual} onClick={addingNewCliente}/>
+                                    <ActionButton type="accept" demandaId={demandaAtual.id} userId={usuarioLogado.id} handleChangeDemandaAtual={handleChangeDemandaAtual} onClick={addingNewCliente} />
                                     <ActionButton type="decline" demandaId={demandaAtual.id} userId={usuarioLogado.id} handleChangeDemandaAtual={handleChangeDemandaAtual} />
                                 </> : ""}
                                 {demandaAtual.proximaAcao.tipoBotao == "decline" ? <ActionButton type="decline" demandaId={demandaAtual.id} userId={usuarioLogado.id} handleChangeDemandaAtual={handleChangeDemandaAtual} /> : ""}
                                 <img src={ask} alt="" title={demandaAtual.proximaAcao.descricao} />
+                                {demandaAtual.categoria == 'ADOCAO' ? <img src={map} onClick={openMap} title="Veja os petshops próximos de você"/> : ""}
                             </div>
                         </div>
 
                         <div className="chat-user-message-container">
                             <div className="chat-user-message-section" id='chatSection'>
                                 {
-                                messages.map((msg, index) => {
-                                    return (<Mensagem key={index} content={msg.conteudo} idUsuario={msg.remetente.id} date={msg.dataEnvio} id={msg.id} tipo={msg.tipo}/>)}).reverse()
+                                    messages.map((msg, index) => {
+                                        return (<Mensagem key={index} content={msg.conteudo} idUsuario={msg.remetente.id} date={msg.dataEnvio} id={msg.id} tipo={msg.tipo} />)
+                                    }).reverse()
                                 }
                             </div>
                             <div className="chat-user-message-input-container">
                                 <input className="chat-user-message-input" type="text" id="input_text" />
                                 <div className="chat-user-message-input-buttons">
                                     <img className="chat-user-message-send-file-button" src={paperclip} alt="Anexar arquivo" onClick={() => {
-                                        if(demandaAtual.id !== "") {
-                                            setModalIsOpen(!modalIsOpen)}
+                                        if (demandaAtual.id !== "") {
+                                            setModalIsOpen(!modalIsOpen)
                                         }
-                                    }/>
+                                    }
+                                    } />
                                     <img className="chat-user-message-send-button" src={send} alt="Enviar mensagem" onClick={(e) => { handleSubmitMessageText(e) }} />
                                 </div>
                             </div>
