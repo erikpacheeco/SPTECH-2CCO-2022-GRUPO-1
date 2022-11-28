@@ -122,3 +122,30 @@
     background-color: #FFFFFF;
     color: #7F2AB5;
 }
+
+.dashboard-chatops-loader-container {
+    width: 100%;
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #FFFFFF
+}
+
+.dashboard-chatops-spinner {
+    width: 10px;
+    height: 10px;
+    border: 5px solid;
+    border-color: #7F2AB5 transparent #7F2AB5 transparent;
+    border-radius: 50%;
+    animation: spin-anim 1.2s linear infinite;
+}
+
+@keyframes spin-anim {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
