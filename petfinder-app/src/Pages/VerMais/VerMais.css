@@ -78,7 +78,7 @@
 }
 
 .ver-mais-fotos-container-sub{
-    height: 85%;
+    height: 80%;
     width: 100%;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));

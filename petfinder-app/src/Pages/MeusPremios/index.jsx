@@ -7,12 +7,14 @@ import api from "../../Api";
 import CardPetSimplesPremios from "../../Components/CardPetSimplesPremios";
 import { GoChevronLeft, GoChevronRight } from "react-icons/go"
 import Slider from 'react-slick';
+import FilterButton from "../../Components/FilterButton";
 
 export default function MeusPremios() {
   const infoUsuario = JSON.parse(localStorage.getItem("petfinder_user"));
-  const [instituicao, setInstituicao] = useState([]);
-  const [allPets, setAllPets] = useState([]);
   const [allPremios, setAllPremios] = useState([]);
+  const [allPetsName, setPetsName] = useState([]);
+  const [filteredPets, setFilteredPets] = useState([]);
+  const [usingFilters, setUsingFilters] = useState(false)
 
   const [itensPerPage, setItensPerPage] = useState(30);
   const [currentPage, setCurrentPage] = useState(0);
@@ -30,54 +32,74 @@ export default function MeusPremios() {
     infinite: false
   }
 
+  function clearAllFilters() {
+    let allFiltersSelected = document.querySelectorAll(".btn-filtro-input")
+    for (let i = 0; i < allFiltersSelected.length; i++) {
+      const element = allFiltersSelected[i];
+      element.checked = false;
+      let button = document.getElementById("btn-" + element.id)
+      let img = document.getElementById("img-" + element.id)
+      button.classList.remove("btn-filtro-checkbox-active")
+      button.classList.add("btn-filtro-checkbox");
+      img.classList.add("btn-filtro-hide")
+    }
+
+    setFilteredPets([])
+  }
+
   useEffect(() => {
-    api.get(`/instituicoes/apadrinhamentos/usuario/${infoUsuario.id}`)
-      .then((res) => {
-        setInstituicao(res.data);
-      });
-    api.get(`/pets/apadrinhamentos/usuario/${infoUsuario.id}`).then((res) => {
-      if(res.status === 200) setAllPets(res.data);
-    });
     api.get(`/demandas/premios/get/${infoUsuario.id}`).then((res) => {
+      res.data.forEach(element => {
+        if (!allPetsName.includes(element.pet)) {
+          setPetsName([...allPetsName, element.pet])
+        }
+      });
       setAllPremios(res.data);
     });
   }, []);
 
   return (
     <>
-      <HeaderApp/>
-
+      <HeaderApp />
       <div class="premios-container-geral">
         <h1 className="premios-h1-titulo">Meus Prêmios</h1>
         <div className="premios-container-conteudo">
+
           <div className="premios-container-filtros">
             <div className="premios-container-filtros-titulo">
               <h2 className="premios-h2-filtros">Filtros</h2>
-              <img src={img} alt="meus-premios-icone-de-filtro"></img>
+              <img src={img} alt="meus-premios-icone-de-filtro" onClick={clearAllFilters} />
             </div>
             <div className="premios-filtros">
-              <h2 className="premios-h2-filtros-titulos">Instituições</h2>
-
-              <div className="premios-container-filtro-backend">
-                {instituicao.map((i) => (
-                  <p className="ver-mais-p-filtro">{i.nome}</p>
-                ))}
-              </div>
-
               <h2 className="premios-h2-filtros-titulos">Pets</h2>
               <div className="premios-container-filtro-backend">
-                {allPets.map((p) => (
-                  <p className="ver-mais-p-filtro">{p.nome}</p>
-                ))}
+                {
+                  allPetsName.map((p, index) => {
+                    return (<FilterButton id={index} label={p} onChange={(inputState) => {
+                      if (inputState) {
+                        setFilteredPets([...filteredPets, p])
+                      } else {
+                        setFilteredPets(filteredPets.filter((e) => e !== p))
+                      }
+                    }} />)
+                  })
+                }
               </div>
             </div>
           </div>
 
           <div className="premios-fotos-container">
             <div className="premios-fotos-container-sub" >
-              {currentPets.map(p => (
-                <CardPetSimplesPremios srcImg={p.img} />
-              ))}
+              {
+                filteredPets.length == 0 ?
+                  currentPets.map(p => (
+                    <CardPetSimplesPremios srcImg={p.img} />
+                  ))
+                  :
+                  currentPets.filter((e) => filteredPets.includes(e.pet))
+                  .map(p => (<CardPetSimplesPremios srcImg={p.img} />))
+
+              }
             </div>
             <div className="premios-container-botao-paginacao">
               <Slider {...settings}>

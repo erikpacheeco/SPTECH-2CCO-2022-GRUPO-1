@@ -87,21 +87,22 @@ export default function VerMais() {
     let json = {
       sexo: filtersSexo.length === 0 ? null : filtersSexo,
       porte: filtersPorte.length === 0 ? null : filtersPorte,
-      doente: filtersDoente.length === 0 ? null : filtersDoente,
+      isDoente: filtersDoente.length === 0 ? null : filtersDoente,
       especie: filtersEspecie.length === 0 ? null : filtersEspecie,
       caracteristicas: filtersCaracteristicas.length === 0 ? null : filtersCaracteristicas
     }
-    if (json.caracteristicas == null && json.especie == null && json.doente == null && json.porte == null && json.sexo == null) {
+    console.log(json)
+    if (json.caracteristicas == null && json.especie == null && json.isDoente == null && json.porte == null && json.sexo == null) {
       api.get(`/pets/userPreferences/${JSON.parse(localStorage.getItem("petfinder_user")).id}/${999}`).then((res) => {
         setAllPets(res.data);
       });
     } else {
       api.post("/pets/filter", json, { headers: { 'Content-Type': 'application/json' } }).then((res) => {
         setAllPets(res.data);
+        console.log(res.data);
       });
 
     }
-
   }, [filtersSexo, filtersPorte, filtersDoente, filtersEspecie, filtersCaracteristicas])
 
   return (
