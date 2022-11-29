@@ -1,6 +1,7 @@
 import './perfil-usuario.css';
 import axios from "axios";
 import HeaderApp from "../../Components/HeaderApp";
+import PetFriendlyMaps from "../../Components/PetFriendlyMaps";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../Api";
@@ -75,47 +76,51 @@ function PerfilUsuario() {
     const [ufUser, setUfUser] = useState("");
     const [cepUser, setCepUser] = useState("");
 
+    const [hasAdocao, setHasAdocao] = useState(false)
+    const [actualPage, setActualPage] = useState(0);
+
     useEffect(() => {
-       
-            api.get(`/usuarios/${idUsuario}`).then((res) => {
-                setInfoPadrinho(res.data);
-                setNomeUser(res.data.nome);
-                setEmailUser(res.data.email);
-                setRuaUser(res.data.endereco.rua);
-                setNumUser(res.data.endereco.num);
-                setComplementoUser(res.data.endereco.complemento);
-                setBairroUser(res.data.endereco.bairro);
-                setCidadeUser(res.data.endereco.cidade);
-                setUfUser(res.data.endereco.uf);
-                setCepUser(res.data.endereco.cep);
-            }).catch(error => { console.log(error) })
 
-            api.get(`/pets/apadrinhamentos/usuario/${idUsuario}`).then(res => {
-                if(res.status == 200) {
-                    setPets(res.data);
-                }
-            }).catch(error => {console.log(error)})
+        api.get(`/usuarios/${idUsuario}`).then((res) => {
+            setInfoPadrinho(res.data);
+            setNomeUser(res.data.nome);
+            setEmailUser(res.data.email);
+            setRuaUser(res.data.endereco.rua);
+            setNumUser(res.data.endereco.num);
+            setComplementoUser(res.data.endereco.complemento);
+            setBairroUser(res.data.endereco.bairro);
+            setCidadeUser(res.data.endereco.cidade);
+            setUfUser(res.data.endereco.uf);
+            setCepUser(res.data.endereco.cep);
+        }).catch(error => { console.log(error) })
 
-            api.get(`/usuarios/interesse/${idUsuario}`).then((res) => {
-                setPreferencias(res.data.map(caracteristica => caracteristica.caracteristica))
-            }).catch(error => {console.log(error)})
+        api.get(`/pets/apadrinhamentos/usuario/${idUsuario}`).then(res => {
+            if (res.status == 200) {
+                setPets(res.data);
+            }
+        }).catch(error => { console.log(error) })
 
-            
+        api.get(`/usuarios/interesse/${idUsuario}`).then((res) => {
+            setPreferencias(res.data.map(caracteristica => caracteristica.caracteristica))
+        }).catch(error => { console.log(error) })
 
+        api.get(`/demandas/adocaoConcluida/${idUsuario}`).then((res) => {
+            setHasAdocao(res.data)
+        }).catch(error => { console.log(error) })
     }, []);
 
 
     function handleChangeCep(event) {
         setCepUser(event.target.value)
 
-        if(event.target.value.length === 8){
+        if (event.target.value.length === 8) {
             axios.get(`https://viacep.com.br/ws/${event.target.value}/json/`).then((res) => {
                 console.log(res.data);
                 setRuaUser(res.data.logradouro)
             })
         }
     }
-    
+
     function handleSubmitColaborador(event) {
         event.preventDefault();
         let json = {
@@ -146,25 +151,25 @@ function PerfilUsuario() {
                 'Content-Type': 'application/json'
             }
         }).then((res) => {
-                swal.fire({
-                    icon: "success",
-                    title: <h2>Usuário atualizado com sucesso!</h2>,
-                })
-            }).catch((error) => {
-                swal.fire({
-                    icon: "error",
-                    title: <h2>Ops! Algo deu errado da nossa parte :(</h2>,
-                    text: "Por favor, tente novamente!"
-                });
-                console.log(error)
+            swal.fire({
+                icon: "success",
+                title: <h2>Usuário atualizado com sucesso!</h2>,
             })
+        }).catch((error) => {
+            swal.fire({
+                icon: "error",
+                title: <h2>Ops! Algo deu errado da nossa parte :(</h2>,
+                text: "Por favor, tente novamente!"
+            });
+            console.log(error)
+        })
     }
 
     function clicarEdicao(event) {
         event.preventDefault();
 
-        if(!editarInput){ 
-            {handleSubmitColaborador(event)} 
+        if (!editarInput) {
+            { handleSubmitColaborador(event) }
         }
 
         setEditarInput(!editarInput);
@@ -200,28 +205,30 @@ function PerfilUsuario() {
                     <img className='perfil-usuario-box-Nolista-img' src={noPet} alt="Gato triste" />
                     {objUser.nivelAcesso == "user" ? <button onClick={() => navigate("/home-user")}>Ajude Aqui!</button> : ""}
                 </div>
+
             )
         }
     }
 
     function verificarUsuarioEditar() {
-            return (
-                editarInput ? 
+        return (
+            editarInput ?
                 <button onClick={(event) => clicarEdicao(event)}>
                     <span>Editar</span>
                     <img src={EditarIcon} alt="" />
                 </button>
-                : 
+                :
                 <button type="submit" id="salvar" onClick={(event) => clicarEdicao(event)}>
                     <span>Salvar</span>
                     <img src={EditarIcon} alt="" />
                 </button>
-            )
+        )
     }
 
     return (
         <>
             <HeaderApp />
+            <button onClick={() => {}}>asd</button>
             <div className="perfil-usuario-root">
                 <div className="perfil-usuario-root-container">
                     <div className="perfil-usuario-box-titulo">
@@ -358,10 +365,10 @@ function PerfilUsuario() {
                                                 >
                                                     {pref.caracteristica}
                                                 </button>
-                                                
+
                                             ))
                                         }
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -369,7 +376,24 @@ function PerfilUsuario() {
 
                         <div className="perfil-usuario-pets-apadrinhado">
                             <div className="perfil-usuario-pets-apadrinhado-container">
-                                {verificarApadrinhado(pets, objUser)}
+                                {
+                                    hasAdocao ?
+                                        <div className={actualPage == 0 ? 'perfil-usuario-box-btn-right' : 'perfil-usuario-box-btn-left'}>
+                                            <button className={actualPage == 0 ? "perfil-usuario-hide" : ""} onClick={() => { setActualPage(0) }}>asdsd</button>
+                                            <button className={actualPage == 1 ? "perfil-usuario-hide" : ""} onClick={() => { setActualPage(1) }}>asdsd</button>
+                                        </div>
+                                        :
+                                        <></>
+                                }
+                                {
+                                    actualPage == 0 ?
+                                    verificarApadrinhado(pets, objUser)
+                                    :
+                                    <div className='perfil-usuario-box-maps-container'>
+                                        <PetFriendlyMaps/>
+                                    </div>
+                                }
+
                             </div>
                         </div>
                     </div>

@@ -659,4 +659,9 @@ public class DemandaController implements GerenciadorArquivos{
         return ResponseEntity.status(200).body(pets);
     }
 
+    @GetMapping("/adocaoConcluida/{idUser}")
+    public ResponseEntity<Boolean> getAdocaoConcluida(@PathVariable int idUser){
+        return ResponseEntity.status(200).body(demandaRepositorio.findAdocaoConcluidaByUser(idUser));
+    }
+
 }

@@ -284,3 +284,26 @@
 .perfil-usuario-box-Nolista-img{
     width: 50%;
 }
+
+.perfil-usuario-box-btn-right{
+    display: flex;
+    justify-content: right;
+}
+
+.perfil-usuario-box-btn-left{
+    display: flex;
+    justify-content: left;
+}
+
+.perfil-usuario-hide{
+    display: none;
+}
+
+.perfil-usuario-box-maps-container{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
