@@ -8,6 +8,8 @@ import api from "../../Api";
 import CardPet from "../../Components/CardPet";
 import Swal from 'sweetalert2';
 import withReactContent from "sweetalert2-react-content";
+import left from "../../Images/left.svg"
+import right from "../../Images/right.svg"
 
 // imagens
 // import noPet from "../../Images/png_img/no-pets.gif";
@@ -228,7 +230,6 @@ function PerfilUsuario() {
     return (
         <>
             <HeaderApp />
-            <button onClick={() => {}}>asd</button>
             <div className="perfil-usuario-root">
                 <div className="perfil-usuario-root-container">
                     <div className="perfil-usuario-box-titulo">
@@ -379,19 +380,23 @@ function PerfilUsuario() {
                                 {
                                     hasAdocao ?
                                         <div className={actualPage == 0 ? 'perfil-usuario-box-btn-right' : 'perfil-usuario-box-btn-left'}>
-                                            <button className={actualPage == 0 ? "perfil-usuario-hide" : ""} onClick={() => { setActualPage(0) }}>asdsd</button>
-                                            <button className={actualPage == 1 ? "perfil-usuario-hide" : ""} onClick={() => { setActualPage(1) }}>asdsd</button>
+                                            <button className={actualPage == 0 ? "perfil-usuario-hide" : "perfil-usuario-box-btn-geral"} onClick={() => { setActualPage(0) }}>
+                                                <img src={left} />
+                                            </button>
+                                            <button className={actualPage == 1 ? "perfil-usuario-hide" : "perfil-usuario-box-btn-geral"} onClick={() => { setActualPage(1) }}>
+                                                <img src={right} />
+                                            </button>
                                         </div>
                                         :
                                         <></>
                                 }
                                 {
                                     actualPage == 0 ?
-                                    verificarApadrinhado(pets, objUser)
-                                    :
-                                    <div className='perfil-usuario-box-maps-container'>
-                                        <PetFriendlyMaps/>
-                                    </div>
+                                        verificarApadrinhado(pets, objUser)
+                                        :
+                                        <div className='perfil-usuario-box-maps-container'>
+                                            <PetFriendlyMaps />
+                                        </div>
                                 }
 
                             </div>

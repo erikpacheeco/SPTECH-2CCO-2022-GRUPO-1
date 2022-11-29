@@ -307,3 +307,7 @@
     align-items: center;
     justify-content: space-evenly;
 }
+.perfil-usuario-box-btn-geral{
+    border: none;
+    background-color: transparent;
+}

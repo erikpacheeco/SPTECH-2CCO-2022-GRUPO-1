@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
 import api from "../../Api.js";
+import "./pet-friendly.css"
 
 const containerStyle = {
     width: '90%',
@@ -17,8 +18,9 @@ export default function MapsTest(props) {
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(getPosition, console.log)
         api.get("/usuarios/locais").then((res) => {
-            setLocais(res.data)
-            console.log(res.data)
+            setTimeout(()=>{
+                setLocais(res.data)
+            },500)
         })
     }, [])
 
@@ -74,11 +76,10 @@ export default function MapsTest(props) {
                 }]
             }}
         >
-            <Marker key={key} position={{lat: lat,lng: lng}} options={{label:{text:"Você está aqui"}}}/>
-            <Marker key={key} position={{lat: lat,lng: lng}} options={{label:{text:"Você está aqui"}}}/>
+            <Marker key={key} position={{lat: lat,lng: lng}} options={{label:{text:"Você está aqui", className:"pet-friendly-maps"}}}/>
             {
                 locais.map((l, index) => {
-                    return(<Marker key={index+ 1} position={{ lat: Number(l.latitude), lng: Number(l.longitude)}}/>)
+                    return(<Marker key={index+1} position={{ lat: Number(l.latitude), lng: Number(l.longitude)}} options={{label:{text:l.nome, className:"pet-friendly-maps"}}}/>)
                 })
             }
         </GoogleMap>
