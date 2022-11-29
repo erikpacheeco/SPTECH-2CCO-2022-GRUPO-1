@@ -285,3 +285,7 @@
     background: #50077E;
     color: #F7CA00;
 }
+
+.perfil-pet-usuario-info-nome{
+    text-transform: capitalize;
+}
