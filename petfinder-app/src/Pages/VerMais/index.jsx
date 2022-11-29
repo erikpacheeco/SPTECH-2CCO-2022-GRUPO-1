@@ -3,7 +3,7 @@ import HeaderApp from "../../Components/HeaderApp";
 import img from "../../Images/erase.svg";
 import VLibras from "@djpfs/react-vlibras";
 import api from "../../Api";
-import CardPet from "../../Components/CardPet";
+import CardPetVerMais from "../../Components/CardPetVerMais";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from 'react';
 import Slider from 'react-slick';
@@ -203,7 +203,7 @@ export default function VerMais() {
           <div className="ver-mais-fotos-container">
             <div className="ver-mais-fotos-container-sub">
               {currentPets.map((p) => (
-                <CardPet
+                <CardPetVerMais
                   id={p.id}
                   nome={p.nome}
                   isDoente={p.isDoente}
