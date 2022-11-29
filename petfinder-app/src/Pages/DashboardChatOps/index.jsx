@@ -54,6 +54,15 @@ function DashboardChatOps() {
         setChartCategoria(chartCategoriaSem);
     }, [chartCategoriaSem, chartCategoriaMes]);
 
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        setLoading(true);
+        setTimeout(() => {
+        setLoading(false);
+        }, 2000);
+    }, []);
+
     return(
         <>
             <HeaderApp/>
@@ -82,19 +91,25 @@ function DashboardChatOps() {
                             <div className="dashboard-chatops-metricas-grafico">
                                 <h2>Demandas por semana</h2>
                                 <div className="dashboard-chatops-metricas-grafico-container-1">
-                                    <Chart
-                                        chartType="PieChart"
-                                        data={chartDemandasPorSemana || [
-                                            ["", "Demanda"], 
-                                            ["Sua equipe (com sucesso)", 1], 
-                                            ["Você (com sucesso)", 1], 
-                                            ["Sem sucesso", 10]
-                                        ]}
-                                        width="100%"
-                                        height="100%"
-                                        options={options}
-                                        legendToggle
-                                    />
+                                    {loading ? (
+                                        <div className="dashboard-chatops-loader-container">
+                                            <div className="dashboard-chatops-spinner"></div>
+                                        </div>
+                                    ) : (
+                                        <Chart
+                                            chartType="PieChart"
+                                            data={chartDemandasPorSemana || [
+                                                ["", "Demanda"], 
+                                                ["Sua equipe (com sucesso)", 1], 
+                                                ["Você (com sucesso)", 1], 
+                                                ["Sem sucesso", 10]
+                                            ]}
+                                            width="100%"
+                                            height="100%"
+                                            options={options}
+                                            legendToggle
+                                        />
+                                    )}
                                 </div>
                             </div>
 
@@ -127,20 +142,26 @@ function DashboardChatOps() {
                                 </div>
 
                                 <div className="dashboard-chatops-metricas-grafico-container">
-                                    <Chart
-                                        chartType="Bar"
-                                        data={chartCategoria || [
-                                            ["Dia", "Pagamento", "Adoção"],
-                                            ["11/18", 0, 0],
-                                            ["11/19", 0, 0],
-                                            ["11/20", 0, 0],
-                                            ["11/21", 0, 0],
-                                            ["11/22", 0, 0],
-                                        ]}
-                                        width="100%"
-                                        height="100%"
-                                        legendToggle
-                                    />
+                                    {loading ? (
+                                        <div className="dashboard-chatops-loader-container">
+                                            <div className="dashboard-chatops-spinner"></div>
+                                        </div>
+                                    ) : (
+                                        <Chart
+                                            chartType="Bar"
+                                            data={chartCategoria || [
+                                                ["Dia", "Pagamento", "Adoção"],
+                                                ["11/18", 0, 0],
+                                                ["11/19", 0, 0],
+                                                ["11/20", 0, 0],
+                                                ["11/21", 0, 0],
+                                                ["11/22", 0, 0],
+                                            ]}
+                                            width="100%"
+                                            height="100%"
+                                            legendToggle
+                                        />
+                                    )}
                                 </div>
                             </div>
                         </div>

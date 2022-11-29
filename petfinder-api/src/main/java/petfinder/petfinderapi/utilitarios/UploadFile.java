@@ -62,7 +62,7 @@ public class UploadFile {
             } catch (Exception e) {
                 throw new IllegalArgumentException("Invalid file: " + e, e);
             }
-            CommonsMultipartFile multipartFile = new CommonsMultipartFile(fileItem);
+            MultipartFile multipartFile = new CommonsMultipartFile(fileItem);
 
             output.write(multipartFile.getBytes());
             output.close();
@@ -76,7 +76,7 @@ public class UploadFile {
     // send file to bucket
     private static String uploadFileS3(String fileName, MultipartFile multipart) throws S3Exception, AwsServiceException, SdkClientException, IOException {
 
-        File path = new File(".\\img\\premios\\" + fileName);
+        File path = new File(fileName);
 
         // redimensionando img
         BufferedImage originalImage = ImageIO.read(new ByteArrayInputStream(multipart.getBytes()));
@@ -89,7 +89,7 @@ public class UploadFile {
         } catch (Exception e) {
             throw new IllegalArgumentException("Invalid file: " + e, e);
         }
-        CommonsMultipartFile multipartFile = new CommonsMultipartFile(fileItem);
+        MultipartFile multipartFile = new CommonsMultipartFile(fileItem);
 
         InputStream inputStream = multipartFile.getInputStream();
 

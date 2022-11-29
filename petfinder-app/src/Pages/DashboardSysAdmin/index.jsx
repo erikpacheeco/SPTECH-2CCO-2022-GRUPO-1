@@ -50,6 +50,15 @@ function DashboardSysAdmin() {
         })
     }, []);
 
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        setLoading(true);
+        setTimeout(() => {
+        setLoading(false);
+        }, 2000);
+    }, []);
+
     return (
         <>
             <HeaderApp />
@@ -92,42 +101,54 @@ function DashboardSysAdmin() {
                             <div className="dashboard-sysadmin-metricas-grafico">
                                 <h2>Conversão de visitantes por mês</h2>
                                 <div className="dashboard-sysadmin-metricas-grafico-container">
-                                    <Chart
-                                        chartType="Bar"
-                                        data={chartVisitantesPorMes || [
-                                            ["Mês", "Qtd Visitantes", "Qtd Usuários"],
-                                            ["2022/06", 0, 0],
-                                            ["2022/07", 0, 0],
-                                            ["2022/08", 0, 0],
-                                            ["2022/09", 0, 0],
-                                            ["2022/10", 0, 0],
-                                            ["2022/11", 0, 0]
-                                        ]}
-                                        width="100%"
-                                        height="100%"
-                                        legendToggle
-                                    />
+                                    {loading ? (
+                                        <div className="dashboard-sysadmin-loader-container">
+                                            <div className="dashboard-sysadmin-spinner"></div>
+                                        </div>
+                                    ) : (
+                                        <Chart
+                                            chartType="Bar"
+                                            data={chartVisitantesPorMes || [
+                                                ["Mês", "Qtd Visitantes", "Qtd Usuários"],
+                                                ["2022/06", 0, 0],
+                                                ["2022/07", 0, 0],
+                                                ["2022/08", 0, 0],
+                                                ["2022/09", 0, 0],
+                                                ["2022/10", 0, 0],
+                                                ["2022/11", 0, 0]
+                                            ]}
+                                            width="100%"
+                                            height="100%"
+                                            legendToggle
+                                        />
+                                    )}
                                 </div>
                             </div>
 
                             <div className="dashboard-sysadmin-metricas-grafico">
                                 <h2>Conversão de leads para clientes</h2>
                                 <div className="dashboard-sysadmin-metricas-grafico-container">
-                                    <Chart
-                                        chartType="Bar"
-                                        data={chartLeadsClientes || [
-                                            ["Mês", "Qtd Leads", "Qtd Clientes"],
-                                            ["2022/06", 0, 0],
-                                            ["2022/07", 0, 0],
-                                            ["2022/08", 0, 0],
-                                            ["2022/09", 0, 0],
-                                            ["2022/10", 0, 0],
-                                            ["2022/11", 0, 0]
-                                        ]}
-                                        width="100%"
-                                        height="100%"
-                                        legendToggle
-                                    />
+                                    {loading ? (
+                                        <div className="dashboard-sysadmin-loader-container">
+                                            <div className="dashboard-sysadmin-spinner"></div>
+                                        </div>
+                                    ) : (
+                                        <Chart
+                                            chartType="Bar"
+                                            data={chartLeadsClientes || [
+                                                ["Mês", "Qtd Leads", "Qtd Clientes"],
+                                                ["2022/06", 0, 0],
+                                                ["2022/07", 0, 0],
+                                                ["2022/08", 0, 0],
+                                                ["2022/09", 0, 0],
+                                                ["2022/10", 0, 0],
+                                                ["2022/11", 0, 0]
+                                            ]}
+                                            width="100%"
+                                            height="100%"
+                                            legendToggle
+                                        />
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -137,19 +158,25 @@ function DashboardSysAdmin() {
                             <div className="dashboard-sysadmin-metricas-grafico">
                                 <h2>Conversão de leads para clientes instituição no mês anterior</h2>
                                 <div className="dashboard-sysadmin-metricas-grafico-container">
-                                    <Chart
-                                        chartType="PieChart"
-                                        data={chartLeadsClientesInst || [
-                                            ["Ativas", "Inativas"],
-                                            ["Ativas", 0],
-                                            ["Inativas", 0],
-                                        ]}
-                                        options={{
-                                            title: "",
-                                        }}
-                                        width={"100%"}
-                                        height={"100%"}
-                                    />
+                                    {loading ? (
+                                        <div className="dashboard-sysadmin-loader-container">
+                                            <div className="dashboard-sysadmin-spinner"></div>
+                                        </div>
+                                    ) : (
+                                        <Chart
+                                            chartType="PieChart"
+                                            data={chartLeadsClientesInst || [
+                                                ["Ativas", "Inativas"],
+                                                ["Ativas", 0],
+                                                ["Inativas", 0],
+                                            ]}
+                                            options={{
+                                                title: "",
+                                            }}
+                                            width={"100%"}
+                                            height={"100%"}
+                                        />
+                                    )}
                                 </div>
                             </div>
 

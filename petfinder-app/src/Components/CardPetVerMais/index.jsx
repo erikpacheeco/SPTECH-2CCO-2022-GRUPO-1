@@ -1,9 +1,9 @@
 import doente from "../../Images/png_img/saude_2.png"
-import "./card-pet.css"
+import "./card-pet-ver-mais.css"
 import React from "react";
 import { useEffect, useState } from "react";
 
-export default function CardPet(props) {
+export default function CardPetVerMais(props) {
 
     const [loading, setLoading] = useState(false);
 
@@ -14,7 +14,7 @@ export default function CardPet(props) {
         }, 2000);
     }, []);
 
-    CardPet.defaultProps= {
+    CardPetVerMais.defaultProps= {
         isDoente: false,
         nome: "Label"
     }
@@ -22,19 +22,19 @@ export default function CardPet(props) {
     return (
         <>
             {loading ? (
-                <div className="card-loader-container">
-                    <div className="card-spinner"></div>
+                <div className="card-ver-mais-loader-container">
+                    <div className="card-ver-mais-spinner"></div>
                 </div>
                 
             ) : (
-                <figure className="card-pet-img-pet" onClick={props.onClick} 
+                <figure className="card-ver-mais-pet-img-pet" onClick={props.onClick} 
                 style={{backgroundImage: `url("${props.backgroundImage}")`}}
                 >
 
                     <p style={{'textTransform': "Capitalize"}}>{props.nome}</p>
                         <img
                             className={
-                                props.isDoente ? ("card-pet-info") : ("card-pet-hide")
+                                props.isDoente ? ("card-ver-mais-pet-info") : ("card-ver-mais-pet-hide")
                             } 
                             src={doente}
                             title="Este animal possui alguma doença atualmente "

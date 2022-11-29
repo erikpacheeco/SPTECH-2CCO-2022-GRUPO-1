@@ -119,7 +119,7 @@ function Login() {
                         </div>
 
                         <div className="login-label-container">
-                            <a className="login-link-senha link" href="/">Esqueci a senha</a>
+                            {/* <a className="login-link-senha link" href="/">Esqueci a senha</a> */}
                         </div>
 
                         {/* Buttons */}

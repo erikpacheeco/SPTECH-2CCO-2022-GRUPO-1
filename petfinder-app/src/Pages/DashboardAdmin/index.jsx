@@ -60,6 +60,15 @@ function DashboardAdmin() {
         setChartPremiosAdicionadosPor(pageValues.chartPremiosAdicionadosPorSemana);
     }, [pageValues]);
 
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        setLoading(true);
+        setTimeout(() => {
+        setLoading(false);
+        }, 2000);
+    }, []);
+
     return (
         <>
             <HeaderApp/>
@@ -122,18 +131,24 @@ function DashboardAdmin() {
                                     />
 
                                 </div>
-                                <div className="dashboard-admin-metricas-grafico-container">     
-                                    <Chart
-                                        id="chart-padrinho"
-                                        chartType="Bar"
-                                        data={chartPadrinhosPor || [
-                                            ["Dia", "Padrinhos"],
-                                            ["0", 0]
-                                        ]}
-                                        width="100%"
-                                        height="100%"
-                                        legendToggle
-                                    />
+                                <div className="dashboard-admin-metricas-grafico-container">    
+                                    {loading ? (
+                                        <div className="dashboard-admin-loader-container">
+                                            <div className="dashboard-admin-spinner"></div>
+                                        </div>
+                                    ) : (
+                                        <Chart
+                                            id="chart-padrinho"
+                                            chartType="Bar"
+                                            data={chartPadrinhosPor || [
+                                                ["Dia", "Padrinhos"],
+                                                ["0", 0]
+                                            ]}
+                                            width="100%"
+                                            height="100%"
+                                            legendToggle
+                                        />
+                                    )}
                                 </div>
                             </div>
 
@@ -168,16 +183,22 @@ function DashboardAdmin() {
 
                                 <div className="dashboard-admin-metricas-grafico-container">
                                     {/* {console.log(valorDataDemanda)} */}
-                                    <Chart
-                                        chartType="Bar"
-                                        data={chartCategoriasPor || [
-                                            ["Dia", "Adoção", "Pagamentos"],
-                                            ["01/11", 0, 0]
-                                        ]}
-                                        width="100%"
-                                        height="100%"
-                                        legendToggle
-                                    />
+                                    {loading ? (
+                                        <div className="dashboard-admin-loader-container">
+                                            <div className="dashboard-admin-spinner"></div>
+                                        </div>
+                                    ) : (
+                                        <Chart
+                                            chartType="Bar"
+                                            data={chartCategoriasPor || [
+                                                ["Dia", "Adoção", "Contribuições"],
+                                                ["01/11", 0, 0]
+                                            ]}
+                                            width="100%"
+                                            height="100%"
+                                            legendToggle
+                                        />
+                                    )}
                                 </div>
                             </div>
 
@@ -212,21 +233,27 @@ function DashboardAdmin() {
                                 />
 
                                 </div>
-                                <div className="dashboard-admin-metricas-grafico-container">     
-                                    <Chart
-                                        id="chart-premio"
-                                        chartType="Bar"
-                                        data={chartPremiosAdicionadosPor || [
-                                            ["Mês", "Prêmios"],
-                                            ["10/11", 0],
-                                            ["10/11", 0],
-                                            ["10/11", 0],
-                                            ["10/11", 0],
-                                        ]}
-                                        width="100%"
-                                        height="100%"
-                                        legendToggle
-                                    />
+                                <div className="dashboard-admin-metricas-grafico-container">    
+                                    {loading ? (
+                                        <div className="dashboard-admin-loader-container">
+                                            <div className="dashboard-admin-spinner"></div>
+                                        </div>
+                                    ) : (
+                                        <Chart
+                                            id="chart-premio"
+                                            chartType="Bar"
+                                            data={chartPremiosAdicionadosPor || [
+                                                ["Mês", "Prêmios"],
+                                                ["10/11", 0],
+                                                ["10/11", 0],
+                                                ["10/11", 0],
+                                                ["10/11", 0],
+                                            ]}
+                                            width="100%"
+                                            height="100%"
+                                            legendToggle
+                                        />
+                                    )}
                                 </div>
                                 
                             </div>

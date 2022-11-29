@@ -1,17 +1,31 @@
 import "./card-pet-simples-premios.css"
 import React from "react";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import "react-lazy-load-image-component/src/effects/blur.css";
+import { useEffect, useState } from "react";
 
 function CardPetSimples(props) {
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        setLoading(true);
+        setTimeout(() => {
+        setLoading(false);
+        }, 2000);
+    }, []);
 
     return (
-        <LazyLoadImage 
-            effect="blur"
-            className="cardPetSimples"
-            src={props.srcImg} 
-            alt="" 
-        />
+        <>
+            {loading ? (
+                <div className="card-simples-loader-container">
+                    <div className="card-simples-spinner"></div>
+                </div>
+            ) : (
+                <img
+                    className="cardPetSimples"
+                    src={props.srcImg} 
+                    alt="" 
+                />
+            )}
+        </>
     )
 }
 

@@ -9,7 +9,7 @@ import withReactContent from "sweetalert2-react-content";
 import api from '../../Api';
 
 function resetValues() {
-    return { nome: "", cargo: "adm" }
+    return { nome: "", cargo: "" }
 }
 
 function EditarColaborador() {

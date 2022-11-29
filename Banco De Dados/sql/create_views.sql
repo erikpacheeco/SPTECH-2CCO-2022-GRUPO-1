@@ -147,7 +147,7 @@ FROM instituicao as i
 WHERE i.id IN (
   SELECT u.instituicao_id FROM leads AS l
   INNER JOIN usuario as u ON u.id = l.usuario_id 
-  WHERE l.data_cadastro BETWEEN (SELECT DATE_SUB(CURRENT_DATE(), INTERVAL 29 DAY)) AND CURRENT_DATE()
+  WHERE l.tipo = 'adm' AND l.data_cadastro BETWEEN (SELECT DATE_SUB(CURRENT_DATE(), INTERVAL 29 DAY)) AND CURRENT_DATE()
 );
 
 CREATE OR REPLACE VIEW view_usuarios_cadastrados_ultimos_6_meses AS

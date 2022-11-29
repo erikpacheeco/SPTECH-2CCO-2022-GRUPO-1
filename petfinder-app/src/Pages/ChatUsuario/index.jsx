@@ -43,6 +43,7 @@ export default function ChatUsuario() {
     });
 
     const [idUltimoCliente, setIdUltimoCliente] = useState()
+    const [loading, setLoading] = useState(false);
 
     function handleChangeAndamento() {
         if (demandasStatus[0]) setDemandasStatus([false, demandasStatus[1], demandasStatus[2]]);
@@ -104,7 +105,13 @@ export default function ChatUsuario() {
     });
 
     useEffect(() => {
+        setMessages([]);
         if (demandaAtual.id !== "") {
+            setLoading(true);
+            setTimeout(() => {
+            setLoading(false);
+            }, 2000);
+
             const interval = setInterval(() => {
                 api_msg.get(`/message/${demandaAtual.id}`).then((res) => {
                     console.log("demanda atual: ", demandaAtual.id);
@@ -115,7 +122,7 @@ export default function ChatUsuario() {
                         setMessages([]);
                     }
                 });
-            }, 100);
+            }, 1000);
             return(() => clearInterval(interval));
         }
 
@@ -240,6 +247,11 @@ export default function ChatUsuario() {
                         </div>
 
                         <div className="chat-user-message-container">
+                            {loading ? (
+                                <div className="chat-user-loader-container">
+                                    <div className="chat-user-spinner"></div>
+                                </div>
+                            ) : (
                             <div className="chat-user-message-section" id='chatSection'>
                                 {
                                     messages.map((msg, index) => {
@@ -247,6 +259,7 @@ export default function ChatUsuario() {
                                     }).reverse()
                                 }
                             </div>
+                            )}
                             <div className="chat-user-message-input-container">
                                 <input className="chat-user-message-input" type="text" id="input_text" />
                                 <div className="chat-user-message-input-buttons">
