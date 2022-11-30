@@ -916,4 +916,10 @@ public class PetsController implements GerenciadorArquivos {
 
         return ResponseEntity.status(200).body(lista);
     }
+
+    @GetMapping("/adocaoConcluida/{idUser}")
+    public ResponseEntity<Boolean> getAdocaoConcluida(@PathVariable int idUser){
+        return ResponseEntity.status(200).body(null);
+    }
+
 }

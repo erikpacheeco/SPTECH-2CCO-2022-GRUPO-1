@@ -2033,7 +2033,7 @@ VALUES
 (239,'chatops','2022-12-01');
 
 INSERT INTO
-locais_petfrindly(nome,endereco,cep,latitude,longitude)
+locais(nome,endereco,cep,latitude,longitude)
 VALUES
 ("Hotel pet friendly","Av. Manoel Ribas, 5480","82400-000","-25.4069171","-49.3251756"),
 ("Pets bem-vindos na varanda","R. Padre Chagas, 306","90570-080","-30.244617","-51.2029311"),

@@ -67,6 +67,9 @@ public class UsuarioController {
     @Autowired
     private ServiceRequest serviceRequest;
 
+    @Autowired
+    private LocaisRepository locaisRepository;
+
     // enums
     ListaObj<String> nivelAcesso = new ListaObj<String>(
         new String[]{
@@ -754,5 +757,10 @@ public class UsuarioController {
         clientesRepository.save(novoCliente);
 
         return ResponseEntity.status(201).build();
+    }
+
+    @GetMapping("/locais")
+    public ResponseEntity<List<Locais>> getLocaisPetFriendly(){
+        return ResponseEntity.status(200).body(locaisRepository.findAll());
     }
 }
