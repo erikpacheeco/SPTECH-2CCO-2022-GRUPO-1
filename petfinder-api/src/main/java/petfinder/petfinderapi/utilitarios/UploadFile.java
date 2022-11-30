@@ -76,22 +76,7 @@ public class UploadFile {
     // send file to bucket
     private static String uploadFileS3(String fileName, MultipartFile multipart) throws S3Exception, AwsServiceException, SdkClientException, IOException {
 
-        File path = new File(fileName);
-
-        // redimensionando img
-        BufferedImage originalImage = ImageIO.read(new ByteArrayInputStream(multipart.getBytes()));
-        Thumbnails.of(originalImage).size(250, 600).toFile(path);
-
-        // transformando em multipart
-        FileItem fileItem = new DiskFileItemFactory().createItem("file", "img", false, multipart.getName());
-        try (InputStream in = new FileInputStream(path); OutputStream out = fileItem.getOutputStream()) {
-            in.transferTo(out);
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Invalid file: " + e, e);
-        }
-        MultipartFile multipartFile = new CommonsMultipartFile(fileItem);
-
-        InputStream inputStream = multipartFile.getInputStream();
+        InputStream inputStream = multipart.getInputStream();
 
         // building client
         S3Client client = S3Client

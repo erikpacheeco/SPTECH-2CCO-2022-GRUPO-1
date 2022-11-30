@@ -139,4 +139,7 @@ public interface DemandaRepositorio extends JpaRepository<Demanda, Integer> {
     @Query("SELECT count(d) FROM Demanda d WHERE d.instituicao.id <> ?1 AND d.dataFechamento > '2022-10-26' AND d.status = 'cancelado'")
     Integer findSemSucesso(Integer instituicaoId);
 
+    @Query("SELECT  COUNT(*) > 0 FROM Demanda d WHERE status = 'CONCLUIDO' AND categoria = 'ADOCAO' AND d.usuario.id = ?1")
+    Boolean findAdocaoConcluidaByUser(int idUser);
+
 }

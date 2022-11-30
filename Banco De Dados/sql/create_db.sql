@@ -193,7 +193,7 @@ CREATE TABLE clientes (
 -- -----------------------------------------------------
 -- Table locais_petfrindly
 -- -----------------------------------------------------
-CREATE TABLE locais_petfrindly (
+CREATE TABLE locais (
   id INT PRIMARY KEY AUTO_INCREMENT,
   nome VARCHAR(45),
   endereco VARCHAR(100) NOT NULL,

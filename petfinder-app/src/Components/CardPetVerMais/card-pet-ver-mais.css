@@ -1,4 +1,4 @@
-.card-pet-img-pet {
+.card-ver-mais-pet-img-pet {
     width: 206px;
     height: 206px;
     box-shadow: inset 0px -80px 50px -33px #30024E;
@@ -14,38 +14,37 @@
     cursor: pointer;
 }
 
-.card-pet-img-pet p {
+.card-ver-mais-pet-img-pet p {
     z-index: 1;
     color: white;
     margin: 15px 20px;
 }
 
-.card-pet-img-pet img {
+.card-ver-mais-pet-img-pet img {
     position: absolute;
     bottom: 192px;
     left: 192px;
 }
 
-.card-pet-hide {
+.card-ver-mais-pet-hide {
     display: none;
 }
 
-.card-loader-container {
+.card-ver-mais-loader-container {
     width: 206px;
     height: 206px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #FFFFFF;
     opacity: 50;
     border-radius: 10px;
 }
 
-.card-spinner {
+.card-ver-mais-spinner {
     width: 10px;
     height: 10px;
     border: 5px solid;
-    border-color: #7F2AB5 transparent #7F2AB5 transparent;
+    border-color: #FFFF transparent #FFFF transparent;
     border-radius: 50%;
     animation: spin-anim 1.2s linear infinite;
 }
