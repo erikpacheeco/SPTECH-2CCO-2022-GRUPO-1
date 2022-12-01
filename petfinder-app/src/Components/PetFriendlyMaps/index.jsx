@@ -64,7 +64,7 @@ export default function MapsTest() {
     return isLoaded ? (
         <GoogleMap
             mapContainerStyle={containerStyle}
-            center={{ lat: lat, lng: lng }}
+            center={{ lat: -23.558121, lng: -46.661614}}
             zoom={zoom}
             onLoad={onLoad}
             onUnmount={onUnmount}
