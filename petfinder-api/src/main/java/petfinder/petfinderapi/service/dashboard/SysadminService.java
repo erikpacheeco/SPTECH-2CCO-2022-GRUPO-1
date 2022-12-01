@@ -84,7 +84,7 @@ public class SysadminService {
         res.getChartLeadsClientesInstituicao().add(List.of("Inativas", String.valueOf(cadastradas - ativas)));
 
         // building monthly charts
-        for(Date date = new Date(); new Date().getMonth() - date.getMonth() < 6; date.setMonth(date.getMonth() - 1)) {
+        for(Date date = new Date(); DashboardUtils.isStopTimeSem(date); date.setMonth(date.getMonth() - 1)) {
             String actual = Conversor.dateToYearMonthString(date);
             res.getChartVisitantesUsuarios().add(DashboardUtils.addDateHole(actual, visitantes, cadastrados));
             res.getChartLeadsClientes().add(DashboardUtils.addDateHole(actual, cadastrados2, clientes));

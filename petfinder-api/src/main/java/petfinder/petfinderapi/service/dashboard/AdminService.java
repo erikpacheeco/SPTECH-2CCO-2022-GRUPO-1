@@ -58,13 +58,13 @@ public class AdminService {
     private ViewPremiosPorPetRepository viewPremiosPorPetRepo;
 
     // methods
-    public DtoAdminResponse getAdminDashboard(int id) {
+    public DtoAdminResponse getAdminDashboard(Integer id) throws InterruptedException {
         Usuario admin = validateAdmin(id);
         return getAdminValues(admin);
     }
 
     // build response
-    private DtoAdminResponse getAdminValues(Usuario usuario) {
+    private DtoAdminResponse getAdminValues(Usuario usuario) throws InterruptedException {
         // cards
         Integer qtdPadrinhos = viewPadrinhosRepo.getCountPadrinhosByInstituicao(usuario.getInstituicao().getId());
         Integer petsAdotados = petRepo.findAllAdotadoInstituicao(usuario.getInstituicao().getId());
@@ -93,7 +93,7 @@ public class AdminService {
         res.setPetsSemPremio(qtdPetsSemPremios);
 
         // building weekly charts
-        for(Date date = new Date(); new Date().getDate() - date.getDate() < 7; date.setDate(date.getDate() - 1)) {
+        for(Date date = new Date(); DashboardUtils.isStopTimeSem(date); date.setDate(date.getDate() - 1)) {
             String actual = Conversor.dateToDayMonthString(date);
             res.getChartPadrinhosPorSemana().add(DashboardUtils.addDateHole(actual, chartPadrinhosSem));
             res.getChartCategoriasPorSemana().add(DashboardUtils.addDateHole(actual, chartCategoriasAdocoesSem, chartCategoriasPagamentoSem));
@@ -101,7 +101,7 @@ public class AdminService {
         }
 
         // building monthly charts
-        for(Date date = new Date(); new Date().getMonth() - date.getMonth() < 6; date.setMonth(date.getMonth() - 1)) {
+        for(Date date = new Date(); new Date().getMonth() - date.getMonth() <= 6; date.setMonth(date.getMonth() - 1)) {
             String actualDate = Conversor.dateToYearMonthString(date);
             res.getChartPadrinhosPorMes().add(DashboardUtils.addDateHole(actualDate, chartPadrinhosMes));
             res.getChartCategoriasPorMes().add(DashboardUtils.addDateHole(Conversor.dateToYearMonthString(date), chartDemandasPagamentosMes, chartDemandasAdocoesMes));

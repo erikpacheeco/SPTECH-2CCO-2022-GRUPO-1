@@ -40,7 +40,7 @@ public class DashboardController {
     // Endpoints
     @GetMapping("/admin/{id}")
     @Operation(description = "")
-    public ResponseEntity<DtoAdminResponse> getAdminDashboard(@PathVariable int id){
+    public ResponseEntity<DtoAdminResponse> getAdminDashboard(@PathVariable int id) throws InterruptedException{
         serviceRequest.saveRequest();
         return ok(adminService.getAdminDashboard(id));
     }
