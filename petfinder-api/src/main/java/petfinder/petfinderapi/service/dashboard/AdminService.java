@@ -93,7 +93,7 @@ public class AdminService {
         res.setPetsSemPremio(qtdPetsSemPremios);
 
         // building weekly charts
-        for(Date date = new Date(); new Date().getDate() - date.getDate() < 7; date.setDate(date.getDate() - 1)) {
+        for(Date date = new Date(); DashboardUtils.isStopTimeSem(date); date.setDate(date.getDate() - 1)) {
             String actual = Conversor.dateToDayMonthString(date);
             res.getChartPadrinhosPorSemana().add(DashboardUtils.addDateHole(actual, chartPadrinhosSem));
             res.getChartCategoriasPorSemana().add(DashboardUtils.addDateHole(actual, chartCategoriasAdocoesSem, chartCategoriasPagamentoSem));

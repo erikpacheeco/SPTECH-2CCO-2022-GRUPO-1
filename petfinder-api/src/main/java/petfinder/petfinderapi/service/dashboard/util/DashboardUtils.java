@@ -1,6 +1,7 @@
 package petfinder.petfinderapi.service.dashboard.util;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import petfinder.petfinderapi.service.dashboard.interfaces.DateHole;
 
@@ -38,5 +39,10 @@ public class DashboardUtils {
         }
         
         return values;
+    }
+
+    public static Boolean isStopTimeSem(Date date) {
+        return new Date().getMonth() == date.getMonth() ? new Date().getDate() - date.getDate() <= 6 : 
+        (new Date().getDate() + 30) - date.getDate() <= 6;
     }
 }

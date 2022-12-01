@@ -65,7 +65,7 @@ public class ChatopsService {
         List<DateHole> apadrinhamentos6Mes = viewDemandas6Meses.findAdocoesByInstituicaoId(usuario.getInstituicao().getId());
 
         // building weekly charts
-        for(Date date = new Date(); new Date().getDate() - date.getDate() < 7; date.setDate(date.getDate() - 1)) {
+        for(Date date = new Date(); DashboardUtils.isStopTimeSem(date); date.setDate(date.getDate() - 1)) {
             String actual = Conversor.dateToDayMonthString(date);
             res.getChartDemandasMaisFrequentesSemana().add(DashboardUtils.addDateHole(actual, apadrinhamentos7Dias, pagamentos7Dias));
         }
