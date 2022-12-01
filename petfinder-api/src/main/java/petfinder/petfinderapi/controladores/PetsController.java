@@ -19,8 +19,6 @@ import petfinder.petfinderapi.resposta.Message;
 import petfinder.petfinderapi.resposta.PetPerfil;
 import petfinder.petfinderapi.resposta.PetPerfilEdicao;
 import petfinder.petfinderapi.resposta.PremioDto;
-import petfinder.petfinderapi.rest.ClienteCep;
-import petfinder.petfinderapi.rest.DistanciaResposta;
 import petfinder.petfinderapi.service.ServicePet;
 import petfinder.petfinderapi.service.ServiceRequest;
 import petfinder.petfinderapi.specifications.PetSpecification;
@@ -56,9 +54,6 @@ public class PetsController implements GerenciadorArquivos {
 
     @Autowired
     private PetHasCaracteristicaRepositorio repositoryHasCaracteristica;
-
-    @Autowired
-    private ClienteCep clienteCep;
 
     @Autowired
     private InstituicaoRepositorio repositoryInstituicao;
@@ -529,29 +524,29 @@ public class PetsController implements GerenciadorArquivos {
         return ResponseEntity.status(400).build();
     }
 
-    @GetMapping("/distancias/{cepUsuario}/{distanciaMax}")
-    public ResponseEntity<Object> getListaDistanciasPet(@PathVariable String cepUsuario,
-                                                          @PathVariable Integer distanciaMax) {
+    // @GetMapping("/distancias/{cepUsuario}/{distanciaMax}")
+    // public ResponseEntity<Object> getListaDistanciasPet(@PathVariable String cepUsuario,
+    //                                                       @PathVariable Integer distanciaMax) {
 
-        requestService.saveRequest();
+    //     requestService.saveRequest();
 
-        List<Pet> lista = repositoryPet.findAll();
+    //     List<Pet> lista = repositoryPet.findAll();
 
-        if (lista.isEmpty()) {
-            return ResponseEntity.status(404).build();
-        }
-        for (int i = 0; i < lista.size(); i++) {
-            DistanciaResposta resposta = clienteCep.getDistancia(cepUsuario,
-                    lista.get(i).getInstituicao().getEndereco().getCep());
-            Integer distancia = resposta.getDistancia();
+    //     if (lista.isEmpty()) {
+    //         return ResponseEntity.status(404).build();
+    //     }
+    //     for (int i = 0; i < lista.size(); i++) {
+    //         DistanciaResposta resposta = clienteCep.getDistancia(cepUsuario,
+    //                 lista.get(i).getInstituicao().getEndereco().getCep());
+    //         Integer distancia = resposta.getDistancia();
 
-            if (distancia <= distanciaMax) {
-                filaObj.insert(lista.get(i));
-            }
-        }
+    //         if (distancia <= distanciaMax) {
+    //             filaObj.insert(lista.get(i));
+    //         }
+    //     }
 
-        return ResponseEntity.status(200).body(filaObj.getFila());
-    }
+    //     return ResponseEntity.status(200).body(filaObj.getFila());
+    // }
 
     @GetMapping("/premios-instituicao/{idInstituicao}")
     @Operation(description = "Endpoint para retornar todos os mimos de determinada instituição")

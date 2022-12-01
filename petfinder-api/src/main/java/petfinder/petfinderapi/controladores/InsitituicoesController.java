@@ -13,9 +13,6 @@ import petfinder.petfinderapi.repositorios.EnderecoRepositorio;
 import petfinder.petfinderapi.repositorios.InstituicaoRepositorio;
 import petfinder.petfinderapi.repositorios.UsuarioRepositorio;
 import petfinder.petfinderapi.requisicao.DtoAdmRequest;
-import petfinder.petfinderapi.rest.ClienteCep;
-import petfinder.petfinderapi.rest.Distancep;
-import petfinder.petfinderapi.rest.DistanciaResposta;
 import petfinder.petfinderapi.service.ServiceInstituicao;
 import petfinder.petfinderapi.service.ServiceRequest;
 
@@ -39,9 +36,6 @@ public class InsitituicoesController {
 
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
-
-    @Autowired
-    private ClienteCep clienteCep;
 
     @Autowired
     private ServiceInstituicao service;
@@ -188,61 +182,61 @@ public class InsitituicoesController {
         return ResponseEntity.status(404).build();
     }
 
-    @GetMapping("/distancia/{cepUsuario}/{cepInstituicao}")
-    @Operation(description = "Endpoint para obter a distância entre o Usuário e a Instituição")
-    public ResponseEntity getDistancia(@PathVariable String cepUsuario,
-                               @PathVariable String cepInstituicao) {
-        serviceRequest.saveRequest();
+    // @GetMapping("/distancia/{cepUsuario}/{cepInstituicao}")
+    // @Operation(description = "Endpoint para obter a distância entre o Usuário e a Instituição")
+    // public ResponseEntity getDistancia(@PathVariable String cepUsuario,
+    //                            @PathVariable String cepInstituicao) {
+    //     serviceRequest.saveRequest();
 
-        DistanciaResposta clienteDistancia = clienteCep.getDistancia(cepUsuario, cepInstituicao);
+    //     DistanciaResposta clienteDistancia = clienteCep.getDistancia(cepUsuario, cepInstituicao);
 
-        if (clienteDistancia != null) {
-            return ResponseEntity.status(200).body(clienteDistancia.getDistancia());
-        }
-        return ResponseEntity.status(404).build();
-    }
+    //     if (clienteDistancia != null) {
+    //         return ResponseEntity.status(200).body(clienteDistancia.getDistancia());
+    //     }
+    //     return ResponseEntity.status(404).build();
+    // }
 
-    @GetMapping("/distancias/{cepUsuario}/{distanciaMax}")
-    public ResponseEntity<List<Instituicao>> getListaDistanciasInstituicaoes(
-        @PathVariable String cepUsuario,
-        @PathVariable Integer distanciaMax) {
+    // @GetMapping("/distancias/{cepUsuario}/{distanciaMax}")
+    // public ResponseEntity<List<Instituicao>> getListaDistanciasInstituicaoes(
+    //     @PathVariable String cepUsuario,
+    //     @PathVariable Integer distanciaMax) {
         
-        serviceRequest.saveRequest();
+    //     serviceRequest.saveRequest();
 
-        // listas
-        List<Instituicao> lista = instituicaoRepositorio.findAll();
-        List<Instituicao> instituicoesProximas = new ArrayList<Instituicao>();
+    //     // listas
+    //     List<Instituicao> lista = instituicaoRepositorio.findAll();
+    //     List<Instituicao> instituicoesProximas = new ArrayList<Instituicao>();
 
-        // 204 sem instituições cadastradas
-        if (lista.isEmpty()) {
-            return ResponseEntity.status(204).build();
-        }
+    //     // 204 sem instituições cadastradas
+    //     if (lista.isEmpty()) {
+    //         return ResponseEntity.status(204).build();
+    //     }
 
-        // percorrendo todas as instituições para medir sua distância com o usuário
-        for (Instituicao instituicao : lista) {
-            String cepInstituicao = instituicao.getEndereco().getCep();
+    //     // percorrendo todas as instituições para medir sua distância com o usuário
+    //     for (Instituicao instituicao : lista) {
+    //         String cepInstituicao = instituicao.getEndereco().getCep();
 
-            // usuário tem o mesmo cep da instituição
-            if (cepUsuario.equals(cepInstituicao)) {
-                instituicoesProximas.add(instituicao);
-                continue;
-            } 
+    //         // usuário tem o mesmo cep da instituição
+    //         if (cepUsuario.equals(cepInstituicao)) {
+    //             instituicoesProximas.add(instituicao);
+    //             continue;
+    //         } 
 
-            // pegando distancia entre usuário e instituição
-            ResponseEntity<Distancep> res = clienteCep.getDistancep(cepUsuario, cepInstituicao);
+    //         // pegando distancia entre usuário e instituição
+    //         ResponseEntity<Distancep> res = clienteCep.getDistancep(cepUsuario, cepInstituicao);
 
-            // verificando se requisição foi realizada com sucesso (STATUS OK 200)
-            // verificando se distancia entre usuário e instituicao é menor que a distancia máxima
-            if (res.getStatusCodeValue() == 200 && res.getBody().getDistance() <= distanciaMax) {
-                // add inst
-                instituicoesProximas.add(instituicao);
-                continue;
-            } 
-        }
+    //         // verificando se requisição foi realizada com sucesso (STATUS OK 200)
+    //         // verificando se distancia entre usuário e instituicao é menor que a distancia máxima
+    //         if (res.getStatusCodeValue() == 200 && res.getBody().getDistance() <= distanciaMax) {
+    //             // add inst
+    //             instituicoesProximas.add(instituicao);
+    //             continue;
+    //         } 
+    //     }
         
-        // 200 ok
-        return ResponseEntity.status(200).body(instituicoesProximas);
-    }
+    //     // 200 ok
+    //     return ResponseEntity.status(200).body(instituicoesProximas);
+    // }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteInstituicao(@PathVariable int id) {
