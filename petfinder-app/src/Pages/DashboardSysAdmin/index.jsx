@@ -5,7 +5,7 @@ import { Chart } from "react-google-charts";
 import VLibras from "@djpfs/react-vlibras"
 import { useEffect, useState } from "react";
 import api from "../../Api";
-import {toNumberAndInvert} from "../../functions/util";
+import { toNumberAndInvert } from "../../functions/util";
 
 export const options = {
     is3D: true
@@ -13,7 +13,7 @@ export const options = {
 
 function DashboardSysAdmin() {
 
-    const authedUser = JSON.parse(localStorage.getItem('petfinder_user')); 
+    const authedUser = JSON.parse(localStorage.getItem('petfinder_user'));
 
     // cards
     const [instituicoes, setInstituicoes] = useState(0);
@@ -30,24 +30,26 @@ function DashboardSysAdmin() {
     // request
     useEffect(() => {
         api.get(`/dashboard/sysadmin/${authedUser.id}`)
-        .then(({status, data}) => {
-            if(status == 200) {
-                // cards
-                setInstituicoes(data.instituicoes);
-                setUsuarios(data.usuarios);
-                setPets(data.pets);
-                setPadrinhos(data.padrinhos);
-                setAdministradores(data.administradores);
+            .then(({ status, data }) => {
+                if (status == 200) {
+                    setTimeout(() => {
+                        // cards
+                        setInstituicoes(data.instituicoes);
+                        setUsuarios(data.usuarios);
+                        setPets(data.pets);
+                        setPadrinhos(data.padrinhos);
+                        setAdministradores(data.administradores);
 
-                // charts
-                setChartVisitantesPorMes(toNumberAndInvert(data.chartVisitantesUsuarios));
-                setChartLeadsClientes(toNumberAndInvert(data.chartLeadsClientes));
-                setChartLeadsClientesInst(toNumberAndInvert(data.chartLeadsClientesInstituicao));
-            } 
-        })
-        .catch(err => {
-            console.log(err);
-        })
+                        // charts
+                        setChartVisitantesPorMes(toNumberAndInvert(data.chartVisitantesUsuarios));
+                        setChartLeadsClientes(toNumberAndInvert(data.chartLeadsClientes));
+                        setChartLeadsClientesInst(toNumberAndInvert(data.chartLeadsClientesInstituicao));
+                    }, 2000);
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            })
     }, []);
 
     const [loading, setLoading] = useState(false);
@@ -55,7 +57,7 @@ function DashboardSysAdmin() {
     useEffect(() => {
         setLoading(true);
         setTimeout(() => {
-        setLoading(false);
+            setLoading(false);
         }, 2000);
     }, []);
 

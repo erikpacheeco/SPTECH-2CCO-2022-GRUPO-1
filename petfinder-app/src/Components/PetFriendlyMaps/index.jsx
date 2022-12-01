@@ -76,7 +76,7 @@ export default function MapsTest() {
                 }]
             }}
         >
-            <Marker key={key} position={{lat: lat,lng: lng}} options={{label:{text:"Você está aqui", className:"pet-friendly-maps"}}}/>
+            <Marker key={key} position={{lat: -23.558121,lng: -46.661614}} options={{label:{text:"Você está aqui", className:"pet-friendly-maps"}}}/>
             {
                 locais.map((l, index) => {
                     return(<Marker key={index+1} position={{ lat: Number(l.latitude), lng: Number(l.longitude)}} options={{label:{text:l.nome, className:"pet-friendly-maps"}}}/>)

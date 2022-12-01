@@ -42,7 +42,9 @@ function DashboardAdmin() {
             res.data.chartCategoriasPorMes = toNumberAndInvert(res.data.chartCategoriasPorMes);
             res.data.chartPremiosAdicionadosPorSemana = toNumberAndInvert(res.data.chartPremiosAdicionadosPorSemana);
             res.data.chartPremiosAdicionadosPorMes = toNumberAndInvert(res.data.chartPremiosAdicionadosPorMes);
-            setPageValues(res.data);
+            setTimeout(() => {
+                setPageValues(res.data);
+            }, 1000);
         })
         .catch((err) => {
             console.log(err);
@@ -51,13 +53,15 @@ function DashboardAdmin() {
     }, []);
 
     useEffect(() => {
-        setQtdPadrinhos(pageValues.padrinhos);
-        setPetsAdotados(pageValues.petsAdotados);
-        setPremiosPorPet(pageValues.premiosPorPet);
-        setPetsSemPremios(pageValues.petsSemPremio);
-        setChartPadrinhosPor(pageValues.chartPadrinhosPorSemana);
-        setChartCategoriasPor(pageValues.chartCategoriasPorSemana);
-        setChartPremiosAdicionadosPor(pageValues.chartPremiosAdicionadosPorSemana);
+        setTimeout(() => {
+            setQtdPadrinhos(pageValues.padrinhos);
+            setPetsAdotados(pageValues.petsAdotados);
+            setPremiosPorPet(pageValues.premiosPorPet);
+            setPetsSemPremios(pageValues.petsSemPremio);
+            setChartPadrinhosPor(pageValues.chartPadrinhosPorSemana);
+            setChartCategoriasPor(pageValues.chartCategoriasPorSemana);
+            setChartPremiosAdicionadosPor(pageValues.chartPremiosAdicionadosPorSemana);
+        }, 1000);
     }, [pageValues]);
 
     const [loading, setLoading] = useState(false);
