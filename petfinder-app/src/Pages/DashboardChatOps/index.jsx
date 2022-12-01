@@ -31,23 +31,25 @@ function DashboardChatOps() {
     // requesting
     useEffect(() => {
         api.get(`/dashboard/chatops/${infoUsuario.id}`)
-        .then(({status, data}) => {
-            if(status == 200) {
-                console.log(data);
+            .then(({ status, data }) => {
+                if (status == 200) {
+                    console.log(data);
+                    setTimeout(() => {
 
-                // card
-                setEmEspera(data.emEspera);
-                setConcluido(data.concluidos);
+                        // card
+                        setEmEspera(data.emEspera);
+                        setConcluido(data.concluidos);
 
-                // chart
-                setChartCategoriaSem(toNumberAndInvert(data.chartDemandasMaisFrequentesSemana));
-                setChartCategoriaMes(toNumberAndInvert(data.chartDemandasMaisFrequentesMes));
-                setChartDemandasPorSemana(toNumberAndInvert(data.chartDemandasPorSemana));
-            }
-        })
-        .catch(err => {
-            console.log(err);
-        });
+                        // chart
+                        setChartCategoriaSem(toNumberAndInvert(data.chartDemandasMaisFrequentesSemana));
+                        setChartCategoriaMes(toNumberAndInvert(data.chartDemandasMaisFrequentesMes));
+                        setChartDemandasPorSemana(toNumberAndInvert(data.chartDemandasPorSemana));
+                    }, 2000);
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            });
     }, []);
 
     useEffect(() => {
@@ -59,13 +61,13 @@ function DashboardChatOps() {
     useEffect(() => {
         setLoading(true);
         setTimeout(() => {
-        setLoading(false);
+            setLoading(false);
         }, 2000);
     }, []);
 
-    return(
+    return (
         <>
-            <HeaderApp/>
+            <HeaderApp />
 
             <div className="dashboard-chatops">
                 <div className="dashboard-chatops-container">
@@ -86,7 +88,7 @@ function DashboardChatOps() {
                     </div>
 
                     <div className="dashboard-chatops-metricas-graficos-container">
-                        
+
                         <div className="dashboard-chatops-metricas-graficos">
                             <div className="dashboard-chatops-metricas-grafico">
                                 <h2>Demandas por semana</h2>
@@ -99,9 +101,9 @@ function DashboardChatOps() {
                                         <Chart
                                             chartType="PieChart"
                                             data={chartDemandasPorSemana || [
-                                                ["", "Demanda"], 
-                                                ["Sua equipe (com sucesso)", 1], 
-                                                ["Você (com sucesso)", 1], 
+                                                ["", "Demanda"],
+                                                ["Sua equipe (com sucesso)", 1],
+                                                ["Você (com sucesso)", 1],
                                                 ["Sem sucesso", 10]
                                             ]}
                                             width="100%"
@@ -118,8 +120,8 @@ function DashboardChatOps() {
 
                                 <div className="dashboard-chatops-metricas-grafico-botoes">
 
-                                    <BtnDashboard 
-                                        value="Semana" 
+                                    <BtnDashboard
+                                        value="Semana"
                                         active={btnPadrinhosSem}
                                         click={() => {
                                             if (!btnPadrinhosSem) {
@@ -129,8 +131,8 @@ function DashboardChatOps() {
                                         }}
                                     />
 
-                                    <BtnDashboard 
-                                        value="Mês" 
+                                    <BtnDashboard
+                                        value="Mês"
                                         active={!btnPadrinhosSem}
                                         click={() => {
                                             if (btnPadrinhosSem) {
@@ -170,7 +172,7 @@ function DashboardChatOps() {
 
                 </div>
             </div>
-            
+
             <VLibras forceOnload={true}></VLibras>
         </>
     )
