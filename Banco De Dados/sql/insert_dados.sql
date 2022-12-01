@@ -105,7 +105,8 @@ VALUES
 ('Tropa AUMIga','11998989456',null,4),
 ('Patinhas Online','11999321856',null,1),
 ('Adote um AmiCão','11998975453',null,2),
-('Patinhas Amigas','11998754389',null,3);
+('Patinhas Amigas','11998754389',null,3),
+('Myau', '11998754389', null, 3);
 
 -- usuario
 INSERT INTO
@@ -359,7 +360,8 @@ VALUES
 ('Rafaela Soares','rafaela.soares@bandtec.com','sysadm',false,null,null,'urubu100'),
 ('Erik Pacheco','erik.pacheco@bandtec.com','sysadm',false,null,null,'urubu100'),
 ('Enzo Gogoy','enzo.godoy@bandtec.com','sysadm',false,null,null,'urubu100'),
-('João Nunes','joao.ribero@bandtec.com','sysadm',false,null,null,'urubu100');
+('João Nunes','joao.ribero@bandtec.com','sysadm',false,null,null,'urubu100'),
+('João sem Nome','joao.sem.nome@bandtec.com','adm',false,null,null,'urubu200');
 
 
 -- Pet
@@ -2030,7 +2032,8 @@ VALUES
 (236,'chatops','2022-11-26'),
 (237,'chatops','2022-11-27'),
 (238,'chatops','2022-11-28'),
-(239,'chatops','2022-12-01');
+(239,'chatops','2022-12-01'),
+(240,'adm','2022-12-01');
 
 INSERT INTO
 locais(nome,endereco,cep,latitude,longitude)
