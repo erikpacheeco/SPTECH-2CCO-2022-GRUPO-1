@@ -242,7 +242,7 @@ export default function ChatUsuario() {
                                 </> : ""}
                                 {demandaAtual.proximaAcao.tipoBotao == "decline" ? <ActionButton type="decline" demandaId={demandaAtual.id} userId={usuarioLogado.id} handleChangeDemandaAtual={handleChangeDemandaAtual} /> : ""}
                                 <img src={ask} alt="" title={demandaAtual.proximaAcao.descricao} />
-                                {demandaAtual.categoria == 'ADOCAO' ? <img src={map} onClick={openMap} title="Veja os petshops próximos de você"/> : ""}
+                                {demandaAtual.categoria.toLowerCase() == 'adocao' ? <img src={map} onClick={openMap} title="Veja os petshops próximos de você"/> : ""}
                             </div>
                         </div>
 

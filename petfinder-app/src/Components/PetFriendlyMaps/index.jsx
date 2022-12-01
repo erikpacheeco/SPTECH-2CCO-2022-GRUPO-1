@@ -13,7 +13,7 @@ const center = {
     lng: -38.523
 };
 
-export default function MapsTest(props) {
+export default function MapsTest() {
 
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(getPosition, console.log)
